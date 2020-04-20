@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tech.wetech.admin.modules.training.mapper.PubCodeMapper" >
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.PubCode" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="pub_code" property="pubCode" jdbcType="VARCHAR" />
+    <result column="pub_name" property="pubName" jdbcType="VARCHAR" />
+    <result column="pub_type" property="pubType" jdbcType="VARCHAR" />
+    <result column="pub_type_code" property="pubTypeCode" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

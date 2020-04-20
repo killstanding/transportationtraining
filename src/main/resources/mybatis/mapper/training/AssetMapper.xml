@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tech.wetech.admin.modules.training.mapper.AssetMapper" >
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.Asset" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="asset_code" property="assetCode" jdbcType="VARCHAR" />
+    <result column="asset_classification_code" property="assetClassificationCode" jdbcType="VARCHAR" />
+    <result column="asset_classification" property="assetClassification" jdbcType="VARCHAR" />
+    <result column="asset_name" property="assetName" jdbcType="VARCHAR" />
+    <result column="asset_value" property="assetValue" jdbcType="INTEGER" />
+    <result column="bookkeeping_date" property="bookkeepingDate" jdbcType="VARCHAR" />
+    <result column="asset_type_code" property="assetTypeCode" jdbcType="VARCHAR" />
+    <result column="asset_type" property="assetType" jdbcType="VARCHAR" />
+    <result column="asset_user" property="assetUser" jdbcType="VARCHAR" />
+    <result column="asset_user_id" property="assetUserId" jdbcType="VARCHAR" />
+    <result column="postion_code" property="postionCode" jdbcType="VARCHAR" />
+    <result column="positon_name" property="positonName" jdbcType="VARCHAR" />
+    <result column="use_department" property="useDepartment" jdbcType="VARCHAR" />
+    <result column="use_department_id" property="useDepartmentId" jdbcType="INTEGER" />
+    <result column="inspection_cycle" property="inspectionCycle" jdbcType="VARCHAR" />
+    <result column="inspection_cycle_code" property="inspectionCycleCode" jdbcType="VARCHAR" />
+    <result column="asset_status" property="assetStatus" jdbcType="VARCHAR" />
+    <result column="asset_status_code" property="assetStatusCode" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

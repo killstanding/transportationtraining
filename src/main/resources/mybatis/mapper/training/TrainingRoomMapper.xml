@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tech.wetech.admin.modules.training.mapper.TrainingRoomMapper" >
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.TrainingRoom" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="room_name" property="roomName" jdbcType="VARCHAR" />
+    <result column="belong_sys" property="belongSys" jdbcType="VARCHAR" />
+    <result column="room_position" property="roomPosition" jdbcType="VARCHAR" />
+    <result column="room_admin" property="roomAdmin" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="equip_num" property="equipNum" jdbcType="INTEGER" />
+    <result column="is_enabled" property="isEnabled" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="belong_sys_id" property="belongSysId" jdbcType="INTEGER" />
+  </resultMap>
+</mapper>
