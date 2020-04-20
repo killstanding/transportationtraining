@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiParam;
 @CrossOrigin
 @Api(value = "file", tags = {"file"}, description = "文件上传")
 @RestController
-@RequestMapping(value = "/api/file",
+@RequestMapping(value = "/file",
 consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
 produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class FileController {
@@ -30,11 +30,10 @@ public class FileController {
 	private ConfigProperties configProperties;
 	
 	@ApiOperation(value = "上传", notes = "上传")
-	@RequestMapping(value = "/upload/{version:.+}", method = RequestMethod.POST, consumes="multipart/*", headers = "content-type=multipart/form-data")
+	@RequestMapping(value = "/upload/", method = RequestMethod.POST, consumes="multipart/*", headers = "content-type=multipart/form-data")
 	public Result<String> upload(
 			//@ApiParam(name="file",value="上传的文件", required=true) FileEntity fileEntity,
-            @ApiParam(name = "file",value = "上传的文件", required = true) MultipartFile file,
-			@ApiParam(name="version",value="版本号", required=true, defaultValue ="v1.0.0" )@PathVariable("version") String version){
+            @ApiParam(name = "file",value = "上传的文件", required = true) MultipartFile file){
 		String filePath = "";
 		if(!file.isEmpty()){  
 //			String rootPath = configProperties.getExcelPath();
