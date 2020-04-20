@@ -10,7 +10,7 @@ spring:
     active: dev # 设置激活的环境
 
 mybatis: # mybatis 配置
-  mapper-locations: classpath:mybatis/mapper/*.xml
+  mapper-locations: classpath:mybatis/mapper/*/*.xml
   type-aliases-package: tech.wetech.admin.modules.*.po
   configuration:
     map-underscore-to-camel-case: true
