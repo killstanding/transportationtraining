@@ -7,9 +7,9 @@ logging:
         admin:
           mapper: trace
 server:
-  port: 8080
+  port: 8889
   servlet:
-    context-path: /wetech-admin
+    context-path: /tt
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -20,8 +20,8 @@ spring:
       stat-view-servlet:
         allow: true
       test-on-borrow: true
-    password: 
-    url: jdbc:mysql://localhost:3306/wetech_admin?useUnicode=true&characterEncoding=utf-8
+    password: 123456
+    url: jdbc:mysql://192.168.150.128:3306/wetech_admin?useUnicode=true&characterEncoding=utf-8
     username: root
   thymeleaf:
     cache: false
