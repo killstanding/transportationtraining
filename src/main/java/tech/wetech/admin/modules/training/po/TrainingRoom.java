@@ -1,0 +1,264 @@
+package tech.wetech.admin.modules.training.po;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+
+@Table(name = "t_training_room")
+public class TrainingRoom {
+    /**
+     * 实训室编号
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(groups = TrainingRoomUpdateChecks.class)
+    private Integer id;
+
+    /**
+     * 实训室名称
+     */
+    @NotNull(message = "实训室名称不能为空",groups = TrainingRoomCreateChecks.class)
+    @Column(name = "room_name")
+    private String roomName;
+
+    /**
+     * 所属系
+     */
+    @NotNull(message = "所属系不能为空",groups = TrainingRoomCreateChecks.class)
+    @Column(name = "belong_sys")
+    private String belongSys;
+
+    /**
+     * 位置
+     */
+    @NotNull(message = "位置不能为空",groups = TrainingRoomCreateChecks.class)
+    @Column(name = "room_position")
+    private String roomPosition;
+
+    /**
+     * 管理员
+     */
+    @NotNull(message = "管理员不能为空",groups = TrainingRoomCreateChecks.class)
+    @Column(name = "room_admin")
+    private String roomAdmin;
+
+    /**
+     * 创建时间
+     */
+    @Column(name = "create_time")
+    private String createTime;
+
+    /**
+     * 设备数量
+     */
+    @NotNull(message = "设备数量不能为空",groups = TrainingRoomCreateChecks.class)
+    @Column(name = "equip_num")
+    private Integer equipNum;
+
+    /**
+     * 是否可用 0  不可用 1可用
+     */
+    @NotNull(message = "是否可用不能为空",groups = TrainingRoomCreateChecks.class)
+    @Column(name = "is_enabled")
+    private Integer isEnabled;
+
+    /**
+     * 更新时间
+     */
+    @Column(name = "update_time")
+    private String updateTime;
+
+    /**
+     * 所属系统编号
+     */
+    @Column(name = "belong_sys_id")
+    private Integer belongSysId;
+
+    public interface TrainingRoomCreateChecks {
+
+    }
+
+    public interface TrainingRoomUpdateChecks {
+
+    }
+    
+    /**
+     * 获取实训室编号
+     *
+     * @return id - 实训室编号
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * 设置实训室编号
+     *
+     * @param id 实训室编号
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * 获取实训室名称
+     *
+     * @return room_name - 实训室名称
+     */
+    public String getRoomName() {
+        return roomName;
+    }
+
+    /**
+     * 设置实训室名称
+     *
+     * @param roomName 实训室名称
+     */
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+
+    /**
+     * 获取所属系
+     *
+     * @return belong_sys - 所属系
+     */
+    public String getBelongSys() {
+        return belongSys;
+    }
+
+    /**
+     * 设置所属系
+     *
+     * @param belongSys 所属系
+     */
+    public void setBelongSys(String belongSys) {
+        this.belongSys = belongSys;
+    }
+
+    /**
+     * 获取位置
+     *
+     * @return room_position - 位置
+     */
+    public String getRoomPosition() {
+        return roomPosition;
+    }
+
+    /**
+     * 设置位置
+     *
+     * @param roomPosition 位置
+     */
+    public void setRoomPosition(String roomPosition) {
+        this.roomPosition = roomPosition;
+    }
+
+    /**
+     * 获取管理员
+     *
+     * @return room_admin - 管理员
+     */
+    public String getRoomAdmin() {
+        return roomAdmin;
+    }
+
+    /**
+     * 设置管理员
+     *
+     * @param roomAdmin 管理员
+     */
+    public void setRoomAdmin(String roomAdmin) {
+        this.roomAdmin = roomAdmin;
+    }
+
+    /**
+     * 获取创建时间
+     *
+     * @return create_time - 创建时间
+     */
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    /**
+     * 设置创建时间
+     *
+     * @param createTime 创建时间
+     */
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    /**
+     * 获取设备数量
+     *
+     * @return equip_num - 设备数量
+     */
+    public Integer getEquipNum() {
+        return equipNum;
+    }
+
+    /**
+     * 设置设备数量
+     *
+     * @param equipNum 设备数量
+     */
+    public void setEquipNum(Integer equipNum) {
+        this.equipNum = equipNum;
+    }
+
+    /**
+     * 获取是否可用 0  不可用 1可用
+     *
+     * @return is_enabled - 是否可用 0  不可用 1可用
+     */
+    public Integer getIsEnabled() {
+        return isEnabled;
+    }
+
+    /**
+     * 设置是否可用 0  不可用 1可用
+     *
+     * @param isEnabled 是否可用 0  不可用 1可用
+     */
+    public void setIsEnabled(Integer isEnabled) {
+        this.isEnabled = isEnabled;
+    }
+
+    /**
+     * 获取更新时间
+     *
+     * @return update_time - 更新时间
+     */
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    /**
+     * 设置更新时间
+     *
+     * @param updateTime 更新时间
+     */
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    /**
+     * 获取所属系统编号
+     *
+     * @return belong_sys_id - 所属系统编号
+     */
+    public Integer getBelongSysId() {
+        return belongSysId;
+    }
+
+    /**
+     * 设置所属系统编号
+     *
+     * @param belongSysId 所属系统编号
+     */
+    public void setBelongSysId(Integer belongSysId) {
+        this.belongSysId = belongSysId;
+    }
+}
