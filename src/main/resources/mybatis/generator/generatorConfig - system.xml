@@ -5,6 +5,7 @@
 
 <generatorConfiguration>
     <properties resource="application-old.properties"/>
+
     <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
@@ -19,50 +20,49 @@
                         password="${spring.datasource.password}">
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="tech.wetech.admin.modules.training.po" targetProject="src/main/java"/>
+        <javaModelGenerator targetPackage="tech.wetech.admin.modules.example.po" targetProject="src/main/java"/>
 
-        <sqlMapGenerator targetPackage="tech.wetech.admin.modules.training.mapper" targetProject="src/main/java"/>
+        <sqlMapGenerator targetPackage="tech.wetech.admin.modules.example.mapper" targetProject="src/main/java"/>
 
-        <javaClientGenerator targetPackage="tech.wetech.admin.modules.training.mapper" targetProject="src/main/java"
+        <javaClientGenerator targetPackage="tech.wetech.admin.modules.example.mapper" targetProject="src/main/java"
                              type="XMLMAPPER"/>
 
-        <table schema="wetech_admin" tableName="t_training_room" domainObjectName="TrainingRoom">
+        <table schema="wetech_admin" tableName="sys_group" domainObjectName="Group">
             <!--mysql 配置-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <!--oracle 配置-->
             <!--<generatedKey column="id" sqlStatement="select SEQ_{1}.nextval from dual" identity="false" type="pre"/>-->
         </table>
-		<table schema="wetech_admin" tableName="t_asset" domainObjectName="Asset">
+
+        <table schema="wetech_admin" tableName="sys_log" domainObjectName="Log">
             <!--mysql 配置-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <!--oracle 配置-->
             <!--<generatedKey column="id" sqlStatement="select SEQ_{1}.nextval from dual" identity="false" type="pre"/>-->
         </table>
-		<table schema="wetech_admin" tableName="t_asset_classification" domainObjectName="AssetClassification">
+
+        <table schema="wetech_admin" tableName="sys_organization" domainObjectName="Organization">
             <!--mysql 配置-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <!--oracle 配置-->
             <!--<generatedKey column="id" sqlStatement="select SEQ_{1}.nextval from dual" identity="false" type="pre"/>-->
         </table>
-		<table schema="wetech_admin" tableName="t_asset_type" domainObjectName="AssetType">
+
+        <table schema="wetech_admin" tableName="sys_resource" domainObjectName="Resource">
             <!--mysql 配置-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <!--oracle 配置-->
             <!--<generatedKey column="id" sqlStatement="select SEQ_{1}.nextval from dual" identity="false" type="pre"/>-->
         </table>
-		<table schema="wetech_admin" tableName="t_position" domainObjectName="Position">
+
+        <table schema="wetech_admin" tableName="sys_role" domainObjectName="Role">
             <!--mysql 配置-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <!--oracle 配置-->
             <!--<generatedKey column="id" sqlStatement="select SEQ_{1}.nextval from dual" identity="false" type="pre"/>-->
         </table>
-		<table schema="wetech_admin" tableName="t_pub_code" domainObjectName="PubCode">
-            <!--mysql 配置-->
-            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
-            <!--oracle 配置-->
-            <!--<generatedKey column="id" sqlStatement="select SEQ_{1}.nextval from dual" identity="false" type="pre"/>-->
-        </table>
-		<table schema="wetech_admin" tableName="t_sys" domainObjectName="Sys">
+
+        <table schema="wetech_admin" tableName="sys_user" domainObjectName="User">
             <!--mysql 配置-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <!--oracle 配置-->
