@@ -31,6 +31,13 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
     @Autowired
     private TrainingRoomService service;
 
+    @GetMapping
+    @RequiresPermissions("trainingroom:view")
+    public String userPage(Model model) {
+        return "system/trainingroom";
+    }
+    
+    
     @ResponseBody
     @GetMapping("/list")
     @RequiresPermissions("trainingroom:view")

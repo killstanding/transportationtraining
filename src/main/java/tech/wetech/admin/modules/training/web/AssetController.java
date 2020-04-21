@@ -34,7 +34,11 @@ public class AssetController extends BaseCrudController<Asset> {
     @Autowired
     private AssetService service;
 
-    
+    @GetMapping
+    @RequiresPermissions("asset:view")
+    public String userPage(Model model) {
+        return "system/asset";
+    }
     @ResponseBody
     @GetMapping("/list")
     @RequiresPermissions("asset:view")
