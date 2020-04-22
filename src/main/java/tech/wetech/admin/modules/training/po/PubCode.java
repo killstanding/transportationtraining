@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 
 @Table(name = "t_pub_code")
 public class PubCode {
-    /**
+	/**
      * 公共编码编号
      */
     @Id
@@ -60,7 +60,11 @@ public class PubCode {
     public interface PubCodeUpdateChecks {
 
     }
-    
+    /**
+     * 备注
+     */
+    private String remark;
+
     /**
      * 获取公共编码编号
      *
@@ -185,5 +189,23 @@ public class PubCode {
      */
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+    /**
+     * 获取备注
+     *
+     * @return remark - 备注
+     */
+    public String getRemark() {
+        return remark;
+    }
+
+    /**
+     * 设置备注
+     *
+     * @param remark 备注
+     */
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

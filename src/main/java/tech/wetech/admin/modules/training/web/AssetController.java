@@ -17,9 +17,15 @@ import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.po.User;
+import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.vo.UserVO;
 import tech.wetech.admin.modules.training.po.Asset;
+import tech.wetech.admin.modules.training.po.PubCode;
+import tech.wetech.admin.modules.training.service.AssetClassificationService;
 import tech.wetech.admin.modules.training.service.AssetService;
+import tech.wetech.admin.modules.training.service.AssetTypeService;
+import tech.wetech.admin.modules.training.service.PositionService;
+import tech.wetech.admin.modules.training.service.PubCodeService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +37,34 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/asset")
 public class AssetController extends BaseCrudController<Asset> {
 
-    @Autowired
+	@Autowired
     private AssetService service;
-
+	@Autowired
+    private AssetClassificationService assetClassificationService;
+	@Autowired
+    private AssetTypeService assetTypeService;
+	@Autowired
+	private PositionService positionService;
+	@Autowired
+    private OrganizationService organizationService;
+	@Autowired
+    private PubCodeService pubCodeService;
+    
     @GetMapping
     @RequiresPermissions("asset:view")
     public String userPage(Model model) {
+    	model.addAttribute("assetClassificationList", assetClassificationService.queryAll());
+    	model.addAttribute("assetTypeList", assetTypeService.queryAll());
+    	model.addAttribute("positionList", positionService.queryAll());
+    	model.addAttribute("organizationList", organizationService.queryAll());
+    	PubCode pubCode = new PubCode();
+    	pubCode.setPubType("inspection_cycle");
+    	model.addAttribute("inspectionCycleList", pubCodeService.queryList(pubCode));
+    	pubCode.setPubType("asset_status");
+    	model.addAttribute("assetStatusList", pubCodeService.queryList(pubCode));
         return "system/asset";
     }
+    
     @ResponseBody
     @GetMapping("/list")
     @RequiresPermissions("asset:view")
