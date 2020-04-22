@@ -3,10 +3,9 @@ package tech.wetech.admin.modules.training.po;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-
 @Table(name = "t_training_room")
 public class TrainingRoom {
-    /**
+	 /**
      * 实训室编号
      */
     @Id
@@ -81,7 +80,20 @@ public class TrainingRoom {
     public interface TrainingRoomUpdateChecks {
 
     }
-    
+    /**
+     * 位置信息编号
+     */
+    @NotNull(message = "位置信息编号不能为空",groups = TrainingRoomCreateChecks.class)
+    @Column(name = "room_position_code")
+    private Integer roomPositionCode;
+
+    /**
+     * 管理员编号
+     */
+    @NotNull(message = "管理员编号不能为空",groups = TrainingRoomCreateChecks.class)
+    @Column(name = "room_admin_id")
+    private Integer roomAdminId;
+
     /**
      * 获取实训室编号
      *
@@ -260,5 +272,41 @@ public class TrainingRoom {
      */
     public void setBelongSysId(Integer belongSysId) {
         this.belongSysId = belongSysId;
+    }
+
+    /**
+     * 获取位置信息编号
+     *
+     * @return room_position_code - 位置信息编号
+     */
+    public Integer getRoomPositionCode() {
+        return roomPositionCode;
+    }
+
+    /**
+     * 设置位置信息编号
+     *
+     * @param roomPositionCode 位置信息编号
+     */
+    public void setRoomPositionCode(Integer roomPositionCode) {
+        this.roomPositionCode = roomPositionCode;
+    }
+
+    /**
+     * 获取管理员编号
+     *
+     * @return room_admin_id - 管理员编号
+     */
+    public Integer getRoomAdminId() {
+        return roomAdminId;
+    }
+
+    /**
+     * 设置管理员编号
+     *
+     * @param roomAdminId 管理员编号
+     */
+    public void setRoomAdminId(Integer roomAdminId) {
+        this.roomAdminId = roomAdminId;
     }
 }

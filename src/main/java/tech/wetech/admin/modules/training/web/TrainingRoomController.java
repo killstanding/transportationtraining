@@ -3,22 +3,20 @@ package tech.wetech.admin.modules.training.web;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-
 import io.swagger.annotations.Api;
 import tech.wetech.admin.core.annotation.SystemLog;
 import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
-import tech.wetech.admin.modules.training.po.Asset;
+import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.TrainingRoom;
+import tech.wetech.admin.modules.training.service.PositionService;
+import tech.wetech.admin.modules.training.service.SysService;
 import tech.wetech.admin.modules.training.service.TrainingRoomService;
-
+import org.springframework.ui.Model;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -30,10 +28,19 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
 
     @Autowired
     private TrainingRoomService service;
-
+    @Autowired
+    private SysService sysService;
+    @Autowired
+    private PositionService positionService;
+    @Autowired
+    private UserService userService;
+    
     @GetMapping
     @RequiresPermissions("trainingroom:view")
     public String userPage(Model model) {
+    	model.addAttribute("sysList", sysService.queryAll());
+    	model.addAttribute("positionList", positionService.queryAll());
+    	model.addAttribute("userList", userService.queryAll());
         return "system/trainingroom";
     }
     
