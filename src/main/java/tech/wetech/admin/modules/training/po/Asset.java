@@ -3,26 +3,37 @@ package tech.wetech.admin.modules.training.po;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.metadata.BaseRowModel;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 @Table(name = "t_asset")
-public class Asset {
+@ApiModel(description = "资产")
+public class Asset extends BaseRowModel{
     /**
      * 资产id
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(groups = AssetUpdateChecks.class)
+    @ExcelProperty(value = {"资产编号","资产编号"},index = 0)
+    @ApiModelProperty(value = "资产编号(系统生成)", name = "id", required = true, example = "1")
     private Integer id;
 
     /**
      * 资产编号
      */
-    @NotNull(message = "资产编号不能为空",groups = AssetCreateChecks.class)
+    //@NotNull(message = "资产编号不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_code")
+    @ApiModelProperty(value = "资产编号(自编)", name = "assetCode", required = true, example = "1702060002007000104")
     private String assetCode;
 
     /**
      * 资产分类编号
      */
+    @ApiModelProperty(value = "资产分类编号", name = "assetClassificationCode", required = true, example = "1")
     @NotNull(message = "资产分类编号不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_classification_code")
     private String assetClassificationCode;
@@ -30,6 +41,8 @@ public class Asset {
     /**
      * 资产分类名称
      */
+    @ApiModelProperty(value = "资产分类", name = "assetClassification", required = true, example = "教学用机电实验仪器")
+    @ExcelProperty(value = {"资产分类","资产分类"},index = 1)
     @NotNull(message = "资产分类名称不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_classification")
     private String assetClassification;
@@ -37,6 +50,8 @@ public class Asset {
     /**
      * 资产名称
      */
+    @ApiModelProperty(value = "资产名称", name = "assetName", required = true, example = "丰田皇冠教具车")
+    @ExcelProperty(value = {"资产名称","资产名称"},index = 2)
     @NotNull(message = "资产名称不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_name")
     private String assetName;
@@ -44,6 +59,8 @@ public class Asset {
     /**
      * 资产价值
      */
+    @ApiModelProperty(value = "资产价值", name = "assetValue", required = true, example = "352400")
+    @ExcelProperty(value = {"资产价值","资产价值"},index = 3)
     @NotNull(message = "资产价值不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_value")
     private Integer assetValue;
@@ -51,6 +68,8 @@ public class Asset {
     /**
      * 记账日期
      */
+    @ApiModelProperty(value = "记账日期", name = "bookkeepingDate", required = true, example = "2017-12-12")
+    @ExcelProperty(value = {"记账日期","记账日期"},index = 4)
     @NotNull(message = "记账日期不能为空",groups = AssetCreateChecks.class)
     @Column(name = "bookkeeping_date")
     private String bookkeepingDate;
@@ -58,6 +77,7 @@ public class Asset {
     /**
      * 资产类型编号
      */
+    @ApiModelProperty(value = "资产类型编号", name = "assetTypeCode", required = true, example = "1")
     @NotNull(message = "资产类型编号不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_type_code")
     private String assetTypeCode;
@@ -65,6 +85,8 @@ public class Asset {
     /**
      * 资产类型
      */
+    @ApiModelProperty(value = "资产类型", name = "assetType", required = true, example = "丰田皇冠教具车")
+    @ExcelProperty(value = {"资产类型","资产类型"},index = 5)
     @NotNull(message = "资产类型不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_type")
     private String assetType;
@@ -72,6 +94,8 @@ public class Asset {
     /**
      * 资产使用人
      */
+    @ApiModelProperty(value = "资产使用人", name = "assetUser", required = true, example = "admin")
+    @ExcelProperty(value = {"资产使用人","资产使用人"},index = 6)
     @NotNull(message = "资产使用人不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_user")
     private String assetUser;
@@ -79,6 +103,7 @@ public class Asset {
     /**
      * 资产使用人编号
      */
+    @ApiModelProperty(value = "资产使用人编号", name = "assetUserId", required = true, example = "1")
     @NotNull(message = "资产使用人编号不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_user_id")
     private String assetUserId;
@@ -86,6 +111,7 @@ public class Asset {
     /**
      * 位置编号
      */
+    @ApiModelProperty(value = "位置编号", name = "postionCode", required = true, example = "1")
     @NotNull(message = "位置编号不能为空",groups = AssetCreateChecks.class)
     @Column(name = "postion_code")
     private String postionCode;
@@ -93,6 +119,8 @@ public class Asset {
     /**
      * 位置名称
      */
+    @ApiModelProperty(value = "位置名称", name = "positonName", required = true, example = "田T-TEP整车实训区")
+    @ExcelProperty(value = {"位置名称","位置名称"},index = 7)
     @NotNull(message = "位置名称不能为空",groups = AssetCreateChecks.class)
     @Column(name = "positon_name")
     private String positonName;
@@ -100,6 +128,8 @@ public class Asset {
     /**
      * 使用部门
      */
+    @ApiModelProperty(value = "使用部门", name = "useDepartment", required = true, example = "南校区汽车系")
+    @ExcelProperty(value = {"使用部门","使用部门"},index = 8)
     @NotNull(message = "使用部门不能为空",groups = AssetCreateChecks.class)
     @Column(name = "use_department")
     private String useDepartment;
@@ -107,6 +137,7 @@ public class Asset {
     /**
      * 使用部门编号
      */
+    @ApiModelProperty(value = "使用部门编号", name = "useDepartmentId", required = true, example = "1")
     @NotNull(message = "使用部门编号不能为空",groups = AssetCreateChecks.class)
     @Column(name = "use_department_id")
     private Integer useDepartmentId;
@@ -114,6 +145,8 @@ public class Asset {
     /**
      * 巡检周期
      */
+    @ApiModelProperty(value = "巡检周期", name = "inspectionCycle", required = true, example = "月")
+    @ExcelProperty(value = {"巡检周期","巡检周期"},index = 9)
     @NotNull(message = "巡检周期不能为空",groups = AssetCreateChecks.class)
     @Column(name = "inspection_cycle")
     private String inspectionCycle;
@@ -121,6 +154,7 @@ public class Asset {
     /**
      * 巡检周期编号
      */
+    @ApiModelProperty(value = "巡检周期编号", name = "inspectionCycleCode", required = true, example = "inspection_cycle_month")
     @NotNull(message = "巡检周期编号不能为空",groups = AssetCreateChecks.class)
     @Column(name = "inspection_cycle_code")
     private String inspectionCycleCode;
@@ -128,6 +162,8 @@ public class Asset {
     /**
      * 资产状态
      */
+    @ApiModelProperty(value = "资产状态", name = "assetStatus", required = true, example = "正常")
+    @ExcelProperty(value = {"资产状态","资产状态"},index = 10)
     @NotNull(message = " 资产状态不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_status")
     private String assetStatus;
@@ -135,21 +171,24 @@ public class Asset {
     /**
      * 资产状态编号
      */
-    @NotNull(message = " 资产状态编号不能为空",groups = AssetCreateChecks.class)
+    @ApiModelProperty(value = "资产状态编号", name = "assetStatusCode", required = true, example = "asset_status_normal")
+    @NotNull(message = "资产状态编号不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_status_code")
     private String assetStatusCode;
 
     /**
-     * 创建日期
+     * 创建时间
      */
-    @Column(name = "create_date")
-    private String createDate;
+    @ApiModelProperty(value = "创建时间", name = "createTime", required = true, example = "2020-04-24 18:00:00")
+    @Column(name = "create_time")
+    private String createTime;
 
     /**
-     * 更新日期
+     * 更新时间
      */
-    @Column(name = "update_date")
-    private String updateDate;
+    @ApiModelProperty(value = "更新时间", name = "updateTime", required = true, example = "2020-04-24 18:00:00")
+    @Column(name = "update_Time")
+    private String updateTime;
 
     public interface AssetCreateChecks {
 
@@ -507,8 +546,8 @@ public class Asset {
      *
      * @return create_date - 创建日期
      */
-    public String getCreateDate() {
-        return createDate;
+    public String getCreateTime() {
+        return createTime;
     }
 
     /**
@@ -516,8 +555,8 @@ public class Asset {
      *
      * @param createDate 创建日期
      */
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate;
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
     /**
@@ -525,8 +564,8 @@ public class Asset {
      *
      * @return update_date - 更新日期
      */
-    public String getUpdateDate() {
-        return updateDate;
+    public String getUpdateTime() {
+        return updateTime;
     }
 
     /**
@@ -534,7 +573,7 @@ public class Asset {
      *
      * @param updateDate 更新日期
      */
-    public void setUpdateDate(String updateDate) {
-        this.updateDate = updateDate;
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
     }
 }

@@ -24,7 +24,33 @@
     <result column="inspection_cycle_code" property="inspectionCycleCode" jdbcType="VARCHAR" />
     <result column="asset_status" property="assetStatus" jdbcType="VARCHAR" />
     <result column="asset_status_code" property="assetStatusCode" jdbcType="VARCHAR" />
-    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
-    <result column="update_date" property="updateDate" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <select id="selectCountNumGourpByStatus" resultType="java.util.Map">
+     select t.asset_status_code,t.asset_status, count(1) as countnum from t_asset t
+     group by t.asset_status_code,t.asset_status
+  </select>
+
+
+  <update id="updateCodeById" parameterType="tech.wetech.admin.modules.training.po.Asset">
+		update t_asset t
+		set t.use_department_id = (select o.id from sys_organization o where
+		o.name = t.use_department),
+		t.postion_code = (select p.position_name from t_position p where p.id =
+		t.positon_name),
+		t.inspection_cycle_code = (select p.pub_code from t_pub_code p where p.pub_type_code='ic' and
+		p.pub_name = t.inspection_cycle),
+		t.asset_user_id = (select u.id from sys_user u where u.username = t.asset_user),
+		t.asset_status_code = (select p.pub_code from t_pub_code p where
+		p.pub_type_code='as' and p.pub_name = t.inspection_cycle),
+		t.asset_classification_code = (select c.classification_code from
+		t_asset_classification c where c.classification_name=
+		t.asset_classification)
+		where t.id=#{id}
+</update>
+
+
+
 </mapper>

@@ -1,5 +1,7 @@
 package tech.wetech.admin.modules.training.service.impl;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,4 +15,16 @@ public class AssetServiceImpl extends BaseService<Asset> implements AssetService
 
     @Autowired
     private AssetMapper mapper;
+
+	@Override
+	public Map<String, String> selectCountNumGourpByStatus() {
+		// TODO Auto-generated method stub
+		return mapper.selectCountNumGourpByStatus();
+	}
+
+	@Override
+	public void updateCodeById(Asset record) {
+		// TODO Auto-generated method stub
+		mapper.updateCodeById(record);
+	}
 }

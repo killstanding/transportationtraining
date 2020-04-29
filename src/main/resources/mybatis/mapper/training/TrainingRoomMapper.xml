@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="tech.wetech.admin.modules.training.mapper.TrainingRoomMapper">
-  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.TrainingRoom">
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.TrainingRoom" >
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="room_name" jdbcType="VARCHAR" property="roomName" />
-    <result column="belong_sys" jdbcType="VARCHAR" property="belongSys" />
-    <result column="room_position" jdbcType="VARCHAR" property="roomPosition" />
-    <result column="room_admin" jdbcType="VARCHAR" property="roomAdmin" />
-    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
-    <result column="equip_num" jdbcType="INTEGER" property="equipNum" />
-    <result column="is_enabled" jdbcType="INTEGER" property="isEnabled" />
-    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
-    <result column="belong_sys_id" jdbcType="INTEGER" property="belongSysId" />
-    <result column="room_position_code" jdbcType="INTEGER" property="roomPositionCode" />
-    <result column="room_admin_id" jdbcType="INTEGER" property="roomAdminId" />
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="room_name" property="roomName" jdbcType="VARCHAR" />
+    <result column="belong_sys" property="belongSys" jdbcType="VARCHAR" />
+    <result column="room_position" property="roomPosition" jdbcType="VARCHAR" />
+    <result column="room_admin" property="roomAdmin" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+    <result column="equip_num" property="equipNum" jdbcType="INTEGER" />
+    <result column="is_enabled" property="isEnabled" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="belong_sys_id" property="belongSysId" jdbcType="INTEGER" />
+    <result column="room_position_code" property="roomPositionCode" jdbcType="INTEGER" />
+    <result column="room_admin_id" property="roomAdminId" jdbcType="INTEGER" />
+    <result column="room_code" property="roomCode" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
   </resultMap>
 </mapper>

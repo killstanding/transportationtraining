@@ -3,7 +3,11 @@ package tech.wetech.admin.modules.training.po;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 @Table(name = "t_training_room")
+@ApiModel(description = "实训室信息")
 public class TrainingRoom {
 	 /**
      * 实训室编号
@@ -11,6 +15,7 @@ public class TrainingRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(groups = TrainingRoomUpdateChecks.class)
+    @ApiModelProperty(value = "实训室编号(系统生成)", name = "id", required = true, example = "1")
     private Integer id;
 
     /**
@@ -18,11 +23,13 @@ public class TrainingRoom {
      */
     @NotNull(message = "实训室名称不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "room_name")
+    @ApiModelProperty(value = "实训室名称", name = "roomName", required = true, example = "丰田T-TEP整车实训区")
     private String roomName;
 
     /**
      * 所属系
      */
+    @ApiModelProperty(value = "所属系", name = "belongSys", required = true, example = "南校区汽车工程系")
     @NotNull(message = "所属系不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "belong_sys")
     private String belongSys;
@@ -30,6 +37,7 @@ public class TrainingRoom {
     /**
      * 位置
      */
+    @ApiModelProperty(value = "位置名称", name = "roomPosition", required = true, example = "田T-TEP整车实训区")
     @NotNull(message = "位置不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "room_position")
     private String roomPosition;
@@ -37,26 +45,30 @@ public class TrainingRoom {
     /**
      * 管理员
      */
+    @ApiModelProperty(value = "管理员", name = "roomAdmin", required = true, example = "admin")
     @NotNull(message = "管理员不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "room_admin")
     private String roomAdmin;
 
     /**
-     * 创建时间
+     * 创建日期
      */
-    @Column(name = "create_time")
-    private String createTime;
+    @ApiModelProperty(value = "创建日期", name = "createDate", required = true, example = "2020-04-24")
+    @Column(name = "create_date")
+    private String createDate;
 
     /**
      * 设备数量
      */
+    @ApiModelProperty(value = "设备数量", name = "equipNum", required = true, example = "12")
     @NotNull(message = "设备数量不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "equip_num")
     private Integer equipNum;
 
     /**
-     * 是否可用 0  不可用 1可用
+     * 是否可用  0不可用 1可用
      */
+    @ApiModelProperty(value = "是否可用    0不可用 1可用", name = "isEnabled", required = true, example = "1")
     @NotNull(message = "是否可用不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "is_enabled")
     private Integer isEnabled;
@@ -64,7 +76,8 @@ public class TrainingRoom {
     /**
      * 更新时间
      */
-    @Column(name = "update_time")
+    @ApiModelProperty(value = "更新时间", name = "updateTime", required = true, example = "2020-04-24 18:00:00")
+    @Column(name = "update_Time")
     private String updateTime;
 
     /**
@@ -83,6 +96,7 @@ public class TrainingRoom {
     /**
      * 位置信息编号
      */
+    @ApiModelProperty(value = "位置编号", name = "postionCode", required = true, example = "1")
     @NotNull(message = "位置信息编号不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "room_position_code")
     private Integer roomPositionCode;
@@ -90,9 +104,28 @@ public class TrainingRoom {
     /**
      * 管理员编号
      */
+    @ApiModelProperty(value = "管理员编号", name = "roomAdminId", required = true, example = "1")
     @NotNull(message = "管理员编号不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "room_admin_id")
     private Integer roomAdminId;
+    
+    
+    /**
+     * 实训室编码（自编）
+     */
+    @ApiModelProperty(value = "实训室编码（自编）", name = "roomCode", required = true, example = "RC1001")
+    @Column(name = "room_code")
+    private String roomCode;
+
+    /**
+     * 创建时间
+     */
+    @ApiModelProperty(value = "创建时间", name = "createTime", required = true, example = "2020-04-24 18:00:00")
+    @Column(name = "create_time")
+    private String createTime;
+
+ 
+    
 
     /**
      * 获取实训室编号

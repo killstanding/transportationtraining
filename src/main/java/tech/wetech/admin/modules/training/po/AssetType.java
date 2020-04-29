@@ -3,10 +3,13 @@ package tech.wetech.admin.modules.training.po;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import tech.wetech.admin.modules.training.po.AssetClassification.AssetClassificationCreateChecks;
 
 
 @Table(name = "t_asset_type")
+@ApiModel(description = "产品规格")
 public class AssetType {
     /**
      * 类型编号
@@ -14,6 +17,7 @@ public class AssetType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(groups = AssetTypeUpdateChecks.class)
+    @ApiModelProperty(value = "规格编号(系统生成)", name = "id", required = true, example = "1")
     private Integer id;
 
     /**
@@ -21,6 +25,7 @@ public class AssetType {
      */
     @NotNull(message = "类型编码不能为空",groups = AssetTypeCreateChecks.class)
     @Column(name = "type_code")
+    @ApiModelProperty(value = "规格编号(自编)", name = "typeCode", required = true, example = "AT1001")
     private String typeCode;
 
     /**
@@ -28,18 +33,21 @@ public class AssetType {
      */
     @NotNull(message = "类型名称不能为空",groups = AssetTypeCreateChecks.class)
     @Column(name = "type_name")
+    @ApiModelProperty(value = "规格名称", name = "typeName", required = true, example = "教学用机电实验仪器")
     private String typeName;
 
     /**
      * 创建时间
      */
+    @ApiModelProperty(value = "创建时间", name = "createTime", required = true, example = "2020-04-24 18:00:00")
     @Column(name = "create_time")
     private String createTime;
 
     /**
      * 更新时间
      */
-    @Column(name = "update_time")
+    @ApiModelProperty(value = "更新时间", name = "updateTime", required = true, example = "2020-04-24 18:00:00")
+    @Column(name = "update_Time")
     private String updateTime;
     
     public interface AssetTypeCreateChecks {

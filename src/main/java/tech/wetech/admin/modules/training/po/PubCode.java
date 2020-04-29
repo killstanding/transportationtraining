@@ -3,7 +3,11 @@ package tech.wetech.admin.modules.training.po;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 @Table(name = "t_pub_code")
+@ApiModel(description = "公共编码")
 public class PubCode {
 	/**
      * 公共编码编号
@@ -11,11 +15,13 @@ public class PubCode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(groups = PubCodeUpdateChecks.class)
+    @ApiModelProperty(value = "公共编码编号(系统生成)", name = "id", required = true, example = "1")
     private Integer id;
 
     /**
      * 公共编码编码
      */
+    @ApiModelProperty(value = "公共编码编码(自编)", name = "pubCode", required = true, example = "ic_1")
     @Column(name = "pub_code")
     @NotNull(message = "公共编码编码不能为空",groups = PubCodeCreateChecks.class)
     private String pubCode;
@@ -23,6 +29,7 @@ public class PubCode {
     /**
      * 公共编码名称
      */
+    @ApiModelProperty(value = "公共编码名称", name = "pubName", required = true, example = "inspection_cycle_day")
     @NotNull(message = "公共编码名称不能为空",groups = PubCodeCreateChecks.class)
     @Column(name = "pub_name")
     private String pubName;
@@ -30,6 +37,7 @@ public class PubCode {
     /**
      * 公共编码类型
      */
+    @ApiModelProperty(value = "公共编码类型", name = "pubType", required = true, example = "inspection_cycle")
     @NotNull(message = "公共编码类型不能为空",groups = PubCodeCreateChecks.class)
     @Column(name = "pub_type")
     private String pubType;
@@ -37,6 +45,7 @@ public class PubCode {
     /**
      * 公共编码类型编码
      */
+    @ApiModelProperty(value = "公共编码类型编码", name = "pubTypeCode", required = true, example = "ic")
     @NotNull(message = "公共编码类型编码不能为空",groups = PubCodeCreateChecks.class)
     @Column(name = "pub_type_code")
     private String pubTypeCode;
@@ -44,13 +53,15 @@ public class PubCode {
     /**
      * 创建时间
      */
+    @ApiModelProperty(value = "创建时间", name = "createTime", required = true, example = "2020-04-24 18:00:00")
     @Column(name = "create_time")
     private String createTime;
 
     /**
      * 更新时间
      */
-    @Column(name = "update_time")
+    @ApiModelProperty(value = "更新时间", name = "updateTime", required = true, example = "2020-04-24 18:00:00")
+    @Column(name = "update_Time")
     private String updateTime;
 
     public interface PubCodeCreateChecks {
