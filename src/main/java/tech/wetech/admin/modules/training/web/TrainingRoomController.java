@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.github.pagehelper.Page;
 import io.swagger.annotations.Api;
 import tech.wetech.admin.core.annotation.SystemLog;
+import tech.wetech.admin.core.utils.DateUtil;
 import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
@@ -17,6 +18,8 @@ import tech.wetech.admin.modules.training.service.PositionService;
 import tech.wetech.admin.modules.training.service.SysService;
 import tech.wetech.admin.modules.training.service.TrainingRoomService;
 import org.springframework.ui.Model;
+
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -60,6 +63,9 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
     @SystemLog("实训室管理实训室创建")
     @Override
     public Result create(@Validated(TrainingRoom.TrainingRoomCreateChecks.class) TrainingRoom entity) {
+    	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
+    	entity.setCreateTime(curTime);
+    	entity.setUpdateTime(curTime);
     	service.create(entity);
         return Result.success();
     }
@@ -70,6 +76,8 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
     @SystemLog("实训室管理实训室更新")
     @Override
     public Result update(@Validated(TrainingRoom.TrainingRoomUpdateChecks.class) TrainingRoom entity) {
+    	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
+    	entity.setUpdateTime(curTime);
     	service.updateNotNull(entity);
         return Result.success();
     }
