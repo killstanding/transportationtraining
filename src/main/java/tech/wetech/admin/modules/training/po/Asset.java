@@ -196,7 +196,22 @@ public class Asset extends BaseRowModel{
     @ApiModelProperty(value = "资源图片地址", name = "assetImg", required = true, example = "file/img/1.png")
     @Column(name = "asset_img")
     private String assetImg;
-    
+
+    /**
+     * 实训室编号
+     */
+    @ApiModelProperty(value = "实训室编号", name = "roomId", required = true, example = "1")
+    @Column(name = "room_id")
+    private Integer roomId;
+
+    /**
+     * 实训室名称
+     */
+    @ApiModelProperty(value = "实训室名称", name = "roomName", required = true, example = "丰田T-TEP整车实训区")
+    @ExcelProperty(value = {"实训室名称","实训室名称"},index = 11)
+    @Column(name = "room_name")
+    private String roomName;
+
     
     public interface AssetCreateChecks {
 
@@ -601,5 +616,42 @@ public class Asset extends BaseRowModel{
      */
     public void setAssetImg(String assetImg) {
         this.assetImg = assetImg;
+    }
+    
+
+    /**
+     * 获取实训室编号
+     *
+     * @return room_id - 实训室编号
+     */
+    public Integer getRoomId() {
+        return roomId;
+    }
+
+    /**
+     * 设置实训室编号
+     *
+     * @param roomId 实训室编号
+     */
+    public void setRoomId(Integer roomId) {
+        this.roomId = roomId;
+    }
+
+    /**
+     * 获取实训室名称
+     *
+     * @return room_name - 实训室名称
+     */
+    public String getRoomName() {
+        return roomName;
+    }
+
+    /**
+     * 设置实训室名称
+     *
+     * @param roomName 实训室名称
+     */
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
 }

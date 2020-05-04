@@ -27,6 +27,8 @@
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
     <result column="asset_img" property="assetImg" jdbcType="VARCHAR" />
+    <result column="room_id" property="roomId" jdbcType="INTEGER" />
+    <result column="room_name" property="roomName" jdbcType="VARCHAR" />
   </resultMap>
   
   <select id="selectCountNumGourpByStatus" resultType="java.util.Map">
@@ -36,19 +38,14 @@
 
 
   <update id="updateCodeById" parameterType="tech.wetech.admin.modules.training.po.Asset">
-		update t_asset t
-		set t.use_department_id = (select o.id from sys_organization o where
-		o.name = t.use_department),
-		t.postion_code = (select p.position_name from t_position p where p.id =
-		t.positon_name),
-		t.inspection_cycle_code = (select p.pub_code from t_pub_code p where p.pub_type_code='ic' and
-		p.pub_name = t.inspection_cycle),
-		t.asset_user_id = (select u.id from sys_user u where u.username = t.asset_user),
-		t.asset_status_code = (select p.pub_code from t_pub_code p where
-		p.pub_type_code='as' and p.pub_name = t.inspection_cycle),
-		t.asset_classification_code = (select c.classification_code from
-		t_asset_classification c where c.classification_name=
-		t.asset_classification)
+		UPDATE t_asset t 
+		SET t.use_department_id = ( SELECT o.id FROM sys_organization o WHERE o.NAME = t.use_department ),
+			t.postion_code = ( SELECT p.position_name FROM t_position p WHERE p.id = t.positon_name ),
+			t.inspection_cycle_code = ( SELECT p.pub_code FROM t_pub_code p WHERE p.pub_type_code = 'ic' AND p.pub_name = t.inspection_cycle ),
+			t.asset_user_id = ( SELECT u.id FROM sys_user u WHERE u.username = t.asset_user ),
+			t.asset_status_code = ( SELECT p.pub_code FROM t_pub_code p WHERE p.pub_type_code = 'as' AND p.pub_name = t.inspection_cycle ),
+			t.asset_classification_code = ( SELECT c.classification_code FROM t_asset_classification c WHERE c.classification_name = t.asset_classification ),
+			t.room_id =(select tr.id from t_training_room tr where tr.room_name = t.room_name)
 		where t.id=#{id}
 </update>
 
