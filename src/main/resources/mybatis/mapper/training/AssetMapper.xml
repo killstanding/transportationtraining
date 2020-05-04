@@ -26,6 +26,7 @@
     <result column="asset_status_code" property="assetStatusCode" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="asset_img" property="assetImg" jdbcType="VARCHAR" />
   </resultMap>
   
   <select id="selectCountNumGourpByStatus" resultType="java.util.Map">

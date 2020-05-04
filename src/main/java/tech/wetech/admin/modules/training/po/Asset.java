@@ -190,6 +190,14 @@ public class Asset extends BaseRowModel{
     @Column(name = "update_Time")
     private String updateTime;
 
+    /**
+     * 资源图片地址
+     */
+    @ApiModelProperty(value = "资源图片地址", name = "assetImg", required = true, example = "file/img/1.png")
+    @Column(name = "asset_img")
+    private String assetImg;
+    
+    
     public interface AssetCreateChecks {
 
     }
@@ -575,5 +583,23 @@ public class Asset extends BaseRowModel{
      */
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+    
+    /**
+     * 获取资源图片地址
+     *
+     * @return asset_img - 资源图片地址
+     */
+    public String getAssetImg() {
+        return assetImg;
+    }
+
+    /**
+     * 设置资源图片地址
+     *
+     * @param assetImg 资源图片地址
+     */
+    public void setAssetImg(String assetImg) {
+        this.assetImg = assetImg;
     }
 }
