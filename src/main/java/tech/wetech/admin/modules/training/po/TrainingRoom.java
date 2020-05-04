@@ -3,12 +3,15 @@ package tech.wetech.admin.modules.training.po;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.metadata.BaseRowModel;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @Table(name = "t_training_room")
 @ApiModel(description = "实训室信息")
-public class TrainingRoom {
+public class TrainingRoom  extends BaseRowModel{
 	 /**
      * 实训室编号
      */
@@ -19,11 +22,20 @@ public class TrainingRoom {
     private Integer id;
 
     /**
+     * 实训室编码（自编）
+     */
+    @ApiModelProperty(value = "实训室编码（自编）", name = "roomCode", required = true, example = "RC1001")
+    @Column(name = "room_code")
+    @ExcelProperty(value = {"实训室编号","实训室编号"},index = 0)
+    private String roomCode;
+    
+    /**
      * 实训室名称
      */
     @NotNull(message = "实训室名称不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "room_name")
     @ApiModelProperty(value = "实训室名称", name = "roomName", required = true, example = "丰田T-TEP整车实训区")
+    @ExcelProperty(value = {"实训室名称","实训室名称"},index = 1)
     private String roomName;
 
     /**
@@ -32,6 +44,7 @@ public class TrainingRoom {
     @ApiModelProperty(value = "所属系", name = "belongSys", required = true, example = "南校区汽车工程系")
     @NotNull(message = "所属系不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "belong_sys")
+    @ExcelProperty(value = {"所属系","所属系"},index = 2)
     private String belongSys;
 
     /**
@@ -40,6 +53,7 @@ public class TrainingRoom {
     @ApiModelProperty(value = "位置名称", name = "roomPosition", required = true, example = "田T-TEP整车实训区")
     @NotNull(message = "位置不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "room_position")
+    @ExcelProperty(value = {"位置","位置"},index = 3)
     private String roomPosition;
 
     /**
@@ -48,6 +62,7 @@ public class TrainingRoom {
     @ApiModelProperty(value = "管理员", name = "roomAdmin", required = true, example = "admin")
     @NotNull(message = "管理员不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "room_admin")
+    @ExcelProperty(value = {"管理员","管理员"},index = 4)
     private String roomAdmin;
 
     /**
@@ -55,6 +70,7 @@ public class TrainingRoom {
      */
     @ApiModelProperty(value = "创建日期", name = "createDate", required = true, example = "2020-04-24")
     @Column(name = "create_date")
+    @ExcelProperty(value = {"创建日期","创建日期"},index = 5)
     private String createDate;
 
     /**
@@ -63,6 +79,7 @@ public class TrainingRoom {
     @ApiModelProperty(value = "设备数量", name = "equipNum", required = true, example = "12")
     @NotNull(message = "设备数量不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "equip_num")
+    @ExcelProperty(value = {"设备数量","设备数量"},index = 6)
     private Integer equipNum;
 
     /**
@@ -71,6 +88,7 @@ public class TrainingRoom {
     @ApiModelProperty(value = "是否可用    0不可用 1可用", name = "isEnabled", required = true, example = "1")
     @NotNull(message = "是否可用不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "is_enabled")
+    @ExcelProperty(value = {"是否可用","是否可用"},index = 7)
     private Integer isEnabled;
 
     /**
@@ -110,12 +128,7 @@ public class TrainingRoom {
     private Integer roomAdminId;
     
     
-    /**
-     * 实训室编码（自编）
-     */
-    @ApiModelProperty(value = "实训室编码（自编）", name = "roomCode", required = true, example = "RC1001")
-    @Column(name = "room_code")
-    private String roomCode;
+ 
 
     /**
      * 创建时间

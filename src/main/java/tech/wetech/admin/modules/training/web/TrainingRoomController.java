@@ -7,9 +7,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.github.pagehelper.Page;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import tech.wetech.admin.core.annotation.SystemLog;
+import tech.wetech.admin.core.common.ConfigProperties;
 import tech.wetech.admin.core.utils.DateUtil;
+import tech.wetech.admin.core.utils.Logger;
 import tech.wetech.admin.core.utils.Result;
+import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.UserService;
@@ -17,6 +21,8 @@ import tech.wetech.admin.modules.training.po.TrainingRoom;
 import tech.wetech.admin.modules.training.service.PositionService;
 import tech.wetech.admin.modules.training.service.SysService;
 import tech.wetech.admin.modules.training.service.TrainingRoomService;
+import tech.wetech.excel.ExcelWriteUtil;
+
 import org.springframework.ui.Model;
 
 import java.util.Date;
@@ -37,6 +43,8 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
     private PositionService positionService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private ConfigProperties configProperties;
     
     @GetMapping
     @RequiresPermissions("trainingroom:view")
@@ -92,4 +100,20 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
         return Result.success();
     }
 
+	@PostMapping("/exportexcel")
+	@ApiOperation(value = "导出")
+	@RequiresPermissions("trainingroom:exportexcel")
+	public Result<String> exportExcel(TrainingRoom entity) {
+		String fileName="";
+		try {
+			List<TrainingRoom> list = service.queryList(entity);
+			fileName = ExcelWriteUtil.writeData(configProperties.getExcelPath(), list, TrainingRoom.class, "实训室信息");
+		} catch (Exception e) {
+			e.printStackTrace();
+			Logger.error(getClass(), e.getMessage());
+			return Result.failure(ResultCodeEnum.NOT_IMPLEMENTED);
+		}
+		
+		return Result.success(fileName);
+	}
 }
