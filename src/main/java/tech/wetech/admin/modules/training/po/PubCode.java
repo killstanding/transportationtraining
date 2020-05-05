@@ -21,7 +21,7 @@ public class PubCode {
     /**
      * 公共编码编码
      */
-    @ApiModelProperty(value = "公共编码编码(自编)", name = "pubCode", required = true, example = "ic_1")
+    @ApiModelProperty(value = "公共编码编码(自编)", name = "pubCode", required = true, example = "inspection_cycle_day")
     @Column(name = "pub_code")
     @NotNull(message = "公共编码编码不能为空",groups = PubCodeCreateChecks.class)
     private String pubCode;
@@ -29,7 +29,7 @@ public class PubCode {
     /**
      * 公共编码名称
      */
-    @ApiModelProperty(value = "公共编码名称", name = "pubName", required = true, example = "inspection_cycle_day")
+    @ApiModelProperty(value = "公共编码名称", name = "pubName", required = true, example = "日")
     @NotNull(message = "公共编码名称不能为空",groups = PubCodeCreateChecks.class)
     @Column(name = "pub_name")
     private String pubName;
