@@ -42,7 +42,7 @@ public class SysController extends BaseCrudController<Sys> {
     
     @ResponseBody
     @PostMapping("/create")
-    @RequiresPermissions("sys：create")
+    @RequiresPermissions("sys:create")
     @SystemLog("系信息管理系信息创建")
     @Override
     public Result create(@Validated(Sys.SysCreateChecks.class) Sys entity) {
@@ -55,7 +55,7 @@ public class SysController extends BaseCrudController<Sys> {
   
     @ResponseBody
     @PostMapping("/update")
-    @RequiresPermissions("sys：update")
+    @RequiresPermissions("sys:update")
     @SystemLog("系信息管理系信息更新")
     @Override
     public Result update(@Validated(Sys.SysUpdateChecks.class) Sys entity) {
@@ -67,7 +67,7 @@ public class SysController extends BaseCrudController<Sys> {
 
     @ResponseBody
     @PostMapping("/delete-batch")
-    @RequiresPermissions("sys：delete")
+    @RequiresPermissions("sys:delete")
     @SystemLog("系信息管理系信息删除")
     @Override
     public Result deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {

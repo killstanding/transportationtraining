@@ -42,7 +42,7 @@ public class PubCodeController extends BaseCrudController<PubCode> {
     
     @ResponseBody
     @PostMapping("/create")
-    @RequiresPermissions("pubcode：create")
+    @RequiresPermissions("pubcode:create")
     @SystemLog("位置信息管理位置信息创建")
     @Override
     public Result create(@Validated(PubCode.PubCodeCreateChecks.class) PubCode entity) {
@@ -55,7 +55,7 @@ public class PubCodeController extends BaseCrudController<PubCode> {
   
     @ResponseBody
     @PostMapping("/update")
-    @RequiresPermissions("pubcode：update")
+    @RequiresPermissions("pubcode:update")
     @SystemLog("位置信息管理位置信息更新")
     @Override
     public Result update(@Validated(PubCode.PubCodeUpdateChecks.class) PubCode entity) {
@@ -67,7 +67,7 @@ public class PubCodeController extends BaseCrudController<PubCode> {
 
     @ResponseBody
     @PostMapping("/delete-batch")
-    @RequiresPermissions("pubcode：delete")
+    @RequiresPermissions("pubcode:delete")
     @SystemLog("位置信息管理位置信息删除")
     @Override
     public Result deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {

@@ -67,7 +67,7 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
     
     @ResponseBody
     @PostMapping("/create")
-    @RequiresPermissions("trainingroom：create")
+    @RequiresPermissions("trainingroom:create")
     @SystemLog("实训室管理实训室创建")
     @Override
     public Result create(@Validated(TrainingRoom.TrainingRoomCreateChecks.class) TrainingRoom entity) {
@@ -80,7 +80,7 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
   
     @ResponseBody
     @PostMapping("/update")
-    @RequiresPermissions("trainingroom：update")
+    @RequiresPermissions("trainingroom:update")
     @SystemLog("实训室管理实训室更新")
     @Override
     public Result update(@Validated(TrainingRoom.TrainingRoomUpdateChecks.class) TrainingRoom entity) {
@@ -92,7 +92,7 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
 
     @ResponseBody
     @PostMapping("/delete-batch")
-    @RequiresPermissions("trainingroom：delete")
+    @RequiresPermissions("trainingroom:delete")
     @SystemLog("实训室管理实训室删除")
     @Override
     public Result deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {

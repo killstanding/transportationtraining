@@ -41,7 +41,7 @@ public class PositionController extends BaseCrudController<Position> {
     
     @ResponseBody
     @PostMapping("/create")
-    @RequiresPermissions("position：create")
+    @RequiresPermissions("position:create")
     @SystemLog("位置信息管理位置信息创建")
     @Override
     public Result create(@Validated(Position.PositionCreateChecks.class) Position entity) {
@@ -54,7 +54,7 @@ public class PositionController extends BaseCrudController<Position> {
   
     @ResponseBody
     @PostMapping("/update")
-    @RequiresPermissions("position：update")
+    @RequiresPermissions("position:update")
     @SystemLog("位置信息管理位置信息更新")
     @Override
     public Result update(@Validated(Position.PositionUpdateChecks.class) Position entity) {
@@ -66,7 +66,7 @@ public class PositionController extends BaseCrudController<Position> {
 
     @ResponseBody
     @PostMapping("/delete-batch")
-    @RequiresPermissions("position：delete")
+    @RequiresPermissions("position:delete")
     @SystemLog("位置信息管理位置信息删除")
     @Override
     public Result deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {
