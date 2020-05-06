@@ -16,10 +16,11 @@ import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.system.po.Organization;
+import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.TrainingRoom;
 import tech.wetech.admin.modules.training.service.PositionService;
-import tech.wetech.admin.modules.training.service.SysService;
 import tech.wetech.admin.modules.training.service.TrainingRoomService;
 import tech.wetech.excel.ExcelWriteUtil;
 
@@ -38,7 +39,7 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
     @Autowired
     private TrainingRoomService service;
     @Autowired
-    private SysService sysService;
+    private OrganizationService organizationService;
     @Autowired
     private PositionService positionService;
     @Autowired
@@ -49,7 +50,9 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
     @GetMapping
     @RequiresPermissions("trainingroom:view")
     public String userPage(Model model) {
-    	model.addAttribute("sysList", sysService.queryAll());
+    	Organization org = new Organization();
+    	org.setParentId(1L);
+    	model.addAttribute("sysList", organizationService.queryList(org));
     	model.addAttribute("positionList", positionService.queryAll());
     	model.addAttribute("userList", userService.queryAll());
         return "system/trainingroom";
