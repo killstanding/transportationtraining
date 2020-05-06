@@ -77,7 +77,7 @@ public class AssetController extends BaseCrudController<Asset> {
     @RequiresPermissions("asset:view")
     @Override
     public Result<List<Asset>> queryList(Asset entity, PageQuery pageQuery) {
-        Page<Asset> page = (Page<Asset>) service.queryList(entity, pageQuery);
+        Page<Asset> page = (Page<Asset>) service.queryListByLike(entity, pageQuery);
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
     @ApiOperation(value = "根据资源状态统计数量", notes = "根据资源状态统计数量")

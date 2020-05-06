@@ -21,7 +21,9 @@ public interface IService<T> {
     T queryById(Object id);
 
     List<T> queryList(T entity, PageQuery pageQuery);
-
+    
+    List<T> queryListByLike(T entity, PageQuery pageQuery);
+    
     int create(T entity);
 
     int updateAll(T entity);

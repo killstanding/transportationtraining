@@ -52,6 +52,7 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
     public String userPage(Model model) {
     	Organization org = new Organization();
     	org.setParentId(1L);
+    	org.setAvailable(true);
     	model.addAttribute("sysList", organizationService.queryList(org));
     	model.addAttribute("positionList", positionService.queryAll());
     	model.addAttribute("userList", userService.queryAll());
@@ -64,7 +65,7 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
     @RequiresPermissions("trainingroom:view")
     @Override
     public Result<List<TrainingRoom>> queryList(TrainingRoom entity, PageQuery pageQuery) {
-        Page<TrainingRoom> page = (Page<TrainingRoom>) service.queryList(entity, pageQuery);
+        Page<TrainingRoom> page = (Page<TrainingRoom>) service.queryListByLike(entity, pageQuery);
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
     

@@ -27,7 +27,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-@Api(value = "巡检计划", tags = {"trainingroom"}, description = "巡检计划")
+@Api(value = "巡检计划", tags = {"inspectionplan"}, description = "巡检计划")
 @Controller
 @RequestMapping("/inspectionplan")
 @SuppressWarnings("unchecked") 
@@ -50,7 +50,7 @@ public class InspectionPlanController extends BaseCrudController<InspectionPlan>
     @Override
     public Result<List<InspectionPlan>> queryList(InspectionPlan entity, PageQuery pageQuery) {
     	
-        Page<InspectionPlan> page = (Page<InspectionPlan>) service.queryList(entity, pageQuery);
+        Page<InspectionPlan> page = (Page<InspectionPlan>) service.queryListByLike(entity, pageQuery);
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
     
