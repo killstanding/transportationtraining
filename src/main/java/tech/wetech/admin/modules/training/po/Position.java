@@ -36,14 +36,6 @@ public class Position {
     private String positionName;
 
     /**
-     * 类型名称
-     */
-    @NotNull(message = "类型名称不能为空",groups = AssetTypeCreateChecks.class)
-    @Column(name = "type_name")
-    @ApiModelProperty(value = "规格名称", name = "typeName", required = false, example = "教学用机电实验仪器")
-    private String typeName;
-
-    /**
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间", name = "createTime", required = false, example = "2020-04-24 18:00:00")
