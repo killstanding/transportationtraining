@@ -15,13 +15,13 @@ public class AssetClassification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(groups = AssetClassificationUpdateChecks.class)
-    @ApiModelProperty(value = "分类编号(系统生成)", name = "id", required = true, example = "1")
+    @ApiModelProperty(value = "分类编号(系统生成)", name = "id", required = false, example = "1")
     private Integer id;
 
     /**
      * 分类编码
      */
-    @ApiModelProperty(value = "分类编码(自编)", name = "classificationCode", required = true, example = "AC1001")
+    @ApiModelProperty(value = "分类编码(自编)", name = "classificationCode", required = false, example = "AC1001")
     @NotNull(message = "分类编码不能为空",groups = AssetClassificationCreateChecks.class)
     @Column(name = "classification_code")
     private String classificationCode;
@@ -29,7 +29,7 @@ public class AssetClassification {
     /**
      * 分类名称
      */
-    @ApiModelProperty(value = "分类名称", name = "classificationName", required = true, example = "教学用机电实验仪器")
+    @ApiModelProperty(value = "分类名称", name = "classificationName", required = false, example = "教学用机电实验仪器")
     @NotNull(message = "分类名称不能为空",groups = AssetClassificationCreateChecks.class)
     @Column(name = "classification_name")
     private String classificationName;
@@ -37,14 +37,14 @@ public class AssetClassification {
     /**
      * 创建时间
      */
-    @ApiModelProperty(value = "创建时间", name = "createTime", required = true, example = "2020-04-24 18:00:00")
+    @ApiModelProperty(value = "创建时间", name = "createTime", required = false, example = "2020-04-24 18:00:00")
     @Column(name = "create_time")
     private String createTime;
 
     /**
      * 更新时间
      */
-    @ApiModelProperty(value = "更新时间", name = "updateTime", required = true, example = "2020-04-24 18:00:00")
+    @ApiModelProperty(value = "更新时间", name = "updateTime", required = false, example = "2020-04-24 18:00:00")
     @Column(name = "update_Time")
     private String updateTime;
 

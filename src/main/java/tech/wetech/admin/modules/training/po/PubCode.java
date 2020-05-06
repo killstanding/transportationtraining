@@ -15,13 +15,13 @@ public class PubCode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(groups = PubCodeUpdateChecks.class)
-    @ApiModelProperty(value = "公共编码编号(系统生成)", name = "id", required = true, example = "1")
+    @ApiModelProperty(value = "公共编码编号(系统生成)", name = "id", required = false, example = "1")
     private Integer id;
 
     /**
      * 公共编码编码
      */
-    @ApiModelProperty(value = "公共编码编码(自编)", name = "pubCode", required = true, example = "inspection_cycle_day")
+    @ApiModelProperty(value = "公共编码编码(自编)", name = "pubCode", required = false, example = "inspection_cycle_day")
     @Column(name = "pub_code")
     @NotNull(message = "公共编码编码不能为空",groups = PubCodeCreateChecks.class)
     private String pubCode;
@@ -29,7 +29,7 @@ public class PubCode {
     /**
      * 公共编码名称
      */
-    @ApiModelProperty(value = "公共编码名称", name = "pubName", required = true, example = "日")
+    @ApiModelProperty(value = "公共编码名称", name = "pubName", required = false, example = "日")
     @NotNull(message = "公共编码名称不能为空",groups = PubCodeCreateChecks.class)
     @Column(name = "pub_name")
     private String pubName;
@@ -37,7 +37,7 @@ public class PubCode {
     /**
      * 公共编码类型
      */
-    @ApiModelProperty(value = "公共编码类型", name = "pubType", required = true, example = "inspection_cycle")
+    @ApiModelProperty(value = "公共编码类型", name = "pubType", required = false, example = "inspection_cycle")
     @NotNull(message = "公共编码类型不能为空",groups = PubCodeCreateChecks.class)
     @Column(name = "pub_type")
     private String pubType;
@@ -45,7 +45,7 @@ public class PubCode {
     /**
      * 公共编码类型编码
      */
-    @ApiModelProperty(value = "公共编码类型编码", name = "pubTypeCode", required = true, example = "ic")
+    @ApiModelProperty(value = "公共编码类型编码", name = "pubTypeCode", required = false, example = "ic")
     @NotNull(message = "公共编码类型编码不能为空",groups = PubCodeCreateChecks.class)
     @Column(name = "pub_type_code")
     private String pubTypeCode;
@@ -53,14 +53,14 @@ public class PubCode {
     /**
      * 创建时间
      */
-    @ApiModelProperty(value = "创建时间", name = "createTime", required = true, example = "2020-04-24 18:00:00")
+    @ApiModelProperty(value = "创建时间", name = "createTime", required = false, example = "2020-04-24 18:00:00")
     @Column(name = "create_time")
     private String createTime;
 
     /**
      * 更新时间
      */
-    @ApiModelProperty(value = "更新时间", name = "updateTime", required = true, example = "2020-04-24 18:00:00")
+    @ApiModelProperty(value = "更新时间", name = "updateTime", required = false, example = "2020-04-24 18:00:00")
     @Column(name = "update_Time")
     private String updateTime;
 

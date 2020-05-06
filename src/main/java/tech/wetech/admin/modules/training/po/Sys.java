@@ -15,7 +15,7 @@ public class Sys {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(groups = SysUpdateChecks.class)
-    @ApiModelProperty(value = "系编码编号(系统生成)", name = "id", required = true, example = "1")
+    @ApiModelProperty(value = "系编码编号(系统生成)", name = "id", required = false, example = "1")
     private Integer id;
 
     /**
@@ -23,13 +23,13 @@ public class Sys {
      */
     @NotNull(message = "系编码不能为空",groups = SysCreateChecks.class)
     @Column(name = "sys_code")
-    @ApiModelProperty(value = "系编码编号(自编)", name = "sysCode", required = true, example = "S1001")
+    @ApiModelProperty(value = "系编码编号(自编)", name = "sysCode", required = false, example = "S1001")
     private String sysCode;
 
     /**
      * 系名称
      */
-    @ApiModelProperty(value = "系名称名称", name = "sysName", required = true, example = "南校区汽车工程系")
+    @ApiModelProperty(value = "系名称名称", name = "sysName", required = false, example = "南校区汽车工程系")
     @NotNull(message = "系名称不能为空",groups = SysCreateChecks.class)
     @Column(name = "sys_name")
     private String sysName;
@@ -37,14 +37,14 @@ public class Sys {
     /**
      * 创建时间
      */
-    @ApiModelProperty(value = "创建时间", name = "createTime", required = true, example = "2020-04-24 18:00:00")
+    @ApiModelProperty(value = "创建时间", name = "createTime", required = false, example = "2020-04-24 18:00:00")
     @Column(name = "create_time")
     private String createTime;
 
     /**
      * 更新时间
      */
-    @ApiModelProperty(value = "更新时间", name = "updateTime", required = true, example = "2020-04-24 18:00:00")
+    @ApiModelProperty(value = "更新时间", name = "updateTime", required = false, example = "2020-04-24 18:00:00")
     @Column(name = "update_Time")
     private String updateTime;
 

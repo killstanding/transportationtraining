@@ -18,13 +18,13 @@ public class TrainingRoom  extends BaseRowModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(groups = TrainingRoomUpdateChecks.class)
-    @ApiModelProperty(value = "实训室编号(系统生成)", name = "id", required = true, example = "1")
+    @ApiModelProperty(value = "实训室编号(系统生成)", name = "id", required = false, example = "1")
     private Integer id;
 
     /**
      * 实训室编码（自编）
      */
-    @ApiModelProperty(value = "实训室编码（自编）", name = "roomCode", required = true, example = "RC1001")
+    @ApiModelProperty(value = "实训室编码（自编）", name = "roomCode", required = false, example = "RC1001")
     @Column(name = "room_code")
     @ExcelProperty(value = {"实训室编号","实训室编号"},index = 0)
     private String roomCode;
@@ -34,14 +34,14 @@ public class TrainingRoom  extends BaseRowModel{
      */
     @NotNull(message = "实训室名称不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "room_name")
-    @ApiModelProperty(value = "实训室名称", name = "roomName", required = true, example = "丰田T-TEP整车实训区")
+    @ApiModelProperty(value = "实训室名称", name = "roomName", required = false, example = "丰田T-TEP整车实训区")
     @ExcelProperty(value = {"实训室名称","实训室名称"},index = 1)
     private String roomName;
 
     /**
      * 所属系
      */
-    @ApiModelProperty(value = "所属系", name = "belongSys", required = true, example = "南校区汽车工程系")
+    @ApiModelProperty(value = "所属系", name = "belongSys", required = false, example = "南校区汽车工程系")
     @NotNull(message = "所属系不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "belong_sys")
     @ExcelProperty(value = {"所属系","所属系"},index = 2)
@@ -50,7 +50,7 @@ public class TrainingRoom  extends BaseRowModel{
     /**
      * 位置
      */
-    @ApiModelProperty(value = "位置名称", name = "roomPosition", required = true, example = "田T-TEP整车实训区")
+    @ApiModelProperty(value = "位置名称", name = "roomPosition", required = false, example = "田T-TEP整车实训区")
     @NotNull(message = "位置不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "room_position")
     @ExcelProperty(value = {"位置","位置"},index = 3)
@@ -59,7 +59,7 @@ public class TrainingRoom  extends BaseRowModel{
     /**
      * 管理员
      */
-    @ApiModelProperty(value = "管理员", name = "roomAdmin", required = true, example = "admin")
+    @ApiModelProperty(value = "管理员", name = "roomAdmin", required = false, example = "admin")
     @NotNull(message = "管理员不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "room_admin")
     @ExcelProperty(value = {"管理员","管理员"},index = 4)
@@ -68,7 +68,7 @@ public class TrainingRoom  extends BaseRowModel{
     /**
      * 创建日期
      */
-    @ApiModelProperty(value = "创建日期", name = "createDate", required = true, example = "2020-04-24")
+    @ApiModelProperty(value = "创建日期", name = "createDate", required = false, example = "2020-04-24")
     @Column(name = "create_date")
     @ExcelProperty(value = {"创建日期","创建日期"},index = 5)
     private String createDate;
@@ -76,8 +76,8 @@ public class TrainingRoom  extends BaseRowModel{
     /**
      * 设备数量
      */
-    @ApiModelProperty(value = "设备数量", name = "equipNum", required = true, example = "12")
-    @NotNull(message = "设备数量不能为空",groups = TrainingRoomCreateChecks.class)
+    @ApiModelProperty(value = "设备数量", name = "equipNum", required = false, example = "12")
+    //@NotNull(message = "设备数量不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "equip_num")
     @ExcelProperty(value = {"设备数量","设备数量"},index = 6)
     private Integer equipNum;
@@ -85,7 +85,7 @@ public class TrainingRoom  extends BaseRowModel{
     /**
      * 是否可用  0不可用 1可用
      */
-    @ApiModelProperty(value = "是否可用    0不可用 1可用", name = "isEnabled", required = true, example = "1")
+    @ApiModelProperty(value = "是否可用    0不可用 1可用", name = "isEnabled", required = false, example = "1")
     @NotNull(message = "是否可用不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "is_enabled")
     @ExcelProperty(value = {"是否可用","是否可用"},index = 7)
@@ -94,7 +94,7 @@ public class TrainingRoom  extends BaseRowModel{
     /**
      * 更新时间
      */
-    @ApiModelProperty(value = "更新时间", name = "updateTime", required = true, example = "2020-04-24 18:00:00")
+    @ApiModelProperty(value = "更新时间", name = "updateTime", required = false, example = "2020-04-24 18:00:00")
     @Column(name = "update_Time")
     private String updateTime;
 
@@ -114,7 +114,7 @@ public class TrainingRoom  extends BaseRowModel{
     /**
      * 位置信息编号
      */
-    @ApiModelProperty(value = "位置编号", name = "postionCode", required = true, example = "1")
+    @ApiModelProperty(value = "位置编号", name = "postionCode", required = false, example = "1")
     @NotNull(message = "位置信息编号不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "room_position_code")
     private Integer roomPositionCode;
@@ -122,7 +122,7 @@ public class TrainingRoom  extends BaseRowModel{
     /**
      * 管理员编号
      */
-    @ApiModelProperty(value = "管理员编号", name = "roomAdminId", required = true, example = "1")
+    @ApiModelProperty(value = "管理员编号", name = "roomAdminId", required = false, example = "1")
     @NotNull(message = "管理员编号不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "room_admin_id")
     private Integer roomAdminId;
@@ -133,7 +133,7 @@ public class TrainingRoom  extends BaseRowModel{
     /**
      * 创建时间
      */
-    @ApiModelProperty(value = "创建时间", name = "createTime", required = true, example = "2020-04-24 18:00:00")
+    @ApiModelProperty(value = "创建时间", name = "createTime", required = false, example = "2020-04-24 18:00:00")
     @Column(name = "create_time")
     private String createTime;
 

@@ -19,21 +19,21 @@ public class Asset extends BaseRowModel{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(groups = AssetUpdateChecks.class)
     @ExcelProperty(value = {"资产编号","资产编号"},index = 0)
-    @ApiModelProperty(value = "资产编号(系统生成)", name = "id", required = true, example = "1")
+    @ApiModelProperty(value = "资产编号(系统生成)", name = "id", required = false, example = "1")
     private Integer id;
 
     /**
      * 资产编号
      */
-    //@NotNull(message = "资产编号不能为空",groups = AssetCreateChecks.class)
+    @NotNull(message = "资产编号不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_code")
-    @ApiModelProperty(value = "资产编号(自编)", name = "assetCode", required = true, example = "1702060002007000104")
+    @ApiModelProperty(value = "资产编号(自编)", name = "assetCode", required = false, example = "1702060002007000104")
     private String assetCode;
 
     /**
      * 资产分类编号
      */
-    @ApiModelProperty(value = "资产分类编号", name = "assetClassificationCode", required = true, example = "1")
+    @ApiModelProperty(value = "资产分类编号", name = "assetClassificationCode", required = false, example = "1")
     @NotNull(message = "资产分类编号不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_classification_code")
     private String assetClassificationCode;
@@ -41,7 +41,7 @@ public class Asset extends BaseRowModel{
     /**
      * 资产分类名称
      */
-    @ApiModelProperty(value = "资产分类", name = "assetClassification", required = true, example = "教学用机电实验仪器")
+    @ApiModelProperty(value = "资产分类", name = "assetClassification", required = false, example = "教学用机电实验仪器")
     @ExcelProperty(value = {"资产分类","资产分类"},index = 1)
     @NotNull(message = "资产分类名称不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_classification")
@@ -50,7 +50,7 @@ public class Asset extends BaseRowModel{
     /**
      * 资产名称
      */
-    @ApiModelProperty(value = "资产名称", name = "assetName", required = true, example = "丰田皇冠教具车")
+    @ApiModelProperty(value = "资产名称", name = "assetName", required = false, example = "丰田皇冠教具车")
     @ExcelProperty(value = {"资产名称","资产名称"},index = 2)
     @NotNull(message = "资产名称不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_name")
@@ -59,7 +59,7 @@ public class Asset extends BaseRowModel{
     /**
      * 资产价值
      */
-    @ApiModelProperty(value = "资产价值", name = "assetValue", required = true, example = "352400")
+    @ApiModelProperty(value = "资产价值", name = "assetValue", required = false, example = "352400")
     @ExcelProperty(value = {"资产价值","资产价值"},index = 3)
     @NotNull(message = "资产价值不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_value")
@@ -68,7 +68,7 @@ public class Asset extends BaseRowModel{
     /**
      * 记账日期
      */
-    @ApiModelProperty(value = "记账日期", name = "bookkeepingDate", required = true, example = "2017-12-12")
+    @ApiModelProperty(value = "记账日期", name = "bookkeepingDate", required = false, example = "2017-12-12")
     @ExcelProperty(value = {"记账日期","记账日期"},index = 4)
     @NotNull(message = "记账日期不能为空",groups = AssetCreateChecks.class)
     @Column(name = "bookkeeping_date")
@@ -77,7 +77,7 @@ public class Asset extends BaseRowModel{
     /**
      * 资产类型编号
      */
-    @ApiModelProperty(value = "资产类型编号", name = "assetTypeCode", required = true, example = "1")
+    @ApiModelProperty(value = "资产类型编号", name = "assetTypeCode", required = false, example = "1")
     @NotNull(message = "资产类型编号不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_type_code")
     private String assetTypeCode;
@@ -85,7 +85,7 @@ public class Asset extends BaseRowModel{
     /**
      * 资产类型
      */
-    @ApiModelProperty(value = "资产类型", name = "assetType", required = true, example = "丰田皇冠教具车")
+    @ApiModelProperty(value = "资产类型", name = "assetType", required = false, example = "丰田皇冠教具车")
     @ExcelProperty(value = {"资产类型","资产类型"},index = 5)
     @NotNull(message = "资产类型不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_type")
@@ -94,7 +94,7 @@ public class Asset extends BaseRowModel{
     /**
      * 资产使用人
      */
-    @ApiModelProperty(value = "资产使用人", name = "assetUser", required = true, example = "admin")
+    @ApiModelProperty(value = "资产使用人", name = "assetUser", required = false, example = "admin")
     @ExcelProperty(value = {"资产使用人","资产使用人"},index = 6)
     @NotNull(message = "资产使用人不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_user")
@@ -103,7 +103,7 @@ public class Asset extends BaseRowModel{
     /**
      * 资产使用人编号
      */
-    @ApiModelProperty(value = "资产使用人编号", name = "assetUserId", required = true, example = "1")
+    @ApiModelProperty(value = "资产使用人编号", name = "assetUserId", required = false, example = "1")
     @NotNull(message = "资产使用人编号不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_user_id")
     private String assetUserId;
@@ -111,7 +111,7 @@ public class Asset extends BaseRowModel{
     /**
      * 位置编号
      */
-    @ApiModelProperty(value = "位置编号", name = "postionCode", required = true, example = "1")
+    @ApiModelProperty(value = "位置编号", name = "postionCode", required = false, example = "1")
     @NotNull(message = "位置编号不能为空",groups = AssetCreateChecks.class)
     @Column(name = "postion_code")
     private String postionCode;
@@ -119,7 +119,7 @@ public class Asset extends BaseRowModel{
     /**
      * 位置名称
      */
-    @ApiModelProperty(value = "位置名称", name = "positonName", required = true, example = "田T-TEP整车实训区")
+    @ApiModelProperty(value = "位置名称", name = "positonName", required = false, example = "田T-TEP整车实训区")
     @ExcelProperty(value = {"位置名称","位置名称"},index = 7)
     @NotNull(message = "位置名称不能为空",groups = AssetCreateChecks.class)
     @Column(name = "positon_name")
@@ -128,7 +128,7 @@ public class Asset extends BaseRowModel{
     /**
      * 使用部门
      */
-    @ApiModelProperty(value = "使用部门", name = "useDepartment", required = true, example = "南校区汽车系")
+    @ApiModelProperty(value = "使用部门", name = "useDepartment", required = false, example = "南校区汽车系")
     @ExcelProperty(value = {"使用部门","使用部门"},index = 8)
     @NotNull(message = "使用部门不能为空",groups = AssetCreateChecks.class)
     @Column(name = "use_department")
@@ -137,7 +137,7 @@ public class Asset extends BaseRowModel{
     /**
      * 使用部门编号
      */
-    @ApiModelProperty(value = "使用部门编号", name = "useDepartmentId", required = true, example = "1")
+    @ApiModelProperty(value = "使用部门编号", name = "useDepartmentId", required = false, example = "1")
     @NotNull(message = "使用部门编号不能为空",groups = AssetCreateChecks.class)
     @Column(name = "use_department_id")
     private Integer useDepartmentId;
@@ -145,7 +145,7 @@ public class Asset extends BaseRowModel{
     /**
      * 巡检周期
      */
-    @ApiModelProperty(value = "巡检周期", name = "inspectionCycle", required = true, example = "月")
+    @ApiModelProperty(value = "巡检周期", name = "inspectionCycle", required = false, example = "月")
     @ExcelProperty(value = {"巡检周期","巡检周期"},index = 9)
     @NotNull(message = "巡检周期不能为空",groups = AssetCreateChecks.class)
     @Column(name = "inspection_cycle")
@@ -154,7 +154,7 @@ public class Asset extends BaseRowModel{
     /**
      * 巡检周期编号
      */
-    @ApiModelProperty(value = "巡检周期编号", name = "inspectionCycleCode", required = true, example = "inspection_cycle_month")
+    @ApiModelProperty(value = "巡检周期编号", name = "inspectionCycleCode", required = false, example = "inspection_cycle_month")
     @NotNull(message = "巡检周期编号不能为空",groups = AssetCreateChecks.class)
     @Column(name = "inspection_cycle_code")
     private String inspectionCycleCode;
@@ -162,7 +162,7 @@ public class Asset extends BaseRowModel{
     /**
      * 资产状态
      */
-    @ApiModelProperty(value = "资产状态", name = "assetStatus", required = true, example = "正常")
+    @ApiModelProperty(value = "资产状态", name = "assetStatus", required = false, example = "正常")
     @ExcelProperty(value = {"资产状态","资产状态"},index = 10)
     @NotNull(message = " 资产状态不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_status")
@@ -171,7 +171,7 @@ public class Asset extends BaseRowModel{
     /**
      * 资产状态编号
      */
-    @ApiModelProperty(value = "资产状态编号", name = "assetStatusCode", required = true, example = "asset_status_normal")
+    @ApiModelProperty(value = "资产状态编号", name = "assetStatusCode", required = false, example = "asset_status_normal")
     @NotNull(message = "资产状态编号不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_status_code")
     private String assetStatusCode;
@@ -179,35 +179,35 @@ public class Asset extends BaseRowModel{
     /**
      * 创建时间
      */
-    @ApiModelProperty(value = "创建时间", name = "createTime", required = true, example = "2020-04-24 18:00:00")
+    @ApiModelProperty(value = "创建时间", name = "createTime", required = false, example = "2020-04-24 18:00:00")
     @Column(name = "create_time")
     private String createTime;
 
     /**
      * 更新时间
      */
-    @ApiModelProperty(value = "更新时间", name = "updateTime", required = true, example = "2020-04-24 18:00:00")
+    @ApiModelProperty(value = "更新时间", name = "updateTime", required = false, example = "2020-04-24 18:00:00")
     @Column(name = "update_Time")
     private String updateTime;
 
     /**
      * 资源图片地址
      */
-    @ApiModelProperty(value = "资源图片地址", name = "assetImg", required = true, example = "file/img/1.png")
+    @ApiModelProperty(value = "资源图片地址", name = "assetImg", required = false, example = "file/img/1.png")
     @Column(name = "asset_img")
     private String assetImg;
 
     /**
      * 实训室编号
      */
-    @ApiModelProperty(value = "实训室编号", name = "roomId", required = true, example = "1")
+    @ApiModelProperty(value = "实训室编号", name = "roomId", required = false, example = "1")
     @Column(name = "room_id")
     private Integer roomId;
 
     /**
      * 实训室名称
      */
-    @ApiModelProperty(value = "实训室名称", name = "roomName", required = true, example = "丰田T-TEP整车实训区")
+    @ApiModelProperty(value = "实训室名称", name = "roomName", required = false, example = "丰田T-TEP整车实训区")
     @ExcelProperty(value = {"实训室名称","实训室名称"},index = 11)
     @Column(name = "room_name")
     private String roomName;

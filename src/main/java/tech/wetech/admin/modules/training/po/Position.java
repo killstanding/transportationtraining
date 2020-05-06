@@ -16,13 +16,13 @@ public class Position {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(groups = PositionUpdateChecks.class)
-    @ApiModelProperty(value = "位置编号(系统生成)", name = "id", required = true, example = "1")
+    @ApiModelProperty(value = "位置编号(系统生成)", name = "id", required = false, example = "1")
     private Integer id;
 
     /**
      * 位置编码
      */
-    @ApiModelProperty(value = "位置编号(自编)", name = "positionCode", required = true, example = "P1001")
+    @ApiModelProperty(value = "位置编号(自编)", name = "positionCode", required = false, example = "P1001")
     @Column(name = "position_code")
     @NotNull(message = "位置编码不能为空",groups = PositionCreateChecks.class)
     private String positionCode;
@@ -30,7 +30,7 @@ public class Position {
     /**
      * 位置名称
      */
-    @ApiModelProperty(value = "位置名称", name = "positionName", required = true, example = "丰田T-TEP整车实训区")
+    @ApiModelProperty(value = "位置名称", name = "positionName", required = false, example = "丰田T-TEP整车实训区")
     @NotNull(message = "位置名称不能为空",groups = PositionCreateChecks.class)
     @Column(name = "position_name")
     private String positionName;
@@ -40,20 +40,20 @@ public class Position {
      */
     @NotNull(message = "类型名称不能为空",groups = AssetTypeCreateChecks.class)
     @Column(name = "type_name")
-    @ApiModelProperty(value = "规格名称", name = "typeName", required = true, example = "教学用机电实验仪器")
+    @ApiModelProperty(value = "规格名称", name = "typeName", required = false, example = "教学用机电实验仪器")
     private String typeName;
 
     /**
      * 创建时间
      */
-    @ApiModelProperty(value = "创建时间", name = "createTime", required = true, example = "2020-04-24 18:00:00")
+    @ApiModelProperty(value = "创建时间", name = "createTime", required = false, example = "2020-04-24 18:00:00")
     @Column(name = "create_time")
     private String createTime;
 
     /**
      * 更新时间
      */
-    @ApiModelProperty(value = "更新时间", name = "updateTime", required = true, example = "2020-04-24 18:00:00")
+    @ApiModelProperty(value = "更新时间", name = "updateTime", required = false, example = "2020-04-24 18:00:00")
     @Column(name = "update_Time")
     private String updateTime;
 
