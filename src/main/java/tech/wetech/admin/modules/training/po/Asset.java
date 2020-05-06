@@ -111,19 +111,19 @@ public class Asset extends BaseRowModel{
     /**
      * 位置编号
      */
-    @ApiModelProperty(value = "位置编号", name = "postionCode", required = false, example = "1")
+    @ApiModelProperty(value = "位置编号", name = "positionCode", required = false, example = "1")
     @NotNull(message = "位置编号不能为空",groups = AssetCreateChecks.class)
-    @Column(name = "postion_code")
-    private String postionCode;
+    @Column(name = "position_code")
+    private String positionCode;
 
     /**
      * 位置名称
      */
-    @ApiModelProperty(value = "位置名称", name = "positonName", required = false, example = "田T-TEP整车实训区")
+    @ApiModelProperty(value = "位置名称", name = "positionName", required = false, example = "田T-TEP整车实训区")
     @ExcelProperty(value = {"位置名称","位置名称"},index = 7)
     @NotNull(message = "位置名称不能为空",groups = AssetCreateChecks.class)
-    @Column(name = "positon_name")
-    private String positonName;
+    @Column(name = "position_name")
+    private String positionName;
 
     /**
      * 使用部门
@@ -425,8 +425,8 @@ public class Asset extends BaseRowModel{
      *
      * @return postion_code - 位置编号
      */
-    public String getPostionCode() {
-        return postionCode;
+    public String getPositionCode() {
+        return positionCode;
     }
 
     /**
@@ -434,8 +434,8 @@ public class Asset extends BaseRowModel{
      *
      * @param postionCode 位置编号
      */
-    public void setPostionCode(String postionCode) {
-        this.postionCode = postionCode;
+    public void setPositionCode(String positionCode) {
+        this.positionCode = positionCode;
     }
 
     /**
@@ -443,8 +443,8 @@ public class Asset extends BaseRowModel{
      *
      * @return positon_name - 位置名称
      */
-    public String getPositonName() {
-        return positonName;
+    public String getPositionName() {
+        return positionName;
     }
 
     /**
@@ -452,8 +452,8 @@ public class Asset extends BaseRowModel{
      *
      * @param positonName 位置名称
      */
-    public void setPositonName(String positonName) {
-        this.positonName = positonName;
+    public void setPositionName(String positionName) {
+        this.positionName = positionName;
     }
 
     /**

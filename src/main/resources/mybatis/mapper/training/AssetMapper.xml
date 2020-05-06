@@ -16,8 +16,8 @@
     <result column="asset_type" property="assetType" jdbcType="VARCHAR" />
     <result column="asset_user" property="assetUser" jdbcType="VARCHAR" />
     <result column="asset_user_id" property="assetUserId" jdbcType="VARCHAR" />
-    <result column="postion_code" property="postionCode" jdbcType="VARCHAR" />
-    <result column="positon_name" property="positonName" jdbcType="VARCHAR" />
+    <result column="position_code" property="positionCode" jdbcType="VARCHAR" />
+    <result column="position_name" property="positionName" jdbcType="VARCHAR" />
     <result column="use_department" property="useDepartment" jdbcType="VARCHAR" />
     <result column="use_department_id" property="useDepartmentId" jdbcType="INTEGER" />
     <result column="inspection_cycle" property="inspectionCycle" jdbcType="VARCHAR" />
@@ -40,7 +40,7 @@
   <update id="updateCodeById" parameterType="tech.wetech.admin.modules.training.po.Asset">
 		UPDATE t_asset t 
 		SET t.use_department_id = ( SELECT o.id FROM sys_organization o WHERE o.NAME = t.use_department ),
-			t.postion_code = ( SELECT p.position_name FROM t_position p WHERE p.id = t.positon_name ),
+			t.position_code = ( SELECT p.position_name FROM t_position p WHERE p.id = t.position_name ),
 			t.inspection_cycle_code = ( SELECT p.pub_code FROM t_pub_code p WHERE p.pub_type_code = 'ic' AND p.pub_name = t.inspection_cycle ),
 			t.asset_user_id = ( SELECT u.id FROM sys_user u WHERE u.username = t.asset_user ),
 			t.asset_status_code = ( SELECT p.pub_code FROM t_pub_code p WHERE p.pub_type_code = 'as' AND p.pub_name = t.inspection_cycle ),
