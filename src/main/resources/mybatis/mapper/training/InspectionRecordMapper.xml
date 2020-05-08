@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tech.wetech.admin.modules.training.mapper.InspectionRecordMapper">
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.InspectionRecord">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="asset_code" jdbcType="VARCHAR" property="assetCode" />
+    <result column="asset_classification_code" jdbcType="VARCHAR" property="assetClassificationCode" />
+    <result column="asset_classification" jdbcType="VARCHAR" property="assetClassification" />
+    <result column="asset_status" jdbcType="VARCHAR" property="assetStatus" />
+    <result column="asset_status_code" jdbcType="VARCHAR" property="assetStatusCode" />
+    <result column="is_repair" jdbcType="INTEGER" property="isRepair" />
+    <result column="status_description" jdbcType="VARCHAR" property="statusDescription" />
+    <result column="plan_id" jdbcType="INTEGER" property="planId" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="repair_order_no" jdbcType="VARCHAR" property="repairOrderNo" />
+  </resultMap>
+</mapper>
