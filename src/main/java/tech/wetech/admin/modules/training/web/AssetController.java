@@ -139,7 +139,7 @@ public class AssetController extends BaseCrudController<Asset> {
 	public Result<String> exportExcel(Asset entity) {
 		String fileName="";
 		try {
-			List<Asset> list = service.queryList(entity);
+			List<Asset> list = service.keyValueByExample(entity);
 			fileName = ExcelWriteUtil.writeData(configProperties.getExcelPath(), list, Asset.class, "资产信息");
 		} catch (Exception e) {
 			e.printStackTrace();

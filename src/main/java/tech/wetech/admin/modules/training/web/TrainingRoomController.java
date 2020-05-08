@@ -110,7 +110,7 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
 	public Result<String> exportExcel(TrainingRoom entity) {
 		String fileName="";
 		try {
-			List<TrainingRoom> list = service.queryList(entity);
+			List<TrainingRoom> list = service.keyValueByExample(entity);
 			fileName = ExcelWriteUtil.writeData(configProperties.getExcelPath(), list, TrainingRoom.class, "实训室信息");
 		} catch (Exception e) {
 			e.printStackTrace();
