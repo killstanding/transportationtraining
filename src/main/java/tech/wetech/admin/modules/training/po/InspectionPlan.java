@@ -5,19 +5,19 @@ import javax.validation.constraints.NotNull;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.metadata.BaseRowModel;
-
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
+@ApiModel(description = "巡检计划")
 @Table(name = "t_inspection_plan")
-public class InspectionPlan extends BaseRowModel{
+public class InspectionPlan  extends BaseRowModel{
     /**
      * 巡检计划编号
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(groups = InspectionPlanUpdateChecks.class)
-    @ApiModelProperty(value = "巡检计划编码(系统生成)", name = "id", required = false, example = "1")
+    @ApiModelProperty(value = "巡检计划编号(系统生成)", name = "id", required = false, example = "1")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
@@ -25,6 +25,7 @@ public class InspectionPlan extends BaseRowModel{
      */
     @ExcelProperty(value = {"实训室编号","实训室编号"},index = 0)
     @ApiModelProperty(value = "实训室编号", name = "roomId", required = false, example = "1")
+    @NotNull(message = "实训室名称不能为空",groups = InspectionPlanCreateChecks .class)
     @Column(name = "room_id")
     private Integer roomId;
 
@@ -33,60 +34,45 @@ public class InspectionPlan extends BaseRowModel{
      */
     @ExcelProperty(value = {"实训室名称","实训室名称"},index = 1)
     @ApiModelProperty(value = "实训室名称", name = "roomName", required = false, example = "丰田T-TEP整车实训区")
-    @NotNull(message = "实训室名称不能为空",groups = InspectionPlanCreateChecks.class)
+    @NotNull(message = "实训室名称不能为空",groups = InspectionPlanCreateChecks .class)
     @Column(name = "room_name")
     private String roomName;
 
     /**
-     * 巡检负责人
+     * 巡检人
      */
-    @ExcelProperty(value = {"巡检负责人","巡检负责人"},index = 2)
-    @ApiModelProperty(value = "巡检负责人", name = "personInCharge", required = false, example = "admin")
-    @Column(name = "person_in_charge")
-    private String personInCharge;
+    @ExcelProperty(value = {"巡检人","巡检人"},index = 2)
+    @ApiModelProperty(value = "巡检人", name = "inspector", required = false, example = "admin")
+    @Column(name = "inspector")
+    private String inspector;
 
     /**
-     * 巡检负责人编号
+     * 巡检人编号
      */
-    @ApiModelProperty(value = "巡检负责人编号", name = "personInChargeId", required = false, example = "1")
-    @Column(name = "person_in_charge_id")
-    private Integer personInChargeId;
+    @ApiModelProperty(value = "巡检人编号", name = "inspector_id", required = false, example = "1")
+    @Column(name = "inspector_id")
+    private Integer inspectorId;
 
     /**
-     * 巡检周期
+     * 本次巡检设备数
      */
-    @ExcelProperty(value = {"巡检周期","巡检周期"},index = 3)
-    @ApiModelProperty(value = "巡检周期", name = "inspectionCycle", required = false, example = "周")
-    @Column(name = "inspection_cycle")
-    private String inspectionCycle;
+    @ExcelProperty(value = {"本次巡检设备数","本次巡检设备数"},index = 3)
+    @ApiModelProperty(value = "本次巡检设备数", name = "normalDevicesInInspection", required = false, example = "12")
+    @Column(name = "normal_devices_in_inspection")
+    private Integer normalDevicesInInspection;
 
     /**
-     * 巡检周期编号
+     * 正常设备数量
      */
-    @ApiModelProperty(value = "巡检周期编号", name = "inspectionCycleCode", required = false, example = "inspectionCycleCode")
-    @Column(name = "inspection_cycle_code")
-    private String inspectionCycleCode;
-
-    /**
-     * 本年度应巡检次数
-     */
-    @ExcelProperty(value = {"本年度应巡检次数","本年度应巡检次数"},index = 4)
-    @ApiModelProperty(value = "本年度应巡检次数", name = "inspectionTimesYear", required = false, example = "12")
-    @Column(name = "inspection_times_year")
-    private Integer inspectionTimesYear;
-
-    /**
-     * 本年度已巡检次数
-     */
-    @ExcelProperty(value = {"本年度已巡检次数","本年度已巡检次数"},index = 5)
-    @ApiModelProperty(value = "本年度已巡检次数", name = "inspectionedTimesYear", required = false, example = "10")
-    @Column(name = "inspectioned_times_year")
-    private Integer inspectionedTimesYear;
+    @ExcelProperty(value = {"正常设备数量","正常设备数量"},index = 4)
+    @ApiModelProperty(value = "正常设备数量", name = "numberNormalDevices", required = false, example = "10")
+    @Column(name = "number_normal_devices")
+    private Integer numberNormalDevices;
 
     /**
      * 异常设备数量
      */
-    @ExcelProperty(value = {"异常设备数量","异常设备数量"},index = 6)
+    @ExcelProperty(value = {"异常设备数量","异常设备数量"},index = 5)
     @ApiModelProperty(value = "异常设备数量", name = "numberAbnormalDevices", required = false, example = "2")
     @Column(name = "number_abnormal_devices")
     private Integer numberAbnormalDevices;
@@ -94,18 +80,18 @@ public class InspectionPlan extends BaseRowModel{
     /**
      * 已报修设备数量
      */
-    @ExcelProperty(value = {"已报修设备数量","已报修设备数量"},index = 7)
+    @ExcelProperty(value = {"已报修设备数量","已报修设备数量"},index = 6)
     @ApiModelProperty(value = "已报修设备数量", name = "numberReportedRepairEquipment", required = false, example = "2")
     @Column(name = "number_reported_repair_equipment")
     private Integer numberReportedRepairEquipment;
 
     /**
-     * 已维修设备数量
+     * 巡检时间
      */
-    @ExcelProperty(value = {"已维修设备数量","已维修设备数量"},index = 8)
-    @ApiModelProperty(value = "已维修设备数量", name = "numberRepairedEquipmen", required = false, example = "2")
-    @Column(name = "number_repaired_equipmen")
-    private Integer numberRepairedEquipmen;
+    @ExcelProperty(value = {"巡检时间","巡检时间"},index = 7)
+    @ApiModelProperty(value = "巡检时间", name = "inspectionTime", required = false, example = "2020-04-24")
+    @Column(name = "inspection_time")
+    private String inspectionTime;
 
     /**
      * 创建时间
@@ -122,21 +108,13 @@ public class InspectionPlan extends BaseRowModel{
     private String updateTime;
 
     
-    /**
-     * 创建年份
-     */
-    @ApiModelProperty(value = "创建年份", name = "createYear", required = false, example = "2020")
-    @Column(name = "create_year")
-    private String createYear;
-    
-    public interface InspectionPlanCreateChecks {
+    public interface InspectionPlanCreateChecks  {
 
     }
 
     public interface InspectionPlanUpdateChecks {
 
     }
-    
     
     /**
      * 获取巡检计划编号
@@ -193,111 +171,75 @@ public class InspectionPlan extends BaseRowModel{
     }
 
     /**
-     * 获取巡检负责人
+     * 获取巡检人
      *
-     * @return person_in_charge - 巡检负责人
+     * @return inspector - 巡检人
      */
-    public String getPersonInCharge() {
-        return personInCharge;
+    public String getInspector() {
+        return inspector;
     }
 
     /**
-     * 设置巡检负责人
+     * 设置巡检人
      *
-     * @param personInCharge 巡检负责人
+     * @param inspector 巡检人
      */
-    public void setPersonInCharge(String personInCharge) {
-        this.personInCharge = personInCharge;
+    public void setInspector(String inspector) {
+        this.inspector = inspector;
     }
 
     /**
-     * 获取巡检负责人编号
+     * 获取巡检编号
      *
-     * @return person_in_charge_id - 巡检负责人编号
+     * @return inspector_id - 巡检编号
      */
-    public Integer getPersonInChargeId() {
-        return personInChargeId;
+    public Integer getInspectorId() {
+        return inspectorId;
     }
 
     /**
-     * 设置巡检负责人编号
+     * 设置巡检编号
      *
-     * @param personInChargeId 巡检负责人编号
+     * @param inspectorId 巡检编号
      */
-    public void setPersonInChargeId(Integer personInChargeId) {
-        this.personInChargeId = personInChargeId;
+    public void setInspectorId(Integer inspectorId) {
+        this.inspectorId = inspectorId;
     }
 
     /**
-     * 获取巡检周期
+     * 获取本次巡检设备数
      *
-     * @return inspection_cycle - 巡检周期
+     * @return normal_devices_in_inspection - 本次巡检设备数
      */
-    public String getInspectionCycle() {
-        return inspectionCycle;
+    public Integer getNormalDevicesInInspection() {
+        return normalDevicesInInspection;
     }
 
     /**
-     * 设置巡检周期
+     * 设置本次巡检设备数
      *
-     * @param inspectionCycle 巡检周期
+     * @param normalDevicesInInspection 本次巡检设备数
      */
-    public void setInspectionCycle(String inspectionCycle) {
-        this.inspectionCycle = inspectionCycle;
+    public void setNormalDevicesInInspection(Integer normalDevicesInInspection) {
+        this.normalDevicesInInspection = normalDevicesInInspection;
     }
 
     /**
-     * 获取巡检周期编号
+     * 获取正常设备数量
      *
-     * @return inspection_cycle_code - 巡检周期编号
+     * @return number_normal_devices - 正常设备数量
      */
-    public String getInspectionCycleCode() {
-        return inspectionCycleCode;
+    public Integer getNumberNormalDevices() {
+        return numberNormalDevices;
     }
 
     /**
-     * 设置巡检周期编号
+     * 设置正常设备数量
      *
-     * @param inspectionCycleCode 巡检周期编号
+     * @param numberNormalDevices 正常设备数量
      */
-    public void setInspectionCycleCode(String inspectionCycleCode) {
-        this.inspectionCycleCode = inspectionCycleCode;
-    }
-
-    /**
-     * 获取本年度应巡检次数
-     *
-     * @return inspection_times_year - 本年度应巡检次数
-     */
-    public Integer getInspectionTimesYear() {
-        return inspectionTimesYear;
-    }
-
-    /**
-     * 设置本年度应巡检次数
-     *
-     * @param inspectionTimesYear 本年度应巡检次数
-     */
-    public void setInspectionTimesYear(Integer inspectionTimesYear) {
-        this.inspectionTimesYear = inspectionTimesYear;
-    }
-
-    /**
-     * 获取本年度已巡检次数
-     *
-     * @return inspectioned_times_year - 本年度已巡检次数
-     */
-    public Integer getInspectionedTimesYear() {
-        return inspectionedTimesYear;
-    }
-
-    /**
-     * 设置本年度已巡检次数
-     *
-     * @param inspectionedTimesYear 本年度已巡检次数
-     */
-    public void setInspectionedTimesYear(Integer inspectionedTimesYear) {
-        this.inspectionedTimesYear = inspectionedTimesYear;
+    public void setNumberNormalDevices(Integer numberNormalDevices) {
+        this.numberNormalDevices = numberNormalDevices;
     }
 
     /**
@@ -337,21 +279,21 @@ public class InspectionPlan extends BaseRowModel{
     }
 
     /**
-     * 获取已维修设备数量
+     * 获取巡检时间
      *
-     * @return number_repaired_equipmen - 已维修设备数量
+     * @return inspection_time - 巡检时间
      */
-    public Integer getNumberRepairedEquipmen() {
-        return numberRepairedEquipmen;
+    public String getInspectionTime() {
+        return inspectionTime;
     }
 
     /**
-     * 设置已维修设备数量
+     * 设置巡检时间
      *
-     * @param numberRepairedEquipmen 已维修设备数量
+     * @param inspectionTime 巡检时间
      */
-    public void setNumberRepairedEquipmen(Integer numberRepairedEquipmen) {
-        this.numberRepairedEquipmen = numberRepairedEquipmen;
+    public void setInspectionTime(String inspectionTime) {
+        this.inspectionTime = inspectionTime;
     }
 
     /**
@@ -388,23 +330,5 @@ public class InspectionPlan extends BaseRowModel{
      */
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
-    }
-    
-    /**
-     * 获取创建年份
-     *
-     * @return create_year - 创建年份
-     */
-    public String getCreateYear() {
-        return createYear;
-    }
-
-    /**
-     * 设置创建年份
-     *
-     * @param updateTime 创建年份
-     */
-    public void setCreateYear(String createYear) {
-        this.createYear = createYear;
     }
 }

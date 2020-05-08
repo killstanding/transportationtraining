@@ -1,24 +1,21 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="tech.wetech.admin.modules.training.mapper.InspectionPlanMapper" >
-  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.InspectionPlan" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tech.wetech.admin.modules.training.mapper.InspectionPlanMapper">
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.InspectionPlan">
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="room_id" property="roomId" jdbcType="INTEGER" />
-    <result column="room_name" property="roomName" jdbcType="VARCHAR" />
-    <result column="person_in_charge" property="personInCharge" jdbcType="VARCHAR" />
-    <result column="person_in_charge_id" property="personInChargeId" jdbcType="INTEGER" />
-    <result column="inspection_cycle" property="inspectionCycle" jdbcType="VARCHAR" />
-    <result column="inspection_cycle_code" property="inspectionCycleCode" jdbcType="VARCHAR" />
-    <result column="inspection_times_year" property="inspectionTimesYear" jdbcType="INTEGER" />
-    <result column="inspectioned_times_year" property="inspectionedTimesYear" jdbcType="INTEGER" />
-    <result column="number_abnormal_devices" property="numberAbnormalDevices" jdbcType="INTEGER" />
-    <result column="number_reported_repair_equipment" property="numberReportedRepairEquipment" jdbcType="INTEGER" />
-    <result column="number_repaired_equipmen" property="numberRepairedEquipmen" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
-    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
-    <result column="create_year" property="createYear" jdbcType="VARCHAR" />
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="room_id" jdbcType="INTEGER" property="roomId" />
+    <result column="room_name" jdbcType="VARCHAR" property="roomName" />
+    <result column="inspector" jdbcType="VARCHAR" property="inspector" />
+    <result column="inspector_id" jdbcType="INTEGER" property="inspectorId" />
+    <result column="normal_devices_in_inspection" jdbcType="INTEGER" property="normalDevicesInInspection" />
+    <result column="number_normal_devices" jdbcType="INTEGER" property="numberNormalDevices" />
+    <result column="number_abnormal_devices" jdbcType="INTEGER" property="numberAbnormalDevices" />
+    <result column="number_reported_repair_equipment" jdbcType="INTEGER" property="numberReportedRepairEquipment" />
+    <result column="inspection_time" jdbcType="VARCHAR" property="inspectionTime" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
   </resultMap>
 </mapper>

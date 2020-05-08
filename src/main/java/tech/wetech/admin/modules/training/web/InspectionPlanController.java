@@ -16,8 +16,10 @@ import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.InspectionPlan;
 import tech.wetech.admin.modules.training.service.InspectionPlanService;
+import tech.wetech.admin.modules.training.service.TrainingRoomService;
 import tech.wetech.excel.ExcelWriteUtil;
 
 import org.springframework.ui.Model;
@@ -37,9 +39,17 @@ public class InspectionPlanController extends BaseCrudController<InspectionPlan>
     private InspectionPlanService service;
     @Autowired
     private ConfigProperties configProperties;
+    
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private TrainingRoomService trainingRoomService;
+    
     @GetMapping
     @RequiresPermissions("inspectionplan:view")
     public String userPage(Model model) {
+    	model.addAttribute("userList", userService.queryAll());
+    	model.addAttribute("trainingRoomList", trainingRoomService.queryAll());
         return "system/inspectionplan";
     }
     
@@ -50,7 +60,7 @@ public class InspectionPlanController extends BaseCrudController<InspectionPlan>
     @Override
     public Result<List<InspectionPlan>> queryList(InspectionPlan entity, PageQuery pageQuery) {
     	
-        Page<InspectionPlan> page = (Page<InspectionPlan>) service.queryListByLike(entity, pageQuery);
+        Page<InspectionPlan> page = (Page<InspectionPlan>) service.queryList(entity, pageQuery);
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
     
@@ -62,10 +72,8 @@ public class InspectionPlanController extends BaseCrudController<InspectionPlan>
     public Result<String> create(@Validated(InspectionPlan.InspectionPlanCreateChecks.class) InspectionPlan entity) {
     	Date cur = new Date();
     	String curTime  = DateUtil.dateToStr(cur, DateUtil.TIME_FORMATE);
-    	String curYear = DateUtil.dateToStr(cur, DateUtil.YEAR_FORMATE);
     	entity.setCreateTime(curTime);
     	entity.setUpdateTime(curTime);
-    	entity.setCreateYear(curYear);
     	service.create(entity);
         return Result.success();
     }
@@ -85,7 +93,7 @@ public class InspectionPlanController extends BaseCrudController<InspectionPlan>
     @ResponseBody
     @PostMapping("/delete-batch")
     @RequiresPermissions("inspectionplan:delete")
-    @SystemLog("   删除")
+    @SystemLog("设备管理巡检计划删除")
     @Override
     public Result<String> deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {
         super.deleteBatchByIds(ids);
