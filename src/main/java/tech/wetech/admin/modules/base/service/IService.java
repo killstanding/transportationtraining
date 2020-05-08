@@ -35,5 +35,7 @@ public interface IService<T> {
     int deleteById(Object id);
 
     int count(T entity);
+    
+    public List<T> keyValueByExample(T entity);
 
 }
