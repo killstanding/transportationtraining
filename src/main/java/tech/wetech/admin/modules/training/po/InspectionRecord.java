@@ -23,7 +23,7 @@ public class InspectionRecord  extends BaseRowModel{
      * 资产编号
      */
     @ExcelProperty(value = {"资产编号","资产编号"},index = 0)
-    @ApiModelProperty(value = "资产编号(系统生成)", name = "id", required = false, example = "1")
+    @ApiModelProperty(value = "资产编号(系统生成)", name = "assetCode", required = false, example = "1")
     @NotNull(message = "资产编号不能为空",groups = InspectionRecordCreateChecks.class)
     @Column(name = "asset_code")
     private String assetCode;
