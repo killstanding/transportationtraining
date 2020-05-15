@@ -21,4 +21,5 @@
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
     <result column="create_year" property="createYear" jdbcType="VARCHAR" />
   </resultMap>
+  
 </mapper>

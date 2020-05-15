@@ -17,7 +17,6 @@ import com.alibaba.excel.metadata.Sheet;
 import com.alibaba.excel.metadata.TableStyle;
 import com.alibaba.excel.support.ExcelTypeEnum;
 
-
 public class ExcelWriteUtil {
 	
 	private final static Logger logger = LoggerFactory.getLogger(ExcelReadUtil.class);

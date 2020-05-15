@@ -20,4 +20,5 @@
     <result column="room_code" property="roomCode" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
   </resultMap>
+  
 </mapper>

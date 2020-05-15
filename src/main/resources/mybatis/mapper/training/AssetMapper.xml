@@ -36,7 +36,6 @@
      group by t.asset_status_code,t.asset_status
   </select>
 
-
   <update id="updateCodeById" parameterType="tech.wetech.admin.modules.training.po.Asset">
 		UPDATE t_asset t 
 		SET t.use_department_id = ( SELECT o.id FROM sys_organization o WHERE o.NAME = t.use_department ),
@@ -47,8 +46,6 @@
 			t.asset_classification_code = ( SELECT c.classification_code FROM t_asset_classification c WHERE c.classification_name = t.asset_classification ),
 			t.room_id =(select tr.id from t_training_room tr where tr.room_name = t.room_name)
 		where t.id=#{id}
-</update>
-
-
+  </update>
 
 </mapper>
