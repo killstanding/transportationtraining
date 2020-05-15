@@ -5,17 +5,18 @@
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="asset_code" jdbcType="VARCHAR" property="assetCode" />
-    <result column="asset_classification_code" jdbcType="VARCHAR" property="assetClassificationCode" />
-    <result column="asset_classification" jdbcType="VARCHAR" property="assetClassification" />
-    <result column="asset_status" jdbcType="VARCHAR" property="assetStatus" />
-    <result column="asset_status_code" jdbcType="VARCHAR" property="assetStatusCode" />
-    <result column="is_repair" jdbcType="INTEGER" property="isRepair" />
-    <result column="status_description" jdbcType="VARCHAR" property="statusDescription" />
-    <result column="plan_id" jdbcType="INTEGER" property="planId" />
-    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
-    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
-    <result column="repair_order_no" jdbcType="VARCHAR" property="repairOrderNo" />
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="asset_code" property="assetCode" jdbcType="VARCHAR" />
+    <result column="asset_classification_code" property="assetClassificationCode" jdbcType="VARCHAR" />
+    <result column="asset_classification" property="assetClassification" jdbcType="VARCHAR" />
+    <result column="asset_status" property="assetStatus" jdbcType="VARCHAR" />
+    <result column="asset_status_code" property="assetStatusCode" jdbcType="VARCHAR" />
+    <result column="is_repair" property="isRepair" jdbcType="INTEGER" />
+    <result column="status_description" property="statusDescription" jdbcType="VARCHAR" />
+    <result column="plan_id" property="planId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="repair_order_no" property="repairOrderNo" jdbcType="VARCHAR" />
+    <result column="asset_name" property="assetName" jdbcType="VARCHAR" />
   </resultMap>
 </mapper>

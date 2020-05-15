@@ -28,6 +28,7 @@ public class InspectionRecord  extends BaseRowModel{
     @Column(name = "asset_code")
     private String assetCode;
 
+
     /**
      * 资产分类编号
      */
@@ -45,11 +46,21 @@ public class InspectionRecord  extends BaseRowModel{
     @Column(name = "asset_classification")
     private String assetClassification;
 
+    
+    /**
+     * 资产名称
+     */
+    @ApiModelProperty(value = "资产名称", name = "assetName", required = false, example = "丰田皇冠教具车")
+    @ExcelProperty(value = {"资产名称","资产名称"},index = 2)
+    @Column(name = "asset_name")
+    private String assetName;
+    
+    
     /**
      * 资产状态
      */
     @ApiModelProperty(value = "资产状态", name = "assetStatus", required = false, example = "正常")
-    @ExcelProperty(value = {"资产状态","资产状态"},index = 2)
+    @ExcelProperty(value = {"资产状态","资产状态"},index = 3)
     @NotNull(message = " 资产状态不能为空",groups = InspectionRecordCreateChecks.class)
     @Column(name = "asset_status")
     private String assetStatus;
@@ -66,7 +77,7 @@ public class InspectionRecord  extends BaseRowModel{
      * 是否维修 是 1 否 0 
      */
     @ApiModelProperty(value = "是否维修 是 1 否 0 ", name = "isRepair", required = false, example = "0")
-    @ExcelProperty(value = {"是否维修 是 1 否 0 ","是否维修 是 1 否 0 "},index = 3)
+    @ExcelProperty(value = {"是否维修 是 1 否 0 ","是否维修 是 1 否 0 "},index = 4)
     @NotNull(message = " 是否维修不能为空",groups = InspectionRecordCreateChecks.class)
     @Column(name = "is_repair")
     private Integer isRepair;
@@ -75,7 +86,7 @@ public class InspectionRecord  extends BaseRowModel{
      * 状态描述
      */
     @ApiModelProperty(value = "状态描述", name = "isRepair", required = false, example = "设备正常")
-    @ExcelProperty(value = {"状态描述","状态描述"},index = 4)
+    @ExcelProperty(value = {"状态描述","状态描述"},index = 5)
     @Column(name = "status_description")
     private String statusDescription;
 
