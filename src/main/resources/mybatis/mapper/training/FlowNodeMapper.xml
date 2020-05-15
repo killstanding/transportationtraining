@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tech.wetech.admin.modules.training.mapper.FlowNodeMapper" >
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.FlowNode" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="flow_node_name" property="flowNodeName" jdbcType="VARCHAR" />
+    <result column="flow_node_code" property="flowNodeCode" jdbcType="VARCHAR" />
+    <result column="flow_type_name" property="flowTypeName" jdbcType="VARCHAR" />
+    <result column="flow_type_code" property="flowTypeCode" jdbcType="VARCHAR" />
+    <result column="flow_node_order" property="flowNodeOrder" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

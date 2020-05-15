@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tech.wetech.admin.modules.training.mapper.MaintenanceRecordMapper" >
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.MaintenanceRecord" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="record_id" property="recordId" jdbcType="VARCHAR" />
+    <result column="record_name" property="recordName" jdbcType="VARCHAR" />
+    <result column="asset_id" property="assetId" jdbcType="INTEGER" />
+    <result column="asset_code" property="assetCode" jdbcType="VARCHAR" />
+    <result column="asset_name" property="assetName" jdbcType="VARCHAR" />
+    <result column="asset_classification_code" property="assetClassificationCode" jdbcType="VARCHAR" />
+    <result column="asset_classification" property="assetClassification" jdbcType="VARCHAR" />
+    <result column="flow_status_code" property="flowStatusCode" jdbcType="VARCHAR" />
+    <result column="flow_status" property="flowStatus" jdbcType="VARCHAR" />
+    <result column="maintenance_costs" property="maintenanceCosts" jdbcType="VARCHAR" />
+    <result column="applicant" property="applicant" jdbcType="VARCHAR" />
+    <result column="applicant_id" property="applicantId" jdbcType="INTEGER" />
+    <result column="applicant_department" property="applicantDepartment" jdbcType="VARCHAR" />
+    <result column="applicant_department_id" property="applicantDepartmentId" jdbcType="INTEGER" />
+    <result column="position_code" property="positionCode" jdbcType="VARCHAR" />
+    <result column="position_name" property="positionName" jdbcType="VARCHAR" />
+    <result column="failure_time" property="failureTime" jdbcType="VARCHAR" />
+    <result column="fault_description" property="faultDescription" jdbcType="VARCHAR" />
+    <result column="attachment_name" property="attachmentName" jdbcType="VARCHAR" />
+    <result column="attachment_path" property="attachmentPath" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tech.wetech.admin.modules.training.mapper.MaintenanceRecordResultsMapper" >
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.MaintenanceRecordResults" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="record_person" property="recordPerson" jdbcType="VARCHAR" />
+    <result column="record_person_id" property="recordPersonId" jdbcType="INTEGER" />
+    <result column="record_department" property="recordDepartment" jdbcType="VARCHAR" />
+    <result column="record_department_id" property="recordDepartmentId" jdbcType="INTEGER" />
+    <result column="is_repaired" property="isRepaired" jdbcType="INTEGER" />
+    <result column="maintenance_costs" property="maintenanceCosts" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="record_id" property="recordId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

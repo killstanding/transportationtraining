@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tech.wetech.admin.modules.training.mapper.FailureConfirmationMapper" >
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.FailureConfirmation" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="confirming_person" property="confirmingPerson" jdbcType="VARCHAR" />
+    <result column="confirming_person_id" property="confirmingPersonId" jdbcType="INTEGER" />
+    <result column="confirmation_department" property="confirmationDepartment" jdbcType="VARCHAR" />
+    <result column="confirmation_department_id" property="confirmationDepartmentId" jdbcType="INTEGER" />
+    <result column="repair_required" property="repairRequired" jdbcType="INTEGER" />
+    <result column="maintenance_cost_estimate" property="maintenanceCostEstimate" jdbcType="VARCHAR" />
+    <result column="maintenance_type" property="maintenanceType" jdbcType="VARCHAR" />
+    <result column="maintenance_type_code" property="maintenanceTypeCode" jdbcType="VARCHAR" />
+    <result column="maintenance_cooperation_unit" property="maintenanceCooperationUnit" jdbcType="VARCHAR" />
+    <result column="maintenance_cooperation_unit_id" property="maintenanceCooperationUnitId" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="attachment_name" property="attachmentName" jdbcType="VARCHAR" />
+    <result column="attachment_path" property="attachmentPath" jdbcType="VARCHAR" />
+    <result column="record_id" property="recordId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>
