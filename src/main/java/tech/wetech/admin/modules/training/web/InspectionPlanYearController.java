@@ -16,8 +16,12 @@ import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.InspectionPlanYear;
+import tech.wetech.admin.modules.training.po.PubCode;
 import tech.wetech.admin.modules.training.service.InspectionPlanYearService;
+import tech.wetech.admin.modules.training.service.PubCodeService;
+import tech.wetech.admin.modules.training.service.TrainingRoomService;
 import tech.wetech.excel.ExcelWriteUtil;
 
 import org.springframework.ui.Model;
@@ -34,12 +38,22 @@ public class InspectionPlanYearController extends BaseCrudController<InspectionP
 
     @Autowired
     private InspectionPlanYearService service;
+	@Autowired
+    private PubCodeService pubCodeService;
     @Autowired
     private ConfigProperties configProperties;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private TrainingRoomService trainingRoomService;
     @GetMapping
     @RequiresPermissions("inspectionplanyear:view")
     public String userPage(Model model) {
-    	
+    	PubCode pubCode = new PubCode();
+		pubCode.setPubType("inspection_cycle");
+		model.addAttribute("inspectionCycleList", pubCodeService.queryList(pubCode));
+		model.addAttribute("userList", userService.queryAll());
+		model.addAttribute("trainingRoomList", trainingRoomService.queryAll());
         return "system/inspectionplanyear";
     }
     
