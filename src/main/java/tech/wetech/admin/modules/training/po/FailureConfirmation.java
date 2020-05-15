@@ -14,7 +14,7 @@ public class FailureConfirmation {
      */
     @Id
     @NotNull(groups = FailureConfirmationUpdateChecks.class)
-    @ApiModelProperty(value = "流主任审批编号（系统生成）", name = "id", required = false, example = "1")
+    @ApiModelProperty(value = "故障确认编号（系统生成）", name = "id", required = false, example = "1")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 

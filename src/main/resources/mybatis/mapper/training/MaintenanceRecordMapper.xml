@@ -29,4 +29,9 @@
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <select id="selectCountNumGourpByStatus" resultType="tech.wetech.admin.modules.training.po.StatusCountResult">
+  		select t.flow_status_code  as STATUS_CODE,t.flow_status  as STATUS_NAME, count(1)  as COUNT_NUM  from t_maintenance_record t
+   		group by  t.flow_status_code,t.flow_status
+  </select>
 </mapper>

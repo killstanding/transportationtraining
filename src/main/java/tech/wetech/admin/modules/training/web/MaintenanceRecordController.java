@@ -16,13 +16,18 @@ import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.training.po.FlowNode;
 import tech.wetech.admin.modules.training.po.MaintenanceRecord;
+import tech.wetech.admin.modules.training.po.StatusCountResult;
+import tech.wetech.admin.modules.training.service.FlowNodeService;
 import tech.wetech.admin.modules.training.service.MaintenanceRecordService;
 import tech.wetech.excel.ExcelWriteUtil;
 import org.springframework.ui.Model;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.constraints.NotNull;
 
@@ -35,13 +40,14 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
     private MaintenanceRecordService service;
     @Autowired
     private ConfigProperties configProperties;
-    
+    @Autowired
+    private FlowNodeService flowNodeService;
+	
     @GetMapping
     @RequiresPermissions("maintenancerecord:view")
     public String userPage(Model model) {
         return "system/maintenancerecord";
     }
-    
     
     @ResponseBody
     @GetMapping("/list")
@@ -50,6 +56,50 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
     public Result<List<MaintenanceRecord>> queryList(MaintenanceRecord entity, PageQuery pageQuery) {
         Page<MaintenanceRecord> page = (Page<MaintenanceRecord>) service.queryList(entity, pageQuery);
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
+    }
+    
+    @ApiOperation(value = "根据设备维修记录统计数量", notes = "根据设备维修记录统计数量")
+    @ResponseBody
+    @GetMapping("/getcountnumgourpbystatus")
+    @RequiresPermissions("asset:view")
+    public Result<List<StatusCountResult>> selectCountNumGourpByStatus() {
+    	FlowNode flowNode = new FlowNode();
+    	flowNode.setFlowTypeCode("equipment_maintenance");
+    	List<FlowNode> flowNodeList = flowNodeService.queryList(flowNode);
+    	List<StatusCountResult> result =  service.selectCountNumGourpByStatus();
+    	Map<String,String> isHaveMap = new HashMap<>();
+    	 int total = 0;
+    	if(result!=null){
+    		for (int i = 0; i < result.size(); i++) {
+        		StatusCountResult sc = result.get(i);
+        		if(isHaveMap.get(sc.getSTATUS_CODE())==null){
+        			isHaveMap.put(sc.getSTATUS_CODE(), sc.getSTATUS_NAME());
+        		}else{
+        			String numStr = sc.getCOUNT_NUM();
+        			total = total + Integer.parseInt(numStr);
+        		}
+    		}//for result
+    	}//if(result!=null)
+    	
+        for (int i = 0; i < flowNodeList.size(); i++) {
+        	FlowNode record = flowNodeList.get(i);
+			String code = record.getFlowNodeCode();
+			String name = record.getFlowNodeName();
+			if(isHaveMap.get(code)==null){
+				StatusCountResult sc = new StatusCountResult();
+				sc.setSTATUS_CODE(code);
+				sc.setSTATUS_NAME(name);
+				sc.setCOUNT_NUM("0");
+				result.add(sc);
+			}
+		}//for pubCodeList
+        StatusCountResult sc = new StatusCountResult();
+		sc.setSTATUS_CODE("total");
+		sc.setSTATUS_NAME("总数");
+		sc.setCOUNT_NUM(total+"");
+		result.add(sc);
+        
+        return Result.success(result);
     }
     
     @ResponseBody

@@ -2,10 +2,8 @@ package tech.wetech.admin.modules.training.po;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.metadata.BaseRowModel;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

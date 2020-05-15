@@ -31,8 +31,8 @@
     <result column="room_name" property="roomName" jdbcType="VARCHAR" />
   </resultMap>
   
-  <select id="selectCountNumGourpByStatus" resultType="java.util.Map">
-     select t.asset_status_code,t.asset_status, count(1) as countnum from t_asset t
+  <select id="selectCountNumGourpByStatus" resultType="tech.wetech.admin.modules.training.po.StatusCountResult">
+     select t.asset_status_code as STATUS_CODE ,t.asset_status as STATUS_NAME, count(1) as COUNT_NUM from t_asset t
      group by t.asset_status_code,t.asset_status
   </select>
 

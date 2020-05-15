@@ -24,6 +24,7 @@ import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.Asset;
 import tech.wetech.admin.modules.training.po.PubCode;
+import tech.wetech.admin.modules.training.po.StatusCountResult;
 import tech.wetech.admin.modules.training.service.AssetClassificationService;
 import tech.wetech.admin.modules.training.service.AssetService;
 import tech.wetech.admin.modules.training.service.AssetTypeService;
@@ -35,6 +36,7 @@ import tech.wetech.excel.ExcelReadUtil;
 import tech.wetech.excel.ExcelWriteUtil;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -89,12 +91,49 @@ public class AssetController extends BaseCrudController<Asset> {
         Page<Asset> page = (Page<Asset>) service.queryListByLike(entity, pageQuery);
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
+    
+    
     @ApiOperation(value = "根据资源状态统计数量", notes = "根据资源状态统计数量")
     @ResponseBody
     @GetMapping("/getcountnumgourpbystatus")
     @RequiresPermissions("asset:view")
-    public Result<Map<String, String>> selectCountNumGourpByStatus() {
-        Map<String, String> result =  service.selectCountNumGourpByStatus();
+    public Result<List<StatusCountResult>> selectCountNumGourpByStatus() {
+    	PubCode pubCode = new PubCode();
+    	pubCode.setPubType("inspection_cycle");
+    	List<PubCode> pubCodeList = pubCodeService.queryList(pubCode);
+    	List<StatusCountResult> result =  service.selectCountNumGourpByStatus();
+    	Map<String,String> isHaveMap = new HashMap<>();
+    	 int total = 0;
+    	if(result!=null){
+    		for (int i = 0; i < result.size(); i++) {
+        		StatusCountResult sc = result.get(i);
+        		if(isHaveMap.get(sc.getSTATUS_CODE())==null){
+        			isHaveMap.put(sc.getSTATUS_CODE(), sc.getSTATUS_NAME());
+        		}else{
+        			String numStr = sc.getCOUNT_NUM();
+        			total = total + Integer.parseInt(numStr);
+        		}
+    		}//for result
+    	}//if(result!=null)
+    	
+        for (int i = 0; i < pubCodeList.size(); i++) {
+			PubCode record = pubCodeList.get(i);
+			String pubCodeStr = record.getPubCode();
+			String pubCodeName = record.getPubName();
+			if(isHaveMap.get(pubCodeStr)==null){
+				StatusCountResult sc = new StatusCountResult();
+				sc.setSTATUS_CODE(pubCodeStr);
+				sc.setSTATUS_NAME(pubCodeName);
+				sc.setCOUNT_NUM("0");
+				result.add(sc);
+			}
+		}//for pubCodeList
+        StatusCountResult sc = new StatusCountResult();
+		sc.setSTATUS_CODE("total");
+		sc.setSTATUS_NAME("总数");
+		sc.setCOUNT_NUM(total+"");
+		result.add(sc);
+        
         return Result.success(result);
     }
     
