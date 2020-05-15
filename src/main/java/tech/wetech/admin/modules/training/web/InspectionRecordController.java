@@ -44,16 +44,16 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
     private UserService userService;
     
     @GetMapping
-    @RequiresPermissions("inspectionplan:view")
+    @RequiresPermissions("inspectionrecord:view")
     public String userPage(Model model) {
     	model.addAttribute("userList", userService.queryAll());
-        return "system/inspectionplan";
+        return "system/inspectionrecord";
     }
     
     
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("inspectionplan:view")
+    @RequiresPermissions("inspectionrecord:view")
     @Override
     public Result<List<InspectionRecord>> queryList(InspectionRecord entity, PageQuery pageQuery) {
     	
@@ -63,7 +63,7 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
     
     @ResponseBody
     @PostMapping("/create")
-    @RequiresPermissions("inspectionplan:create")
+    @RequiresPermissions("inspectionrecord:create")
     @SystemLog("设备管理巡检记录创建")
     @Override
     public Result<String> create(@Validated(InspectionRecord.InspectionRecordCreateChecks.class) InspectionRecord entity) {
@@ -77,7 +77,7 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
   
     @ResponseBody
     @PostMapping("/update")
-    @RequiresPermissions("inspectionplan:update")
+    @RequiresPermissions("inspectionrecord:update")
     @SystemLog("设备管理巡检记录更新")
     @Override
     public Result<String> update(@Validated(InspectionRecord.InspectionRecordUpdateChecks.class) InspectionRecord entity) {
@@ -89,7 +89,7 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
 
     @ResponseBody
     @PostMapping("/delete-batch")
-    @RequiresPermissions("inspectionplan:delete")
+    @RequiresPermissions("inspectionrecord:delete")
     @SystemLog("设备管理巡检记录删除")
     @Override
     public Result<String> deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {
@@ -99,7 +99,7 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
 
 	@PostMapping("/exportexcel")
 	@ApiOperation(value = "导出")
-	@RequiresPermissions("inspectionplan:exportexcel")
+	@RequiresPermissions("inspectionrecord:exportexcel")
 	public Result<String> exportExcel(InspectionRecord entity) {
 		String fileName="";
 		try {
