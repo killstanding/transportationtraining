@@ -193,7 +193,7 @@ public abstract class BaseService<T> implements IService<T> {
 			} else {
 				if ("java.lang.String".equals(canonicalNameType)) {
 					criteria.andLike(fieldName, keyValue);
-					example.or(criteria);
+					example.and(criteria);
 				}
 				// TODO 其它类型
 			}
