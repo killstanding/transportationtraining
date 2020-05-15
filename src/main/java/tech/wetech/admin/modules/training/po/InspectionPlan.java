@@ -94,6 +94,15 @@ public class InspectionPlan  extends BaseRowModel{
     private String inspectionTime;
 
     /**
+     * 巡检状态 0 正常 1 异常
+     */
+    @ExcelProperty(value = {"巡检状态 0 正常 1 异常","巡检状态 0 正常 1 异常"},index = 8)
+    @ApiModelProperty(value = "巡检状态 0 正常 1 异常", name = "inspectionStatus", required = false, example = "0")
+    @Column(name = "inspection_status")
+    private String inspectionStatus;
+    
+    
+    /**
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间", name = "createTime", required = false, example = "2020-04-24 18:00:00")
@@ -330,5 +339,23 @@ public class InspectionPlan  extends BaseRowModel{
      */
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+    
+    /**
+     * 获取巡检状态 0 正常 1 异常
+     *
+     * @return inspection_status - 巡检状态 0 正常 1 异常
+     */
+    public String getInspectionStatus() {
+        return inspectionStatus;
+    }
+
+    /**
+     * 设置巡检状态 0 正常 1 异常
+     *
+     * @param inspectionStatus 巡检状态 0 正常 1 异常
+     */
+    public void setInspectionStatus(String inspectionStatus) {
+        this.inspectionStatus = inspectionStatus;
     }
 }
