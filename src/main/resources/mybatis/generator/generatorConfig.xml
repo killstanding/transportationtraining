@@ -19,19 +19,13 @@
                         password="${spring.datasource.password}">
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="tech.wetech.admin.modules.training.po" targetProject="src/main/java"/>
+        <javaModelGenerator targetPackage="tech.wetech.admin.modules.training.po" targetProject="src/main/resources"/>
 
-        <sqlMapGenerator targetPackage="tech.wetech.admin.modules.training.mapper" targetProject="src/main/java"/>
+        <sqlMapGenerator targetPackage="tech.wetech.admin.modules.training.mapper" targetProject="src/main/resources"/>
 
-        <javaClientGenerator targetPackage="tech.wetech.admin.modules.training.mapper" targetProject="src/main/java"
+        <javaClientGenerator targetPackage="tech.wetech.admin.modules.training.mapper" targetProject="src/main/resources"
                              type="XMLMAPPER"/>
-        <table schema="wetech_admin" tableName="t_inspection_plan" domainObjectName="InspectionPlan">
-            <!--mysql 配置-->
-            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
-            <!--oracle 配置-->
-            <!--<generatedKey column="id" sqlStatement="select SEQ_{1}.nextval from dual" identity="false" type="pre"/>-->
-        </table>
-        <table schema="wetech_admin" tableName="t_inspection_plan_year" domainObjectName="InspectionPlanYear">
+       <table schema="wetech_admin" tableName="t_inspection_plan" domainObjectName="InspectionPlan">
             <!--mysql 配置-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <!--oracle 配置-->
@@ -43,5 +37,6 @@
             <!--oracle 配置-->
             <!--<generatedKey column="id" sqlStatement="select SEQ_{1}.nextval from dual" identity="false" type="pre"/>-->
         </table>
+        
     </context>
 </generatorConfiguration>
