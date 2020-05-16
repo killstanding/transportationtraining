@@ -1,6 +1,5 @@
 package tech.wetech.admin.modules.training.web;
 
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,11 +18,9 @@ import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.UserService;
-import tech.wetech.admin.modules.training.po.Consumables;
-import tech.wetech.admin.modules.training.service.ConsumablesService;
+import tech.wetech.admin.modules.training.po.WarehousingRecord;
+import tech.wetech.admin.modules.training.service.WarehousingRecordService;
 import tech.wetech.admin.modules.training.service.PositionService;
-import tech.wetech.admin.modules.training.vo.FileVo;
-import tech.wetech.excel.ExcelReadUtil;
 import tech.wetech.excel.ExcelWriteUtil;
 
 import java.util.Date;
@@ -31,13 +28,13 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-@Api(value = "consumables", tags = {"consumables"}, description = "耗材管理")
+@Api(value = "warehousingrecord", tags = {"warehousingrecord"}, description = "入库记录")
 @Controller
-@RequestMapping("/consumables")
-public class ConsumablesController extends BaseCrudController<Consumables> {
+@RequestMapping("/warehousingrecord")
+public class WarehousingRecordController extends BaseCrudController<WarehousingRecord> {
 
 	@Autowired
-    private ConsumablesService service;
+    private WarehousingRecordService service;
 	@Autowired
 	private PositionService positionService;
     @Autowired
@@ -46,28 +43,28 @@ public class ConsumablesController extends BaseCrudController<Consumables> {
     private UserService userService;
     
     @GetMapping
-    @RequiresPermissions("consumables:view")
+    @RequiresPermissions("warehousingrecord:view")
     public String userPage(Model model) {
     	model.addAttribute("positionList", positionService.queryAll());
     	model.addAttribute("userList", userService.queryAll());
-        return "system/consumables";
+        return "system/warehousingrecord";
     }
     
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("consumables:view")
+    @RequiresPermissions("warehousingrecord:view")
     @Override
-    public Result<List<Consumables>> queryList(Consumables entity, PageQuery pageQuery) {
-        Page<Consumables> page = (Page<Consumables>) service.queryListByLike(entity, pageQuery);
+    public Result<List<WarehousingRecord>> queryList(WarehousingRecord entity, PageQuery pageQuery) {
+        Page<WarehousingRecord> page = (Page<WarehousingRecord>) service.queryListByLike(entity, pageQuery);
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
     
     @ResponseBody
     @PostMapping("/create")
-    //@RequiresPermissions("consumables:create")
-    @SystemLog("耗材管理耗材创建")
+    //@RequiresPermissions("warehousingrecord:create")
+    @SystemLog("入库记录创建")
     @Override
-    public Result<String> create(@Validated(Consumables.ConsumablesCreateChecks.class) Consumables entity) {
+    public Result<String> create(@Validated(WarehousingRecord.WarehousingRecordCreateChecks.class) WarehousingRecord entity) {
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
     	entity.setCreateTime(curTime);
     	entity.setUpdateTime(curTime);
@@ -77,10 +74,10 @@ public class ConsumablesController extends BaseCrudController<Consumables> {
   
     @ResponseBody
     @PostMapping("/update")
-    @RequiresPermissions("consumables:update")
-    @SystemLog("耗材管理耗材更新")
+    @RequiresPermissions("warehousingrecord:update")
+    @SystemLog("入库记录更新")
     @Override
-    public Result<String> update(@Validated(Consumables.ConsumablesUpdateChecks.class) Consumables entity) {
+    public Result<String> update(@Validated(WarehousingRecord.WarehousingRecordUpdateChecks.class) WarehousingRecord entity) {
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
     	entity.setUpdateTime(curTime);
     	service.updateNotNull(entity);
@@ -89,8 +86,8 @@ public class ConsumablesController extends BaseCrudController<Consumables> {
 
     @ResponseBody
     @PostMapping("/delete-batch")
-    @RequiresPermissions("consumables:delete")
-    @SystemLog("耗材管理耗材删除")
+    @RequiresPermissions("warehousingrecord:delete")
+    @SystemLog("入库记录删除")
     @Override
     public Result<String> deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {
         super.deleteBatchByIds(ids);
@@ -99,12 +96,12 @@ public class ConsumablesController extends BaseCrudController<Consumables> {
 
 	@PostMapping("/exportexcel")
 	@ApiOperation(value = "导出")
-	@RequiresPermissions("consumables:exportexcel")
-	public Result<String> exportExcel(Consumables entity) {
+	@RequiresPermissions("warehousingrecord:exportexcel")
+	public Result<String> exportExcel(WarehousingRecord entity) {
 		String fileName="";
 		try {
-			List<Consumables> list = service.keyValueByExample(entity);
-			fileName = ExcelWriteUtil.writeData(configProperties.getExcelPath(), list, Consumables.class, "耗材信息");
+			List<WarehousingRecord> list = service.keyValueByExample(entity);
+			fileName = ExcelWriteUtil.writeData(configProperties.getExcelPath(), list, WarehousingRecord.class, "信息");
 		} catch (Exception e) {
 			e.printStackTrace();
 			Logger.error(getClass(), e.getMessage());
@@ -112,38 +109,5 @@ public class ConsumablesController extends BaseCrudController<Consumables> {
 		}
 		
 		return Result.success(fileName);
-	}
-	
-	
-	@PostMapping("/importexcel/")
-	@ApiOperation(value = "导入")
-	@RequiresPermissions("consumables:importexcel")
-	public Result<String> importExcel(FileVo file) {
-		try {
-			String syncTime = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
-			List<Object> list = ExcelReadUtil.readExcelData(file.getPath(), Consumables.class);
-			if(list!=null){
-				for (int i = 0; i < list.size(); i++) {
-					Consumables record = (Consumables)list.get(i);
-					record.setUpdateTime(syncTime);
-					//制定唯一编号 j根据id进行唯一性识别
-					Consumables mid = service.queryById(record);
-					if(mid!=null){
-						service.updateNotNull(record);
-					}else{
-						record.setCreateTime(syncTime);
-						service.create(record);
-					}//else
-					//更新编号
-					service.updateCodeById(record);
-					
-				}//for+
-			}//if(list!=null)
-		} catch (Exception e) {
-			e.printStackTrace();
-			Logger.error(getClass(), e.getMessage());
-			return Result.failure(ResultCodeEnum.NOT_IMPLEMENTED);
-		}
-		return Result.success();
 	}
 }

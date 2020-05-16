@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tech.wetech.admin.modules.training.mapper.CollectionRecordMapper" >
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.CollectionRecord" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="asset_id" property="assetId" jdbcType="INTEGER" />
+    <result column="asset_name" property="assetName" jdbcType="VARCHAR" />
+    <result column="asset_type" property="assetType" jdbcType="VARCHAR" />
+    <result column="asset_type_code" property="assetTypeCode" jdbcType="VARCHAR" />
+    <result column="collection time" property="collectionTime" jdbcType="VARCHAR" />
+    <result column="collection_major" property="collectionMajor" jdbcType="VARCHAR" />
+    <result column="collection_major_id" property="collectionMajorId" jdbcType="INTEGER" />
+    <result column="collection_course" property="collectionCourse" jdbcType="VARCHAR" />
+    <result column="collection_course_id" property="collectionCourseId" jdbcType="INTEGER" />
+    <result column="applicant" property="applicant" jdbcType="VARCHAR" />
+    <result column="applicant_id" property="applicantId" jdbcType="INTEGER" />
+    <result column="collected_quantity" property="collectedQuantity" jdbcType="VARCHAR" />
+    <result column="return_time" property="returnTime" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

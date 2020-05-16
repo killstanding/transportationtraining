@@ -19,11 +19,9 @@ import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.UserService;
-import tech.wetech.admin.modules.training.po.Consumables;
-import tech.wetech.admin.modules.training.service.ConsumablesService;
+import tech.wetech.admin.modules.training.po.CollectionRecord;
+import tech.wetech.admin.modules.training.service.CollectionRecordService;
 import tech.wetech.admin.modules.training.service.PositionService;
-import tech.wetech.admin.modules.training.vo.FileVo;
-import tech.wetech.excel.ExcelReadUtil;
 import tech.wetech.excel.ExcelWriteUtil;
 
 import java.util.Date;
@@ -31,13 +29,13 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-@Api(value = "consumables", tags = {"consumables"}, description = "耗材管理")
+@Api(value = "collectionrecord", tags = {"collectionrecord"}, description = "领用记录")
 @Controller
-@RequestMapping("/consumables")
-public class ConsumablesController extends BaseCrudController<Consumables> {
+@RequestMapping("/collectionrecord")
+public class CollectionRecordController extends BaseCrudController<CollectionRecord> {
 
 	@Autowired
-    private ConsumablesService service;
+    private CollectionRecordService service;
 	@Autowired
 	private PositionService positionService;
     @Autowired
@@ -46,28 +44,28 @@ public class ConsumablesController extends BaseCrudController<Consumables> {
     private UserService userService;
     
     @GetMapping
-    @RequiresPermissions("consumables:view")
+    @RequiresPermissions("collectionrecord:view")
     public String userPage(Model model) {
     	model.addAttribute("positionList", positionService.queryAll());
     	model.addAttribute("userList", userService.queryAll());
-        return "system/consumables";
+        return "system/collectionrecord";
     }
     
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("consumables:view")
+    @RequiresPermissions("collectionrecord:view")
     @Override
-    public Result<List<Consumables>> queryList(Consumables entity, PageQuery pageQuery) {
-        Page<Consumables> page = (Page<Consumables>) service.queryListByLike(entity, pageQuery);
+    public Result<List<CollectionRecord>> queryList(CollectionRecord entity, PageQuery pageQuery) {
+        Page<CollectionRecord> page = (Page<CollectionRecord>) service.queryListByLike(entity, pageQuery);
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
     
     @ResponseBody
     @PostMapping("/create")
-    //@RequiresPermissions("consumables:create")
-    @SystemLog("耗材管理耗材创建")
+    //@RequiresPermissions("collectionrecord:create")
+    @SystemLog("领用记录创建")
     @Override
-    public Result<String> create(@Validated(Consumables.ConsumablesCreateChecks.class) Consumables entity) {
+    public Result<String> create(@Validated(CollectionRecord.CollectionRecordCreateChecks.class) CollectionRecord entity) {
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
     	entity.setCreateTime(curTime);
     	entity.setUpdateTime(curTime);
@@ -77,10 +75,10 @@ public class ConsumablesController extends BaseCrudController<Consumables> {
   
     @ResponseBody
     @PostMapping("/update")
-    @RequiresPermissions("consumables:update")
-    @SystemLog("耗材管理耗材更新")
+    @RequiresPermissions("collectionrecord:update")
+    @SystemLog("领用记录更新")
     @Override
-    public Result<String> update(@Validated(Consumables.ConsumablesUpdateChecks.class) Consumables entity) {
+    public Result<String> update(@Validated(CollectionRecord.CollectionRecordUpdateChecks.class) CollectionRecord entity) {
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
     	entity.setUpdateTime(curTime);
     	service.updateNotNull(entity);
@@ -89,8 +87,8 @@ public class ConsumablesController extends BaseCrudController<Consumables> {
 
     @ResponseBody
     @PostMapping("/delete-batch")
-    @RequiresPermissions("consumables:delete")
-    @SystemLog("耗材管理耗材删除")
+    @RequiresPermissions("collectionrecord:delete")
+    @SystemLog("领用记录删除")
     @Override
     public Result<String> deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {
         super.deleteBatchByIds(ids);
@@ -99,12 +97,12 @@ public class ConsumablesController extends BaseCrudController<Consumables> {
 
 	@PostMapping("/exportexcel")
 	@ApiOperation(value = "导出")
-	@RequiresPermissions("consumables:exportexcel")
-	public Result<String> exportExcel(Consumables entity) {
+	@RequiresPermissions("collectionrecord:exportexcel")
+	public Result<String> exportExcel(CollectionRecord entity) {
 		String fileName="";
 		try {
-			List<Consumables> list = service.keyValueByExample(entity);
-			fileName = ExcelWriteUtil.writeData(configProperties.getExcelPath(), list, Consumables.class, "耗材信息");
+			List<CollectionRecord> list = service.keyValueByExample(entity);
+			fileName = ExcelWriteUtil.writeData(configProperties.getExcelPath(), list, CollectionRecord.class, "信息");
 		} catch (Exception e) {
 			e.printStackTrace();
 			Logger.error(getClass(), e.getMessage());
@@ -112,38 +110,5 @@ public class ConsumablesController extends BaseCrudController<Consumables> {
 		}
 		
 		return Result.success(fileName);
-	}
-	
-	
-	@PostMapping("/importexcel/")
-	@ApiOperation(value = "导入")
-	@RequiresPermissions("consumables:importexcel")
-	public Result<String> importExcel(FileVo file) {
-		try {
-			String syncTime = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
-			List<Object> list = ExcelReadUtil.readExcelData(file.getPath(), Consumables.class);
-			if(list!=null){
-				for (int i = 0; i < list.size(); i++) {
-					Consumables record = (Consumables)list.get(i);
-					record.setUpdateTime(syncTime);
-					//制定唯一编号 j根据id进行唯一性识别
-					Consumables mid = service.queryById(record);
-					if(mid!=null){
-						service.updateNotNull(record);
-					}else{
-						record.setCreateTime(syncTime);
-						service.create(record);
-					}//else
-					//更新编号
-					service.updateCodeById(record);
-					
-				}//for+
-			}//if(list!=null)
-		} catch (Exception e) {
-			e.printStackTrace();
-			Logger.error(getClass(), e.getMessage());
-			return Result.failure(ResultCodeEnum.NOT_IMPLEMENTED);
-		}
-		return Result.success();
 	}
 }
