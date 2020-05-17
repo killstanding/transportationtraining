@@ -31,8 +31,8 @@ public class Consumables extends BaseRowModel{
     /**
      * 耗材名称
      */
-    @ExcelProperty(value = {"耗材编号（自编）","耗材编号（自编）"},index = 2)
-    @ApiModelProperty(value = "耗材编号（自编）", name = "consumablesCode", required = false, example = "发动机机油")
+    @ExcelProperty(value = {"耗材名称","耗材名称"},index = 2)
+    @ApiModelProperty(value = "耗材名称", name = "consumablesName", required = false, example = "发动机机油")
     @Column(name = "consumables_name")
     private String consumablesName;
 
