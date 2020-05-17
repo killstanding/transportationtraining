@@ -14,43 +14,42 @@ import tech.wetech.admin.core.utils.DateUtil;
 import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
-import tech.wetech.admin.modules.training.po.CourseArrangement;
-import tech.wetech.admin.modules.training.service.CourseArrangementService;
+import tech.wetech.admin.modules.training.po.Courses;
+import tech.wetech.admin.modules.training.service.CoursesService;
 import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-@Api(value = "coursearrangement", tags = {"coursearrangement"}, description = "排课管理")
+@Api(value = "courses", tags = {"courses"}, description = "课程管理")
 @Controller
-@RequestMapping("/coursearrangement")
-public class CourseArrangementController extends BaseCrudController<CourseArrangement> {
+@RequestMapping("/courses")
+public class CoursesController extends BaseCrudController<Courses> {
 
 	@Autowired
-    private CourseArrangementService service;
-    
+    private CoursesService service;
     
     @GetMapping
-    @RequiresPermissions("coursearrangement:view")
+    @RequiresPermissions("courses:view")
     public String userPage(Model model) {
-        return "system/coursearrangement";
+        return "system/courses";
     }
     
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("coursearrangement:view")
+    @RequiresPermissions("courses:view")
     @Override
-    public Result<List<CourseArrangement>> queryList(CourseArrangement entity, PageQuery pageQuery) {
-        Page<CourseArrangement> page = (Page<CourseArrangement>) service.queryListByLike(entity, pageQuery);
+    public Result<List<Courses>> queryList(Courses entity, PageQuery pageQuery) {
+        Page<Courses> page = (Page<Courses>) service.queryListByLike(entity, pageQuery);
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
     
     @ResponseBody
     @PostMapping("/create")
-    //@RequiresPermissions("coursearrangement:create")
-    @SystemLog("排课管理排课创建")
+    //@RequiresPermissions("courses:create")
+    @SystemLog("课程管理课程创建")
     @Override
-    public Result<String> create(@Validated(CourseArrangement.CourseArrangementCreateChecks.class) CourseArrangement entity) {
+    public Result<String> create(@Validated(Courses.CoursesCreateChecks.class) Courses entity) {
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
     	entity.setCreateTime(curTime);
     	entity.setUpdateTime(curTime);
@@ -60,10 +59,10 @@ public class CourseArrangementController extends BaseCrudController<CourseArrang
   
     @ResponseBody
     @PostMapping("/update")
-    @RequiresPermissions("coursearrangement:update")
-    @SystemLog("排课管理排课更新")
+    @RequiresPermissions("courses:update")
+    @SystemLog("课程管理课程更新")
     @Override
-    public Result<String> update(@Validated(CourseArrangement.CourseArrangementUpdateChecks.class) CourseArrangement entity) {
+    public Result<String> update(@Validated(Courses.CoursesUpdateChecks.class) Courses entity) {
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
     	entity.setUpdateTime(curTime);
     	service.updateNotNull(entity);
@@ -72,11 +71,12 @@ public class CourseArrangementController extends BaseCrudController<CourseArrang
 
     @ResponseBody
     @PostMapping("/delete-batch")
-    @RequiresPermissions("coursearrangement:delete")
-    @SystemLog("排课管理排课删除")
+    @RequiresPermissions("courses:delete")
+    @SystemLog("课程管理课程删除")
     @Override
     public Result<String> deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {
         super.deleteBatchByIds(ids);
         return Result.success();
     }
+
 }

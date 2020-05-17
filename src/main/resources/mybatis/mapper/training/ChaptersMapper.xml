@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tech.wetech.admin.modules.training.mapper.ChaptersMapper" >
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.Chapters" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="chapter_name" property="chapterName" jdbcType="VARCHAR" />
+    <result column="chapter_sort" property="chapterSort" jdbcType="VARCHAR" />
+    <result column="chapter_level" property="chapterLevel" jdbcType="VARCHAR" />
+    <result column="training_rooms" property="trainingRooms" jdbcType="VARCHAR" />
+    <result column="training_room_ids" property="trainingRoomIds" jdbcType="VARCHAR" />
+    <result column="teaching_plan" property="teachingPlan" jdbcType="VARCHAR" />
+    <result column="teaching_plan_id" property="teachingPlanId" jdbcType="INTEGER" />
+    <result column="devices_required" property="devicesRequired" jdbcType="VARCHAR" />
+    <result column="device_ids_required" property="deviceIdsRequired" jdbcType="VARCHAR" />
+    <result column="consumables_required" property="consumablesRequired" jdbcType="VARCHAR" />
+    <result column="consumables_ids_required" property="consumablesIdsRequired" jdbcType="VARCHAR" />
+    <result column="course_id" property="courseId" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

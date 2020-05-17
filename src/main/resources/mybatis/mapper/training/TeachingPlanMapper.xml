@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tech.wetech.admin.modules.training.mapper.TeachingPlanMapper" >
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.TeachingPlan" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="teaching_plan_name" property="teachingPlanName" jdbcType="VARCHAR" />
+    <result column="estimated_time_duration" property="estimatedTimeDuration" jdbcType="VARCHAR" />
+    <result column="teaching_plan_description" property="teachingPlanDescription" jdbcType="VARCHAR" />
+    <result column="document_name" property="documentName" jdbcType="VARCHAR" />
+    <result column="document_path" property="documentPath" jdbcType="VARCHAR" />
+    <result column="video_name" property="videoName" jdbcType="VARCHAR" />
+    <result column="video_path" property="videoPath" jdbcType="VARCHAR" />
+    <result column="chapter_id" property="chapterId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

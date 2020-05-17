@@ -14,43 +14,43 @@ import tech.wetech.admin.core.utils.DateUtil;
 import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
-import tech.wetech.admin.modules.training.po.CourseArrangement;
-import tech.wetech.admin.modules.training.service.CourseArrangementService;
+import tech.wetech.admin.modules.training.po.CourseArrangementReAsset;
+import tech.wetech.admin.modules.training.service.CourseArrangementReAssetService;
 import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-@Api(value = "coursearrangement", tags = {"coursearrangement"}, description = "排课管理")
+@Api(value = "coursearrangementreasset", tags = {"coursearrangementreasset"}, description = "排课管理和设备关联")
 @Controller
-@RequestMapping("/coursearrangement")
-public class CourseArrangementController extends BaseCrudController<CourseArrangement> {
+@RequestMapping("/coursearrangementreasset")
+public class CourseArrangementReAssetController extends BaseCrudController<CourseArrangementReAsset> {
 
 	@Autowired
-    private CourseArrangementService service;
+    private CourseArrangementReAssetService service;
     
     
     @GetMapping
-    @RequiresPermissions("coursearrangement:view")
+    @RequiresPermissions("coursearrangementreasset:view")
     public String userPage(Model model) {
-        return "system/coursearrangement";
+        return "system/coursearrangementreasset";
     }
     
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("coursearrangement:view")
+    @RequiresPermissions("coursearrangementreasset:view")
     @Override
-    public Result<List<CourseArrangement>> queryList(CourseArrangement entity, PageQuery pageQuery) {
-        Page<CourseArrangement> page = (Page<CourseArrangement>) service.queryListByLike(entity, pageQuery);
+    public Result<List<CourseArrangementReAsset>> queryList(CourseArrangementReAsset entity, PageQuery pageQuery) {
+        Page<CourseArrangementReAsset> page = (Page<CourseArrangementReAsset>) service.queryListByLike(entity, pageQuery);
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
     
     @ResponseBody
     @PostMapping("/create")
-    //@RequiresPermissions("coursearrangement:create")
-    @SystemLog("排课管理排课创建")
+    //@RequiresPermissions("coursearrangementreasset:create")
+    @SystemLog("排课管理和设备关联创建")
     @Override
-    public Result<String> create(@Validated(CourseArrangement.CourseArrangementCreateChecks.class) CourseArrangement entity) {
+    public Result<String> create(@Validated(CourseArrangementReAsset.CourseArrangementReAssetCreateChecks.class) CourseArrangementReAsset entity) {
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
     	entity.setCreateTime(curTime);
     	entity.setUpdateTime(curTime);
@@ -60,10 +60,10 @@ public class CourseArrangementController extends BaseCrudController<CourseArrang
   
     @ResponseBody
     @PostMapping("/update")
-    @RequiresPermissions("coursearrangement:update")
-    @SystemLog("排课管理排课更新")
+    @RequiresPermissions("coursearrangementreasset:update")
+    @SystemLog("排课管理和设备关联更新")
     @Override
-    public Result<String> update(@Validated(CourseArrangement.CourseArrangementUpdateChecks.class) CourseArrangement entity) {
+    public Result<String> update(@Validated(CourseArrangementReAsset.CourseArrangementReAssetUpdateChecks.class) CourseArrangementReAsset entity) {
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
     	entity.setUpdateTime(curTime);
     	service.updateNotNull(entity);
@@ -72,8 +72,8 @@ public class CourseArrangementController extends BaseCrudController<CourseArrang
 
     @ResponseBody
     @PostMapping("/delete-batch")
-    @RequiresPermissions("coursearrangement:delete")
-    @SystemLog("排课管理排课删除")
+    @RequiresPermissions("coursearrangementreasset:delete")
+    @SystemLog("排课管理和设备关联删除")
     @Override
     public Result<String> deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {
         super.deleteBatchByIds(ids);

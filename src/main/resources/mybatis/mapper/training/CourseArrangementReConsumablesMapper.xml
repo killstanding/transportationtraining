@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tech.wetech.admin.modules.training.mapper.CourseArrangementReConsumablesMapper" >
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.CourseArrangementReConsumables" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="course_arrangement_id" property="courseArrangementId" jdbcType="INTEGER" />
+    <result column="consumables_id" property="consumablesId" jdbcType="INTEGER" />
+    <result column="consumables_code" property="consumablesCode" jdbcType="VARCHAR" />
+    <result column="consumables_name" property="consumablesName" jdbcType="VARCHAR" />
+    <result column="specification_type" property="specificationType" jdbcType="VARCHAR" />
+    <result column="specification_type_code" property="specificationTypeCode" jdbcType="VARCHAR" />
+    <result column="position_code" property="positionCode" jdbcType="VARCHAR" />
+    <result column="position_name" property="positionName" jdbcType="VARCHAR" />
+    <result column="number_of_applications" property="numberOfApplications" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

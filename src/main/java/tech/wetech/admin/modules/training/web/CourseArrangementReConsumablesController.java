@@ -14,43 +14,43 @@ import tech.wetech.admin.core.utils.DateUtil;
 import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
-import tech.wetech.admin.modules.training.po.CourseArrangement;
-import tech.wetech.admin.modules.training.service.CourseArrangementService;
+import tech.wetech.admin.modules.training.po.CourseArrangementReConsumables;
+import tech.wetech.admin.modules.training.service.CourseArrangementReConsumablesService;
 import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-@Api(value = "coursearrangement", tags = {"coursearrangement"}, description = "排课管理")
+@Api(value = "coursearrangementreconsumables", tags = {"coursearrangementreconsumables"}, description = "排课管理和耗材关联")
 @Controller
-@RequestMapping("/coursearrangement")
-public class CourseArrangementController extends BaseCrudController<CourseArrangement> {
+@RequestMapping("/coursearrangementreconsumables")
+public class CourseArrangementReConsumablesController extends BaseCrudController<CourseArrangementReConsumables> {
 
 	@Autowired
-    private CourseArrangementService service;
+    private CourseArrangementReConsumablesService service;
     
     
     @GetMapping
-    @RequiresPermissions("coursearrangement:view")
+    @RequiresPermissions("coursearrangementreconsumables:view")
     public String userPage(Model model) {
-        return "system/coursearrangement";
+        return "system/coursearrangementreconsumables";
     }
     
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("coursearrangement:view")
+    @RequiresPermissions("coursearrangementreconsumables:view")
     @Override
-    public Result<List<CourseArrangement>> queryList(CourseArrangement entity, PageQuery pageQuery) {
-        Page<CourseArrangement> page = (Page<CourseArrangement>) service.queryListByLike(entity, pageQuery);
+    public Result<List<CourseArrangementReConsumables>> queryList(CourseArrangementReConsumables entity, PageQuery pageQuery) {
+        Page<CourseArrangementReConsumables> page = (Page<CourseArrangementReConsumables>) service.queryListByLike(entity, pageQuery);
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
     
     @ResponseBody
     @PostMapping("/create")
-    //@RequiresPermissions("coursearrangement:create")
-    @SystemLog("排课管理排课创建")
+    //@RequiresPermissions("coursearrangementreconsumables:create")
+    @SystemLog("排课管理和耗材关联创建")
     @Override
-    public Result<String> create(@Validated(CourseArrangement.CourseArrangementCreateChecks.class) CourseArrangement entity) {
+    public Result<String> create(@Validated(CourseArrangementReConsumables.CourseArrangementReConsumablesCreateChecks.class) CourseArrangementReConsumables entity) {
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
     	entity.setCreateTime(curTime);
     	entity.setUpdateTime(curTime);
@@ -60,10 +60,10 @@ public class CourseArrangementController extends BaseCrudController<CourseArrang
   
     @ResponseBody
     @PostMapping("/update")
-    @RequiresPermissions("coursearrangement:update")
-    @SystemLog("排课管理排课更新")
+    @RequiresPermissions("coursearrangementreconsumables:update")
+    @SystemLog("排课管理和耗材关联更新")
     @Override
-    public Result<String> update(@Validated(CourseArrangement.CourseArrangementUpdateChecks.class) CourseArrangement entity) {
+    public Result<String> update(@Validated(CourseArrangementReConsumables.CourseArrangementReConsumablesUpdateChecks.class) CourseArrangementReConsumables entity) {
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
     	entity.setUpdateTime(curTime);
     	service.updateNotNull(entity);
@@ -72,8 +72,8 @@ public class CourseArrangementController extends BaseCrudController<CourseArrang
 
     @ResponseBody
     @PostMapping("/delete-batch")
-    @RequiresPermissions("coursearrangement:delete")
-    @SystemLog("排课管理排课删除")
+    @RequiresPermissions("coursearrangementreconsumables:delete")
+    @SystemLog("排课管理和耗材关联删除")
     @Override
     public Result<String> deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {
         super.deleteBatchByIds(ids);
