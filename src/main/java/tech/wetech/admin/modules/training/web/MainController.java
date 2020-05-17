@@ -6,12 +6,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.training.po.Sys;
 
 
 @Api(value = "main", tags = {"main"}, description = "主页")
 @Controller
 @RequestMapping("/main")
-public class MainController extends BaseCrudController<Object> {
+public class MainController extends BaseCrudController<Sys> {
 
     @GetMapping
     @RequiresPermissions("main:view")
