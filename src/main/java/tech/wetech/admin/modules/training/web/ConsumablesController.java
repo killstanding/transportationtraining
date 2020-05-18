@@ -20,6 +20,7 @@ import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.Consumables;
+import tech.wetech.admin.modules.training.service.AssetTypeService;
 import tech.wetech.admin.modules.training.service.ConsumablesService;
 import tech.wetech.admin.modules.training.service.PositionService;
 import tech.wetech.admin.modules.training.vo.FileVo;
@@ -44,12 +45,15 @@ public class ConsumablesController extends BaseCrudController<Consumables> {
     private ConfigProperties configProperties;
     @Autowired
     private UserService userService;
-    
+	@Autowired
+    private AssetTypeService assetTypeService;
+	
     @GetMapping
     @RequiresPermissions("consumables:view")
     public String userPage(Model model) {
     	model.addAttribute("positionList", positionService.queryAll());
     	model.addAttribute("userList", userService.queryAll());
+    	model.addAttribute("assetTypeList", assetTypeService.queryAll());
         return "system/consumables";
     }
     
