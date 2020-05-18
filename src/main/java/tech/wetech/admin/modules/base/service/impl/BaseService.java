@@ -134,12 +134,13 @@ public abstract class BaseService<T> implements IService<T> {
 			if(objValue!=null){
 				String keyValue = objValue + "";
 				if (StringUtils.isNotBlank(keyValue)) {
-					keyValue = "%" + keyValue + "%"; 
 					if ("java.lang.String".equals(canonicalNameType)) {
+						keyValue = "%" + keyValue + "%"; 
 						criteria.andLike(fieldName, keyValue);
 						example.and(criteria);
 					}else{
-						criteria.andLike(fieldName, keyValue);
+						criteria.andEqualTo(fieldName, keyValue);
+						example.and(criteria);
 					}
 				}
 			}
