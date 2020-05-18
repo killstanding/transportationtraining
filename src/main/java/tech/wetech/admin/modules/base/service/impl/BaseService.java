@@ -136,7 +136,7 @@ public abstract class BaseService<T> implements IService<T> {
 					keyValue = "%" + keyValue + "%"; 
 					if ("java.lang.String".equals(canonicalNameType)) {
 						criteria.andLike(fieldName, keyValue);
-						example.or(criteria);
+						example.and(criteria);
 					}
 				}
 			}
@@ -184,16 +184,16 @@ public abstract class BaseService<T> implements IService<T> {
 				for (String property : propertyList) {
 					if (property.equals(fieldName)) {
 						if ("java.lang.String".equals(canonicalNameType)) {
-							criteria.andLike(property, keyValue);
-							example.and(criteria);
+							criteria.orLike(property, keyValue);
+							example.or(criteria);
 						}
 						// TODO 其它类型
 					}
 				}
 			} else {
 				if ("java.lang.String".equals(canonicalNameType)) {
-					criteria.andLike(fieldName, keyValue);
-					example.and(criteria);
+					criteria.orLike(fieldName, keyValue);
+					example.or(criteria);
 				}
 				// TODO 其它类型
 			}
