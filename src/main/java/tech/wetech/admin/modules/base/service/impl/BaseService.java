@@ -1,5 +1,6 @@
 package tech.wetech.admin.modules.base.service.impl;
 
+import com.alibaba.excel.metadata.BaseRowModel;
 import com.github.pagehelper.PageHelper;
 
 import org.apache.commons.lang.StringUtils;
@@ -137,6 +138,8 @@ public abstract class BaseService<T> implements IService<T> {
 					if ("java.lang.String".equals(canonicalNameType)) {
 						criteria.andLike(fieldName, keyValue);
 						example.and(criteria);
+					}else{
+						criteria.andLike(fieldName, keyValue);
 					}
 				}
 			}
@@ -228,7 +231,7 @@ public abstract class BaseService<T> implements IService<T> {
 		}
 		/** 处理父类字段**/
 		Class<?> superClass = clazz.getSuperclass();
-		if (superClass.equals(Object.class)) {
+		if (superClass.equals(Object.class)||superClass.equals(BaseRowModel.class)) {
 			return fieldList;
 		}
 		List<Field> fieldListSupper = getFieldList(superClass);
