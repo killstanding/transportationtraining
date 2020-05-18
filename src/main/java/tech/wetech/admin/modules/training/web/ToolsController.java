@@ -21,6 +21,8 @@ import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.Tools;
 import tech.wetech.admin.modules.training.service.ToolsService;
+import tech.wetech.admin.modules.training.service.AssetClassificationService;
+import tech.wetech.admin.modules.training.service.AssetTypeService;
 import tech.wetech.admin.modules.training.service.PositionService;
 import tech.wetech.admin.modules.training.vo.FileVo;
 import tech.wetech.excel.ExcelReadUtil;
@@ -46,13 +48,19 @@ public class ToolsController extends BaseCrudController<Tools> {
     private ConfigProperties configProperties;
     @Autowired
     private UserService userService;
-    
+	@Autowired
+    private AssetClassificationService assetClassificationService;
+	@Autowired
+    private AssetTypeService assetTypeService;
+	
     @GetMapping
     @RequiresPermissions("tools:view")
     public String userPage(Model model) {
     	model.addAttribute("positionList", positionService.queryAll());
     	model.addAttribute("organizationList", organizationService.queryAll());
     	model.addAttribute("userList", userService.queryAll());
+    	model.addAttribute("assetClassificationList", assetClassificationService.queryAll());
+		model.addAttribute("assetTypeList", assetTypeService.queryAll());
         return "system/tools";
     }
     
