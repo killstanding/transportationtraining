@@ -18,7 +18,11 @@ import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.InspectionRecord;
+import tech.wetech.admin.modules.training.po.PubCode;
+import tech.wetech.admin.modules.training.service.AssetClassificationService;
+import tech.wetech.admin.modules.training.service.AssetService;
 import tech.wetech.admin.modules.training.service.InspectionRecordService;
+import tech.wetech.admin.modules.training.service.PubCodeService;
 import tech.wetech.admin.modules.training.service.TrainingRoomService;
 import tech.wetech.excel.ExcelWriteUtil;
 
@@ -42,11 +46,22 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
     
     @Autowired
     private UserService userService;
-    
+    @Autowired
+    private AssetService assetService;
+	@Autowired
+    private AssetClassificationService assetClassificationService;
+	@Autowired
+    private PubCodeService pubCodeService;
+	
     @GetMapping
     @RequiresPermissions("inspectionrecord:view")
     public String userPage(Model model) {
     	model.addAttribute("userList", userService.queryAll());
+    	model.addAttribute("assetList", assetService.queryAll());
+    	model.addAttribute("assetClassificationList", assetClassificationService.queryAll());
+    	PubCode pubCode = new PubCode();
+    	pubCode.setPubType("asset_status");
+    	model.addAttribute("assetStatusList", pubCodeService.queryList(pubCode));
         return "system/inspectionrecord";
     }
     
