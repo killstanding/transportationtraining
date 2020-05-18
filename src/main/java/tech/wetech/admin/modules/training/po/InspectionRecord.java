@@ -341,7 +341,12 @@ public class InspectionRecord  extends BaseRowModel{
 	public void setRepairOrderNo(String repairOrderNo) {
 		this.repairOrderNo = repairOrderNo;
 	}
-    
-    
-    
+
+	public String getAssetName() {
+		return assetName;
+	}
+
+	public void setAssetName(String assetName) {
+		this.assetName = assetName;
+	}
 }
