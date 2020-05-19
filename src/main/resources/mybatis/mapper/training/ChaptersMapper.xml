@@ -21,5 +21,6 @@
     <result column="parent_id" property="parentId" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="leaf" property="leaf" jdbcType="BIT" />
   </resultMap>
 </mapper>

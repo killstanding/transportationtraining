@@ -101,9 +101,16 @@ public class Chapters extends BaseRowModel{
     private String consumablesIdsRequired;
 
     /**
+     * 叶子节点
+     */
+    @ExcelProperty(value = {"叶子节点","叶子节点"},index = 4)
+    @ApiModelProperty(value = "叶子节点", name = "leaf", required = false, example = "0")
+    private Boolean leaf;
+    
+    /**
      * 课程编号
      */
-    @ExcelProperty(value = {"课程编号","课程编号"},index = 4)
+    @ExcelProperty(value = {"课程编号","课程编号"},index = 5)
     @ApiModelProperty(value = "课程编号", name = "courseId", required = false, example = "1")
     @Column(name = "course_id")
     private Integer courseId;
@@ -111,7 +118,7 @@ public class Chapters extends BaseRowModel{
     /**
      * 父节点
      */
-    @ExcelProperty(value = {"父节点","父节点"},index = 5)
+    @ExcelProperty(value = {"父节点","父节点"},index = 6)
     @ApiModelProperty(value = "父节点", name = "parentId", required = false, example = "1")
     @Column(name = "parent_id")
     private Integer parentId;
@@ -129,6 +136,7 @@ public class Chapters extends BaseRowModel{
     @ApiModelProperty(value = "更新时间", name = "updateTime", required = false, example = "2020-04-24 18:00:00")
     @Column(name = "update_Time")
     private String updateTime;
+    
     
     
     public interface ChaptersCreateChecks {}
@@ -421,5 +429,23 @@ public class Chapters extends BaseRowModel{
      */
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+    
+    /**
+     * 获取叶子节点
+     *
+     * @return leaf - 叶子节点
+     */
+    public Boolean getLeaf() {
+        return leaf;
+    }
+
+    /**
+     * 设置叶子节点
+     *
+     * @param leaf 叶子节点
+     */
+    public void setLeaf(Boolean leaf) {
+        this.leaf = leaf;
     }
 }

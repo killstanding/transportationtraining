@@ -11,7 +11,7 @@
  Target Server Version : 50515
  File Encoding         : 65001
 
- Date: 19/05/2020 16:35:08
+ Date: 19/05/2020 18:00:20
 */
 
 SET NAMES utf8mb4;
@@ -357,15 +357,16 @@ CREATE TABLE `t_chapters`  (
   `parent_id` int(11) DEFAULT NULL COMMENT '父节点',
   `create_time` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建时间',
   `update_time` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新时间',
+  `leaf` tinyint(1) DEFAULT 0 COMMENT '叶子节点',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of t_chapters
 -- ----------------------------
-INSERT INTO `t_chapters` VALUES (1, '第1章 汽车常用构件力学分析', '1', '1', '', '', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-04-22 16:52:00', '2020-04-22 16:52:00');
-INSERT INTO `t_chapters` VALUES (2, '第1节 构件静力分析', '2', '2', '一汽大众整车实训区；\r\n\r\n丰田T-TEP整车实训区', '1;2', '01 构件静力分析讲义-1', 1, '丰田皇冠教具车；\r\n\r\n一汽大众教具车', '1;2', '汽车防护三件套', '1', 1, 1, '2020-04-22 16:52:00', '2020-04-22 16:52:00');
-INSERT INTO `t_chapters` VALUES (3, '第2节 构件静力分析2', '3', '2', '一汽大众整车实训区', '1', '02 构件静力分析讲义-2', 2, '丰田皇冠教具车；\r\n\r\n一汽大众教具车', '1;2', '汽车防护三件套', '1', 1, 1, '2020-04-22 16:52:00', '2020-04-22 16:52:00');
+INSERT INTO `t_chapters` VALUES (1, '第1章 汽车常用构件力学分析', '1', '1', '', '', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2020-04-22 16:52:00', '2020-04-22 16:52:00', 0);
+INSERT INTO `t_chapters` VALUES (2, '第1节 构件静力分析', '2', '2', '一汽大众整车实训区；\r\n\r\n丰田T-TEP整车实训区', '1;2', '01 构件静力分析讲义-1', 1, '丰田皇冠教具车；\r\n\r\n一汽大众教具车', '1;2', '汽车防护三件套', '1', 1, 1, '2020-04-22 16:52:00', '2020-04-22 16:52:00', 1);
+INSERT INTO `t_chapters` VALUES (3, '第2节 构件静力分析2', '3', '2', '一汽大众整车实训区', '1', '02 构件静力分析讲义-2', 2, '丰田皇冠教具车；\r\n\r\n一汽大众教具车', '1;2', '汽车防护三件套', '1', 1, 1, '2020-04-22 16:52:00', '2020-04-22 16:52:00', 1);
 
 -- ----------------------------
 -- Table structure for t_collection_record
