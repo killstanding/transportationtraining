@@ -18,7 +18,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableCaching
 @EnableSwagger2
 public class TrainingApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(TrainingApplication.class, args);
     }
