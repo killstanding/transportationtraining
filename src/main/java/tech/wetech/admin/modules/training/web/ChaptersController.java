@@ -18,6 +18,7 @@ import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.system.dto.TreeDto;
 import tech.wetech.admin.modules.training.po.Chapters;
 import tech.wetech.admin.modules.training.service.ChaptersService;
 import tech.wetech.admin.modules.training.vo.FileVo;
@@ -43,6 +44,18 @@ public class ChaptersController extends BaseCrudController<Chapters> {
     @RequiresPermissions("chapters:view")
     public String userPage(Model model) {
         return "system/chapters";
+    }
+    @ApiOperation(value = "获取章节tree")
+    @ResponseBody
+    @RequestMapping("/tree")
+    public List<TreeDto> findTree(int pId) {
+        return service.queryTree(pId);
+    }
+    @ApiOperation(value = "根据课程编号获取章节tree")
+    @ResponseBody
+    @RequestMapping("/toptree")
+    public List<TreeDto> findTopTree(int id) {
+        return service.queryTreeByCourseId(id);
     }
     
     @ResponseBody
