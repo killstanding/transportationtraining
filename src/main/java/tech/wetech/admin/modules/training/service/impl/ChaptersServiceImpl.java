@@ -24,7 +24,7 @@ public class ChaptersServiceImpl extends BaseService<Chapters> implements Chapte
 		Weekend example = Weekend.of(Chapters.class);
 		WeekendCriteria<Chapters, Object> criteria = example.weekendCriteria();
 		criteria.andEqualTo("parentId", pId);
-		mapper.selectByExample(example).forEach(o -> tds.add(new TreeDto((long)o.getId(), (long)o.getParentId(), o.getChapterName(), false, o)));
+		mapper.selectByExample(example).forEach(o -> tds.add(new TreeDto((long)o.getId(), (long)o.getParentId(), o.getChapterName(),  Boolean.FALSE.equals(o.getLeaf()), o)));
 		return tds;
 	}
 
@@ -35,7 +35,7 @@ public class ChaptersServiceImpl extends BaseService<Chapters> implements Chapte
 		WeekendCriteria<Chapters, Object> criteria = example.weekendCriteria();
 		criteria.andEqualTo("courseId", id);
 		criteria.andEqualTo("chapterLevel", 1);
-		mapper.selectByExample(example).forEach(o -> tds.add(new TreeDto((long)o.getId(), (long)o.getParentId(), o.getChapterName(), false, o)));
+		mapper.selectByExample(example).forEach(o -> tds.add(new TreeDto((long)o.getId(), (long)o.getParentId(), o.getChapterName(),  Boolean.FALSE.equals(o.getLeaf()), o)));
 		return tds;
 	}
 
