@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<section class="content-header">
+    <h1>
+        设备巡检
+        <small>巡检记录页面</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li><a href="#">设备管理</a></li>
+        <li><a href="#">设备巡检</a></li>
+        <li><a href="#">巡检管理</a></li>
+        <li class="active"><span id="nnaa"></span>巡检记录</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="toolbar">
+                        <form class="form-inline" id="searchForm">
+                            <div class="form-group">
+                            	<input type="hidden" class="form-control input-sm" name="roomId" id="searchId" readonly>
+                                <label for="searchName"> 巡检时间 </label>
+                                <div class='input-group date' id='searchName'>
+					                <input type='text' class="form-control" name="inspectionTime">
+					                <span class="input-group-addon">
+					                    <span class="glyphicon glyphicon-calendar"></span>
+					                </span>
+					            </div>
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-default" onclick="javascript:$('table').bootstrapTable('refresh', {silent: true});">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                    查询
+                                </button>
+                                <button type="reset" class="btn btn-default">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    清空
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="returnBack()">
+                                    返回上一级
+                                </button>
+                            </div>
+                        </form>
+                        <div class="btn-group btn-group-sm">
+                            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                            <button shiro:hasPermission="inspectionplan:create" type="button" id="addBtn" class="btn btn-default"
+                                    data-toggle="modal"
+                                    data-target="#addModal" onclick="addLoad()"><i class="glyphicon glyphicon-plus"></i> 新增
+                            </button>
+                            <!-- Indicates caution should be taken with this action -->
+                            <button shiro:hasPermission="inspectionplan:update" type="button" id="editBtn" class="btn btn-default"
+                                    data-toggle="modal"
+                                    data-target="#editModal"
+                                    data-action="{type:'editable',form:'#editForm',table:'#table',after:'editAfter'}"
+                                    disabled><i class="glyphicon glyphicon-edit"></i> 修改
+                            </button>
+                            <!-- Indicates a dangerous or potentially negative action -->
+                            <button shiro:hasPermission="inspectionplan:delete" type="button" id="deleteBtn" class="btn btn-default"
+                            		data-toggle="modal"
+                                    data-target="#deleteModal"
+                                    data-action="{type:'delete',form:'#deleteForm',idField:'id',table:'#table'}"
+                                    disabled><i class="glyphicon glyphicon-remove"></i> 删除
+                            </button>
+                        </div>
+                    </div>
+                    <table id="table"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<!-- add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addModalLabel">添加巡检记录</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addForm">
+                	<input type="hidden" id="addRoomId" name="roomId"/>
+                	<input type="hidden" id="addRoomName" name="roomName"/>
+                	<div class="form-group">
+                		<div class="col-md-12">
+                        	<label class="control-label" for="addDatepicker"><span class="asterisk">*</span>巡检时间:</label>
+                        	<div class='input-group date' id='addDatepicker'>
+				                <input type='text' class="form-control" name="inspectionTime" required>
+				                <span class="input-group-addon">
+				                    <span class="glyphicon glyphicon-calendar"></span>
+				                </span>
+				            </div>
+				            <div class="help-block with-errors"></div>
+                        </div>
+                	</div>
+                    <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="addInspector"><span class="asterisk">*</span>巡检人:</label>
+                        	<input id="addInspector" type="text" class="form-control" name="inspector" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-12">
+                        	<label class="control-label" for="inspectorId"><span class="asterisk">*</span>巡检人:</label>
+	                        <select id="inspectorId" class="form-control select2" name="inspectorId" onchange="addInspectorChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
+	                            巡检人不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                        	<label class="control-label" for="normalDevicesInInspection"><span class="asterisk">*</span>本次巡检设备数:</label>
+	                        <input id="normalDevicesInInspection" type="text" class="form-control" name="normalDevicesInInspection" placeholder="输入数字"
+                               required>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                        	<label class="control-label" for="numberNormalDevices"><span class="asterisk">*</span>正常设备数量:</label>
+	                        <input id="numberNormalDevices" type="text" class="form-control" name="numberNormalDevices" placeholder="输入数字"
+                               required>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                        	<label class="control-label" for="numberAbnormalDevices"><span class="asterisk">*</span>异常设备数量:</label>
+	                        <input id="numberAbnormalDevices" type="text" class="form-control" name="numberAbnormalDevices" placeholder="输入数字"
+                               required>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                        	<label class="control-label" for="numberReportedRepairEquipment"><span class="asterisk">*</span>已报修设备数量:</label>
+	                        <input id="numberReportedRepairEquipment" type="text" class="form-control" name="numberReportedRepairEquipment" placeholder="输入数字"
+                               required>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                        	<label class="control-label" for="inspectionStatus"><span class="asterisk">*</span>巡检状态:</label>
+	                        <select id="inspectionStatus" class="form-control select2" name="inspectionStatus"
+                                data-placeholder="请从列表选择一项" required>
+                            	<option value="0">正常</option>
+                            	<option value="1">异常</option>
+                        	</select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" form="addForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#addForm',url:'@{/inspectionplan/create}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editModalLabel">修改巡检记录</h4>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" name="id"/>
+                	<div class="form-group">
+                		<div class="col-md-12">
+                        	<label class="control-label" for="editDatepicker"><span class="asterisk">*</span>巡检时间:</label>
+                        	<div class='input-group date' id='editDatepicker'>
+				                <input type='text' class="form-control" name="inspectionTime" required>
+				                <span class="input-group-addon">
+				                    <span class="glyphicon glyphicon-calendar"></span>
+				                </span>
+				            </div>
+				            <div class="help-block with-errors"></div>
+                        </div>
+                	</div>
+                    <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="editInspector"><span class="asterisk">*</span>巡检人:</label>
+                        	<input id="editInspector" type="text" class="form-control" name="inspector" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-12">
+                        	<label class="control-label" for="inspectorId"><span class="asterisk">*</span>巡检人:</label>
+	                        <select id="inspectorId" class="form-control select2" name="inspectorId" onchange="editInspectorChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
+	                            巡检人不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                        	<label class="control-label" for="normalDevicesInInspection"><span class="asterisk">*</span>本次巡检设备数:</label>
+	                        <input id="normalDevicesInInspection" type="text" class="form-control" name="normalDevicesInInspection" placeholder="输入数字"
+                               required>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                        	<label class="control-label" for="numberNormalDevices"><span class="asterisk">*</span>正常设备数量:</label>
+	                        <input id="numberNormalDevices" type="text" class="form-control" name="numberNormalDevices" placeholder="输入数字"
+                               required>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                        	<label class="control-label" for="numberAbnormalDevices"><span class="asterisk">*</span>异常设备数量:</label>
+	                        <input id="numberAbnormalDevices" type="text" class="form-control" name="numberAbnormalDevices" placeholder="输入数字"
+                               required>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                        	<label class="control-label" for="numberReportedRepairEquipment"><span class="asterisk">*</span>已报修设备数量:</label>
+	                        <input id="numberReportedRepairEquipment" type="text" class="form-control" name="numberReportedRepairEquipment" placeholder="输入数字"
+                               required>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                        	<label class="control-label" for="inspectionStatus"><span class="asterisk">*</span>巡检状态:</label>
+	                        <select id="inspectionStatus" class="form-control select2" name="inspectionStatus"
+                                data-placeholder="请从列表选择一项" required>
+                            	<option value="0">正常</option>
+                            	<option value="1">异常</option>
+                        	</select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" form="editForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#editForm',url:'@{/inspectionplan/update}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- delete modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteSmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="deleteSmallModalLabel">删除巡检记录</h4>
+            </div>
+            <div class="modal-body">
+                <form id="deleteForm"></form>
+                确定要删除选中的 <span class="records"></span> 条记录?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" form="deleteForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#deleteForm',url:'@{/inspectionplan/delete-batch}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="actionButtons" class="admin-hide">
+    <!-- <a class="like" href="javascript:void(0)" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a> -->
+    <a shiro:hasPermission="inspectionplan:update" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="编辑"><i class="glyphicon glyphicon-edit"></i></a>　
+    <a shiro:hasPermission="inspectionplan:delete" class="remove ml10" href="javascript:void(0)" data-toggle="tooltip" title="删除"><i class="glyphicon glyphicon-remove"></i></a>　
+</div>
+
+<script th:inline="javascript">
+    var $table = $('#table');
+
+    $(function () {
+    	$('#searchName').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true
+        });
+    	$('#addDatepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true
+        });
+    	$('#editDatepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true
+        });
+    	var trainingRoomId = localStorage.getItem("ItrainingRoomId");
+    	var trainingRoom = localStorage.getItem("ItrainingRoom");
+    	$('#searchId').val(trainingRoomId);
+    	if(trainingRoom != undefined) {
+    		if(trainingRoom != '') {
+    			document.querySelector('#nnaa').innerHTML = trainingRoom + '-';
+    		}else {
+    			document.querySelector('#nnaa').innerHTML = '';
+    		}
+    	}
+        $table.bootstrapTable({
+            url: CONTEXT_PATH + '/inspectionplan/list',
+            idField: 'id',
+            columns: [
+                {field: 'state', checkbox: true},
+                {field: 'id', title: '序号', sortable: true, halign: 'left'},
+                {field: 'inspectionTime', title: '巡检时间', sortable: true, halign: 'left', formatter: 'inspectionTimeFormatter'},
+                {field: 'inspector', title: '巡检人', sortable: true, halign: 'left'},
+                {field: 'inspectionStatus', title: '巡检状态', halign: 'center', align: 'center', formatter: 'inspectionStatusFormatter'},
+                {field: 'normalDevicesInInspection', title: '本次巡检设备数', halign: 'center', align: 'center'},
+                {field: 'numberNormalDevices', title: '正常设备数量', halign: 'center', align: 'center'},
+                {field: 'numberAbnormalDevices', title: '异常设备数量', halign: 'center', align: 'center'},
+                {field: 'numberReportedRepairEquipment', title: '已报修设备数量', halign: 'center', align: 'center'},
+                {
+                    field: 'action',
+                    title: '操作',
+                    halign: 'center',
+                    align: 'center',
+                    formatter: 'actionFormatter',
+                    events: 'actionEvents',
+                    clickToSelect: false
+                }
+            ]
+        });
+    });
+
+    function editAfter(obj, row) {
+    	$('#editForm').find('[name=inspectorId]').find('option[value=' + row.inspectorId + ']').prop('selected', true);
+    }
+
+    function inspectionTimeFormatter(value, row, index) {
+    	return '<a href="#" onclick="refresh(\'' + row.id + '\')">' + value +'</a>'
+    }
+    
+    function inspectionStatusFormatter(value, row, index) {
+    	if(value == 0) {
+    		return '<span class="qiyong">正常</span>'
+    	}
+    	return '<span class="tingyong">异常</span>'
+    }
+
+    function actionFormatter(value, row, index) {
+        return $('#actionButtons').html();
+    }
+
+    function refresh(id) {
+    	localStorage.setItem("planId", id);
+    	window.location.hash = '#inspectionrecord';
+    	location.reload();
+    }
+    
+    function returnBack() {
+    	document.querySelector('a[href="#inspectionplanyear"]').click();
+    }
+
+    window.actionEvents = {
+        'click .edit': function (e, value, row, index) {
+            $('#editModal').modal('show')
+            $('#editForm').fillForm(row);
+            editAfter('', row);
+        },
+        'click .remove': function (e, value, row, index) {
+            $('#deleteModal').modal('show');
+            $('.records').html('1');
+            var html = '';
+            for (var key in row) {
+                html += '<input type="hidden" name="' + key + '" value="' + row[key] + '">';
+            }
+            $('#deleteForm').html(html);
+        }
+    };
+    
+    function addInspectorChange() {
+    	var addInspectorText = $('#addForm').find('[name=inspectorId]').find('option:selected').text();
+    	$('#addInspector').val(addInspectorText);
+    }
+    
+    function editInspectorChange() {
+    	var editInspectorText = $('#editForm').find('[name=inspectorId]').find('option:selected').text();
+    	$('#editInspector').val(editInspectorText);
+    }
+    
+    function addLoad() {
+    	$('#addRoomId').val(localStorage.getItem("ItrainingRoomId"));
+    	$('#addRoomName').val(localStorage.getItem("ItrainingRoom"));
+    	addInspectorChange();
+    	$('#addDatepicker').datepicker('setDate', new Date());
+    }
+</script>
+</html>

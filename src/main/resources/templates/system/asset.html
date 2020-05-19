@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<section class="content-header">
+    <h1>
+        设备管理
+        <small>设备管理页面</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li><a href="#">设备管理</a></li>
+        <li><a href="#">设备管理</a></li>
+        <li class="active"><span id="nnaa"></span>设备管理</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="toolbar">
+                        <form class="form-inline" id="searchForm">
+                            <div class="form-group">
+                            	<input type="hidden" class="form-control input-sm" name="roomId" id="searchId" readonly>
+                                <label for="searchName"> 资产名称 </label>
+                                <input type="text" class="form-control input-sm" name="assetName" id="searchName" placeholder="请输入资产名称">
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-default" onclick="javascript:$('table').bootstrapTable('refresh', {silent: true});">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                    查询
+                                </button>
+                                <button type="reset" class="btn btn-default">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    清空
+                                </button>
+                            </div>
+                        </form>
+                        <div class="btn-group btn-group-sm">
+                            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                            <button shiro:hasPermission="asset:create" type="button" id="addBtn" class="btn btn-default"
+                                    data-toggle="modal"
+                                    data-target="#addModal" onclick="addLoad()"><i class="glyphicon glyphicon-plus"></i> 新增
+                            </button>
+                            <!-- Indicates caution should be taken with this action -->
+                            <button shiro:hasPermission="asset:update" type="button" id="editBtn" class="btn btn-default"
+                                    data-toggle="modal"
+                                    data-target="#editModal"
+                                    data-action="{type:'editable',form:'#editForm',table:'#table',after:'editAfter'}"
+                                    disabled><i class="glyphicon glyphicon-edit"></i> 修改
+                            </button>
+                            <!-- Indicates a dangerous or potentially negative action -->
+                            <button shiro:hasPermission="asset:delete" type="button" id="deleteBtn" class="btn btn-default"
+                            		data-toggle="modal"
+                                    data-target="#deleteModal"
+                                    data-action="{type:'delete',form:'#deleteForm',idField:'id',table:'#table'}"
+                                    disabled><i class="glyphicon glyphicon-remove"></i> 删除
+                            </button>
+                        </div>
+                    </div>
+                    <table id="table"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<!-- add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addModalLabel">添加资产</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addForm">
+                	<div class="form-group">
+                        <label class="control-label" for="assetCode"><span class="asterisk">*</span>资产编号:</label>
+                        <input id="assetCode" type="text" class="form-control" name="assetCode" placeholder="输入资产编号"
+                               required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="assetName"><span class="asterisk">*</span>资产名称:</label>
+                        <input id="assetName" type="text" class="form-control" name="assetName" placeholder="输入资产名称"
+                               required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="addAssetClassification"><span class="asterisk">*</span>资产分类:</label>
+                        	<input id="addAssetClassification" type="text" class="form-control" name="assetClassification" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>资产分类:</label>
+	                        <select id="assetClassificationCode" class="form-control select2" name="assetClassificationCode" onchange="addAssetClassificationChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="assetClassification: ${assetClassificationList}" th:value="${assetClassification.id}" th:text="${assetClassification.classificationName}">
+	                            所属分类不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div style="display: none;">
+                        	<label class="control-label" for="addAssetType"><span class="asterisk">*</span>规格型号:</label>
+                        	<input id="addAssetType" type="text" class="form-control" name="assetType" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="assetTypeCode"><span class="asterisk">*</span>规格型号:</label>
+	                        <select id="assetTypeCode" class="form-control select2" name="assetTypeCode" onchange="addAssetTypeChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="assetType: ${assetTypeList}" th:value="${assetType.id}" th:text="${assetType.typeName}">
+	                            规格型号不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="addRoomName"><span class="asterisk">*</span>所属实训室:</label>
+                        	<input id="addRoomName" type="text" class="form-control" name="roomName" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="roomId"><span class="asterisk">*</span>所属实训室:</label>
+	                        <select id="roomId" class="form-control select2" name="roomId" onchange="addRoomChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="trainingRoom: ${trainingRoomList}" th:value="${trainingRoom.id}" th:text="${trainingRoom.roomName}">
+	                            所属实训室不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div style="display: none;">
+                        	<label class="control-label" for="addPositionName"><span class="asterisk">*</span>存放地点:</label>
+                        	<input id="addPositionName" type="text" class="form-control" name="positionName" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="positionCode"><span class="asterisk">*</span>存放地点:</label>
+	                        <select id="positionCode" class="form-control select2" name="positionCode" onchange="addPositionChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="position: ${positionList}" th:value="${position.id}" th:text="${position.positionName}">
+	                            存放地点不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="addUseDepartment"><span class="asterisk">*</span>所属系:</label>
+                        	<input id="addUseDepartment" type="text" class="form-control" name="useDepartment" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="useDepartmentId"><span class="asterisk">*</span>所属系:</label>
+	                        <select id="useDepartmentId" class="form-control select2" name="useDepartmentId" onchange="addUseDepartmentChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="organization: ${organizationList}" th:value="${organization.id}" th:text="${organization.name}">
+	                            所属系不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div style="display: none;">
+                        	<label class="control-label" for="addAssetUser"><span class="asterisk">*</span>使用人:</label>
+                        	<input id="addAssetUser" type="text" class="form-control" name="assetUser" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="assetUserId"><span class="asterisk">*</span>使用人:</label>
+	                        <select id="assetUserId" class="form-control select2" name="assetUserId" onchange="addAssetUserChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
+	                            使用人不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                        	<label class="control-label" for="addDatepicker"><span class="asterisk">*</span>记账日期:</label>
+                        	<div class='input-group date' id='addDatepicker'>
+				                <input type='text' class="form-control" name="bookkeepingDate" required>
+				                <span class="input-group-addon">
+				                    <span class="glyphicon glyphicon-calendar"></span>
+				                </span>
+				            </div>
+				            <div class="help-block with-errors"></div>
+                        </div>
+                        <div style="display: none;">
+                        	<label class="control-label" for="addInspectionCycle"><span class="asterisk">*</span>巡检周期:</label>
+                        	<input id="addInspectionCycle" type="text" class="form-control" name="inspectionCycle" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="inspectionCycleCode"><span class="asterisk">*</span>巡检周期:</label>
+	                        <select id="inspectionCycleCode" class="form-control select2" name="inspectionCycleCode" onchange="addInspectionCycleChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="inspectionCycle: ${inspectionCycleList}" th:value="${inspectionCycle.pubCode}" th:text="${inspectionCycle.pubName}">
+	                            巡检周期不存在
+	                            </option>
+	                        </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                        	<label class="control-label" for="assetValue"><span class="asterisk">*</span>资产价值:</label>
+	                        <input id="assetValue" type="text" class="form-control" name="assetValue" placeholder="输入价值"
+                               required>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="addAssetStatus"><span class="asterisk">*</span>资产状态:</label>
+                        	<input id="addAssetStatus" type="text" class="form-control" name="assetStatus" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-12">
+                        	<label class="control-label" for="assetStatusCode"><span class="asterisk">*</span>资产状态:</label>
+	                        <select id="assetStatusCode" class="form-control select2" name="assetStatusCode" onchange="addAssetStatusChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="assetStatus: ${assetStatusList}" th:value="${assetStatus.pubCode}" th:text="${assetStatus.pubName}">
+	                            资产状态不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" form="addForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#addForm',url:'@{/asset/create}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editModalLabel">修改资产</h4>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" name="id"/>
+                    <div class="form-group">
+                        <label class="control-label" for="assetCode"><span class="asterisk">*</span>资产编号:</label>
+                        <input id="assetCode" type="text" class="form-control" name="assetCode"
+                               readonly required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="assetName"><span class="asterisk">*</span>资产名称:</label>
+                        <input id="assetName" type="text" class="form-control" name="assetName" placeholder="输入资产名称"
+                               required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="editAssetClassification"><span class="asterisk">*</span>资产分类:</label>
+                        	<input id="editAssetClassification" type="text" class="form-control" name="assetClassification" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>资产分类:</label>
+	                        <select id="assetClassificationCode" class="form-control select2" name="assetClassificationCode" onchange="editAssetClassificationChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="assetClassification: ${assetClassificationList}" th:value="${assetClassification.id}" th:text="${assetClassification.classificationName}">
+	                            所属分类不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div style="display: none;">
+                        	<label class="control-label" for="editAssetType"><span class="asterisk">*</span>规格型号:</label>
+                        	<input id="editAssetType" type="text" class="form-control" name="assetType" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="assetTypeCode"><span class="asterisk">*</span>规格型号:</label>
+	                        <select id="assetTypeCode" class="form-control select2" name="assetTypeCode" onchange="editAssetTypeChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="assetType: ${assetTypeList}" th:value="${assetType.id}" th:text="${assetType.typeName}">
+	                            规格型号不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="editRoomName"><span class="asterisk">*</span>所属实训室:</label>
+                        	<input id="editRoomName" type="text" class="form-control" name="roomName" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="roomId"><span class="asterisk">*</span>所属实训室:</label>
+	                        <select id="roomId" class="form-control select2" name="roomId" onchange="editRoomChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="trainingRoom: ${trainingRoomList}" th:value="${trainingRoom.id}" th:text="${trainingRoom.roomName}">
+	                            所属实训室不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div style="display: none;">
+                        	<label class="control-label" for="editPositionName"><span class="asterisk">*</span>存放地点:</label>
+                        	<input id="editPositionName" type="text" class="form-control" name="positionName" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="positionCode"><span class="asterisk">*</span>存放地点:</label>
+	                        <select id="positionCode" class="form-control select2" name="positionCode" onchange="editPositionChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="position: ${positionList}" th:value="${position.id}" th:text="${position.positionName}">
+	                            存放地点不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="editUseDepartment"><span class="asterisk">*</span>所属系:</label>
+                        	<input id="editUseDepartment" type="text" class="form-control" name="useDepartment" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="useDepartmentId"><span class="asterisk">*</span>所属系:</label>
+	                        <select id="useDepartmentId" class="form-control select2" name="useDepartmentId" onchange="editUseDepartmentChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="organization: ${organizationList}" th:value="${organization.id}" th:text="${organization.name}">
+	                            所属系不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div style="display: none;">
+                        	<label class="control-label" for="editAssetUser"><span class="asterisk">*</span>使用人:</label>
+                        	<input id="editAssetUser" type="text" class="form-control" name="assetUser" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="assetUserId"><span class="asterisk">*</span>使用人:</label>
+	                        <select id="assetUserId" class="form-control select2" name="assetUserId" onchange="editAssetUserChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
+	                            使用人不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                        	<label class="control-label" for="editDatepicker"><span class="asterisk">*</span>记账日期:</label>
+                        	<div class='input-group date' id='editDatepicker'>
+				                <input type='text' class="form-control" name="bookkeepingDate" required>
+				                <span class="input-group-addon">
+				                    <span class="glyphicon glyphicon-calendar"></span>
+				                </span>
+				            </div>
+				            <div class="help-block with-errors"></div>
+                        </div>
+                        <div style="display: none;">
+                        	<label class="control-label" for="editInspectionCycle"><span class="asterisk">*</span>巡检周期:</label>
+                        	<input id="editInspectionCycle" type="text" class="form-control" name="inspectionCycle" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="inspectionCycleCode"><span class="asterisk">*</span>巡检周期:</label>
+	                        <select id="inspectionCycleCode" class="form-control select2" name="inspectionCycleCode" onchange="editInspectionCycleChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="inspectionCycle: ${inspectionCycleList}" th:value="${inspectionCycle.pubCode}" th:text="${inspectionCycle.pubName}">
+	                            巡检周期不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    	<label class="control-label" for="assetValue"><span class="asterisk">*</span>资产价值:</label>
+	                    <input id="assetValue" type="text" class="form-control" name="assetValue" placeholder="输入价值"
+                               required>
+	                    <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="editAssetStatus"><span class="asterisk">*</span>资产状态:</label>
+                        	<input id="editAssetStatus" type="text" class="form-control" name="assetStatus" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-12">
+                        	<label class="control-label" for="assetStatusCode"><span class="asterisk">*</span>资产状态:</label>
+	                        <select id="assetStatusCode" class="form-control select2" name="assetStatusCode" onchange="editAssetStatusChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="assetStatus: ${assetStatusList}" th:value="${assetStatus.pubCode}" th:text="${assetStatus.pubName}">
+	                            资产状态不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" form="editForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#editForm',url:'@{/asset/update}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- delete modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteSmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="deleteSmallModalLabel">删除资产</h4>
+            </div>
+            <div class="modal-body">
+                <form id="deleteForm"></form>
+                确定要删除选中的 <span class="records"></span> 条记录?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" form="deleteForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#deleteForm',url:'@{/asset/delete-batch}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="actionButtons" class="admin-hide">
+    <!-- <a class="like" href="javascript:void(0)" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a> -->
+    <a shiro:hasPermission="asset:update" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="编辑"><i class="glyphicon glyphicon-edit"></i></a>　
+    <a shiro:hasPermission="asset:delete" class="remove ml10" href="javascript:void(0)" data-toggle="tooltip" title="删除"><i class="glyphicon glyphicon-remove"></i></a>　
+</div>
+
+<script th:inline="javascript">
+    var $table = $('#table');
+
+    $(function () {
+    	$('#addDatepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true
+        });
+    	$('#editDatepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true
+        });
+    	var trainingRoomId = localStorage.getItem("trainingRoomId");
+    	if(trainingRoomId != undefined) {
+    		$('#searchId').val(trainingRoomId);
+    	}
+    	var trainingRoom = localStorage.getItem("trainingRoom");
+    	if(trainingRoom != undefined) {
+    		if(trainingRoom != '') {
+    			document.querySelector('#nnaa').innerHTML = trainingRoom + '-';
+    		}else {
+    			document.querySelector('#nnaa').innerHTML = '';
+    		}
+    	}
+        $table.bootstrapTable({
+            url: CONTEXT_PATH + '/asset/list',
+            idField: 'id',
+            columns: [
+                {field: 'state', checkbox: true},
+                {field: 'id', title: '序号', sortable: true, halign: 'left'},
+                {field: 'assetCode', title: '资产编号', sortable: true, halign: 'left', formatter: 'assetCodeFormatter'},
+                {field: 'assetName', title: '资产名称', sortable: true, halign: 'left'},
+                {field: 'assetClassification', title: '资产分类', halign: 'center', align: 'center'},
+                {field: 'assetType', title: '规格型号', halign: 'center', align: 'center'},
+                {field: 'assetValue', title: '价值（元）', sortable: true, halign: 'left'},
+                {field: 'bookkeepingDate', title: '记账日期', halign: 'left', align: 'center'},
+                {field: 'roomName', title: '所属实训室', halign: 'center', align: 'center'},
+                {field: 'positionName', title: '存放地点', halign: 'center', align: 'center'},
+                {field: 'useDepartment', title: '所属系', halign: 'center', align: 'center'},
+                {field: 'assetUser', title: '使用人', halign: 'center', align: 'center'},
+                {field: 'inspectionCycle', title: '巡检周期', halign: 'center', align: 'center'},
+                {field: 'assetStatus', title: '资产状态', halign: 'center', align: 'center', formatter: 'enabledFormatter'},
+                {
+                    field: 'action',
+                    title: '操作',
+                    halign: 'center',
+                    align: 'center',
+                    formatter: 'actionFormatter',
+                    events: 'actionEvents',
+                    clickToSelect: false
+                }
+            ]
+        });
+        localStorage.setItem("trainingRoomId", '');
+        localStorage.setItem("trainingRoom", '');
+    });
+
+    function editAfter(obj, row) {
+    	$('#editForm').find('[name=assetClassificationCode]').find('option[value=' + row.assetClassificationCode + ']').prop('selected', true);
+    	$('#editForm').find('[name=assetTypeCode]').find('option[value=' + row.assetTypeCode + ']').prop('selected', true);
+    	$('#editForm').find('[name=useDepartmentId]').find('option[value=' + row.useDepartmentId + ']').prop('selected', true);
+    	$('#editForm').find('[name=assetUserId]').find('option[value=' + row.assetUserId + ']').prop('selected', true);
+    	$('#editForm').find('[name=roomId]').find('option[value=' + row.roomId + ']').prop('selected', true);
+    	$('#editForm').find('[name=postionCode]').find('option[value=' + row.postionCode + ']').prop('selected', true);
+    	$('#editForm').find('[name=inspectionCycleCode]').find('option[value=' + row.inspectionCycleCode + ']').prop('selected', true);
+    	$('#editForm').find('[name=assetStatusCode]').find('option[value=' + row.assetStatusCode + ']').prop('selected', true);
+    }
+
+    function assetCodeFormatter(value, row, index) {
+    	return '<a href="#" onclick="refresh()">' + value +'</a>'
+    }
+
+    function enabledFormatter(value, row, index) {
+    	if(value == '在用') {
+    		return '<span class="zaiyong">在用</span>';
+    	}else if(value == '正常') {
+    		return '<span class="zhengchang">正常</span>';
+    	}else if(value == '维修') {
+    		return '<span class="weixiu">维修</span>';
+    	}else if(value == '报废') {
+    		return '<span class="baofei">报废</span>';
+    	}
+    }
+
+    function actionFormatter(value, row, index) {
+        return $('#actionButtons').html();
+    }
+
+    function refresh() {
+    	window.location.hash = '#user';
+    	location.reload();
+    }
+
+    window.actionEvents = {
+        'click .edit': function (e, value, row, index) {
+            $('#editModal').modal('show')
+            $('#editForm').fillForm(row);
+            editAfter('', row);
+        },
+        'click .remove': function (e, value, row, index) {
+            $('#deleteModal').modal('show');
+            $('.records').html('1');
+            var html = '';
+            for (var key in row) {
+                html += '<input type="hidden" name="' + key + '" value="' + row[key] + '">';
+            }
+            $('#deleteForm').html(html);
+        }
+    };
+    
+    function addAssetClassificationChange() {
+    	var addAssetClassificationText = $('#addForm').find('[name=assetClassificationCode]').find('option:selected').text();
+    	$('#addAssetClassification').val(addAssetClassificationText);
+    }
+    
+    function addAssetTypeChange() {
+    	var addAssetTypeText = $('#addForm').find('[name=assetTypeCode]').find('option:selected').text();
+    	$('#addAssetType').val(addAssetTypeText);
+    }
+    
+    function addUseDepartmentChange() {
+    	var addUseDepartmentText = $('#addForm').find('[name=useDepartmentId]').find('option:selected').text();
+    	$('#addUseDepartment').val(addUseDepartmentText);
+    }
+    
+    function addAssetUserChange() {
+    	var addAssetUserText = $('#addForm').find('[name=assetUserId]').find('option:selected').text();
+    	$('#addAssetUser').val(addAssetUserText);
+    }
+    
+    function addRoomChange() {
+    	var addRoomText = $('#addForm').find('[name=roomId]').find('option:selected').text();
+    	$('#addRoomName').val(addRoomText);
+    }
+    
+    function addPositionChange() {
+    	var addPositionText = $('#addForm').find('[name=positionCode]').find('option:selected').text();
+    	$('#addPositionName').val(addPositionText);
+    }
+    
+    function addInspectionCycleChange() {
+    	var addInspectionCycleText = $('#addForm').find('[name=inspectionCycleCode]').find('option:selected').text();
+    	$('#addInspectionCycle').val(addInspectionCycleText);
+    }
+    
+    function addAssetStatusChange() {
+    	var addAssetStatusText = $('#addForm').find('[name=assetStatusCode]').find('option:selected').text();
+    	$('#addAssetStatus').val(addAssetStatusText);
+    }
+    
+    function editAssetClassificationChange() {
+    	var editAssetClassificationText = $('#editForm').find('[name=assetClassificationCode]').find('option:selected').text();
+    	$('#editAssetClassification').val(editAssetClassificationText);
+    }
+    
+    function editAssetTypeChange() {
+    	var editAssetTypeText = $('#editForm').find('[name=assetTypeCode]').find('option:selected').text();
+    	$('#editAssetType').val(editAssetTypeText);
+    }
+    
+    function editUseDepartmentChange() {
+    	var editUseDepartmentText = $('#editForm').find('[name=useDepartmentId]').find('option:selected').text();
+    	$('#editUseDepartment').val(editUseDepartmentText);
+    }
+    
+    function editAssetUserChange() {
+    	var editAssetUserText = $('#editForm').find('[name=assetUserId]').find('option:selected').text();
+    	$('#editAssetUser').val(editAssetUserText);
+    }
+    
+    function editRoomChange() {
+    	var editRoomText = $('#editForm').find('[name=roomId]').find('option:selected').text();
+    	$('#editRoomName').val(editRoomText);
+    }
+    
+    function editPositionChange() {
+    	var editPositionText = $('#editForm').find('[name=positionCode]').find('option:selected').text();
+    	$('#editPositionName').val(editPositionText);
+    }
+    
+    function editInspectionCycleChange() {
+    	var editInspectionCycleText = $('#editForm').find('[name=inspectionCycleCode]').find('option:selected').text();
+    	$('#editInspectionCycle').val(editInspectionCycleText);
+    }
+    
+    function editAssetStatusChange() {
+    	var editAssetStatusText = $('#editForm').find('[name=assetStatusCode]').find('option:selected').text();
+    	$('#editAssetStatus').val(editAssetStatusText);
+    }
+    
+    function addLoad() {
+    	addAssetClassificationChange();
+    	addAssetTypeChange();
+    	addRoomChange();
+    	addPositionChange();
+    	addUseDepartmentChange();
+    	addAssetUserChange();
+    	addInspectionCycleChange();
+    	addAssetStatusChange();
+    	$('#addDatepicker').datepicker('setDate', new Date());
+    }
+</script>
+</html>

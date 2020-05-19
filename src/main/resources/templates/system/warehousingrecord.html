@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<section class="content-header">
+    <h1>
+        耗材管理
+        <small>耗材详情页面</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li><a href="#">耗材工具</a></li>
+        <li><a href="#">耗材管理</a></li>
+        <li class="active"><span id="nnaa"></span>耗材详情</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="tb"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="toolbar">
+                        <form class="form-inline" id="searchForm">
+                            <div class="form-group">
+                            	<input type="hidden" class="form-control input-sm" name="assetName" id="searchId" readonly>
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                            	<button type="button" class="btn btn-default" onclick="lyjl()">
+                                    领用记录
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="rkjl()">
+                                    入库记录
+                                </button>
+                            	<button type="button" class="btn btn-default" onclick="returnBack()">
+                                    返回上一级
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <table id="table1"></table>
+                    <table id="table2"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<script th:inline="javascript">
+    var $table1 = $('#table1');
+    var $table2 = $('#table2');
+
+    $(function () {
+    	var datas = [];
+    	var consumableId = localStorage.getItem("consumableId");
+    	var consumableName = localStorage.getItem("consumableName");
+    	if(consumableName != undefined) {
+    		if(consumableName != '') {
+    			document.querySelector('#nnaa').innerHTML = consumableName + '-';
+    		}else {
+    			document.querySelector('#nnaa').innerHTML = '';
+    		}
+    		$('#searchId').val(consumableName);
+    	}
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/consumables/' + consumableId,
+            success:function(data){
+            	datas.push(data.data);
+            	$('#tb').bootstrapTable({
+                    data: datas,
+                    pagination : false,
+                    columns: [
+                              {field: 'consumablesName', title: '耗材名称', halign: 'center', align: 'center'},
+                              {field: 'specificationType', title: '规格型号', halign: 'center', align: 'center'},
+                              {field: 'positionName', title: '存放地点', halign: 'center', align: 'center'},
+                              {field: 'manager', title: '管理人', halign: 'center', align: 'center'},
+                              {field: 'cumulativeReceiptQuantity', title: '累计入库数量', halign: 'center', align: 'center'},
+                              {field: 'totalExisting', title: '现存数量', halign: 'center', align: 'center'},
+                              {field: 'cumulativeCollectedQuantity', title: '领用数量', halign: 'center', align: 'center'},
+                              {field: 'remainingQuantity', title: '剩余数量', halign: 'center', align: 'center'}
+                    ]
+                });
+            }
+        });
+        $table1.bootstrapTable({
+            url: CONTEXT_PATH + '/collectionrecord/list',
+            idField: 'id',
+            columns: [
+				{field: 'id', title: '序号', sortable: true, width: '10%', halign: 'left'},
+                {field: 'collectionTime', title: '领用时间', width: '20%', sortable: true, halign: 'left'},
+                {field: 'collectionMajor', title: '领用专业', width: '20%', halign: 'center', align: 'center'},
+                {field: 'collectionCourse', title: '领用课程', width: '20%', halign: 'center', align: 'center'},
+                {field: 'applicant', title: '申请人', width: '20%', halign: 'center', align: 'center'},
+                {field: 'collectedQuantity', title: '领用数量', width: '10%', sortable: true, halign: 'left'}
+            ]
+        });
+        $table2.bootstrapTable({
+            url: CONTEXT_PATH + '/warehousingrecord/list',
+            idField: 'id',
+            onLoadSuccess: function() {
+            	lyjl();
+            },
+            columns: [
+				{field: 'id', title: '序号', width: '10%', sortable: true, halign: 'left'},
+                {field: 'warehousingTime', title: '入库时间', width: '20%', sortable: true, halign: 'left'},
+                {field: 'unitPrice', title: '耗材单价（元）', width: '15%', sortable: true, halign: 'left'},
+                {field: 'warehousingQuantity', title: '入库数量', width: '15%', sortable: true, halign: 'left'},
+                {field: 'positionName', title: '存放地点', width: '20%', halign: 'center', align: 'center'},
+                {field: 'manager', title: '管理人', width: '20%', halign: 'center', align: 'center'}
+            ]
+        });
+    });
+    
+    function lyjl() {
+    	$('.fixed-table-toolbar')[1].style.display = 'block';
+		$('.fixed-table-toolbar')[2].style.display = 'none';
+    	$table1.css('display', 'block');
+    	$table2.css('display', 'none');
+    	$('.fixed-table-pagination')[1].style.display = 'block';
+    	$('.fixed-table-pagination')[2].style.display = 'none';
+    }
+    
+    function rkjl() {
+    	$('.fixed-table-toolbar')[1].style.display = 'none';
+    	$('.fixed-table-toolbar')[2].style.display = 'block';
+    	$table1.css('display', 'none');
+    	$table2.css('display', 'block');
+    	$('.fixed-table-pagination')[1].style.display = 'none';
+    	$('.fixed-table-pagination')[2].style.display = 'block';
+    }
+    
+    function returnBack() {
+    	document.querySelector('a[href="#consumables"]').click();
+    }
+</script>
+</html>

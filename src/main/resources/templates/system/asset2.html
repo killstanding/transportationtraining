@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<section class="content-header">
+    <h1>
+        设备管理
+        <small>设备管理页面</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li><a href="#">设备管理</a></li>
+        <li><a href="#">设备管理</a></li>
+        <li class="active">设备管理</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="toolbar">
+                        <form class="form-inline" id="searchForm">
+                            <div class="form-group">
+                                <label for="searchName"> 资产名称 </label>
+                                <input type="text" class="form-control input-sm" name="assetName" id="searchName" placeholder="请输入资产名称">
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-default" onclick="javascript:$('table').bootstrapTable('refresh', {silent: true});">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                    查询
+                                </button>
+                                <button type="reset" class="btn btn-default">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    清空
+                                </button>
+                            </div>
+                        </form>
+                        <div class="btn-group btn-group-sm">
+                            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                            <button shiro:hasPermission="asset:create" type="button" id="addBtn" class="btn btn-default"
+                                    data-toggle="modal"
+                                    data-target="#addModal"><i class="glyphicon glyphicon-plus"></i> 新增
+                            </button>
+                            <!-- Indicates caution should be taken with this action -->
+                            <button shiro:hasPermission="asset:update" type="button" id="editBtn" class="btn btn-default"
+                                    data-toggle="modal"
+                                    data-target="#editModal"
+                                    data-action="{type:'editable',form:'#editForm',table:'#table',after:'editAfter'}"
+                                    disabled><i class="glyphicon glyphicon-edit"></i> 修改
+                            </button>
+                            <!-- Indicates a dangerous or potentially negative action -->
+                            <button shiro:hasPermission="asset:delete" type="button" id="deleteBtn" class="btn btn-default"
+                            		data-toggle="modal"
+                                    data-target="#deleteModal"
+                                    data-action="{type:'delete',form:'#deleteForm',idField:'id',table:'#table'}"
+                                    disabled><i class="glyphicon glyphicon-remove"></i> 删除
+                            </button>
+                        </div>
+                    </div>
+                    <table id="table"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<!-- add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addModalLabel">添加实训室</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addForm">
+                    <div class="form-group">
+                        <label class="control-label" for="roomName"><span class="asterisk">*</span>实训室名称:</label>
+                        <input id="roomName" type="text" class="form-control" name="roomName" placeholder="输入实训室名称"
+                               minlength="3">
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="belongSysId"><span class="asterisk">*</span>所属系:</label>
+                        <select id="belongSysId" class="form-control select2" name="belongSysId"
+                                data-placeholder="请从列表选择一项" required>
+                            <option th:each="role: ${roleList}" th:value="${role.id}" th:text="${role.description}">
+                                所属系不存在
+                            </option>
+                        </select>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="roomPosition"><span class="asterisk">*</span>位置:</label>
+                        <select id="roomPosition" class="form-control select2" name="roomPosition"
+                                data-placeholder="请从列表选择一项" required>
+                            <option th:each="group: ${groupList}" th:value="${group.id}" th:text="${group.name}">
+                                位置不存在
+                            </option>
+                        </select>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="roomAdmin"><span class="asterisk">*</span>管理员:</label>
+                        <select id="roomAdmin" class="form-control select2" name="roomAdmin"
+                                data-placeholder="请从列表选择一项" required>
+                            <option th:each="group: ${groupList}" th:value="${group.id}" th:text="${group.name}">
+                                管理员不存在
+                            </option>
+                        </select>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" form="addForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#addForm',url:'@{/trainingroom/create}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editModalLabel">修改实训室</h4>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" name="id"/>
+                    <div class="form-group">
+                        <label class="control-label" for="roomName"><span class="asterisk">*</span>实训室名称:</label>
+                        <input id="roomName" type="text" class="form-control" name="roomName" placeholder="输入实训室名称"
+                               minlength="3" readonly required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="belongSysId"><span class="asterisk">*</span>所属系:</label>
+                        <select id="belongSysId" class="form-control select2" name="belongSysId"
+                                data-placeholder="请从列表选择一项" required>
+                            <option th:each="role: ${roleList}" th:value="${role.id}" th:text="${role.description}">
+                            所属系不存在
+                            </option>
+                        </select>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="roomPosition"><span class="asterisk">*</span>位置:</label>
+                        <select id="roomPosition" class="form-control select2" name="roomPosition"
+                                data-placeholder="请从列表选择一项" required>
+                            <option th:each="group : ${groupList}" th:value="${group.id}" th:text="${group.name}">
+                                位置不存在
+                            </option>
+                        </select>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="roomAdmin"><span class="asterisk">*</span>管理员:</label>
+                        <select id="roomAdmin" class="form-control select2" name="roomAdmin"
+                                data-placeholder="请从列表选择一项" required>
+                            <option th:each="group: ${groupList}" th:value="${group.id}" th:text="${group.name}">
+                                管理员不存在
+                            </option>
+                        </select>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" form="editForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#editForm',url:'@{/trainingroom/update}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- delete modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteSmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="deleteSmallModalLabel">删除资产</h4>
+            </div>
+            <div class="modal-body">
+                <form id="deleteForm"></form>
+                确定要删除选中的 <span class="records"></span> 条记录?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" form="deleteForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#deleteForm',url:'@{/asset/delete-batch}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="actionButtons" class="admin-hide">
+    <!-- <a class="like" href="javascript:void(0)" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a> -->
+    <a shiro:hasPermission="asset:update" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="编辑"><i class="glyphicon glyphicon-edit"></i></a>　
+    <a shiro:hasPermission="asset:delete" class="remove ml10" href="javascript:void(0)" data-toggle="tooltip" title="删除"><i class="glyphicon glyphicon-remove"></i></a>　
+</div>
+
+<script th:inline="javascript">
+    var $table = $('#table');
+
+    $(function () {
+        $table.bootstrapTable({
+            url: CONTEXT_PATH + '/asset/list',
+            idField: 'id',
+            columns: [
+                {field: 'state', checkbox: true},
+                {field: 'id', title: '序号', sortable: true, halign: 'left'},
+                {field: 'assetCode', title: '资产编号', sortable: true, halign: 'left', formatter: 'assetCodeFormatter'},
+                {field: 'assetClassification', title: '资产分类', sortable: true, halign: 'left'},
+                {field: 'assetName', title: '资产名称', sortable: true, halign: 'left'},
+                {field: 'assetValue', title: '价值（元）', sortable: true, halign: 'left'},
+                {field: 'bookkeepingDate', title: '记账日期', sortable: true, halign: 'left'},
+                {field: 'assetType', title: '规格型号', halign: 'center', align: 'center'},
+                {field: 'useDepartment', title: '所属系', halign: 'center', align: 'center'},
+                {field: 'assetUser', title: '使用人', halign: 'center', align: 'center'},
+                {field: 'positonName', title: '存放地点', halign: 'center', align: 'center'},
+                {field: 'inspectionCycle', title: '巡检周期', halign: 'center', align: 'center'},
+                {field: 'assetStatus', title: '资产状态', halign: 'center', align: 'center', formatter: 'enabledFormatter'},
+                {
+                    field: 'action',
+                    title: '操作',
+                    halign: 'center',
+                    align: 'center',
+                    formatter: 'actionFormatter',
+                    events: 'actionEvents',
+                    clickToSelect: false
+                }
+            ]
+        });
+    });
+
+    function editAfter(obj, row) {
+        var roleIdList = row.roleIdList;
+        var groupIdList = row.groupIdList;
+        for (i in roleIdList) {
+            var roleId = roleIdList[i];
+            $('#editForm').find('[name=roleIds]').find('option[value=' + roleId + ']').prop('selected', true);
+        }
+        for(i in groupIdList) {
+            var groupId = groupIdList[i];
+            $('#editForm').find('[name=groupIds]').find('option[value=' + groupId + ']').prop('selected', true);
+        }
+    }
+
+    function assetCodeFormatter(value, row, index) {
+    	return '<a href="#" onclick="refresh()">' + value +'</a>'
+    }
+
+    function enabledFormatter(value, row, index) {
+    	if(value == 1) {
+    		return '<span class="qiyong">启用</span>'
+    	}
+    	return '<span class="tingyong">停用</span>'
+    }
+
+    function actionFormatter(value, row, index) {
+        return $('#actionButtons').html();
+    }
+
+    function refresh() {
+    	window.location.hash = '#user';
+    	location.reload();
+    }
+
+    window.actionEvents = {
+        'click .edit': function (e, value, row, index) {
+            $('#editModal').modal('show')
+            $('#editForm').fillForm(row);
+            editAfter('', row);
+        },
+        'click .remove': function (e, value, row, index) {
+            $('#deleteModal').modal('show');
+            $('.records').html('1');
+            var html = '';
+            for (var key in row) {
+                html += '<input type="hidden" name="' + key + '" value="' + row[key] + '">';
+            }
+            $('#deleteForm').html(html);
+        }
+    };
+</script>
+</html>
