@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<section class="content-header">
+    <h1>
+        设备管理
+        <small>实训室管理页面</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li><a href="#">设备管理</a></li>
+        <li><a href="#">设备管理</a></li>
+        <li class="active">实训室管理</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="toolbar">
+                        <form class="form-inline" id="searchForm">
+                            <div class="form-group">
+                                <label for="searchName"> 实训室名称 </label>
+                                <input type="text" class="form-control input-sm" name="roomName" id="searchName" placeholder="请输入实训室名称">
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-default" onclick="javascript:$('table').bootstrapTable('refresh', {silent: true});">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                    查询
+                                </button>
+                                <button type="reset" class="btn btn-default">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    清空
+                                </button>
+                            </div>
+                        </form>
+                        <div class="btn-group btn-group-sm">
+                            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                            <button shiro:hasPermission="trainingroom:create" type="button" id="addBtn" class="btn btn-default"
+                                    data-toggle="modal"
+                                    data-target="#addModal" onclick="addLoad()"><i class="glyphicon glyphicon-plus"></i> 新增
+                            </button>
+                            <!-- Indicates caution should be taken with this action -->
+                            <button shiro:hasPermission="trainingroom:update" type="button" id="editBtn" class="btn btn-default"
+                                    data-toggle="modal"
+                                    data-target="#editModal"
+                                    data-action="{type:'editable',form:'#editForm',table:'#table',after:'editAfter'}"
+                                    disabled><i class="glyphicon glyphicon-edit"></i> 修改
+                            </button>
+                            <!-- Indicates a dangerous or potentially negative action -->
+                            <button shiro:hasPermission="trainingroom:delete" type="button" id="deleteBtn" class="btn btn-default"
+                            		data-toggle="modal"
+                                    data-target="#deleteModal"
+                                    data-action="{type:'delete',form:'#deleteForm',idField:'id',table:'#table'}"
+                                    disabled><i class="glyphicon glyphicon-remove"></i> 删除
+                            </button>
+                        </div>
+                    </div>
+                    <table id="table"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<!-- add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addModalLabel">添加实训室</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addForm">
+                    <div class="form-group">
+                        <label class="control-label" for="roomName"><span class="asterisk">*</span>实训室名称:</label>
+                        <input id="roomName" type="text" class="form-control" name="roomName" placeholder="输入实训室名称"
+                               required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label class="control-label" for="addBelongSys"><span class="asterisk">*</span>所属系:</label>
+                        <input id="addBelongSys" type="text" class="form-control" name="belongSys" readonly>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="belongSysId"><span class="asterisk">*</span>所属系:</label>
+                        <select id="belongSysId" class="form-control select2" name="belongSysId" onchange="addSysChange()"
+                                data-placeholder="请从列表选择一项" required>
+                            <option th:each="sys: ${sysList}" th:value="${sys.id}" th:text="${sys.name}">
+                                所属系不存在
+                            </option>
+                        </select>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label class="control-label" for="addRoomPosition"><span class="asterisk">*</span>位置:</label>
+                        <input id="addRoomPosition" type="text" class="form-control" name="roomPosition" readonly>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="roomPositionCode"><span class="asterisk">*</span>位置:</label>
+                        <select id="roomPositionCode" class="form-control select2" name="roomPositionCode" onchange="addPositionChange()"
+                                data-placeholder="请从列表选择一项" required>
+                            <option th:each="position: ${positionList}" th:value="${position.id}" th:text="${position.positionName}">
+                                位置不存在
+                            </option>
+                        </select>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label class="control-label" for="addRoomAdmin"><span class="asterisk">*</span>管理员:</label>
+                        <input id="addRoomAdmin" type="text" class="form-control" name="roomAdmin" readonly>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="roomAdminId"><span class="asterisk">*</span>管理员:</label>
+                        <select id="roomAdminId" class="form-control select2" name="roomAdminId" onchange="addAdminChange()"
+                                data-placeholder="请从列表选择一项" required>
+                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
+                                管理员不存在
+                            </option>
+                        </select>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="isEnabled"><span class="asterisk">*</span>状态:</label>
+                        <select id="isEnabled" class="form-control select2" name="isEnabled"
+                                data-placeholder="请从列表选择一项" required>
+                            <option value="1">启用</option>
+                            <option value="0">停用</option>
+                        </select>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" form="addForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#addForm',url:'@{/trainingroom/create}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editModalLabel">修改实训室</h4>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" name="id"/>
+                    <div class="form-group">
+                        <label class="control-label" for="roomName"><span class="asterisk">*</span>实训室名称:</label>
+                        <input id="roomName" type="text" class="form-control" name="roomName"
+                               readonly required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label class="control-label" for="editBelongSys"><span class="asterisk">*</span>所属系:</label>
+                        <input id="editBelongSys" type="text" class="form-control" name="belongSys" readonly>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="belongSysId"><span class="asterisk">*</span>所属系:</label>
+                        <select id="belongSysId" class="form-control select2" name="belongSysId" onchange="editSysChange()"
+                                data-placeholder="请从列表选择一项" required>
+                            <option th:each="sys: ${sysList}" th:value="${sys.id}" th:text="${sys.name}">
+                            所属系不存在
+                            </option>
+                        </select>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label class="control-label" for="editRoomPosition"><span class="asterisk">*</span>位置:</label>
+                        <input id="editRoomPosition" type="text" class="form-control" name="roomPosition" readonly>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="roomPositionCode"><span class="asterisk">*</span>位置:</label>
+                        <select id="roomPositionCode" class="form-control select2" name="roomPositionCode" onchange="editPositionChange()"
+                                data-placeholder="请从列表选择一项" required>
+                            <option th:each="position: ${positionList}" th:value="${position.id}" th:text="${position.positionName}">
+                                位置不存在
+                            </option>
+                        </select>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label class="control-label" for="editRoomAdmin"><span class="asterisk">*</span>管理员:</label>
+                        <input id="editRoomAdmin" type="text" class="form-control" name="roomAdmin" readonly>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="roomAdminId"><span class="asterisk">*</span>管理员:</label>
+                        <select id="roomAdminId" class="form-control select2" name="roomAdminId" onchange="editAdminChange()"
+                                data-placeholder="请从列表选择一项" required>
+                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
+                                管理员不存在
+                            </option>
+                        </select>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="isEnabled"><span class="asterisk">*</span>状态:</label>
+                        <select id="isEnabled" class="form-control select2" name="isEnabled"
+                                data-placeholder="请从列表选择一项" required>
+                            <option value="1">启用</option>
+                            <option value="0">停用</option>
+                        </select>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" form="editForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#editForm',url:'@{/trainingroom/update}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- delete modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteSmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="deleteSmallModalLabel">删除实训室</h4>
+            </div>
+            <div class="modal-body">
+                <form id="deleteForm"></form>
+                确定要删除选中的 <span class="records"></span> 条记录?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" form="deleteForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#deleteForm',url:'@{/trainingroom/delete-batch}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="actionButtons" class="admin-hide">
+    <!-- <a class="like" href="javascript:void(0)" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a> -->
+    <a shiro:hasPermission="trainingroom:update" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="编辑"><i class="glyphicon glyphicon-edit"></i></a>　
+    <a shiro:hasPermission="trainingroom:delete" class="remove ml10" href="javascript:void(0)" data-toggle="tooltip" title="删除"><i class="glyphicon glyphicon-remove"></i></a>　
+</div>
+
+<script th:inline="javascript">
+    var $table = $('#table');
+
+    $(function () {
+        $table.bootstrapTable({
+            url: CONTEXT_PATH + '/trainingroom/list',
+            idField: 'id',
+            columns: [
+                {field: 'state', checkbox: true},
+                {field: 'id', title: '序号', sortable: true, halign: 'left'},
+                {field: 'roomName', title: '实训室名称', sortable: true, halign: 'left', formatter: 'roomNameFormatter'},
+                {field: 'belongSys', title: '所属系', halign: 'center', align: 'center'},
+                {field: 'roomPosition', title: '位置', halign: 'center', align: 'center'},
+                {field: 'roomAdmin', title: '管理员', halign: 'center', align: 'center'},
+                {field: 'createTime', title: '建立时间', halign: 'center', align: 'center'},
+                {field: 'equipNum', title: '设备数量', sortable: true, halign: 'left'},
+                {field: 'isEnabled', title: '是否启用', halign: 'center', align: 'center', formatter: 'enabledFormatter'},
+                {
+                    field: 'action',
+                    title: '操作',
+                    halign: 'center',
+                    align: 'center',
+                    formatter: 'actionFormatter',
+                    events: 'actionEvents',
+                    clickToSelect: false
+                }
+            ]
+        });
+    });
+
+    function editAfter(obj, row) {
+    	$('#editForm').find('[name=belongSysId]').find('option[value=' + row.belongSysId + ']').prop('selected', true);
+    	$('#editForm').find('[name=roomPositionCode]').find('option[value=' + row.roomPositionCode + ']').prop('selected', true);
+    	$('#editForm').find('[name=roomAdminId]').find('option[value=' + row.roomAdminId + ']').prop('selected', true);
+    	$('#editForm').find('[name=isEnabled]').find('option[value=' + row.isEnabled + ']').prop('selected', true);
+    }
+
+    function roomNameFormatter(value, row, index) {
+    	return '<a href="#" onclick="refresh(\'' + row.id + '\',\'' + row.roomName +'\')">' + value + '</a>'
+    }
+
+    function enabledFormatter(value, row, index) {
+    	if(value == 1) {
+    		return '<span class="qiyong">启用</span>'
+    	}
+    	return '<span class="tingyong">停用</span>'
+    }
+
+    function actionFormatter(value, row, index) {
+        return $('#actionButtons').html();
+    }
+
+    function refresh(id, name) {
+    	localStorage.setItem("trainingRoomId", id);
+    	localStorage.setItem("trainingRoom", name);
+    	document.querySelector('a[href="#asset"]').click();
+    }
+
+    window.actionEvents = {
+        'click .edit': function (e, value, row, index) {
+            $('#editModal').modal('show')
+            $('#editForm').fillForm(row);
+            editAfter('', row);
+        },
+        'click .remove': function (e, value, row, index) {
+            $('#deleteModal').modal('show');
+            $('.records').html('1');
+            var html = '';
+            for (var key in row) {
+                html += '<input type="hidden" name="' + key + '" value="' + row[key] + '">';
+            }
+            $('#deleteForm').html(html);
+        }
+    };
+
+    function addSysChange() {
+    	var addSysText = $('#addForm').find('[name=belongSysId]').find('option:selected').text();
+    	$('#addBelongSys').val(addSysText);
+    }
+
+    function addPositionChange() {
+    	var addPositionText = $('#addForm').find('[name=roomPositionCode]').find('option:selected').text();
+    	$('#addRoomPosition').val(addPositionText);
+    }
+
+    function addAdminChange() {
+    	var addAdminText = $('#addForm').find('[name=roomAdminId]').find('option:selected').text();
+    	$('#addRoomAdmin').val(addAdminText);
+    }
+
+    function editSysChange() {
+    	var editSysText = $('#editForm').find('[name=belongSysId]').find('option:selected').text();
+    	$('#editBelongSys').val(editSysText);
+    }
+
+    function editPositionChange() {
+    	var editPositionText = $('#editForm').find('[name=roomPositionCode]').find('option:selected').text();
+    	$('#editRoomPosition').val(editPositionText);
+    }
+
+    function editAdminChange() {
+    	var editAdminText = $('#editForm').find('[name=roomAdminId]').find('option:selected').text();
+    	$('#editRoomAdmin').val(editAdminText);
+    }
+
+    function addLoad() {
+    	addSysChange();
+    	addPositionChange();
+    	addAdminChange();
+    }
+</script>
+</html>

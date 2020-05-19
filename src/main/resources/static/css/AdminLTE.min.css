@@ -11,3 +11,45 @@
     	.menu-open.treeview>a:hover {
     		color: #349af5 !important;
     	}
+    	.qiyong {
+    		padding: 6px 19px;
+    		box-sizing: border-box;
+    		color: #409eff;
+    		border: 1px solid #b3d8ff;
+    		background-color: #ecf5ff;
+    	}
+    	.tingyong {
+    		padding: 6px 19px;
+    		box-sizing: border-box;
+    		color: #f56c6c;
+    		border: 1px solid #fbc4c4;
+    		background-color: #fef0f0;
+    	}
+    	.zaiyong {
+    		padding: 6px 19px;
+    		box-sizing: border-box;
+    		color: #409eff;
+    		border: 1px solid #b3d8ff;
+    		background-color: #ecf5ff;
+    	}
+    	.zhengchang {
+    		padding: 6px 19px;
+    		box-sizing: border-box;
+    		color: #67c23a;
+    		border: 1px solid #c2e7b0;
+    		background-color: #f0f9eb;
+    	}
+    	.weixiu {
+    		padding: 6px 19px;
+    		box-sizing: border-box;
+    		color: #e6a23c;
+    		border: 1px solid #f5dab1;
+    		background-color: #fdf6ec;
+    	}
+    	.baofei {
+    		padding: 6px 19px;
+    		box-sizing: border-box;
+    		color: #f56c6c;
+    		border: 1px solid #fbc4c4;
+    		background-color: #fef0f0;
+    	}

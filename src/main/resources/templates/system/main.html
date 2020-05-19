@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+      <style>
+      	.piebar {
+      		display: flex;
+      	}
+      	.pie {
+      		display: flex;
+      		flex-direction: column;
+      		flex: 0 0 350px;
+      		height: 300px;
+      	}
+      	.pie_title {
+      		flex: 0 0 30px;
+      		font-size: 20px;
+      		font-weight:700;
+      		text-indent:15px;
+      		line-height:30px;
+      	}
+      	.pie_chart {
+      		flex: 1;
+      	}
+      	.bar {
+      		flex: 1;
+      		height: 300px;
+      	}
+      	.taps {
+      		display: flex;
+      		justify-content: space-between;
+      	}
+      	.tap_item {
+      		display: flex;
+      		flex: 0 0 380px;
+      		align-items: center;
+      		justify-content: center;
+      		height: 100px;
+      		border-radius: 10px;
+      		color: #fff;
+      	}
+      	.tap_img {
+      		width: 50px;
+      		height: 50px;
+      		margin-right:10px;
+      	}
+      	.tap_msg {
+      		text-align: center;
+      		margin-left: 10px;
+      	}
+      	.tap_title {
+      		font-size: 15px;
+      		line-height: 30px;
+      	}
+      	.tap_num {
+      		font-size: 22px;
+      		font-weight:700;
+      		line-height:30px;
+      	}
+      </style>
+<!-- Content Header (Page header) -->
+<section class="content-header" style="">
+    <h1>
+        系统首页
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                	<div class="taps">
+                		<div class="tap_item" style="background:  linear-gradient(90deg, rgb(151, 104, 245) 0%, rgb(63, 106, 245) 100%);">
+                			<img class="tap_img" th:src="@{/static/img/room.png}">
+                			<div class="tap_msg">
+                				<div class="tap_title">实训教室数</div>
+                				<div class="tap_num">47</div>
+                			</div>
+                		</div>
+                		<div class="tap_item" style="background: linear-gradient(90deg, rgb(254, 141, 123) 0%, rgb(255, 99, 161) 100%);">
+                			<img class="tap_img" th:src="@{/static/img/sb.png}">
+                			<div class="tap_msg">
+                				<div class="tap_title">设备总数</div>
+                				<div class="tap_num">2000</div>
+                			</div>
+                		</div>
+                		<div class="tap_item" style="background: linear-gradient(90deg, rgb(238, 177, 112) 0%, rgb(254, 122, 83) 100%);">
+                			<img class="tap_img" th:src="@{/static/img/xl.png}">
+                			<div class="tap_msg">
+                				<div class="tap_title">维修设备数</div>
+                				<div class="tap_num">12</div>
+                			</div>
+                		</div>
+                		<div class="tap_item" style="background: linear-gradient(90deg, rgb(111, 209, 239) 0%, rgb(82, 155, 251) 100%);">
+                			<img class="tap_img" th:src="@{/static/img/hc.png}">
+                			<div class="tap_msg">
+                				<div class="tap_title">耗材总数</div>
+                				<div class="tap_num">4500</div>
+                			</div>
+                		</div>
+                	</div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                	<div id="toolbar">
+                        <form class="form-inline" id="searchForm">
+                            <div class="form-group">
+                                <label for="searchName"> 待办事项 </label>
+                            </div>
+                        </form>
+                    </div>
+                    <table id="table"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="piebar">
+                    	<div class="pie">
+                    		<div class="pie_title">设备统计</div>
+                    		<div id="sbtjpie" class="pie_chart"></div>
+                    	</div>
+                    	<div id="sbtjbar" class="bar"></div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="piebar">
+                    	<div class="pie">
+                    		<div class="pie_title">耗材统计</div>
+                    		<div id="hctjpie" class="pie_chart"></div>
+                    	</div>
+                    	<div id="hctjbar" class="bar"></div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<script th:inline="javascript">
+var $table = $('#table');
+var datas = [{
+	id: 1,
+	item: '设备维修',
+	title: '丰田教具车需维修',
+	people: 'admin',
+	time: '2019-12-12'
+}, {
+	id: 2,
+	item: '设备维修',
+	title: '丰田教案板需维修',
+	people: 'admin',
+	time: '2019-12-13'
+}, {
+	id: 3,
+	item: '耗材申请',
+	title: '润滑油申请',
+	people: 'admin',
+	time: '2019-12-13'
+}, {
+	id: 4,
+	item: '耗材申请',
+	title: '手套申请',
+	people: 'cheshi',
+	time: '2019-12-15'
+}, {
+	id: 5,
+	item: '设备巡检',
+	title: '丰田教具车需巡检',
+	people: 'ceshi',
+	time: '2019-12-19'
+}]
+
+$(function () {
+    $table.bootstrapTable({
+        data: datas,
+        idField: 'id',
+        columns: [
+            {field: 'id', title: '序号', halign: 'center', align: 'center'},
+            {field: 'item', title: '待办事项', halign: 'center', align: 'center'},
+            {field: 'title', title: '待办标题', halign: 'center', align: 'center'},
+            {field: 'people', title: '提交人', halign: 'center', align: 'center'},
+            {field: 'time', title: '提交时间', halign: 'center', align: 'center'}
+        ]
+    });
+    drawPie1();
+    drawPie2();
+    drawBar1();
+    drawBar2();
+});
+
+function drawPie1() {
+	var echartData = [{
+	    value: 200,
+	    name: '发动机'
+	}, {
+	    value: 77,
+	    name: '汽车模型'
+	}, {
+	    value: 19,
+	    name: '汽车零件'
+	}, {
+	    value: 165,
+	    name: '配件'
+	}, {
+	    value: 99,
+	    name: '示教板'
+	}, {
+	    value: 111,
+	    name: '模具车'
+	}]
+	option = {
+	    title: {
+	        text:'设备总数',
+	        left:'center',
+	        top:'52%',
+	        padding:[14, 0],
+	        textStyle:{
+	            color:'#000',
+	            fontSize: 16,
+	            align:'center'
+	        }
+	    },
+	    tooltip: {
+	        trigger: 'item',
+	        formatter: '{a} <br/>{b}：{c} 个<br/>占比：{d}%'
+	    },
+	    legend: {
+	        selectedMode: false,
+	        formatter: function(name) {
+	            var total = 0;
+	            var averagePercent;
+	            echartData.forEach(function(value, index, array) {
+	                total += value.value;
+	            });
+	            return total;
+	        },
+	        data: [echartData[0].name],
+	        left: 'center',
+	        top: 'center',
+	        icon: 'none',
+	        align:'center',
+	        textStyle: {
+	            color: "#000",
+	            fontSize: 20
+	        },
+	    },
+	    series: [{
+	        name: '设备总数',
+	        type: 'pie',
+	        radius: ['63%', '75%'],
+	        hoverAnimation: false,
+	        color: ['#c487ee', '#deb140', '#49dff0', '#034079', '#6f81da', '#00ffb4'],
+	        data: echartData
+	    }]
+	};
+	var myChart = echarts.init(document.getElementById('sbtjpie'));
+	myChart.setOption(option);
+}
+
+function drawPie2() {
+	var echartData = [{
+	    value: 1523,
+	    name: '润滑油'
+	}, {
+	    value: 2213,
+	    name: '手套'
+	}, {
+	    value: 1231,
+	    name: '扳手'
+	}, {
+	    value: 223,
+	    name: '教材'
+	}, {
+	    value: 564,
+	    name: '卡纸'
+	}]
+	option = {
+	    title: {
+	        text:'本年度耗材使用',
+	        left:'center',
+	        top:'52%',
+	        padding:[14, 0],
+	        textStyle:{
+	            color:'#000',
+	            fontSize: 16,
+	            align:'center'
+	        }
+	    },
+	    tooltip: {
+	        trigger: 'item',
+	        formatter: '{a} <br/>{b}：{c} 个<br/>占比：{d}%'
+	    },
+	    legend: {
+	        selectedMode: false,
+	        formatter: function(name) {
+	            var total = 0;
+	            var averagePercent;
+	            echartData.forEach(function(value, index, array) {
+	                total += value.value;
+	            });
+	            return total;
+	        },
+	        data: [echartData[0].name],
+	        left: 'center',
+	        top: 'center',
+	        icon: 'none',
+	        align:'center',
+	        textStyle: {
+	            color: "#000",
+	            fontSize: 20
+	        },
+	    },
+	    series: [{
+	        name: '本年度耗材使用',
+	        type: 'pie',
+	        radius: ['63%', '75%'],
+	        hoverAnimation: false,
+	        color: ['#c487ee', '#deb140', '#49dff0', '#034079', '#6f81da', '#00ffb4'],
+	        data: echartData
+	    }]
+	};
+	var myChart = echarts.init(document.getElementById('hctjpie'));
+	myChart.setOption(option);
+}
+
+function drawBar1() {
+	 var colors = [{
+	     type: 'linear',
+	     x: 0,
+	     x2: 0,
+	     y: 0,
+	     y2: 1,
+	     colorStops: [{
+	         offset: 0,
+	         color: '#28f0f5'
+	     }, {
+	         offset: 0.5,
+	         color: '#16abaf'
+	     }, {
+	         offset: 0.5,
+	         color: '#16abaf'
+	     }, {
+	         offset: 1,
+	         color: '#077175'
+	     }]
+	 }, {
+	     type: 'linear',
+	     x: 0,
+	     x2: 0,
+	     y: 0,
+	     y2: 1,
+	     colorStops: [{
+	         offset: 0,
+	         color: '#0172e2'
+	     }, {
+	         offset: 0.5,
+	         color: '#0656c6'
+	     }, {
+	         offset: 0.5,
+	         color: '#0656c6'
+	     }, {
+	         offset: 1,
+	         color: '#0f299a'
+	     }]
+	 }];
+	 option = {
+	     tooltip: {
+	         trigger: 'item',
+	     },
+	     legend: {
+	    	 top: 10,
+	         right: 30,
+	         textStyle: {
+	             color: '#000',
+	         },
+	     },
+	     grid: {
+	    	 top: 60,
+	    	 bottom: 30,
+	    	 left: 60,
+	    	 right: 25
+	     },
+	     xAxis: [{
+	         type: 'category',
+	         axisLine: {
+	             lineStyle: {
+	                 color: '#000'
+	             }
+	         },
+	         axisLabel: {
+	             fontSize: 14
+	         },
+	         data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+	     }],
+	     yAxis: [{
+	         type: 'value',
+	         min: 0,
+	         splitLine: {
+	             lineStyle: {
+	                 color: '#65C6E7'
+	             }
+	         },
+	         splitNumber: 5,
+	         axisLine: {
+	             show: false
+	         },
+	         axisTick: {
+	             show: false
+	         },
+	         axisLabel: {
+	             fontSize: 14,
+	             color: '#000'
+	         },
+
+	     }],
+	     series: [{
+	             z: 1,
+	             name: '今年使用量',
+	             type: 'bar',
+	             barWidth: 25,
+	             data: [20, 9, 37, 23, 25, 67, 16, 59, 40, 24, 27, 77],
+	             itemStyle: {
+	                 normal: {
+	                     color: colors[0]
+	                 },
+	             }
+	         }, {
+	             z: 3,
+	             type: 'pictorialBar',
+	             symbolPosition: 'end',
+	             data: [20, 9, 37, 23, 25, 67, 16, 59, 40, 24, 27, 77],
+	             symbol: 'diamond',
+	             symbolOffset: [-12.5, '-50%'],
+	             symbolSize: [25 - 4, (10 * (25 - 4)) / 25],
+	             itemStyle: {
+	                 normal: {
+	                     borderColor: '#12bac1',
+	                     borderWidth: 2,
+	                     color: '#12bac1'
+	                 }
+	             },
+	         },
+	         {
+	             z: 1,
+	             name: '去年同期量',
+	             type: 'bar',
+	             barGap: 0,
+	             barWidth: 25,
+	             data: [16, 59, 40, 24, 27, 77, 20, 9, 37, 23, 25, 67],
+	             itemStyle: {
+	                 normal: {
+	                     color: colors[1]
+	                 }
+	             }
+	         },
+	         {
+	             z: 3,
+	             type: 'pictorialBar',
+	             symbolPosition: 'end',
+	             data: [16, 59, 40, 24, 27, 77, 20, 9, 37, 23, 25, 67],
+	             symbol: 'diamond',
+	             symbolOffset: [12.5, '-50%'],
+	             symbolSize: [25 - 4, (10 * (25 - 4)) / 25],
+	             itemStyle: {
+	                 normal: {
+	                     borderColor: '#319cf1',
+	                     borderWidth: 2,
+	                     color: '#319cf1'
+	                 }
+	             },
+	         }
+	     ]
+	 };
+	 var myChart = echarts.init(document.getElementById('sbtjbar'));
+		myChart.setOption(option);
+}
+
+function drawBar2() {
+	 var colors = [{
+	     type: 'linear',
+	     x: 0,
+	     x2: 0,
+	     y: 0,
+	     y2: 1,
+	     colorStops: [{
+	         offset: 0,
+	         color: '#28f0f5'
+	     }, {
+	         offset: 0.5,
+	         color: '#16abaf'
+	     }, {
+	         offset: 0.5,
+	         color: '#16abaf'
+	     }, {
+	         offset: 1,
+	         color: '#077175'
+	     }]
+	 }, {
+	     type: 'linear',
+	     x: 0,
+	     x2: 0,
+	     y: 0,
+	     y2: 1,
+	     colorStops: [{
+	         offset: 0,
+	         color: '#0172e2'
+	     }, {
+	         offset: 0.5,
+	         color: '#0656c6'
+	     }, {
+	         offset: 0.5,
+	         color: '#0656c6'
+	     }, {
+	         offset: 1,
+	         color: '#0f299a'
+	     }]
+	 }];
+	 option = {
+	     tooltip: {
+	         trigger: 'item',
+	     },
+	     legend: {
+	    	 top: 10,
+	         right: 30,
+	         textStyle: {
+	             color: '#000',
+	         },
+	     },
+	     grid: {
+	    	 top: 60,
+	    	 bottom: 30,
+	    	 left: 60,
+	    	 right: 25
+	     },
+	     xAxis: [{
+	         type: 'category',
+	         axisLine: {
+	             lineStyle: {
+	                 color: '#000'
+	             }
+	         },
+	         axisLabel: {
+	             fontSize: 14
+	         },
+	         data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+	     }],
+	     yAxis: [{
+	         type: 'value',
+	         min: 0,
+	         splitLine: {
+	             lineStyle: {
+	                 color: '#65C6E7'
+	             }
+	         },
+	         splitNumber: 5,
+	         axisLine: {
+	             show: false
+	         },
+	         axisTick: {
+	             show: false
+	         },
+	         axisLabel: {
+	             fontSize: 14,
+	             color: '#000'
+	         },
+
+	     }],
+	     series: [{
+	             z: 1,
+	             name: '今年使用量',
+	             type: 'bar',
+	             barWidth: 25,
+	             data: [20, 9, 37, 23, 25, 67, 16, 59, 40, 24, 27, 77],
+	             itemStyle: {
+	                 normal: {
+	                     color: colors[0]
+	                 },
+	             }
+	         }, {
+	             z: 3,
+	             type: 'pictorialBar',
+	             symbolPosition: 'end',
+	             data: [20, 9, 37, 23, 25, 67, 16, 59, 40, 24, 27, 77],
+	             symbol: 'diamond',
+	             symbolOffset: [-12.5, '-50%'],
+	             symbolSize: [25 - 4, (10 * (25 - 4)) / 25],
+	             itemStyle: {
+	                 normal: {
+	                     borderColor: '#12bac1',
+	                     borderWidth: 2,
+	                     color: '#12bac1'
+	                 }
+	             },
+	         },
+	         {
+	             z: 1,
+	             name: '去年同期量',
+	             type: 'bar',
+	             barGap: 0,
+	             barWidth: 25,
+	             data: [16, 59, 40, 24, 27, 77, 20, 9, 37, 23, 25, 67],
+	             itemStyle: {
+	                 normal: {
+	                     color: colors[1]
+	                 }
+	             }
+	         },
+	         {
+	             z: 3,
+	             type: 'pictorialBar',
+	             symbolPosition: 'end',
+	             data: [16, 59, 40, 24, 27, 77, 20, 9, 37, 23, 25, 67],
+	             symbol: 'diamond',
+	             symbolOffset: [12.5, '-50%'],
+	             symbolSize: [25 - 4, (10 * (25 - 4)) / 25],
+	             itemStyle: {
+	                 normal: {
+	                     borderColor: '#319cf1',
+	                     borderWidth: 2,
+	                     color: '#319cf1'
+	                 }
+	             },
+	         }
+	     ]
+	 };
+	 var myChart = echarts.init(document.getElementById('hctjbar'));
+		myChart.setOption(option);
+}
+</script>
+</html>

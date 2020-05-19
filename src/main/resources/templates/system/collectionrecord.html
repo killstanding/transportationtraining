@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<section class="content-header">
+    <h1>
+        工具管理
+        <small>工具详情页面</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li><a href="#">耗材工具</a></li>
+        <li><a href="#">工具管理</a></li>
+        <li class="active"><span id="nnaa"></span>工具详情</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="tb"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="toolbar">
+                        <form class="form-inline" id="searchForm">
+                            <div class="form-group">
+                            	<input type="hidden" class="form-control input-sm" name="assetName" id="searchId" readonly>
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                            	<button type="button" class="btn btn-default">
+                                    领用记录
+                                </button>
+                            	<button type="button" class="btn btn-default" onclick="returnBack()">
+                                    返回上一级
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <table id="table"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<script th:inline="javascript">
+    var $table = $('#table');
+
+    $(function () {
+    	var datas = [];
+    	var toolId = localStorage.getItem("toolId");
+    	var toolName = localStorage.getItem("toolName");
+    	if(toolName != undefined) {
+    		if(toolName != '') {
+    			document.querySelector('#nnaa').innerHTML = toolName + '-';
+    		}else {
+    			document.querySelector('#nnaa').innerHTML = '';
+    		}
+    		$('#searchId').val(toolName);
+    	}
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/tools/' + toolId,
+            success:function(data){
+            	datas.push(data.data);
+            	$('#tb').bootstrapTable({
+                    data: datas,
+                    pagination : false,
+                    columns: [
+        				{field: 'assetName', title: '工具名称', halign: 'center', align: 'center'},
+        				{field: 'assetClassification', title: '资产分类', halign: 'center', align: 'center'},
+        				{field: 'specificationType', title: '规格型号', halign: 'center', align: 'center'},
+        				{field: 'assetValue', title: '价值（元）', halign: 'center', align: 'center'},
+        				{field: 'bookkeepingDate', title: '记账日期', halign: 'center', align: 'center'},
+        				{field: 'positionName', title: '存放地点', halign: 'center', align: 'center'},
+        				{field: 'useDepartment', title: '所属系', halign: 'center', align: 'center'},
+        				{field: 'assetUser', title: '使用人', halign: 'center', align: 'center'},
+                    ]
+                });
+            }
+        });
+        $table.bootstrapTable({
+            url: CONTEXT_PATH + '/collectionrecord/list',
+            idField: 'id',
+            columns: [
+				{field: 'id', title: '序号', sortable: true, halign: 'left'},
+                {field: 'collectionTime', title: '领用时间', sortable: true, halign: 'left'},
+                {field: 'collectionMajor', title: '领用专业', halign: 'center', align: 'center'},
+                {field: 'collectionCourse', title: '领用课程', halign: 'center', align: 'center'},
+                {field: 'applicant', title: '申请人', halign: 'center', align: 'center'},
+                {field: 'collectedQuantity', title: '领用数量', sortable: true, halign: 'left'}
+            ]
+        });
+    });
+    
+    function returnBack() {
+    	document.querySelector('a[href="#tools"]').click();
+    }
+</script>
+</html>
