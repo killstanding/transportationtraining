@@ -18,9 +18,11 @@ import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.training.po.FlowNode;
 import tech.wetech.admin.modules.training.po.MaintenanceRecord;
+import tech.wetech.admin.modules.training.po.PubCode;
 import tech.wetech.admin.modules.training.po.StatusCountResult;
 import tech.wetech.admin.modules.training.service.FlowNodeService;
 import tech.wetech.admin.modules.training.service.MaintenanceRecordService;
+import tech.wetech.admin.modules.training.service.PubCodeService;
 import tech.wetech.excel.ExcelWriteUtil;
 import org.springframework.ui.Model;
 
@@ -42,10 +44,15 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
     private ConfigProperties configProperties;
     @Autowired
     private FlowNodeService flowNodeService;
+	@Autowired
+    private PubCodeService pubCodeService;
 	
     @GetMapping
     @RequiresPermissions("maintenancerecord:view")
     public String page(Model model) {
+    	PubCode pubCode = new PubCode();
+    	pubCode.setPubType("asset_status");
+    	model.addAttribute("asset_statusList", pubCodeService.queryList(pubCode));
         return "system/maintenancerecord";
     }
     
@@ -108,9 +115,11 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
     @SystemLog("设备维修设备维修记录创建")
     @Override
     public Result create(@Validated(MaintenanceRecord.MaintenanceRecordCreateChecks.class) MaintenanceRecord entity) {
-    	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
+    	Date d = new Date();
+    	String curTime  = DateUtil.dateToStr(d, DateUtil.TIME_FORMATE);
     	entity.setCreateTime(curTime);
     	entity.setUpdateTime(curTime);
+    	entity.setCreateYear(DateUtil.dateToStr(d, DateUtil.YEAR_FORMATE));
     	service.create(entity);
         return Result.success();
     }

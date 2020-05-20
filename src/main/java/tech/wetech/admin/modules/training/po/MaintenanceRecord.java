@@ -185,6 +185,12 @@ public class MaintenanceRecord extends BaseRowModel{
     @Column(name = "update_time")
     private String updateTime;
 
+    /**
+     * 创建年份
+     */
+    @ApiModelProperty(value = "创建年份", name = "createYear", required = false, example = "2020")
+    @Column(name = "create_year")
+    private String createYear;
     
     public interface MaintenanceRecordCreateChecks {}
 
@@ -603,5 +609,23 @@ public class MaintenanceRecord extends BaseRowModel{
      */
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+    /**
+     * 获取创建年份
+     *
+     * @return create_year - 创建年份
+     */
+    public String getCreateYear() {
+        return createYear;
+    }
+
+    /**
+     * 设置创建年份
+     *
+     * @param createYear 创建年份
+     */
+    public void setCreateYear(String createYear) {
+        this.createYear = createYear;
     }
 }

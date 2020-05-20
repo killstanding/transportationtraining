@@ -28,6 +28,7 @@
     <result column="attachment_path" property="attachmentPath" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="create_year" property="createYear" jdbcType="VARCHAR" />
   </resultMap>
   
   <select id="selectCountNumGourpByStatus" resultType="tech.wetech.admin.modules.training.po.StatusCountResult">

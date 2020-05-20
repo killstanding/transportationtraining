@@ -1,4 +1,4 @@
-package tech.wetech.admin.modules.training.web;
+  package tech.wetech.admin.modules.training.web;
 
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -33,12 +33,6 @@ public class TeachingPlanController extends BaseCrudController<TeachingPlan> {
     @RequiresPermissions("teachingplan:view")
     public String page(Model model) {
         return "system/teachingplan";
-    }
-    
-    @GetMapping
-    @RequiresPermissions("teachingplan:view")
-    public String editPage(Model model) {
-        return "system/teachingplanedit";
     }
     
     @ResponseBody
