@@ -48,7 +48,7 @@ public class InspectionPlanYearController extends BaseCrudController<InspectionP
     private TrainingRoomService trainingRoomService;
     @GetMapping
     @RequiresPermissions("inspectionplanyear:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
     	PubCode pubCode = new PubCode();
 		pubCode.setPubType("inspection_cycle");
 		model.addAttribute("inspectionCycleList", pubCodeService.queryList(pubCode));

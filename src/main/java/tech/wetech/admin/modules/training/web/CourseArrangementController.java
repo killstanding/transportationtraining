@@ -35,7 +35,7 @@ public class CourseArrangementController extends BaseCrudController<CourseArrang
     
     @GetMapping
     @RequiresPermissions("coursearrangement:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
     	model.addAttribute("weekYearServiceList", weekYearService.queryAll());
         return "system/coursearrangement";
     }

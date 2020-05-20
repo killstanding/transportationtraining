@@ -47,7 +47,7 @@ public class InspectionPlanController extends BaseCrudController<InspectionPlan>
     
     @GetMapping
     @RequiresPermissions("inspectionplan:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
     	model.addAttribute("userList", userService.queryAll());
     	model.addAttribute("trainingRoomList", trainingRoomService.queryAll());
         return "system/inspectionplan";

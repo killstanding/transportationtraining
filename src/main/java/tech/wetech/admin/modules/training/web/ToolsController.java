@@ -55,7 +55,7 @@ public class ToolsController extends BaseCrudController<Tools> {
 	
     @GetMapping
     @RequiresPermissions("tools:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
     	model.addAttribute("positionList", positionService.queryAll());
     	model.addAttribute("organizationList", organizationService.queryAll());
     	model.addAttribute("userList", userService.queryAll());

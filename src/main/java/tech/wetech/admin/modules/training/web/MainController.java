@@ -16,7 +16,7 @@ public class MainController extends BaseCrudController<Sys> {
 
     @GetMapping
     @RequiresPermissions("main:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
         return "system/main";
     }
    

@@ -45,7 +45,7 @@ public class CollectionRecordController extends BaseCrudController<CollectionRec
     
     @GetMapping
     @RequiresPermissions("collectionrecord:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
     	model.addAttribute("positionList", positionService.queryAll());
     	model.addAttribute("userList", userService.queryAll());
         return "system/collectionrecord";

@@ -32,7 +32,7 @@ public class CourseArrangementReAssetController extends BaseCrudController<Cours
     
     @GetMapping
     @RequiresPermissions("coursearrangementreasset:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
         return "system/coursearrangementreasset";
     }
     

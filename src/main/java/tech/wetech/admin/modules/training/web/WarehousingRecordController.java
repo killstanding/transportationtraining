@@ -44,7 +44,7 @@ public class WarehousingRecordController extends BaseCrudController<WarehousingR
     
     @GetMapping
     @RequiresPermissions("warehousingrecord:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
     	model.addAttribute("positionList", positionService.queryAll());
     	model.addAttribute("userList", userService.queryAll());
         return "system/warehousingrecord";

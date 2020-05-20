@@ -49,7 +49,7 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
     
     @GetMapping
     @RequiresPermissions("trainingroom:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
     	Organization org = new Organization();
     	org.setParentId(1L);
     	org.setAvailable(true);

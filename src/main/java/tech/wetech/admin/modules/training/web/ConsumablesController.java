@@ -50,7 +50,7 @@ public class ConsumablesController extends BaseCrudController<Consumables> {
 	
     @GetMapping
     @RequiresPermissions("consumables:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
     	model.addAttribute("positionList", positionService.queryAll());
     	model.addAttribute("userList", userService.queryAll());
     	model.addAttribute("assetTypeList", assetTypeService.queryAll());

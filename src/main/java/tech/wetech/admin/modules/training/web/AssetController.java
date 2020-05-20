@@ -68,7 +68,7 @@ public class AssetController extends BaseCrudController<Asset> {
     
     @GetMapping
     @RequiresPermissions("asset:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
     	model.addAttribute("assetClassificationList", assetClassificationService.queryAll());
     	model.addAttribute("assetTypeList", assetTypeService.queryAll());
     	model.addAttribute("positionList", positionService.queryAll());

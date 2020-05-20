@@ -29,7 +29,7 @@ public class FlowNodeController extends BaseCrudController<FlowNode> {
     
     @GetMapping
     @RequiresPermissions("flownode:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
         return "system/flownode";
     }
     

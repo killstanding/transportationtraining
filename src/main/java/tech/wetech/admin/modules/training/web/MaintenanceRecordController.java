@@ -45,7 +45,7 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
 	
     @GetMapping
     @RequiresPermissions("maintenancerecord:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
         return "system/maintenancerecord";
     }
     

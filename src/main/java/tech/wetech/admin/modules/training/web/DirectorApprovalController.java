@@ -29,7 +29,7 @@ public class DirectorApprovalController extends BaseCrudController<DirectorAppro
     
     @GetMapping
     @RequiresPermissions("directorapproval:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
         return "system/directorapproval";
     }
     

@@ -32,7 +32,7 @@ public class CourseArrangementReConsumablesController extends BaseCrudController
     
     @GetMapping
     @RequiresPermissions("coursearrangementreconsumables:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
         return "system/coursearrangementreconsumables";
     }
     

@@ -29,7 +29,7 @@ public class FailureConfirmationController extends BaseCrudController<FailureCon
     
     @GetMapping
     @RequiresPermissions("failureconfirmation:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
         return "system/failureconfirmation";
     }
     

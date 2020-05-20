@@ -38,7 +38,7 @@ public class FlowDetailController extends BaseCrudController<FlowDetail> {
     
     @GetMapping
     @RequiresPermissions("flowdetail:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
         return "system/flowdetail";
     }
     

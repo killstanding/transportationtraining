@@ -42,7 +42,7 @@ public class ChaptersController extends BaseCrudController<Chapters> {
     
     @GetMapping
     @RequiresPermissions("chapters:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
         return "system/chapters";
     }
     @ApiOperation(value = "获取章节tree")

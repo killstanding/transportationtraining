@@ -39,7 +39,7 @@ public class CoursesController extends BaseCrudController<Courses> {
 	
 	@GetMapping
 	@RequiresPermissions("courses:view")
-	public String userPage(Model model) {
+	public String page(Model model) {
 		PubCode pubCode = new PubCode();
     	pubCode.setPubType("course_type");
     	model.addAttribute("courseTypeList", pubCodeService.queryList(pubCode));

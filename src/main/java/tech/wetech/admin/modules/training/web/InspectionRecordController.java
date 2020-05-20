@@ -55,7 +55,7 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
 	
     @GetMapping
     @RequiresPermissions("inspectionrecord:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
     	model.addAttribute("userList", userService.queryAll());
     	model.addAttribute("assetList", assetService.queryAll());
     	model.addAttribute("assetClassificationList", assetClassificationService.queryAll());

@@ -31,7 +31,7 @@ public class MaintenanceRecordResultsController extends BaseCrudController<Maint
     
     @GetMapping
     @RequiresPermissions("maintenancerecordresults:view")
-    public String userPage(Model model) {
+    public String page(Model model) {
         return "system/maintenancerecordresults";
     }
     
