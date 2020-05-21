@@ -18,11 +18,9 @@ import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.training.po.FlowNode;
 import tech.wetech.admin.modules.training.po.MaintenanceRecord;
-import tech.wetech.admin.modules.training.po.PubCode;
 import tech.wetech.admin.modules.training.po.StatusCountResult;
 import tech.wetech.admin.modules.training.service.FlowNodeService;
 import tech.wetech.admin.modules.training.service.MaintenanceRecordService;
-import tech.wetech.admin.modules.training.service.PubCodeService;
 import tech.wetech.excel.ExcelWriteUtil;
 import org.springframework.ui.Model;
 
@@ -44,15 +42,14 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
     private ConfigProperties configProperties;
     @Autowired
     private FlowNodeService flowNodeService;
-	@Autowired
-    private PubCodeService pubCodeService;
 	
     @GetMapping
     @RequiresPermissions("maintenancerecord:view")
     public String page(Model model) {
-    	PubCode pubCode = new PubCode();
-    	pubCode.setPubType("asset_status");
-    	model.addAttribute("asset_statusList", pubCodeService.queryList(pubCode));
+    	FlowNode flowNode = new FlowNode();
+    	flowNode.setFlowTypeCode("equipment_maintenance");
+    	List<FlowNode> flowNodeList = flowNodeService.queryList(flowNode);
+    	model.addAttribute("flowNodeList", flowNodeList);
         return "system/maintenancerecord";
     }
     
