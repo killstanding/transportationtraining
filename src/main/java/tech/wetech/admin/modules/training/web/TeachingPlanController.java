@@ -35,6 +35,12 @@ public class TeachingPlanController extends BaseCrudController<TeachingPlan> {
         return "system/teachingplan";
     }
     
+    @GetMapping("/editpage")
+    @RequiresPermissions("teachingplan:view")
+    public String editpage(Model model) {
+        return "system/teachingplanedit";
+    }
+    
     @ResponseBody
     @GetMapping("/list")
     @RequiresPermissions("teachingplan:view")
