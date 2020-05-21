@@ -14,8 +14,13 @@ import tech.wetech.admin.core.utils.DateUtil;
 import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.system.service.OrganizationService;
+import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.CourseArrangement;
 import tech.wetech.admin.modules.training.service.CourseArrangementService;
+import tech.wetech.admin.modules.training.service.CoursesService;
+import tech.wetech.admin.modules.training.service.TeachingPlanService;
+import tech.wetech.admin.modules.training.service.TrainingRoomService;
 import tech.wetech.admin.modules.training.service.WeekYearService;
 
 import java.util.Date;
@@ -32,11 +37,26 @@ public class CourseArrangementController extends BaseCrudController<CourseArrang
     private CourseArrangementService service;
     @Autowired
     private WeekYearService weekYearService;
-    
+	@Autowired
+	private CoursesService coursesService;
+	@Autowired
+	private UserService userService;
+	@Autowired
+    private OrganizationService organizationService;
+	@Autowired
+    private TrainingRoomService trainingRoomService;
+	@Autowired
+    private TeachingPlanService teachingPlanService;
+	
     @GetMapping
     @RequiresPermissions("coursearrangement:view")
     public String page(Model model) {
     	model.addAttribute("weekYearServiceList", weekYearService.queryAll());
+    	model.addAttribute("userList", userService.queryAll());
+    	model.addAttribute("coursesList", coursesService.queryAll());
+    	model.addAttribute("organizationList", organizationService.queryAll());
+    	model.addAttribute("trainingRoomList", trainingRoomService.queryAll());
+    	model.addAttribute("teachingPlanList", teachingPlanService.queryAll());
         return "system/coursearrangement";
     }
     
