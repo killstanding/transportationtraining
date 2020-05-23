@@ -15,7 +15,12 @@ import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.training.po.CourseArrangementReAsset;
+import tech.wetech.admin.modules.training.po.PubCode;
+import tech.wetech.admin.modules.training.service.AssetClassificationService;
+import tech.wetech.admin.modules.training.service.AssetService;
 import tech.wetech.admin.modules.training.service.CourseArrangementReAssetService;
+import tech.wetech.admin.modules.training.service.PubCodeService;
+
 import java.util.Date;
 import java.util.List;
 
@@ -28,11 +33,21 @@ public class CourseArrangementReAssetController extends BaseCrudController<Cours
 
 	@Autowired
     private CourseArrangementReAssetService service;
-    
-    
+	@Autowired
+    private AssetService assetService;
+	@Autowired
+    private AssetClassificationService assetClassificationService;
+	@Autowired
+    private PubCodeService pubCodeService;
+	
     @GetMapping
     @RequiresPermissions("coursearrangementreasset:view")
     public String page(Model model) {
+    	model.addAttribute("assetClassificationList", assetClassificationService.queryAll());
+    	PubCode pubCode = new PubCode();
+    	pubCode.setPubType("asset_status");
+    	model.addAttribute("assetStatusList", pubCodeService.queryList(pubCode));
+    	model.addAttribute("assetList", assetService.queryAll());
         return "system/coursearrangementreasset";
     }
     

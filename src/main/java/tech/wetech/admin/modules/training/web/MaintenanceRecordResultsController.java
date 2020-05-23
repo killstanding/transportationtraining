@@ -12,8 +12,13 @@ import tech.wetech.admin.core.utils.DateUtil;
 import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.system.service.OrganizationService;
+import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.MaintenanceRecordResults;
+import tech.wetech.admin.modules.training.po.PubCode;
 import tech.wetech.admin.modules.training.service.MaintenanceRecordResultsService;
+import tech.wetech.admin.modules.training.service.PubCodeService;
+
 import org.springframework.ui.Model;
 
 import java.util.Date;
@@ -28,10 +33,21 @@ public class MaintenanceRecordResultsController extends BaseCrudController<Maint
 
     @Autowired
     private MaintenanceRecordResultsService service;
-    
+    @Autowired
+	private UserService userService;
+	@Autowired
+    private OrganizationService organizationService;
+	@Autowired
+    private PubCodeService pubCodeService;
+	
     @GetMapping
     @RequiresPermissions("maintenancerecordresults:view")
     public String page(Model model) {
+    	model.addAttribute("userList", userService.queryAll());
+    	model.addAttribute("organizationList", organizationService.queryAll());
+    	PubCode pubCode = new PubCode();
+    	pubCode.setPubType("maintenance_type");
+    	model.addAttribute("maintenanceTypeList", pubCodeService.queryList(pubCode));
         return "system/maintenancerecordresults";
     }
     

@@ -12,8 +12,14 @@ import tech.wetech.admin.core.utils.DateUtil;
 import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.system.service.OrganizationService;
+import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.FailureConfirmation;
+import tech.wetech.admin.modules.training.service.AssetClassificationService;
+import tech.wetech.admin.modules.training.service.AssetService;
 import tech.wetech.admin.modules.training.service.FailureConfirmationService;
+import tech.wetech.admin.modules.training.service.PositionService;
+
 import org.springframework.ui.Model;
 import java.util.Date;
 import java.util.List;
@@ -26,10 +32,25 @@ public class FailureConfirmationController extends BaseCrudController<FailureCon
 
     @Autowired
     private FailureConfirmationService service;
-    
+	@Autowired
+    private AssetClassificationService assetClassificationService;
+	@Autowired
+	private PositionService positionService;
+	@Autowired
+    private OrganizationService organizationService;
+    @Autowired
+    private UserService userService;
+	@Autowired
+    private AssetService assetService;
+	
     @GetMapping
     @RequiresPermissions("failureconfirmation:view")
     public String page(Model model) {
+    	model.addAttribute("assetClassificationList", assetClassificationService.queryAll());
+    	model.addAttribute("positionList", positionService.queryAll());
+    	model.addAttribute("organizationList", organizationService.queryAll());
+    	model.addAttribute("userList", userService.queryAll());
+    	model.addAttribute("assetList", assetService.queryAll());
         return "system/failureconfirmation";
     }
     
