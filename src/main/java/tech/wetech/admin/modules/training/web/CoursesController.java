@@ -15,8 +15,10 @@ import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.UserService;
+import tech.wetech.admin.modules.training.po.Chapters;
 import tech.wetech.admin.modules.training.po.Courses;
 import tech.wetech.admin.modules.training.po.PubCode;
+import tech.wetech.admin.modules.training.service.ChaptersService;
 import tech.wetech.admin.modules.training.service.CoursesService;
 import tech.wetech.admin.modules.training.service.PubCodeService;
 
@@ -36,7 +38,8 @@ public class CoursesController extends BaseCrudController<Courses> {
 	private UserService userService;
 	@Autowired
     private PubCodeService pubCodeService;
-	
+	@Autowired
+    private ChaptersService chaptersService;
 	@GetMapping
 	@RequiresPermissions("courses:view")
 	public String page(Model model) {
@@ -65,7 +68,18 @@ public class CoursesController extends BaseCrudController<Courses> {
 		String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
 		entity.setCreateTime(curTime);
 		entity.setUpdateTime(curTime);
-		service.create(entity);
+		int  courseId = service.create(entity);
+		
+		//新建章节根节点
+		Chapters chapter = new Chapters();
+		chapter.setChapterName("课程大纲");
+		chapter.setChapterSort("0");
+		chapter.setChapterLevel("0");
+		chapter.setCourseId(courseId);
+		chapter.setCreateTime(curTime);
+		chapter.setUpdateTime(curTime);
+		chaptersService.count(chapter);
+		
 		return Result.success();
 	}
 
