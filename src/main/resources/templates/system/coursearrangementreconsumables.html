@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<section class="content-header">
+    <h1>
+        课程实施
+        <small>排课耗材页面</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li><a href="#">课程管理</a></li>
+        <li><a href="#">课程实施</a></li>
+        <li class="active"><span id="nnaa"></span>排课耗材</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="toolbar">
+                        <form class="form-inline" id="searchForm">
+                            <div class="form-group">
+                            	<input type="hidden" class="form-control input-sm" name=courseArrangementId id="searchId" readonly>
+                                <label for="searchName"> 耗材名称 </label>
+                                <input type="text" class="form-control input-sm" name="consumablesName" id="searchName" placeholder="请输入耗材名称">
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-default" onclick="javascript:$('table').bootstrapTable('refresh', {silent: true});">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                    查询
+                                </button>
+                                <button type="reset" class="btn btn-default">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    清空
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="returnBack()">
+                                    返回上一级
+                                </button>
+                            </div>
+                        </form>
+                        <div class="btn-group btn-group-sm">
+                            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                            <button shiro:hasPermission="coursearrangementreconsumables:create" type="button" id="addBtn" class="btn btn-default"
+                                    data-toggle="modal"
+                                    data-target="#addModal" onclick="addLoad()"><i class="glyphicon glyphicon-plus"></i> 新增
+                            </button>
+                            <!-- Indicates caution should be taken with this action -->
+                            <button shiro:hasPermission="coursearrangementreconsumables:update" type="button" id="editBtn" class="btn btn-default"
+                                    data-toggle="modal"
+                                    data-target="#editModal"
+                                    data-action="{type:'editable',form:'#editForm',table:'#table',after:'editAfter'}"
+                                    disabled><i class="glyphicon glyphicon-edit"></i> 修改
+                            </button>
+                            <!-- Indicates a dangerous or potentially negative action -->
+                            <button shiro:hasPermission="coursearrangementreconsumables:delete" type="button" id="deleteBtn" class="btn btn-default"
+                            		data-toggle="modal"
+                                    data-target="#deleteModal"
+                                    data-action="{type:'delete',form:'#deleteForm',idField:'id',table:'#table'}"
+                                    disabled><i class="glyphicon glyphicon-remove"></i> 删除
+                            </button>
+                        </div>
+                    </div>
+                    <table id="table"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<!-- add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addModalLabel">添加耗材</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addForm">
+                	<input type="hidden" id="addPkbh" name="courseArrangementId"/>
+                	<div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="addConsumablesName"><span class="asterisk">*</span>耗材名称:</label>
+                        	<input id="addConsumablesName" type="text" class="form-control" name="consumablesName" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-12">
+	                        <label class="control-label" for="consumablesId"><span class="asterisk">*</span>耗材名称:</label>
+		                    <select id="consumablesId" class="form-control select2" name="consumablesId" onchange="addConsumablesChange()"
+		                            data-placeholder="请从列表选择一项" required>
+		                        <option th:each="consumables: ${consumablesList}" th:value="${consumables.id}" th:text="${consumables.consumablesName}">
+		                            耗材名称不存在
+		                        </option>
+		                    </select>
+		                    <div class="help-block with-errors"></div>
+	                    </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="addSpecificationType"><span class="asterisk">*</span>规格型号:</label>
+                        	<input id="addSpecificationType" type="text" class="form-control" name="specificationType" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-12">
+	                        <label class="control-label" for="specificationTypeCode"><span class="asterisk">*</span>规格型号:</label>
+		                    <select id="specificationTypeCode" class="form-control select2" name="specificationTypeCode" onchange="addSpecificationTypeChange()"
+		                            data-placeholder="请从列表选择一项" required>
+		                        <option th:each="assetType: ${assetTypeList}" th:value="${assetType.id}" th:text="${assetType.typeName}">
+		                            规格型号不存在
+		                        </option>
+		                    </select>
+		                    <div class="help-block with-errors"></div>
+	                    </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="addPositionName"><span class="asterisk">*</span>存放地点:</label>
+                        	<input id="addPositionName" type="text" class="form-control" name="positionName" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-12">
+                        	<label class="control-label" for="positionCode"><span class="asterisk">*</span>存放地点:</label>
+	                        <select id="positionCode" class="form-control select2" name="positionCode" onchange="addPositionChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="position: ${positionList}" th:value="${position.id}" th:text="${position.positionName}">
+	                            存放地点不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                        	<label class="control-label" for="numberOfApplications"><span class="asterisk">*</span>申请数量:</label>
+	                    	<input id="numberOfApplications" type="text" class="form-control" name="numberOfApplications" placeholder="输入数量"
+                               required>
+	                    	<div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" form="addForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#addForm',url:'@{/coursearrangementreconsumables/create}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editModalLabel">修改耗材</h4>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" name="id"/>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                        	<label class="control-label" for="editConsumablesName"><span class="asterisk">*</span>耗材名称:</label>
+                        	<input id="editConsumablesName" type="text" class="form-control" name="consumablesName" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="editSpecificationType"><span class="asterisk">*</span>规格型号:</label>
+                        	<input id="editSpecificationType" type="text" class="form-control" name="specificationType" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-12">
+	                        <label class="control-label" for="specificationTypeCode"><span class="asterisk">*</span>规格型号:</label>
+		                    <select id="specificationTypeCode" class="form-control select2" name="specificationTypeCode" onchange="editSpecificationTypeChange()"
+		                            data-placeholder="请从列表选择一项" required>
+		                        <option th:each="assetType: ${assetTypeList}" th:value="${assetType.id}" th:text="${assetType.typeName}">
+		                            规格型号不存在
+		                        </option>
+		                    </select>
+		                    <div class="help-block with-errors"></div>
+	                    </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="editPositionName"><span class="asterisk">*</span>存放地点:</label>
+                        	<input id="editPositionName" type="text" class="form-control" name="positionName" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-12">
+                        	<label class="control-label" for="positionCode"><span class="asterisk">*</span>存放地点:</label>
+	                        <select id="positionCode" class="form-control select2" name="positionCode" onchange="editPositionChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="position: ${positionList}" th:value="${position.id}" th:text="${position.positionName}">
+	                            存放地点不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                        	<label class="control-label" for="numberOfApplications"><span class="asterisk">*</span>申请数量:</label>
+	                    	<input id="numberOfApplications" type="text" class="form-control" name="numberOfApplications" placeholder="输入数量"
+                               required>
+	                    	<div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" form="editForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#editForm',url:'@{/coursearrangementreconsumables/update}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- delete modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteSmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="deleteSmallModalLabel">删除耗材</h4>
+            </div>
+            <div class="modal-body">
+                <form id="deleteForm"></form>
+                确定要删除选中的 <span class="records"></span> 条记录?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" form="deleteForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#deleteForm',url:'@{/coursearrangementreconsumables/delete-batch}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="actionButtons" class="admin-hide">
+    <!-- <a class="like" href="javascript:void(0)" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a> -->
+    <a shiro:hasPermission="coursearrangementreconsumables:update" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="编辑"><i class="glyphicon glyphicon-edit"></i></a>　
+    <a shiro:hasPermission="coursearrangementreconsumables:delete" class="remove ml10" href="javascript:void(0)" data-toggle="tooltip" title="删除"><i class="glyphicon glyphicon-remove"></i></a>　
+</div>
+
+<script th:inline="javascript">
+    var $table = $('#table');
+
+    $(function () {
+    	var pkbh = localStorage.getItem("pkbh");
+    	if(pkbh != undefined) {
+    		$('#searchId').val(pkbh);
+    	}
+    	var pkkcmc = localStorage.getItem("pkkcmc");
+    	if(pkkcmc != undefined) {
+    		if(pkkcmc != '') {
+    			document.querySelector('#nnaa').innerHTML = pkkcmc + '-';
+    		}else {
+    			document.querySelector('#nnaa').innerHTML = '';
+    		}
+    	}
+        $table.bootstrapTable({
+            url: CONTEXT_PATH + '/coursearrangementreconsumables/list',
+            idField: 'id',
+            columns: [
+                {field: 'state', checkbox: true},
+                {field: 'id', title: '序号', sortable: true, halign: 'left'},
+                {field: 'consumablesName', title: '耗材名称', sortable: true, halign: 'left'},
+                {field: 'specificationType', title: '规格型号', halign: 'center', align: 'center'},
+                {field: 'positionName', title: '存放地点', halign: 'center', align: 'center'},
+                {field: 'numberOfApplications', title: '申请数量', sortable: true, halign: 'left'},
+                {
+                    field: 'action',
+                    title: '操作',
+                    halign: 'center',
+                    align: 'center',
+                    formatter: 'actionFormatter',
+                    events: 'actionEvents',
+                    clickToSelect: false
+                }
+            ]
+        });
+    });
+
+    function editAfter(obj, row) {
+    	$('#editForm').find('[name=specificationTypeCode]').find('option[value=' + row.specificationTypeCode + ']').prop('selected', true);
+    	$('#editForm').find('[name=postionCode]').find('option[value=' + row.postionCode + ']').prop('selected', true);
+    }
+
+    function actionFormatter(value, row, index) {
+        return $('#actionButtons').html();
+    }
+
+    function returnBack() {
+    	document.querySelector('a[href="#coursearrangement"]').click();
+    }
+    
+    window.actionEvents = {
+        'click .edit': function (e, value, row, index) {
+            $('#editModal').modal('show')
+            $('#editForm').fillForm(row);
+            editAfter('', row);
+        },
+        'click .remove': function (e, value, row, index) {
+            $('#deleteModal').modal('show');
+            $('.records').html('1');
+            var html = '';
+            for (var key in row) {
+                html += '<input type="hidden" name="' + key + '" value="' + row[key] + '">';
+            }
+            $('#deleteForm').html(html);
+        }
+    };
+    
+    function addConsumablesChange() {
+    	var addConsumablesText = $('#addForm').find('[name=consumablesId]').find('option:selected').text();
+    	$('#addConsumablesName').val(addConsumablesText);
+    }
+    
+    function addSpecificationTypeChange() {
+    	var addSpecificationTypeText = $('#addForm').find('[name=specificationTypeCode]').find('option:selected').text();
+    	$('#addSpecificationType').val(addSpecificationTypeText);
+    }
+    
+    function addPositionChange() {
+    	var addPositionText = $('#addForm').find('[name=positionCode]').find('option:selected').text();
+    	$('#addPositionName').val(addPositionText);
+    }
+    
+    function editSpecificationTypeChange() {
+    	var editSpecificationTypeText = $('#editForm').find('[name=specificationTypeCode]').find('option:selected').text();
+    	$('#editSpecificationType').val(editSpecificationTypeText);
+    }
+    
+    function editPositionChange() {
+    	var editPositionText = $('#editForm').find('[name=positionCode]').find('option:selected').text();
+    	$('#editPositionName').val(editPositionText);
+    }
+    
+    function addLoad() {
+    	$('#addPkbh').val(localStorage.getItem("pkbh"));
+    	addConsumablesChange();
+    	addSpecificationTypeChange();
+    	addPositionChange();
+    }
+</script>
+</html>

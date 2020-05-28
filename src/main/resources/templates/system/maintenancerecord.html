@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+      <style>
+      	.select2.select2-container  {
+      		width: 32% !important;
+      	}
+      </style>
+<section class="content-header">
+    <h1>
+        设备维修
+        <small>维修记录页面</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li><a href="#">设备管理</a></li>
+        <li><a href="#">设备维修</a></li>
+        <li class="active">维修记录</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="toolbar">
+                        <form class="form-inline" id="searchForm">
+                            <div class="form-group">
+                            	<label for="searchName"> 创建年份 </label>
+                                <div class='input-group date' id='searchName' style="width:35%;">
+					                <input type='text' class="form-control" name="createYear">
+					                <span class="input-group-addon">
+					                    <span class="glyphicon glyphicon-calendar"></span>
+					                </span>
+					            </div>
+                                <label for="searchId"> 流程状态 </label>
+                                <select id="searchId" class="form-control select2" name="flowStatusCode"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="flow_node: ${flowNodeList}" th:value="${flow_node.flowNodeCode}" th:text="${flow_node.flowNodeName}">
+	                            流程状态不存在
+	                            </option>
+	                        </select>
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-default" onclick="javascript:$('table').bootstrapTable('refresh', {silent: true});">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                    查询
+                                </button>
+                                <button type="reset" class="btn btn-default">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    清空
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <table id="table"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<script th:inline="javascript">
+    var $table = $('#table');
+
+    $(function () {
+    	$('#searchName').datepicker({
+            format: 'yyyy',
+            minViewMode: 2,
+            maxViewMode: 2,
+            autoclose: true
+        });
+        $table.bootstrapTable({
+            url: CONTEXT_PATH + '/maintenancerecord/list',
+            columns: [
+                {field: 'id', title: '序号', sortable: true, halign: 'left'},
+                {field: 'recordId', title: '维修记录编号', sortable: true, halign: 'left', formatter: 'recordIdFormatter'},
+                {field: 'recordName', title: '维修记录名称', halign: 'center', align: 'center'},
+                {field: 'assetName', title: '维修设备名称', halign: 'center', align: 'center', formatter: 'assetNameFormatter'},
+                {field: 'assetClassification', title: '维修设备类型', halign: 'center', align: 'center'},
+                {field: 'flowStatus', title: '流程状态', halign: 'center', align: 'center'},
+                {field: 'maintenanceCosts', title: '维修费用（元）', sortable: true, halign: 'left'},
+                {field: 'createYear', title: '创建年份', sortable: true, halign: 'left'}
+            ]
+        });
+    });
+    
+    function recordIdFormatter(value, row, index) {
+    	return '<a style="cursor: pointer" onclick="toFlow(' + row.id + ')">' + value + '</a>'
+    }
+    
+    function assetNameFormatter(value, row, index) {
+    	return '<a style="cursor: pointer" onclick="toAsset()">' + value + '</a>'
+    }
+    
+    function toFlow(id) {
+    	localStorage.setItem("weixiuId", id);
+    	window.location.hash = '#maintenancerecordresults';
+    	location.reload();
+    }
+    
+    function toAsset() {
+    }
+</script>
+</html>

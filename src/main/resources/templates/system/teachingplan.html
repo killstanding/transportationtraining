@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<section class="content-header">
+    <h1>
+        教案管理
+        <small>教案设计页面</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li><a href="#">课程管理</a></li>
+        <li><a href="#">教案管理</a></li>
+        <li class="active">教案设计</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="toolbar">
+                        <form class="form-inline" id="searchForm">
+                            <div class="form-group">
+                                <label for="searchName"> 课程名称 </label>
+                                <input type="text" class="form-control input-sm" name="courseName" id="searchName" placeholder="请输入课程名称">
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-default" onclick="javascript:$('table').bootstrapTable('refresh', {silent: true});">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                    查询
+                                </button>
+                                <button type="reset" class="btn btn-default">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    清空
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <table id="table"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<script th:inline="javascript">
+    var $table = $('#table');
+
+    $(function () {
+        $table.bootstrapTable({
+            url: CONTEXT_PATH + '/courses/list',
+            columns: [
+                {field: 'id', title: '序号', sortable: true, halign: 'left'},
+                {field: 'courseCode', title: '课程编码', sortable: true, halign: 'left'},
+                {field: 'courseName', title: '课程名称', halign: 'center', align: 'center'},
+                {field: 'courseType', title: '课程类型', halign: 'center', align: 'center'},
+                {field: 'courseDirector', title: '课程负责人', halign: 'center', align: 'center'},
+                {field: 'createTime', title: '创建时间', halign: 'center', align: 'center'},
+                {
+                    field: 'action',
+                    title: '操作',
+                    halign: 'center',
+                    align: 'center',
+                    formatter: 'actionFormatter',
+                    clickToSelect: false
+                }
+            ]
+        });
+    });
+    
+    function actionFormatter(value, row, index) {
+    	return '<a href="#" onclick="toDetail(\'' + row.id + '\')">编辑教案</a>'
+    }
+    
+    function toDetail(id) {
+    	localStorage.setItem("jiaoanId", id);
+    	window.location.hash = '#teachingplan/editpage';
+    	location.reload();
+    }
+</script>
+</html>

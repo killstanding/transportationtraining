@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<section class="content-header">
+    <h1>
+        课程管理
+        <small>课程设计页面</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li><a href="#">课程管理</a></li>
+        <li><a href="#">课程管理</a></li>
+        <li class="active">课程设计</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="toolbar">
+                        <form class="form-inline" id="searchForm">
+                            <div class="form-group">
+                                <label for="searchName"> 课程名称 </label>
+                                <input type="text" class="form-control input-sm" name="courseName" id="searchName" placeholder="请输入课程名称">
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-default" onclick="javascript:$('table').bootstrapTable('refresh', {silent: true});">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                    查询
+                                </button>
+                                <button type="reset" class="btn btn-default">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    清空
+                                </button>
+                            </div>
+                        </form>
+                        <div class="btn-group btn-group-sm">
+                            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                            <button shiro:hasPermission="courses:create" type="button" id="addBtn" class="btn btn-default"
+                                    data-toggle="modal"
+                                    data-target="#addModal" onclick="addLoad()"><i class="glyphicon glyphicon-plus"></i> 新增
+                            </button>
+                            <!-- Indicates caution should be taken with this action -->
+                            <button shiro:hasPermission="courses:update" type="button" id="editBtn" class="btn btn-default"
+                                    data-toggle="modal"
+                                    data-target="#editModal"
+                                    data-action="{type:'editable',form:'#editForm',table:'#table',after:'editAfter'}"
+                                    disabled><i class="glyphicon glyphicon-edit"></i> 修改
+                            </button>
+                            <!-- Indicates a dangerous or potentially negative action -->
+                            <button shiro:hasPermission="courses:delete" type="button" id="deleteBtn" class="btn btn-default"
+                            		data-toggle="modal"
+                                    data-target="#deleteModal"
+                                    data-action="{type:'delete',form:'#deleteForm',idField:'id',table:'#table'}"
+                                    disabled><i class="glyphicon glyphicon-remove"></i> 删除
+                            </button>
+                        </div>
+                    </div>
+                    <table id="table"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<!-- add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addModalLabel">添加课程</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addForm">
+                	<div class="form-group">
+                        <label class="control-label" for="courseCode"><span class="asterisk">*</span>课程编号:</label>
+                        <input id="courseCode" type="text" class="form-control" name="courseCode" placeholder="输入课程编号"
+                               required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="courseName"><span class="asterisk">*</span>课程名称:</label>
+                        <input id="courseName" type="text" class="form-control" name="courseName" placeholder="输入课程名称"
+                               required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="addCourseType"><span class="asterisk">*</span>课程类型:</label>
+                        	<input id="addCourseType" type="text" class="form-control" name="courseType" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <label class="control-label" for="courseTypeCode"><span class="asterisk">*</span>课程类型:</label>
+	                    <select id="courseTypeCode" class="form-control select2" name="courseTypeCode" onchange="addCourseTypeChange()"
+	                            data-placeholder="请从列表选择一项" required>
+	                        <option th:each="courseType: ${courseTypeList}" th:value="${courseType.pubCode}" th:text="${courseType.pubName}">
+	                            课程类型不存在
+	                        </option>
+	                    </select>
+	                    <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="addCourseDirector"><span class="asterisk">*</span>课程负责人:</label>
+                        	<input id="addCourseDirector" type="text" class="form-control" name="courseDirector" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <label class="control-label" for="courseDirectorId"><span class="asterisk">*</span>课程负责人:</label>
+	                    <select id="courseDirectorId" class="form-control select2" name="courseDirectorId" onchange="addCourseDirectorChange()"
+	                            data-placeholder="请从列表选择一项" required>
+	                        <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
+	                            使用人不存在
+	                        </option>
+	                    </select>
+	                    <div class="help-block with-errors"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" form="addForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#addForm',url:'@{/courses/create}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editModalLabel">修改课程</h4>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" name="id"/>
+                	<div class="form-group">
+                        <label class="control-label" for="courseCode"><span class="asterisk">*</span>课程编号:</label>
+                        <input id="courseCode" type="text" class="form-control" name="courseCode"
+                               readonly required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="courseName"><span class="asterisk">*</span>课程名称:</label>
+                        <input id="courseName" type="text" class="form-control" name="courseName" placeholder="输入课程名称"
+                               required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="editCourseType"><span class="asterisk">*</span>课程类型:</label>
+                        	<input id="editCourseType" type="text" class="form-control" name="courseType" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <label class="control-label" for="courseTypeCode"><span class="asterisk">*</span>课程类型:</label>
+	                    <select id="courseTypeCode" class="form-control select2" name="courseTypeCode" onchange="editCourseTypeChange()"
+	                            data-placeholder="请从列表选择一项" required>
+	                        <option th:each="courseType: ${courseTypeList}" th:value="${courseType.pubCode}" th:text="${courseType.pubName}">
+	                            课程类型不存在
+	                        </option>
+	                    </select>
+	                    <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="editCourseDirector"><span class="asterisk">*</span>课程负责人:</label>
+                        	<input id="editCourseDirector" type="text" class="form-control" name="courseDirector" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <label class="control-label" for="courseDirectorId"><span class="asterisk">*</span>课程负责人:</label>
+	                    <select id="courseDirectorId" class="form-control select2" name="courseDirectorId" onchange="editCourseDirectorChange()"
+	                            data-placeholder="请从列表选择一项" required>
+	                        <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
+	                            使用人不存在
+	                        </option>
+	                    </select>
+	                    <div class="help-block with-errors"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" form="editForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#editForm',url:'@{/courses/update}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- delete modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteSmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="deleteSmallModalLabel">删除课程</h4>
+            </div>
+            <div class="modal-body">
+                <form id="deleteForm"></form>
+                确定要删除选中的 <span class="records"></span> 条记录?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" form="deleteForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#deleteForm',url:'@{/courses/delete-batch}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="actionButtons" class="admin-hide">
+    <!-- <a class="like" href="javascript:void(0)" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a> -->
+    <a shiro:hasPermission="courses:update" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="编辑"><i class="glyphicon glyphicon-edit"></i></a>　
+    <a shiro:hasPermission="courses:delete" class="remove ml10" href="javascript:void(0)" data-toggle="tooltip" title="删除"><i class="glyphicon glyphicon-remove"></i></a>　
+</div>
+
+<script th:inline="javascript">
+    var $table = $('#table');
+
+    $(function () {
+        $table.bootstrapTable({
+            url: CONTEXT_PATH + '/courses/list',
+            idField: 'id',
+            columns: [
+                {field: 'state', checkbox: true},
+                {field: 'id', title: '序号', sortable: true, halign: 'left'},
+                {field: 'courseCode', title: '课程编码', sortable: true, halign: 'left', formatter: 'courseCodeFormatter'},
+                {field: 'courseName', title: '课程名称', halign: 'center', align: 'center'},
+                {field: 'courseType', title: '课程类型', halign: 'center', align: 'center'},
+                {field: 'courseDirector', title: '课程负责人', halign: 'center', align: 'center'},
+                {field: 'createTime', title: '创建时间', halign: 'center', align: 'center'},
+                {
+                    field: 'action',
+                    title: '操作',
+                    halign: 'center',
+                    align: 'center',
+                    formatter: 'actionFormatter',
+                    events: 'actionEvents',
+                    clickToSelect: false
+                }
+            ]
+        });
+    });
+
+    function editAfter(obj, row) {
+    	$('#editForm').find('[name=courseDirectorId]').find('option[value=' + row.courseDirectorId + ']').prop('selected', true);
+    	$('#editForm').find('[name=courseTypeCode]').find('option[value=' + row.courseTypeCode + ']').prop('selected', true);
+    }
+
+    function courseCodeFormatter(value, row, index) {
+    	return '<a href="#" onclick="refresh(\'' + row.id + '\')">' + value +'</a>'
+    }
+
+    function actionFormatter(value, row, index) {
+        return $('#actionButtons').html();
+    }
+
+    function refresh(id) {
+    	localStorage.setItem("courseId", id);
+    	window.location.hash = '#chapters';
+    	location.reload();
+    }
+
+    window.actionEvents = {
+        'click .edit': function (e, value, row, index) {
+            $('#editModal').modal('show')
+            $('#editForm').fillForm(row);
+            editAfter('', row);
+        },
+        'click .remove': function (e, value, row, index) {
+            $('#deleteModal').modal('show');
+            $('.records').html('1');
+            var html = '';
+            for (var key in row) {
+                html += '<input type="hidden" name="' + key + '" value="' + row[key] + '">';
+            }
+            $('#deleteForm').html(html);
+        }
+    };
+    
+    function addCourseDirectorChange() {
+    	var addCourseDirectorText = $('#addForm').find('[name=courseDirectorId]').find('option:selected').text();
+    	$('#addCourseDirector').val(addCourseDirectorText);
+    }
+    
+    function addCourseTypeChange() {
+    	var addCourseTypeText = $('#addForm').find('[name=courseTypeCode]').find('option:selected').text();
+    	$('#addCourseType').val(addCourseTypeText);
+    }
+    
+    function editCourseDirectorChange() {
+    	var editCourseDirectorText = $('#editForm').find('[name=courseDirectorId]').find('option:selected').text();
+    	$('#editCourseDirector').val(editCourseDirectorText);
+    }
+    
+    function editCourseTypeChange() {
+    	var editCourseTypeText = $('#editForm').find('[name=courseTypeCode]').find('option:selected').text();
+    	$('#editCourseType').val(editCourseTypeText);
+    }
+    
+    function addLoad() {
+    	addCourseDirectorChange();
+    	addCourseTypeChange();
+    }
+</script>
+</html>
