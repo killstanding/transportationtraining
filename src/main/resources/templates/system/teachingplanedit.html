@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<style type="text/css">
+	.jblock {
+		display: flex;
+		border: 1px solid #333;
+		border-radius: 5px;
+		margin-bottom:20px;
+	}
+	.jid {
+		flex: 0 0 100px;
+		text-align: center;
+	    font-size: 26px;
+	    line-height: 260px;
+	    color: #3c8dbc;
+	    font-weight: 700;
+	}
+	.jbody {
+		flex: 1;
+		margin-right: 10px;
+	}
+	.jtitle {
+		display: flex;
+		height: 50px;
+		border-bottom: 1px solid #333;
+    margin-bottom: 20px;
+	}
+	.jname {
+		flex: 3;
+		line-height: 50px;
+		text-indent:20px;
+	}
+	.jtime {
+		flex: 2;
+		line-height: 50px;
+	}
+	.jopt {
+		flex: 0 0 60px;
+		display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+	}
+	.jcontent {
+		border: 1px solid #333;
+    border-radius: 8px;
+    height: 80px;
+    display: flex;
+    padding: 0 15px;
+    flex-direction: column;
+    justify-content: center;
+	}
+	.jvideo {
+		    border: 1px solid #333;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 15px;
+    margin-bottom: 10px;
+	}
+	.jppt {
+		border: 1px solid #333;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 15px;
+    margin: 10px 0;
+	}
+    div#rMenu {
+        position: absolute;
+        visibility: hidden;
+        text-align: left;
+        padding: 2px;
+        width: auto;
+        border: 1px
+    }
+
+    .dropdown-menu {
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+        display: none;
+        float: left;
+        font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        left: 0;
+        list-style: outside none none;
+        margin: 0;
+        padding: 5px;
+        position: absolute;
+        text-shadow: none;
+        top: 100%;
+        z-index: 1000;
+        min-width: 90px;
+    }
+
+    .dropdown-menu > li > a {
+        clear: both;
+        color: #333;
+        display: block;
+        font-weight: 400;
+        line-height: 1.42857;
+        padding: 3px 10px;
+        white-space: nowrap;
+    }
+
+    .ztree li {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        line-height: 20px;
+        text-align: left;
+        white-space: nowrap
+    }
+
+    .ztree li span {
+        margin-right: 2px;
+        font-weight: lighter;
+        font-size: 14px;
+        color: #000;
+        font-family: inherit;
+    }
+</style>
+<section class="content-header">
+    <h1>
+        教案管理
+        <small>教案编辑页面</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li><a href="#">课程管理</a></li>
+        <li><a href="#">教案管理</a></li>
+        <li class="active">教案设计</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                	<div id="toolbar">
+                        <form class="form-inline" id="searchForm">
+                            <div class="form-group">
+                            	<label for="searchName"> 课程信息 </label>
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                            	<button type="button" class="btn btn-default" onclick="returnBack()">
+                                    返回上一级
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <table id="tb"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="col-xs-12 col-sm-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">章节列表</div>
+                            <div class="panel-body">
+                                <ul id="tree" class="ztree"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-9">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                            	<span>教案</span>
+                            	<i class="glyphicon glyphicon-plus" style="float:right;cursor:pointer" onclick="showAddModel()"></i>
+                            </div>
+                            <div class="panel-body" id="jiaoanField">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="noAddModel()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addModalLabel">增加教案</h4>
+            </div>
+            <div class="modal-body">
+            	<form id="addForm">
+            		<input type="hidden" name="chapterId"/>
+                    <div class="form-group">
+                        <label class="control-label" for="teachingPlanName"><span class="asterisk">*</span>教案名称:</label>
+                        <input id="teachingPlanName" type="text" class="form-control" name="teachingPlanName"
+                               required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="estimatedTimeDuration"><span class="asterisk">*</span>预计时长:</label>
+                        <input id="estimatedTimeDuration" type="text" class="form-control" name="estimatedTimeDuration"
+                               required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="teachingPlanDescription"><span class="asterisk">*</span>教案描述:</label>
+                        <input id="teachingPlanDescription" type="text" class="form-control" name="teachingPlanDescription"
+                               required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="documentName">文档名称:</label>
+                        <input id="documentName" type="text" class="form-control" name="documentName">
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="documentPath">文档附件:</label>
+                        <input id="documentPath" type="file" class="form-control" style="border:none" name="documentPath">
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="videoName">视频名称:</label>
+                        <input id="videoName" type="text" class="form-control" name="videoName">
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="videoPath">视频附件:</label>
+                        <input id="videoPath" type="file" class="form-control" style="border:none" name="videoPath">
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="noAddModel()">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="addJ()">
+                    确定
+                </button>
+            </div>
+		</div> 
+	</div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="noResetModel()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editModalLabel">修改教案</h4>
+            </div>
+            <div class="modal-body">
+            	<form id="editForm">
+                    <input type="hidden" name="id"/>
+                    <div class="form-group">
+                        <label class="control-label" for="teachingPlanName"><span class="asterisk">*</span>教案名称:</label>
+                        <input id="teachingPlanName" type="text" class="form-control" name="teachingPlanName"
+                               readonly required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="estimatedTimeDuration"><span class="asterisk">*</span>预计时长:</label>
+                        <input id="estimatedTimeDuration" type="text" class="form-control" name="estimatedTimeDuration"
+                               required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="teachingPlanDescription"><span class="asterisk">*</span>教案描述:</label>
+                        <input id="teachingPlanDescription" type="text" class="form-control" name="teachingPlanDescription"
+                               required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="documentName">文档名称:</label>
+                        <input id="documentName" type="text" class="form-control" name="documentName">
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="documentPath">文档附件:</label>
+                        <input id="documentPath" type="file" class="form-control" style="border:none" name="documentPath">
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="videoName">视频名称:</label>
+                        <input id="videoName" type="text" class="form-control" name="videoName">
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="videoPath">视频附件:</label>
+                        <input id="videoPath" type="file" class="form-control" style="border:none" name="videoPath">
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="noResetModel()">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="resetJ()">
+                    确定
+                </button>
+            </div>
+		</div> 
+	</div>
+</div>
+<script type="text/javascript">
+    $(function () {
+    	var datas = [];
+    	var jiaoanId = localStorage.getItem("jiaoanId");
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/courses/' + jiaoanId,
+            success:function(data){
+            	datas.push(data.data);
+            	$('#tb').bootstrapTable({
+                    data: datas,
+                    pagination : false,
+                    columns: [
+                              {field: 'courseCode', title: '课程编码', halign: 'center', align: 'center'},
+                              {field: 'courseName', title: '课程名称', halign: 'center', align: 'center'},
+                              {field: 'courseType', title: '课程类型', halign: 'center', align: 'center'},
+                              {field: 'courseDirector', title: '课程负责人', halign: 'center', align: 'center'},
+                              {field: 'createTime', title: '创建时间', halign: 'center', align: 'center'}
+                    ]
+                });
+            }
+        });
+    	
+        var setting = {
+                data: {
+                    simpleData: {
+                        enable: true,
+                        idKey: 'id',
+                        pIdKey: 'pId',
+                        rootPId: 0
+                    }
+                },
+                view: {
+                    expandSpeed: 300,
+                },
+                async: {
+                    enable: true,
+                    url: getAsyncUrl
+                },
+                callback: {
+                    asyncError: zTreeOnAsyncError,
+                    beforeClick: beforeClick
+                }
+            }, zNodes = [];
+
+        $.fn.zTree.init($("#tree"), setting, zNodes);
+
+        // 获取异步连接
+        function getAsyncUrl(treeId, treeNode) {
+            return treeNode == undefined ? CONTEXT_PATH + '/chapters/toptree?id=' + jiaoanId : CONTEXT_PATH + '/chapters/tree?pId=' + treeNode.id;
+        }
+
+        // 加载错误的fun
+        function zTreeOnAsyncError(event, treeId, treeNode) {
+            alert('数据加载失败!');
+        }
+
+        // 点击之后的动作
+        function beforeClick(treeId, treeNode) {
+        	idid = treeNode.id;
+        	$('#addForm').find('[name=chapterId]').val(idid);
+        	getPlan();
+        }
+    });
+    
+    function returnBack() {
+    	document.querySelector('a[href="#teachingplan"]').click();
+    }
+    
+    function showAddModel() {
+    	if($('#addForm').find('[name=chapterId]').val() == '') {
+    		alert('请先选择一个章节');
+    	}else {
+    		$('#addModal').css('display', 'block');
+        	$('#addModal').addClass('in');
+        	$('#addForm').find('[name=teachingPlanName]').val(''),
+        	$('#addForm').find('[name=teachingPlanDescription]').val(''),
+        	$('#addForm').find('[name=estimatedTimeDuration]').val(''),
+        	$('#addForm').find('[name=documentName]').val(''),
+        	$('#addForm').find('[name=documentPath]').val(''),
+        	$('#addForm').find('[name=videoName]').val(''),
+        	$('#addForm').find('[name=videoPath]').val('')
+    	}
+    }
+    
+    function noAddModel() {
+    	$('#addModal').css('display', 'none');
+    	$('#addModal').removeClass("in");
+    }
+    
+    function addJ() {
+    	$.ajax({
+            type:"POST",
+            url: CONTEXT_PATH + '/teachingplan/create',
+            data: {
+            	chapterId: $('#addForm').find('[name=chapterId]').val(),
+            	teachingPlanName: $('#addForm').find('[name=teachingPlanName]').val(),
+            	teachingPlanDescription: $('#addForm').find('[name=teachingPlanDescription]').val(),
+            	estimatedTimeDuration: $('#addForm').find('[name=estimatedTimeDuration]').val(),
+            	documentName: $('#addForm').find('[name=documentName]').val(),
+            	documentPath: $('#addForm').find('[name=documentPath]').val(),
+            	videoName: $('#addForm').find('[name=videoName]').val(),
+            	videoPath: $('#addForm').find('[name=videoPath]').val()
+            },
+            success:function(data){
+            	noAddModel();
+            	getPlan();
+            }
+        });
+    }
+    
+    function showResetModel(id) {
+    	$('#editModal').css('display', 'block');
+    	$('#editModal').addClass('in');
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/teachingplan/list?id=' + id,
+            success:function(data){
+            	$('#editForm').find('[name=id]').val(id);
+            	$('#editForm').find('[name=teachingPlanName]').val(data.data[0].teachingPlanName);
+            	$('#editForm').find('[name=estimatedTimeDuration]').val(data.data[0].estimatedTimeDuration);
+            	$('#editForm').find('[name=teachingPlanDescription]').val(data.data[0].teachingPlanDescription);
+            	$('#editForm').find('[name=documentName]').val(data.data[0].documentName);
+            	$('#editForm').find('[name=documentPath]').val('');
+            	$('#editForm').find('[name=videoName]').val(data.data[0].videoName);
+            	$('#editForm').find('[name=videoPath]').val('');
+            }
+        });
+    }
+    
+    function noResetModel() {
+    	$('#editModal').css('display', 'none');
+    	$('#editModal').removeClass("in");
+    }
+    
+    function resetJ() {
+    	var newData;
+    	if($('#editForm').find('[name=documentPath]').val() == '' && $('#editForm').find('[name=videoPath]').val() == '') {
+    		newData = {
+            	id: $('#editForm').find('[name=id]').val(),
+            	teachingPlanDescription: $('#editForm').find('[name=teachingPlanDescription]').val(),
+            	estimatedTimeDuration: $('#editForm').find('[name=estimatedTimeDuration]').val(),
+            	documentName: $('#editForm').find('[name=documentName]').val(),
+            	videoName: $('#editForm').find('[name=videoName]').val()
+            };
+    	}else if($('#editForm').find('[name=documentPath]').val() != '' && $('#editForm').find('[name=videoPath]').val() != '') {
+    		newData = {
+                	id: $('#editForm').find('[name=id]').val(),
+                	teachingPlanDescription: $('#editForm').find('[name=teachingPlanDescription]').val(),
+                	estimatedTimeDuration: $('#editForm').find('[name=estimatedTimeDuration]').val(),
+                	documentName: $('#editForm').find('[name=documentName]').val(),
+                	documentPath: $('#editForm').find('[name=documentPath]').val(),
+                	videoName: $('#editForm').find('[name=videoName]').val(),
+                	videoPath: $('#editForm').find('[name=videoPath]').val()
+                };
+    	}else if($('#editForm').find('[name=documentPath]').val() == '') {
+    		newData = {
+                	id: $('#editForm').find('[name=id]').val(),
+                	teachingPlanDescription: $('#editForm').find('[name=teachingPlanDescription]').val(),
+                	estimatedTimeDuration: $('#editForm').find('[name=estimatedTimeDuration]').val(),
+                	documentName: $('#editForm').find('[name=documentName]').val(),
+                	videoName: $('#editForm').find('[name=videoName]').val(),
+                	videoPath: $('#editForm').find('[name=videoPath]').val()
+                };
+    	}else {
+    		newData = {
+                	id: $('#editForm').find('[name=id]').val(),
+                	teachingPlanDescription: $('#editForm').find('[name=teachingPlanDescription]').val(),
+                	estimatedTimeDuration: $('#editForm').find('[name=estimatedTimeDuration]').val(),
+                	documentName: $('#editForm').find('[name=documentName]').val(),
+                	documentPath: $('#editForm').find('[name=documentPath]').val(),
+                	videoName: $('#editForm').find('[name=videoName]').val()
+                };
+    	}
+    	$.ajax({
+            type:"POST",
+            url: CONTEXT_PATH + '/teachingplan/update',
+            data: newData,
+            success:function(data){
+            	noResetModel();
+            	getPlan();
+            }
+        });
+    }
+    
+    function deleteJ(id) {
+    	$.ajax({
+            type:"POST",
+            url: CONTEXT_PATH + '/teachingplan/delete',
+            data: {
+            	id: id
+            },
+            success:function(data){
+            	getPlan();
+            }
+        });
+    }
+    
+    var datas;
+    var idid;
+    function getPlan() {
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/teachingplan/list?chapterId=' + idid,
+            success:function(data){
+            	datas = data.data;
+            	$('#jiaoanField').empty();
+            	for(var i = 0; i < datas.length; i++) {
+            		$("#jiaoanField").append('<div class="jblock"><div class="jid">' + (i+1) + '</div><div class="jbody"><div class="jtitle"><div class="jname">' + datas[i].teachingPlanName + '</div><div class="jtime">预计时长：' + datas[i].estimatedTimeDuration + '分钟</div><div class="jopt"><i class="glyphicon glyphicon-edit" style="cursor:pointer;" onclick="showResetModel(' + datas[i].id + ')"></i> <i class="glyphicon glyphicon-remove" style="cursor:pointer;" onclick="deleteJ(' + datas[i].id + ')"></i></div></div><div class="jcontent">' + datas[i].teachingPlanDescription + '</div><div class="jppt"><a href="' + datas[i].documentPath + '" download="' + datas[i].documentName + '">' + datas[i].documentName + '</a></div><div class="jvideo"><a href="' + datas[i].videoPath + '" download="' + datas[i].videoName + '">' + datas[i].videoName + '</a></div></div></div>')
+            	}
+            }
+        });
+    }
+</script>
+</html>
