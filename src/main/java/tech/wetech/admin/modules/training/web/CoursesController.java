@@ -68,14 +68,14 @@ public class CoursesController extends BaseCrudController<Courses> {
 		String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
 		entity.setCreateTime(curTime);
 		entity.setUpdateTime(curTime);
-		int  courseId = service.create(entity);
+		service.create(entity);
 		
 		//新建章节根节点
 		Chapters chapter = new Chapters();
 		chapter.setChapterName("课程大纲");
 		chapter.setChapterSort("0");
 		chapter.setChapterLevel("0");
-		chapter.setCourseId(courseId);
+		chapter.setCourseId(entity.getId());
 		chapter.setCreateTime(curTime);
 		chapter.setUpdateTime(curTime);
 		chaptersService.count(chapter);
