@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="tech.wetech.admin.modules.training.mapper.AssetClassificationMapper" >
-  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.AssetClassification" >
+<mapper namespace="tech.wetech.admin.modules.training.mapper.SpecificationTypeMapper" >
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.SpecificationType" >
     <!--
       WARNING - @mbg.generated
     -->
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="classification_code" property="classificationCode" jdbcType="VARCHAR" />
-    <result column="classification_name" property="classificationName" jdbcType="VARCHAR" />
+    <result column="type_code" property="typeCode" jdbcType="VARCHAR" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
     <result column="asset_type" property="assetType" jdbcType="VARCHAR" />
     <result column="asset_type_code" property="assetTypeCode" jdbcType="VARCHAR" />
+    <result column="asset_classification_code" property="assetClassificationCode" jdbcType="VARCHAR" />
+    <result column="asset_classification" property="assetClassification" jdbcType="VARCHAR" />
   </resultMap>
 </mapper>

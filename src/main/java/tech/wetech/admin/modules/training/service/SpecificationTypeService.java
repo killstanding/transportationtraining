@@ -1,8 +1,8 @@
 package tech.wetech.admin.modules.training.service;
 
 import tech.wetech.admin.modules.base.service.IService;
-import tech.wetech.admin.modules.training.po.AssetType;
+import tech.wetech.admin.modules.training.po.SpecificationType;
 
-public interface AssetTypeService extends IService<AssetType> {
+public interface SpecificationTypeService extends IService<SpecificationType> {
    
 }

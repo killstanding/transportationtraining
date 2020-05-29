@@ -23,11 +23,13 @@ import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.Asset;
+import tech.wetech.admin.modules.training.po.AssetClassification;
 import tech.wetech.admin.modules.training.po.PubCode;
+import tech.wetech.admin.modules.training.po.SpecificationType;
 import tech.wetech.admin.modules.training.po.StatusCountResult;
 import tech.wetech.admin.modules.training.service.AssetClassificationService;
 import tech.wetech.admin.modules.training.service.AssetService;
-import tech.wetech.admin.modules.training.service.AssetTypeService;
+import tech.wetech.admin.modules.training.service.SpecificationTypeService;
 import tech.wetech.admin.modules.training.service.PositionService;
 import tech.wetech.admin.modules.training.service.PubCodeService;
 import tech.wetech.admin.modules.training.service.TrainingRoomService;
@@ -52,7 +54,7 @@ public class AssetController extends BaseCrudController<Asset> {
 	@Autowired
     private AssetClassificationService assetClassificationService;
 	@Autowired
-    private AssetTypeService assetTypeService;
+    private SpecificationTypeService specificationTypeService;
 	@Autowired
 	private PositionService positionService;
 	@Autowired
@@ -69,8 +71,12 @@ public class AssetController extends BaseCrudController<Asset> {
     @GetMapping
     @RequiresPermissions("asset:view")
     public String page(Model model) {
-    	model.addAttribute("assetClassificationList", assetClassificationService.queryAll());
-    	model.addAttribute("assetTypeList", assetTypeService.queryAll());
+    	AssetClassification assetClassification = new AssetClassification();
+    	assetClassification.setAssetTypeCode("asset_type_device");//设备
+    	model.addAttribute("assetClassificationList", assetClassificationService.queryList(assetClassification));
+    	SpecificationType specificationType = new SpecificationType();
+    	specificationType.setAssetTypeCode("asset_type_device");//设备
+    	model.addAttribute("assetTypeList", specificationTypeService.queryList(specificationType));//规格型号
     	model.addAttribute("positionList", positionService.queryAll());
     	model.addAttribute("organizationList", organizationService.queryAll());
     	PubCode pubCode = new PubCode();

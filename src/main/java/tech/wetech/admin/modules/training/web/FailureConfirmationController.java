@@ -14,6 +14,7 @@ import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
+import tech.wetech.admin.modules.training.po.AssetClassification;
 import tech.wetech.admin.modules.training.po.FailureConfirmation;
 import tech.wetech.admin.modules.training.service.AssetClassificationService;
 import tech.wetech.admin.modules.training.service.AssetService;
@@ -46,7 +47,9 @@ public class FailureConfirmationController extends BaseCrudController<FailureCon
     @GetMapping
     @RequiresPermissions("failureconfirmation:view")
     public String page(Model model) {
-    	model.addAttribute("assetClassificationList", assetClassificationService.queryAll());
+    	AssetClassification assetClassification = new AssetClassification();
+    	assetClassification.setAssetTypeCode("asset_type_device");//设备
+    	model.addAttribute("assetClassificationList", assetClassificationService.queryList(assetClassification));
     	model.addAttribute("positionList", positionService.queryAll());
     	model.addAttribute("organizationList", organizationService.queryAll());
     	model.addAttribute("userList", userService.queryAll());

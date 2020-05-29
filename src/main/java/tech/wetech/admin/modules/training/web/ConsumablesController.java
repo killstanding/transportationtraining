@@ -20,7 +20,8 @@ import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.Consumables;
-import tech.wetech.admin.modules.training.service.AssetTypeService;
+import tech.wetech.admin.modules.training.po.SpecificationType;
+import tech.wetech.admin.modules.training.service.SpecificationTypeService;
 import tech.wetech.admin.modules.training.service.ConsumablesService;
 import tech.wetech.admin.modules.training.service.PositionService;
 import tech.wetech.admin.modules.training.vo.FileVo;
@@ -46,14 +47,16 @@ public class ConsumablesController extends BaseCrudController<Consumables> {
     @Autowired
     private UserService userService;
 	@Autowired
-    private AssetTypeService assetTypeService;
+	private SpecificationTypeService specificationTypeService;
 	
     @GetMapping
     @RequiresPermissions("consumables:view")
     public String page(Model model) {
     	model.addAttribute("positionList", positionService.queryAll());
     	model.addAttribute("userList", userService.queryAll());
-    	model.addAttribute("assetTypeList", assetTypeService.queryAll());
+    	SpecificationType specificationType = new SpecificationType();
+    	specificationType.setAssetTypeCode("asset_type_consumables");//耗材
+    	model.addAttribute("assetTypeList", specificationTypeService.queryList(specificationType));//规格型号
         return "system/consumables";
     }
     

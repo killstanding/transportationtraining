@@ -48,6 +48,19 @@ public class AssetClassification {
     @Column(name = "update_Time")
     private String updateTime;
 
+    /**
+     * 资源类型
+     */
+    @ApiModelProperty(value = "资源类型", name = "assetType", required = false, example = "设备")
+    @Column(name = "asset_type")
+    private String assetType;
+
+    /**
+     * 资源类型编码
+     */
+    @ApiModelProperty(value = "资源类型", name = "assetTypeCode", required = false, example = "asset_type_device")
+    @Column(name = "asset_type_code")
+    private String assetTypeCode;
     
 
     public interface AssetClassificationCreateChecks {
@@ -146,5 +159,41 @@ public class AssetClassification {
      */
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+    
+    /**
+     * 获取资源类型
+     *
+     * @return asset_type - 资源类型
+     */
+    public String getAssetType() {
+        return assetType;
+    }
+
+    /**
+     * 设置资源类型
+     *
+     * @param assetType 资源类型
+     */
+    public void setAssetType(String assetType) {
+        this.assetType = assetType;
+    }
+
+    /**
+     * 获取资源类型编码
+     *
+     * @return asset_type_code - 资源类型编码
+     */
+    public String getAssetTypeCode() {
+        return assetTypeCode;
+    }
+
+    /**
+     * 设置资源类型编码
+     *
+     * @param assetTypeCode 资源类型编码
+     */
+    public void setAssetTypeCode(String assetTypeCode) {
+        this.assetTypeCode = assetTypeCode;
     }
 }

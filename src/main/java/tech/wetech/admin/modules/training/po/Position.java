@@ -5,7 +5,6 @@ import javax.validation.constraints.NotNull;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import tech.wetech.admin.modules.training.po.AssetType.AssetTypeCreateChecks;
 
 @Table(name = "t_position")
 @ApiModel(description = "位置信息")

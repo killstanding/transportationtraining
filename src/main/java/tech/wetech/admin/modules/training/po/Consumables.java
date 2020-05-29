@@ -32,7 +32,7 @@ public class Consumables extends BaseRowModel{
      * 耗材名称
      */
     @ExcelProperty(value = {"耗材名称","耗材名称"},index = 2)
-    @ApiModelProperty(value = "耗材名称", name = "consumablesName", required = false, example = "发动机机油")
+    @ApiModelProperty(value = "耗材名称", name = "consumablesName", required = false, example = "发动机机油滤清器")
     @Column(name = "consumables_name")
     private String consumablesName;
 
@@ -44,11 +44,24 @@ public class Consumables extends BaseRowModel{
     @Column(name = "bookkeeping_date")
     private String bookkeepingDate;
     
-    
+    /**
+     * 资产分类编号
+     */
+    @ApiModelProperty(value = "资产分类编号", name = "assetClassificationCode", required = false, example = "AC1010")
+    @Column(name = "asset_classification_code")
+    private String assetClassificationCode;
+
+    /**
+     * 资产分类名称
+     */
+    @ExcelProperty(value = {"资产分类名称","资产分类名称"},index = 4)
+    @ApiModelProperty(value = "资产分类名称", name = "assetClassification", required = false, example = "发动机机油滤清器")
+    @Column(name = "asset_classification")
+    private String assetClassification;
     /**
      * 耗材规格型号
      */
-    @ExcelProperty(value = {"耗材规格型号","耗材规格型号"},index = 4)
+    @ExcelProperty(value = {"耗材规格型号","耗材规格型号"},index = 5)
     @ApiModelProperty(value = "耗材规格型号", name = "specificationType", required = false, example = "嘉实多5W-30")
     @Column(name = "specification_type")
     private String specificationType;
@@ -63,7 +76,7 @@ public class Consumables extends BaseRowModel{
     /**
      * 单价(元) 
      */
-    @ExcelProperty(value = {"单价(元)","单价(元)"},index = 5)
+    @ExcelProperty(value = {"单价(元)","单价(元)"},index = 6)
     @ApiModelProperty(value = "单价(元)", name = "unitPrice", required = false, example = "100")
     @Column(name = "unit_price")
     private String unitPrice;
@@ -79,7 +92,7 @@ public class Consumables extends BaseRowModel{
      * 位置名称
      */
     @ApiModelProperty(value = "位置名称", name = "positionName", required = false, example = "田T-TEP整车实训区")
-    @ExcelProperty(value = {"位置名称","位置名称"},index = 6)
+    @ExcelProperty(value = {"位置名称","位置名称"},index = 7)
     @Column(name = "position_name")
     private String positionName;
 
@@ -87,7 +100,7 @@ public class Consumables extends BaseRowModel{
      * 耗材管理人
      */
     @ApiModelProperty(value = "管理人", name = "manager", required = false, example = "李旭")
-    @ExcelProperty(value = {"管理人","管理人"},index = 7)
+    @ExcelProperty(value = {"管理人","管理人"},index = 8)
     private String manager;
 
     /**
@@ -101,7 +114,7 @@ public class Consumables extends BaseRowModel{
      * 累计入库数量
      */
     @ApiModelProperty(value = "累计入库数量", name = "cumulativeReceiptQuantity", required = false, example = "100")
-    @ExcelProperty(value = {"累计入库数量","累计入库数量"},index = 8)
+    @ExcelProperty(value = {"累计入库数量","累计入库数量"},index = 9)
     @Column(name = "cumulative_receipt_quantity")
     private String cumulativeReceiptQuantity;
 
@@ -109,7 +122,7 @@ public class Consumables extends BaseRowModel{
      * 现存总数
      */
     @ApiModelProperty(value = "现存总数", name = "totalExisting", required = false, example = "50")
-    @ExcelProperty(value = {"现存总数","现存总数"},index = 9)
+    @ExcelProperty(value = {"现存总数","现存总数"},index = 10)
     @Column(name = "total_existing")
     private String totalExisting;
 
@@ -117,7 +130,7 @@ public class Consumables extends BaseRowModel{
      * 累计领用数量
      */
     @ApiModelProperty(value = "累计领用数量", name = "cumulativeCollectedQuantity", required = false, example = "40")
-    @ExcelProperty(value = {"累计领用数量","累计领用数量"},index = 10)
+    @ExcelProperty(value = {"累计领用数量","累计领用数量"},index = 11)
     @Column(name = "cumulative_collected_quantity")
     private String cumulativeCollectedQuantity;
 
@@ -125,7 +138,7 @@ public class Consumables extends BaseRowModel{
      * 剩余数量
      */
     @ApiModelProperty(value = "剩余数量", name = "remainingQuantity", required = false, example = "10")
-    @ExcelProperty(value = {"剩余数量","剩余数量"},index = 11)
+    @ExcelProperty(value = {"剩余数量","剩余数量"},index = 12)
     @Column(name = "remaining_quantity")
     private String remainingQuantity;
 
@@ -142,6 +155,7 @@ public class Consumables extends BaseRowModel{
     @ApiModelProperty(value = "更新时间", name = "updateTime", required = false, example = "2020-04-24 18:00:00")
     @Column(name = "update_Time")
     private String updateTime;
+
 
     
     public interface ConsumablesCreateChecks {}
@@ -452,5 +466,41 @@ public class Consumables extends BaseRowModel{
      */
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+    
+    /**
+     * 获取资产分类编号
+     *
+     * @return asset_classification_code - 资产分类编号
+     */
+    public String getAssetClassificationCode() {
+        return assetClassificationCode;
+    }
+
+    /**
+     * 设置资产分类编号
+     *
+     * @param assetClassificationCode 资产分类编号
+     */
+    public void setAssetClassificationCode(String assetClassificationCode) {
+        this.assetClassificationCode = assetClassificationCode;
+    }
+
+    /**
+     * 获取资产分类名称
+     *
+     * @return asset_classification - 资产分类名称
+     */
+    public String getAssetClassification() {
+        return assetClassification;
+    }
+
+    /**
+     * 设置资产分类名称
+     *
+     * @param assetClassification 资产分类名称
+     */
+    public void setAssetClassification(String assetClassification) {
+        this.assetClassification = assetClassification;
     }
 }

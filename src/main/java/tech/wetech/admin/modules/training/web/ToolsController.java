@@ -19,11 +19,13 @@ import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
+import tech.wetech.admin.modules.training.po.AssetClassification;
+import tech.wetech.admin.modules.training.po.SpecificationType;
 import tech.wetech.admin.modules.training.po.Tools;
 import tech.wetech.admin.modules.training.service.ToolsService;
 import tech.wetech.admin.modules.training.service.AssetClassificationService;
-import tech.wetech.admin.modules.training.service.AssetTypeService;
 import tech.wetech.admin.modules.training.service.PositionService;
+import tech.wetech.admin.modules.training.service.SpecificationTypeService;
 import tech.wetech.admin.modules.training.vo.FileVo;
 import tech.wetech.excel.ExcelReadUtil;
 import tech.wetech.excel.ExcelWriteUtil;
@@ -51,7 +53,7 @@ public class ToolsController extends BaseCrudController<Tools> {
 	@Autowired
     private AssetClassificationService assetClassificationService;
 	@Autowired
-    private AssetTypeService assetTypeService;
+	private SpecificationTypeService specificationTypeService;
 	
     @GetMapping
     @RequiresPermissions("tools:view")
@@ -59,8 +61,12 @@ public class ToolsController extends BaseCrudController<Tools> {
     	model.addAttribute("positionList", positionService.queryAll());
     	model.addAttribute("organizationList", organizationService.queryAll());
     	model.addAttribute("userList", userService.queryAll());
-    	model.addAttribute("assetClassificationList", assetClassificationService.queryAll());
-		model.addAttribute("assetTypeList", assetTypeService.queryAll());
+    	AssetClassification assetClassification = new AssetClassification();
+    	assetClassification.setAssetTypeCode("asset_type_tool");//工具
+    	model.addAttribute("assetClassificationList", assetClassificationService.queryList(assetClassification));
+    	SpecificationType specificationType = new SpecificationType();
+    	specificationType.setAssetTypeCode("asset_type_tool");//工具
+    	model.addAttribute("assetTypeList", specificationTypeService.queryList(specificationType));//规格型号
         return "system/tools";
     }
     

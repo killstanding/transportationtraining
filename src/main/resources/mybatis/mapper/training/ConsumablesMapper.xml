@@ -22,8 +22,9 @@
     <result column="remaining_quantity" property="remainingQuantity" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="asset_classification_code" property="assetClassificationCode" jdbcType="VARCHAR" />
+    <result column="asset_classification" property="assetClassification" jdbcType="VARCHAR" />
   </resultMap>
-  
   <update id="updateCodeById" parameterType="tech.wetech.admin.modules.training.po.Consumables">
 		UPDATE t_consumables t 
 		SET t.position_code = ( SELECT p.position_name FROM t_position p WHERE p.id = t.position_name ),

@@ -14,6 +14,7 @@ import tech.wetech.admin.core.utils.DateUtil;
 import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.training.po.AssetClassification;
 import tech.wetech.admin.modules.training.po.CourseArrangementReAsset;
 import tech.wetech.admin.modules.training.po.PubCode;
 import tech.wetech.admin.modules.training.service.AssetClassificationService;
@@ -43,7 +44,9 @@ public class CourseArrangementReAssetController extends BaseCrudController<Cours
     @GetMapping
     @RequiresPermissions("coursearrangementreasset:view")
     public String page(Model model) {
-    	model.addAttribute("assetClassificationList", assetClassificationService.queryAll());
+    	AssetClassification assetClassification = new AssetClassification();
+    	assetClassification.setAssetTypeCode("asset_type_device");//设备
+    	model.addAttribute("assetClassificationList", assetClassificationService.queryList(assetClassification));
     	PubCode pubCode = new PubCode();
     	pubCode.setPubType("asset_status");
     	model.addAttribute("assetStatusList", pubCodeService.queryList(pubCode));
