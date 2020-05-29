@@ -19,7 +19,8 @@ git stash pop: 从Git栈中读取最近一次保存的内容，恢复工作区�
 git stash list: 显示Git栈内的所有备份，可以利用这个列表来决定从那个地方恢复。 
 git stash clear: 清空Git栈。此时使用gitg等图形化工具会发现，原来stash的哪些节点都消失了。
 
-
+pull origin master
+push -u origin master
 
 
 git强制拉取更新

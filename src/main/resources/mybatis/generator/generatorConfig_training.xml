@@ -117,7 +117,7 @@
             <!--oracle 配置-->
             <!--<generatedKey column="id" sqlStatement="select SEQ_{1}.nextval from dual" identity="false" type="pre"/>-->
         </table>
-               <table schema="wetech_admin" tableName="t_consumables" domainObjectName="Consumables">
+        <table schema="wetech_admin" tableName="t_consumables" domainObjectName="Consumables">
             <!--mysql 配置-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <!--oracle 配置-->

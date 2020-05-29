@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tech.wetech.admin.modules.training.mapper.SummaryStatisticsDateMapper" >
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.SummaryStatisticsDate" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="statistics_name" property="statisticsName" jdbcType="VARCHAR" />
+    <result column="statistics_code" property="statisticsCode" jdbcType="VARCHAR" />
+    <result column="statistics_value" property="statisticsValue" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="statistics_date" property="statisticsDate" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="statistics_type" property="statisticsType" jdbcType="VARCHAR" />
+    <result column="statistics_type_code" property="statisticsTypeCode" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>
