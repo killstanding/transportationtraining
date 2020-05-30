@@ -17,12 +17,8 @@ import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.UserService;
-import tech.wetech.admin.modules.training.po.Asset;
 import tech.wetech.admin.modules.training.po.InspectionPlan;
-import tech.wetech.admin.modules.training.po.InspectionRecord;
-import tech.wetech.admin.modules.training.service.AssetService;
 import tech.wetech.admin.modules.training.service.InspectionPlanService;
-import tech.wetech.admin.modules.training.service.InspectionRecordService;
 import tech.wetech.admin.modules.training.service.TrainingRoomService;
 import tech.wetech.excel.ExcelWriteUtil;
 
@@ -47,10 +43,6 @@ public class InspectionPlanController extends BaseCrudController<InspectionPlan>
     private UserService userService;
     @Autowired
     private TrainingRoomService trainingRoomService;
-    @Autowired
-    private AssetService assetService;
-    @Autowired
-    private InspectionRecordService inspectionRecordService;
     
     @GetMapping
     @RequiresPermissions("inspectionplan:view")
@@ -81,30 +73,6 @@ public class InspectionPlanController extends BaseCrudController<InspectionPlan>
     	entity.setCreateTime(curTime);
     	entity.setUpdateTime(curTime);
     	service.create(entity);
-    	
-    	//获取实训室下面的设备
-    	Asset assetPara = new Asset();
-    	assetPara.setRoomId(entity.getRoomId());
-    	assetPara.setAssetStatusCode("asset_status_normal");
-    	List<Asset> assets = assetService.queryList(assetPara);
-    	if(assets!=null){
-    		//插入正常设备的巡检记录基础信息
-    		for (int i = 0; i < assets.size(); i++) {
-    			Asset asset = assets.get(i);
-    			InspectionRecord record = new InspectionRecord();
-    			record.setAssetCode(asset.getAssetCode());
-    			record.setAssetClassification(asset.getAssetClassification());
-    			record.setAssetClassificationCode(asset.getAssetClassificationCode());
-    			record.setAssetStatus(asset.getAssetStatus());
-    			record.setAssetStatusCode(asset.getAssetStatusCode());
-    			record.setIsRepair(0);
-    			record.setPlanId(entity.getId());
-    			record.setAssetName(asset.getAssetName());
-    			record.setCreateTime(curTime);
-    			record.setUpdateTime(curTime);
-    			inspectionRecordService.create(record);
-    		}
-    	}//if(assets!=null)
         return Result.success();
     }
   
