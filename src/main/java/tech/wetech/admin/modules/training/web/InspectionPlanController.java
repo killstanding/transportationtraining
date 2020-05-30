@@ -88,7 +88,7 @@ public class InspectionPlanController extends BaseCrudController<InspectionPlan>
     	assetPara.setAssetStatusCode("asset_status_normal");
     	List<Asset> assets = assetService.queryList(assetPara);
     	if(assets!=null){
-    		//插入正常设备的巡检记录
+    		//插入正常设备的巡检记录基础信息
     		for (int i = 0; i < assets.size(); i++) {
     			Asset asset = assets.get(i);
     			InspectionRecord record = new InspectionRecord();
