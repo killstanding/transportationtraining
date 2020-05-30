@@ -79,7 +79,7 @@ public class InspectionPlanYearController extends BaseCrudController<InspectionP
     	String curYear = DateUtil.dateToStr(cur, DateUtil.YEAR_FORMATE);
     	entity.setCreateTime(curTime);
     	entity.setUpdateTime(curTime);
-    	entity.setCreateYear(curYear);
+    	//entity.setCreateYear(curYear);
     	service.create(entity);
         return Result.success();
     }
