@@ -10,6 +10,10 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "巡检记录")
 @Table(name = "t_inspection_record")
 public class InspectionRecord  extends BaseRowModel{
+	
+    @ApiModelProperty(value = "实训室编号", name = "roomId", required = false, example = "1")
+	private int roomId;
+	
     /**
      * 巡检记录编号
      */
@@ -349,4 +353,14 @@ public class InspectionRecord  extends BaseRowModel{
 	public void setAssetName(String assetName) {
 		this.assetName = assetName;
 	}
+
+	public int getRoomId() {
+		return roomId;
+	}
+
+	public void setRoomId(int roomId) {
+		this.roomId = roomId;
+	}
+	
+	
 }
