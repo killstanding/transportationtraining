@@ -2,7 +2,6 @@ package tech.wetech.admin.modules.training.po;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -87,7 +86,21 @@ public class MaintenanceRecordResults {
     @ApiModelProperty(value = "更新时间", name = "updateTime", required = false, example = "2020-04-24 18:00:00")
     @Column(name = "update_Time")
     private String updateTime;
+    
+    /**
+     * 设备状态
+     */
+    @ApiModelProperty(value = "设备状态", name = "assetStatus", required = false, example = "正常")
+    @Column(name = "asset_status")
+    private String assetStatus;
 
+    /**
+     * 设备状态编号
+     */
+    @ApiModelProperty(value = "设备状态编号", name = "assetStatusCode", required = false, example = "asset_status_normal")
+    @Column(name = "asset_status_code")
+    private String assetStatusCode;
+    
     public interface MaintenanceRecordResultsCreateChecks {}
 
     public interface MaintenanceRecordResultsUpdateChecks {}
@@ -288,5 +301,41 @@ public class MaintenanceRecordResults {
      */
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+    
+    /**
+     * 获取设备状态
+     *
+     * @return asset_status - 设备状态
+     */
+    public String getAssetStatus() {
+        return assetStatus;
+    }
+
+    /**
+     * 设置设备状态
+     *
+     * @param assetStatus 设备状态
+     */
+    public void setAssetStatus(String assetStatus) {
+        this.assetStatus = assetStatus;
+    }
+
+    /**
+     * 获取设备状态编码
+     *
+     * @return asset_status_code - 设备状态编码
+     */
+    public String getAssetStatusCode() {
+        return assetStatusCode;
+    }
+
+    /**
+     * 设置设备状态编码
+     *
+     * @param assetStatusCode 设备状态编码
+     */
+    public void setAssetStatusCode(String assetStatusCode) {
+        this.assetStatusCode = assetStatusCode;
     }
 }

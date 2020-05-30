@@ -29,6 +29,8 @@
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
     <result column="create_year" property="createYear" jdbcType="VARCHAR" />
+    <result column="pending_person" property="pendingPerson" jdbcType="VARCHAR" />
+    <result column="pending_person_id" property="pendingPersonId" jdbcType="INTEGER" />
   </resultMap>
   
   <select id="selectCountNumGourpByStatus" resultType="tech.wetech.admin.modules.training.po.StatusCountResult">

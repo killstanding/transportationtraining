@@ -22,5 +22,10 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="flow_status_code" property="flowStatusCode" jdbcType="VARCHAR" />
+    <result column="flow_status" property="flowStatus" jdbcType="VARCHAR" />
+    <result column="create_year" property="createYear" jdbcType="VARCHAR" />
+    <result column="pending_person" property="pendingPerson" jdbcType="VARCHAR" />
+    <result column="pending_person_id" property="pendingPersonId" jdbcType="INTEGER" />
   </resultMap>
 </mapper>

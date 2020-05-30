@@ -173,16 +173,19 @@ public class MaintenanceRecord extends BaseRowModel{
     @Column(name = "attachment_path")
     private String attachmentPath;
 
+
     /**
      * 创建时间
      */
+    @ApiModelProperty(value = "创建时间", name = "createTime", required = false, example = "2020-04-24 18:00:00")
     @Column(name = "create_time")
     private String createTime;
 
     /**
      * 更新时间
      */
-    @Column(name = "update_time")
+    @ApiModelProperty(value = "更新时间", name = "updateTime", required = false, example = "2020-04-24 18:00:00")
+    @Column(name = "update_Time")
     private String updateTime;
 
     /**
@@ -191,6 +194,23 @@ public class MaintenanceRecord extends BaseRowModel{
     @ApiModelProperty(value = "创建年份", name = "createYear", required = false, example = "2020")
     @Column(name = "create_year")
     private String createYear;
+    
+    /**
+     * 待处理人
+     */
+    @ApiModelProperty(value = "待处理人", name = "pendingPerson", required = false, example = "admin")
+    @ExcelProperty(value = {"待处理人","待处理人"},index = 9)
+    @Column(name = "pending_person")
+    private String pendingPerson;
+
+    /**
+     * 待处理人编号
+     */
+    @ApiModelProperty(value = "待处理人编号", name = "pendingPersonId", required = false, example = "1")
+    @Column(name = "pending_person_id")
+    private Integer pendingPersonId;
+    
+    
     
     public interface MaintenanceRecordCreateChecks {}
 
@@ -627,5 +647,42 @@ public class MaintenanceRecord extends BaseRowModel{
      */
     public void setCreateYear(String createYear) {
         this.createYear = createYear;
+    }
+    
+
+    /**
+     * 获取待处理人
+     *
+     * @return pending_person - 待处理人
+     */
+    public String getPendingPerson() {
+        return pendingPerson;
+    }
+
+    /**
+     * 设置待处理人
+     *
+     * @param pendingPerson 待处理人
+     */
+    public void setPendingPerson(String pendingPerson) {
+        this.pendingPerson = pendingPerson;
+    }
+
+    /**
+     * 获取待处理人编号
+     *
+     * @return pending_person_id - 待处理人编号
+     */
+    public Integer getPendingPersonId() {
+        return pendingPersonId;
+    }
+
+    /**
+     * 设置待处理人编号
+     *
+     * @param pendingPersonId 待处理人编号
+     */
+    public void setPendingPersonId(Integer pendingPersonId) {
+        this.pendingPersonId = pendingPersonId;
     }
 }

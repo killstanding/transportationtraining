@@ -16,5 +16,7 @@
     <result column="record_id" property="recordId" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="asset_status" property="assetStatus" jdbcType="VARCHAR" />
+    <result column="asset_status_code" property="assetStatusCode" jdbcType="VARCHAR" />
   </resultMap>
 </mapper>

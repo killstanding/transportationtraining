@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tech.wetech.admin.modules.training.mapper.StudentMapper" >
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.Student" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+    <result column="student_sex" property="studentSex" jdbcType="VARCHAR" />
+    <result column="student_age" property="studentAge" jdbcType="VARCHAR" />
+    <result column="student_phone" property="studentPhone" jdbcType="VARCHAR" />
+    <result column="student_email" property="studentEmail" jdbcType="VARCHAR" />
+    <result column="student_id_card" property="studentIdCard" jdbcType="VARCHAR" />
+    <result column="student_img" property="studentImg" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="sys_id" property="sysId" jdbcType="INTEGER" />
+    <result column="sys_name" property="sysName" jdbcType="VARCHAR" />
+    <result column="class_id" property="classId" jdbcType="INTEGER" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+  </resultMap>
+  <update id="updateCodeById" parameterType="tech.wetech.admin.modules.training.po.Student">
+		UPDATE t_student t 
+		SET t.sys_id = ( SELECT o.id FROM sys_organization o WHERE o.NAME = t.sys_name ),
+			t.class_id = ( SELECT o.id FROM sys_organization o WHERE o.NAME = t.class_name )
+		where t.id=#{id}
+  </update>
+</mapper>

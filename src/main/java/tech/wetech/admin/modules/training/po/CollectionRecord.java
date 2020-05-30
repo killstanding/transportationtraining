@@ -139,6 +139,45 @@ public class CollectionRecord extends BaseRowModel{
     @Column(name = "update_Time")
     private String updateTime;
 
+    /**
+     * 流程状态编码
+     */
+    @ApiModelProperty(value = "流程状态编码", name = "flowStatusCode", required = false, example = "ccr_write")
+    @Column(name = "flow_status_code")
+    private String flowStatusCode;
+
+    /**
+     * 流程状态
+     */
+    @ApiModelProperty(value = "流程状态", name = "flowStatus", required = false, example = "填写耗材申请单")
+    @ExcelProperty(value = {"流程状态","流程状态"},index = 8)
+    @Column(name = "flow_status")
+    private String flowStatus;
+
+    /**
+     * 创建年份
+     */
+    @ApiModelProperty(value = "创建年份", name = "create_year", required = false, example = "2020")
+    @Column(name = "create_year")
+    private String createYear;
+
+    /**
+     * 待处理人
+     */
+    @ApiModelProperty(value = "待处理人", name = "pendingPerson", required = false, example = "admin")
+    @ExcelProperty(value = {"待处理人","待处理人"},index = 9)
+    @Column(name = "pending_person")
+    private String pendingPerson;
+
+    /**
+     * 待处理人编号
+     */
+    @ApiModelProperty(value = "待处理人编号", name = "pendingPersonId", required = false, example = "1")
+    @Column(name = "pending_person_id")
+    private Integer pendingPersonId;
+
+    
+    
     public interface CollectionRecordCreateChecks {}
 
     public interface CollectionRecordUpdateChecks {}
@@ -447,5 +486,95 @@ public class CollectionRecord extends BaseRowModel{
      */
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+    
+    /**
+     * 获取流程状态编码
+     *
+     * @return flow_status_code - 流程状态编码
+     */
+    public String getFlowStatusCode() {
+        return flowStatusCode;
+    }
+
+    /**
+     * 设置流程状态编码
+     *
+     * @param flowStatusCode 流程状态编码
+     */
+    public void setFlowStatusCode(String flowStatusCode) {
+        this.flowStatusCode = flowStatusCode;
+    }
+
+    /**
+     * 获取流程状态
+     *
+     * @return flow_status - 流程状态
+     */
+    public String getFlowStatus() {
+        return flowStatus;
+    }
+
+    /**
+     * 设置流程状态
+     *
+     * @param flowStatus 流程状态
+     */
+    public void setFlowStatus(String flowStatus) {
+        this.flowStatus = flowStatus;
+    }
+
+    /**
+     * 获取创建年份
+     *
+     * @return create_year - 创建年份
+     */
+    public String getCreateYear() {
+        return createYear;
+    }
+
+    /**
+     * 设置创建年份
+     *
+     * @param createYear 创建年份
+     */
+    public void setCreateYear(String createYear) {
+        this.createYear = createYear;
+    }
+
+    /**
+     * 获取待处理人
+     *
+     * @return pending_person - 待处理人
+     */
+    public String getPendingPerson() {
+        return pendingPerson;
+    }
+
+    /**
+     * 设置待处理人
+     *
+     * @param pendingPerson 待处理人
+     */
+    public void setPendingPerson(String pendingPerson) {
+        this.pendingPerson = pendingPerson;
+    }
+
+    /**
+     * 获取待处理人编号
+     *
+     * @return pending_person_id - 待处理人编号
+     */
+    public Integer getPendingPersonId() {
+        return pendingPersonId;
+    }
+
+    /**
+     * 设置待处理人编号
+     *
+     * @param pendingPersonId 待处理人编号
+     */
+    public void setPendingPersonId(Integer pendingPersonId) {
+        this.pendingPersonId = pendingPersonId;
     }
 }
