@@ -19,9 +19,11 @@ import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.UserService;
+import tech.wetech.admin.modules.training.po.AssetClassification;
 import tech.wetech.admin.modules.training.po.Consumables;
 import tech.wetech.admin.modules.training.po.SpecificationType;
 import tech.wetech.admin.modules.training.service.SpecificationTypeService;
+import tech.wetech.admin.modules.training.service.AssetClassificationService;
 import tech.wetech.admin.modules.training.service.ConsumablesService;
 import tech.wetech.admin.modules.training.service.PositionService;
 import tech.wetech.admin.modules.training.vo.FileVo;
@@ -48,10 +50,15 @@ public class ConsumablesController extends BaseCrudController<Consumables> {
     private UserService userService;
 	@Autowired
 	private SpecificationTypeService specificationTypeService;
+	@Autowired
+    private AssetClassificationService assetClassificationService;
 	
     @GetMapping
     @RequiresPermissions("consumables:view")
     public String page(Model model) {
+     	AssetClassification assetClassification = new AssetClassification();
+    	assetClassification.setAssetTypeCode("asset_type_consumables");//设备
+    	model.addAttribute("assetClassificationList", assetClassificationService.queryList(assetClassification));
     	model.addAttribute("positionList", positionService.queryAll());
     	model.addAttribute("userList", userService.queryAll());
     	SpecificationType specificationType = new SpecificationType();
