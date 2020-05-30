@@ -17,6 +17,7 @@ import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.UserService;
+import tech.wetech.admin.modules.training.po.Asset;
 import tech.wetech.admin.modules.training.po.AssetClassification;
 import tech.wetech.admin.modules.training.po.InspectionRecord;
 import tech.wetech.admin.modules.training.po.PubCode;
@@ -29,6 +30,7 @@ import tech.wetech.excel.ExcelWriteUtil;
 
 import org.springframework.ui.Model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -73,11 +75,51 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
     @GetMapping("/list")
     @RequiresPermissions("inspectionrecord:view")
     @Override
-    public Result<List<InspectionRecord>> queryList(InspectionRecord entity, PageQuery pageQuery) {
-    	
+    public Result<List<InspectionRecord>> queryList(InspectionRecord entity, PageQuery pageQuery) {    	
         Page<InspectionRecord> page = (Page<InspectionRecord>) service.queryListByLike(entity, pageQuery);
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
+    
+    @ResponseBody
+    @GetMapping("/listbyplanid")
+    @RequiresPermissions("inspectionrecord:view")
+    public Result<List<InspectionRecord>> queryListByPlan(InspectionRecord entity) {    	
+    	List<InspectionRecord>  list =  service.keyValueByExample(entity);
+        return Result.success(list);
+    }
+    
+    @ResponseBody
+    @GetMapping("/editlistbyplanid")
+    @RequiresPermissions("inspectionrecord:view")
+    public Result<List<InspectionRecord>> queryEditListByplan(InspectionRecord entity) {    	
+    	List<InspectionRecord> list =  service.keyValueByExample(entity);
+    	if(list==null){
+    		list = new ArrayList<>();
+    		//获取实训室下面的设备
+        	Asset assetPara = new Asset();
+        	assetPara.setRoomId(entity.getRoomId());
+        	assetPara.setAssetStatusCode("asset_status_normal");
+        	List<Asset> assets = assetService.queryList(assetPara);
+        	if(assets!=null){
+        		//插入正常设备的巡检记录基础信息
+        		for (int i = 0; i < assets.size(); i++) {
+        			Asset asset = assets.get(i);
+        			InspectionRecord record = new InspectionRecord();
+        			record.setAssetCode(asset.getAssetCode());
+        			record.setAssetClassification(asset.getAssetClassification());
+        			record.setAssetClassificationCode(asset.getAssetClassificationCode());
+        			record.setAssetStatus(asset.getAssetStatus());
+        			record.setAssetStatusCode(asset.getAssetStatusCode());
+        			record.setIsRepair(0);
+        			record.setPlanId(entity.getPlanId());
+        			record.setAssetName(asset.getAssetName());
+        			list.add(record);
+        		}
+        	}//if(assets!=null)
+    	}//if(list==null)
+    	return Result.success(list);
+    }
+    
     
     @ResponseBody
     @PostMapping("/create")
