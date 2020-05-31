@@ -75,14 +75,14 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     }
 
 	@Override
-	public List<User> queryListByRoleId(String roleId) {
+	public List<User> queryListByRoleId(int roleId) {
 		List<User> list = userMapper.selectAll();
 		List<User> result = new ArrayList<User>();
 		if(list!=null){
 			for (int i = 0; i < list.size(); i++) {
 				User user = list.get(i);
 				String roleIds = user.getRoleIds()+",";
-				if(roleIds.indexOf(("roleId"+","))!=-1){
+				if(roleIds.indexOf((roleId+","))!=-1){
 					result.add(user);
 				}
 			}
