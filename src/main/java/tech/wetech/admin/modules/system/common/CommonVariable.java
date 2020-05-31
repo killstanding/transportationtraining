@@ -30,7 +30,7 @@ public class CommonVariable {
 	
 	public static final String NUMBER_PREFIX_MAINTENANCE_RECORD = "MR";//维修申请单编号前缀
 	
-	public static final String NUMBER_PREFIX_Collection_RECORD = "CR";//领用单编号前缀
+	public static final String NUMBER_PREFIX_COLLECTION_RECORD = "CR";//领用单编号前缀
 	
 	public static String getNumberPrefix(String numberPrefix,String dateStr,int id){
 		StringBuilder sb = new StringBuilder();
