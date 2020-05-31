@@ -23,5 +23,9 @@ spring:
     password: 123456
     url: jdbc:mysql://192.168.150.128:3306/wetech_admin?useUnicode=true&characterEncoding=utf-8
     username: root
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
   thymeleaf:
     cache: false
