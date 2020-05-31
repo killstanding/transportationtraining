@@ -35,7 +35,7 @@ public class AssetServiceImpl extends BaseService<Asset> implements AssetService
 	public int create(Asset entity) {
 		// TODO Auto-generated method stub
 		int k = super.create(entity);
-		if(entity.getAssetCode().equals("")){
+		if(entity.getAssetCode()==null||entity.getAssetCode().equals("")){
 			//更新编号
 	    	Asset record = new Asset();
 	    	record.setId(entity.getId());

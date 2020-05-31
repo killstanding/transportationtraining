@@ -23,7 +23,7 @@ public class CollectionRecordServiceImpl extends BaseService<CollectionRecord> i
 	public int create(CollectionRecord entity) {
 		// TODO Auto-generated method stub
 		int k = super.create(entity);
-		if(entity.getRecordId().equals("")){
+		if(entity.getRecordId()==null||entity.getRecordId().equals("")){
 			//更新编号
 			CollectionRecord record = new CollectionRecord();
 	    	record.setId(entity.getId());

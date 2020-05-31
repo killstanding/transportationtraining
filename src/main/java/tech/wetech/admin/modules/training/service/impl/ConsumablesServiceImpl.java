@@ -27,7 +27,7 @@ public class ConsumablesServiceImpl extends BaseService<Consumables> implements 
 	public int create(Consumables entity) {
 		// TODO Auto-generated method stub
 		int k = super.create(entity);
-		if(entity.getConsumablesCode().equals("")){
+		if(entity.getConsumablesCode()==null||entity.getConsumablesCode().equals("")){
 			//更新编号
 			Consumables record = new Consumables();
 	    	record.setId(entity.getId());

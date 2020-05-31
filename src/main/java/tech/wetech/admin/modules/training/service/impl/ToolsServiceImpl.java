@@ -28,7 +28,7 @@ public class ToolsServiceImpl extends BaseService<Tools> implements ToolsService
 	public int create(Tools entity) {
 		// TODO Auto-generated method stub
 		int k = super.create(entity);
-		if(entity.getAssetCode().equals("")){
+		if(entity.getAssetCode()==null||entity.getAssetCode().equals("")){
 			//更新编号
 			Tools record = new Tools();
 	    	record.setId(entity.getId());
