@@ -10,7 +10,6 @@ import tech.wetech.admin.core.utils.DateUtil;
 import tech.wetech.admin.modules.base.service.impl.BaseService;
 import tech.wetech.admin.modules.system.common.CommonVariable;
 import tech.wetech.admin.modules.training.mapper.CollectionRecordMapper;
-import tech.wetech.admin.modules.training.po.Asset;
 import tech.wetech.admin.modules.training.po.CollectionRecord;
 import tech.wetech.admin.modules.training.service.CollectionRecordService;
 
