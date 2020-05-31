@@ -21,6 +21,22 @@ public class CollectionRecord extends BaseRowModel{
     private Integer id;
 
     /**
+     * 记录编号（自编）
+     */
+    @ApiModelProperty(value = "记录编号（自编）", name = "recordId", required = false, example = "CR202005311")
+    @ExcelProperty(value = {"记录编号（自编）","记录编号（自编）"},index = 0)
+     @Column(name = "record_id")
+    private String recordId;
+
+    /**
+     * 领用记录名称
+     */
+    @ApiModelProperty(value = "领用记录名称", name = "recordName", required = false, example = "领用记录")
+    @ExcelProperty(value = {"领用记录名称","领用记录名称"},index = 1)
+    @Column(name = "record_name")
+    private String recordName;
+    
+    /**
      * 资产编号（系统自动生成）
      */
     @ApiModelProperty(value = "资产编号（系统自动生成）", name = "assetId", required = false, example = "1")
@@ -30,7 +46,7 @@ public class CollectionRecord extends BaseRowModel{
     /**
      * 资产名称
      */
-    @ExcelProperty(value = {"资产名称","资产名称"},index = 0)
+    @ExcelProperty(value = {"资产名称","资产名称"},index = 2)
     @ApiModelProperty(value = "资产名称", name = "assetName", required = false, example = "发动机机油")
     @Column(name = "asset_name")
     private String assetName;
@@ -52,7 +68,7 @@ public class CollectionRecord extends BaseRowModel{
     /**
      * 领用时间
      */
-    @ExcelProperty(value = {"领用时间","领用时间"},index = 1)
+    @ExcelProperty(value = {"领用时间","领用时间"},index = 3)
     @ApiModelProperty(value = "领用时间", name = "collectionTime", required = false, example = "2020-03-23 00:00:00")
     @Column(name = "`collection time`")
     private String collectionTime;
@@ -60,7 +76,7 @@ public class CollectionRecord extends BaseRowModel{
     /**
      * 领用的专业(系)
      */
-    @ExcelProperty(value = {"领用专业","领用专业"},index = 2)
+    @ExcelProperty(value = {"领用专业","领用专业"},index = 4)
     @ApiModelProperty(value = "领用的专业(系)", name = "collectionMajor", required = false, example = "汽修系")
     @Column(name = "collection_major")
     private String collectionMajor;
@@ -76,7 +92,7 @@ public class CollectionRecord extends BaseRowModel{
     /**
      * 领用的课程
      */
-    @ExcelProperty(value = {"领用课程","领用课程"},index = 3)
+    @ExcelProperty(value = {"领用课程","领用课程"},index = 5)
     @ApiModelProperty(value = "领用课程", name = "collectionCourse", required = false, example = "车身电气系统课程")
     @Column(name = "collection_course")
     private String collectionCourse;
@@ -92,7 +108,7 @@ public class CollectionRecord extends BaseRowModel{
      * 申请人
      */
     @ApiModelProperty(value = "申请人", name = "applicant", required = false, example = "张三")
-    @ExcelProperty(value = {"申请人","申请人"},index = 4)
+    @ExcelProperty(value = {"申请人","申请人"},index = 6)
     private String applicant;
 
     /**
@@ -106,7 +122,7 @@ public class CollectionRecord extends BaseRowModel{
      * 领用数量
      */
     @ApiModelProperty(value = "领用数量", name = "collectedQuantity", required = false, example = "10")
-    @ExcelProperty(value = {"领用数量","领用数量"},index = 5)
+    @ExcelProperty(value = {"领用数量","领用数量"},index = 7)
     @Column(name = "collected_quantity")
     private String collectedQuantity;
 
@@ -114,7 +130,7 @@ public class CollectionRecord extends BaseRowModel{
      * 归还时间
      */
     @ApiModelProperty(value = "归还时间", name = "returnTime", required = false, example = "2020-03-24 00:00:00")
-    @ExcelProperty(value = {"归还时间","归还时间"},index = 6)
+    @ExcelProperty(value = {"归还时间","归还时间"},index = 8)
     @Column(name = "return_time")
     private String returnTime;
 
@@ -122,7 +138,7 @@ public class CollectionRecord extends BaseRowModel{
      * 备注
      */
     @ApiModelProperty(value = "备注", name = "remark", required = false, example = "无")
-    @ExcelProperty(value = {"备注","备注"},index = 7)
+    @ExcelProperty(value = {"备注","备注"},index = 9)
     private String remark;
 
     /**
@@ -150,7 +166,7 @@ public class CollectionRecord extends BaseRowModel{
      * 流程状态
      */
     @ApiModelProperty(value = "流程状态", name = "flowStatus", required = false, example = "填写耗材申请单")
-    @ExcelProperty(value = {"流程状态","流程状态"},index = 8)
+    @ExcelProperty(value = {"流程状态","流程状态"},index = 10)
     @Column(name = "flow_status")
     private String flowStatus;
 
@@ -165,7 +181,7 @@ public class CollectionRecord extends BaseRowModel{
      * 待处理人
      */
     @ApiModelProperty(value = "待处理人", name = "pendingPerson", required = false, example = "admin")
-    @ExcelProperty(value = {"待处理人","待处理人"},index = 9)
+    @ExcelProperty(value = {"待处理人","待处理人"},index = 11)
     @Column(name = "pending_person")
     private String pendingPerson;
 
@@ -176,7 +192,6 @@ public class CollectionRecord extends BaseRowModel{
     @Column(name = "pending_person_id")
     private Integer pendingPersonId;
 
-    
     
     public interface CollectionRecordCreateChecks {}
 
@@ -576,5 +591,41 @@ public class CollectionRecord extends BaseRowModel{
      */
     public void setPendingPersonId(Integer pendingPersonId) {
         this.pendingPersonId = pendingPersonId;
+    }
+    
+    /**
+     * 获取记录编号（自编）
+     *
+     * @return record_id - 记录编号（自编）
+     */
+    public String getRecordId() {
+        return recordId;
+    }
+
+    /**
+     * 设置记录编号（自编）
+     *
+     * @param recordId 记录编号（自编）
+     */
+    public void setRecordId(String recordId) {
+        this.recordId = recordId;
+    }
+
+    /**
+     * 获取领用记录名称
+     *
+     * @return record_name - 领用记录名称
+     */
+    public String getRecordName() {
+        return recordName;
+    }
+
+    /**
+     * 设置领用记录名称
+     *
+     * @param recordName 领用记录名称
+     */
+    public void setRecordName(String recordName) {
+        this.recordName = recordName;
     }
 }

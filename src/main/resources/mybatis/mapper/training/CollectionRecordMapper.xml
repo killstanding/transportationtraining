@@ -27,5 +27,7 @@
     <result column="create_year" property="createYear" jdbcType="VARCHAR" />
     <result column="pending_person" property="pendingPerson" jdbcType="VARCHAR" />
     <result column="pending_person_id" property="pendingPersonId" jdbcType="INTEGER" />
+    <result column="record_id" property="recordId" jdbcType="VARCHAR" />
+    <result column="record_name" property="recordName" jdbcType="VARCHAR" />
   </resultMap>
 </mapper>
