@@ -53,6 +53,7 @@ public class CourseArrangementReAssetController extends BaseCrudController<Cours
     	model.addAttribute("assetStatusList", pubCodeService.queryList(pubCode));
     	Asset asset = new Asset();
     	asset.setAssetStatusCode("asset_status_normal");
+    	asset.setRoomIsEnabled(1);
     	model.addAttribute("assetList", assetService.queryList(asset));
         return "system/coursearrangementreasset";
     }
