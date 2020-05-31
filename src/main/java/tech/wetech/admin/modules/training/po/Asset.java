@@ -212,14 +212,17 @@ public class Asset extends BaseRowModel{
     @Column(name = "room_name")
     private String roomName;
 
+    /**
+     * 实训室是否可用 0  不可用 1可用
+     */
+    @ApiModelProperty(value = "实训室是否可用  0不可用 1可用", name = "roomIsEnabled", required = false, example = "1")
+    @ExcelProperty(value = {"实训室是否可用  0不可用 1可用","实训室是否可用  0不可用 1可用"},index = 12)
+    @Column(name = "room_is_enabled")
+    private Integer roomIsEnabled;
     
-    public interface AssetCreateChecks {
+    public interface AssetCreateChecks {}
 
-    }
-
-    public interface AssetUpdateChecks {
-
-    }
+    public interface AssetUpdateChecks {}
     
     
     /**
@@ -653,5 +656,23 @@ public class Asset extends BaseRowModel{
      */
     public void setRoomName(String roomName) {
         this.roomName = roomName;
+    }
+    
+    /**
+     * 获取是否可用 0  不可用 1可用
+     *
+     * @return room_is_enabled - 是否可用 0  不可用 1可用
+     */
+    public Integer getRoomIsEnabled() {
+        return roomIsEnabled;
+    }
+
+    /**
+     * 设置是否可用 0  不可用 1可用
+     *
+     * @param roomIsEnabled 是否可用 0  不可用 1可用
+     */
+    public void setRoomIsEnabled(Integer roomIsEnabled) {
+        this.roomIsEnabled = roomIsEnabled;
     }
 }

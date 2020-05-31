@@ -29,6 +29,7 @@
     <result column="asset_img" property="assetImg" jdbcType="VARCHAR" />
     <result column="room_id" property="roomId" jdbcType="INTEGER" />
     <result column="room_name" property="roomName" jdbcType="VARCHAR" />
+    <result column="room_is_enabled" property="roomIsEnabled" jdbcType="INTEGER" />
   </resultMap>
   
   <select id="selectCountNumGourpByStatus" resultType="tech.wetech.admin.modules.training.po.StatusCountResult">
