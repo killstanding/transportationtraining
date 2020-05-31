@@ -16,6 +16,7 @@ import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.system.common.CommonVariable;
 import tech.wetech.admin.modules.system.po.Organization;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
@@ -55,7 +56,7 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
     	org.setAvailable(true);
     	model.addAttribute("sysList", organizationService.queryList(org));
     	model.addAttribute("positionList", positionService.queryAll());
-    	model.addAttribute("userList", userService.queryAll());
+    	model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.TRAINING_ROOM_ADMIN_ROLE_ID));//获取实训室管理员用户
         return "system/trainingroom";
     }
     
