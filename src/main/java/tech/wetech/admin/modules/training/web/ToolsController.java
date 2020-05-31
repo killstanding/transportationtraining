@@ -17,6 +17,7 @@ import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.system.common.CommonVariable;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.AssetClassification;
@@ -60,7 +61,7 @@ public class ToolsController extends BaseCrudController<Tools> {
     public String page(Model model) {
     	model.addAttribute("positionList", positionService.queryAll());
     	model.addAttribute("organizationList", organizationService.queryAll());
-    	model.addAttribute("userList", userService.queryAll());
+    	model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.TOOL_ADMIN_ROLE_ID));//获取工具管理员用户
     	AssetClassification assetClassification = new AssetClassification();
     	assetClassification.setAssetTypeCode("asset_type_tool");//工具
     	model.addAttribute("assetClassificationList", assetClassificationService.queryList(assetClassification));
