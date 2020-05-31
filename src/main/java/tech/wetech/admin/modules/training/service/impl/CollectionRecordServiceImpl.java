@@ -28,7 +28,7 @@ public class CollectionRecordServiceImpl extends BaseService<CollectionRecord> i
 			CollectionRecord record = new CollectionRecord();
 	    	record.setId(entity.getId());
 	    	String dateStr = DateUtil.dateToStr(new Date(), DateUtil.DATE_FORMATE_SIMPLE);
-	    	String code = CommonVariable.getNumberPrefix(CommonVariable.NUMBER_PREFIX_DEVICE, dateStr, record.getId());
+	    	String code = CommonVariable.getNumberPrefix(CommonVariable.NUMBER_PREFIX_COLLECTION_RECORD, dateStr, record.getId());
 	    	record.setRecordId(code);
 	    	super.updateNotNull(record);
 		}
