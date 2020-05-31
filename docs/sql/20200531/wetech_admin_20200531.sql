@@ -11,7 +11,7 @@
  Target Server Version : 50515
  File Encoding         : 65001
 
- Date: 31/05/2020 15:41:38
+ Date: 31/05/2020 18:24:21
 */
 
 SET NAMES utf8mb4;
@@ -363,13 +363,13 @@ CREATE TABLE `t_asset`  (
   `room_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '实训室名称',
   `room_is_enabled` int(11) DEFAULT NULL COMMENT '是否可用 0  不可用 1可用',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of t_asset
 -- ----------------------------
 INSERT INTO `t_asset` VALUES (1, '1702060002007000104', '1', '教学用机电实验仪器', '丰田皇冠教具车', 352400, '2017-12-12', '1', '丰田皇冠教具车', 'admin', '1', '1', '丰田T-TEP整车实训区', '南校区汽车系', 1, '月', 'inspection_cycle_month', '正常', 'asset_status_normal', '2020-04-24 18:00:00', '2020-04-24 18:00:00', '/file/img/1.png', 1, '丰田T-TEP整车实训区', NULL);
-INSERT INTO `t_asset` VALUES (2, 'test', '1', '教学用机电实验仪器', '丰田皇冠教具车', 352400, '2017-12-12', '1', '丰田皇冠教具车', 'admin', '1', '1', '丰田T-TEP整车实训区', '南校区汽车系', 1, '月', 'inspection_cycle_month', '正常', 'asset_status_normal', '2020-04-24 18:00:00', '2020-04-24 18:00:00', '/file/img/1.png', 1, '丰田T-TEP整车实训区', NULL);
+INSERT INTO `t_asset` VALUES (5, 'DEV202005315', '1', '教学用机电实验仪器', '丰田皇冠教具车', 352400, '2017-12-12', '1', '丰田皇冠教具车', 'admin', '1', '1', '田T-TEP整车实训区', '南校区汽车系', 1, '月', 'inspection_cycle_month', '正常', 'asset_status_normal', '2020-05-31 16:32:07', '2020-05-31 16:32:07', 'file/img/1.png', 1, '丰田T-TEP整车实训区', 1);
 
 -- ----------------------------
 -- Table structure for t_asset_classification
@@ -543,13 +543,14 @@ CREATE TABLE `t_course_arrangement`  (
   `number_of_consumables` int(11) DEFAULT NULL COMMENT '耗材数量',
   `create_time` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建时间',
   `update_time` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新时间',
+  `number_of_tools` int(11) DEFAULT NULL COMMENT '工具数量',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of t_course_arrangement
 -- ----------------------------
-INSERT INTO `t_course_arrangement` VALUES (1, 1, '2020年 第19周 (5月4日-5月10日)', '1-2', '车身电气系统', 1, '17汽运1501', '1', 28, '张新敏', 1, '李旭', 2, '陈俊杰', 3, '大众整车实训室', 1, '构件静力分析讲义-1', 1, '实操考核', 3, 15, '2020-03-24 00:00:00', '2020-03-24 00:00:00');
+INSERT INTO `t_course_arrangement` VALUES (1, 1, '2020年 第19周 (5月4日-5月10日)', '1-2', '车身电气系统', 1, '17汽运1501', '1', 28, '张新敏', 1, '李旭', 2, '陈俊杰', 3, '大众整车实训室', 1, '构件静力分析讲义-1', 1, '实操考核', 3, 15, '2020-03-24 00:00:00', '2020-03-24 00:00:00', NULL);
 
 -- ----------------------------
 -- Table structure for t_course_arrangement_re_asset
@@ -820,6 +821,7 @@ INSERT INTO `t_inspection_plan_year` VALUES (1, 1, '丰田T-TEP整车实训区',
 DROP TABLE IF EXISTS `t_inspection_record`;
 CREATE TABLE `t_inspection_record`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '巡检记录编号',
+  `asset_id` int(11) DEFAULT NULL COMMENT '资产id',
   `asset_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '资产编号',
   `asset_classification_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '资产分类编号',
   `asset_classification` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '资产分类名称',
@@ -838,7 +840,7 @@ CREATE TABLE `t_inspection_record`  (
 -- ----------------------------
 -- Records of t_inspection_record
 -- ----------------------------
-INSERT INTO `t_inspection_record` VALUES (1, '1702060002007000104', '1', '教学用机电实验仪器', '正常', 'asset_status_normal', 0, 'test', 1, '2020-04-24 18:00:00', '2020-04-24 18:00:00', 'IR001', '丰田皇冠教具车');
+INSERT INTO `t_inspection_record` VALUES (1, NULL, '1702060002007000104', '1', '教学用机电实验仪器', '正常', 'asset_status_normal', 0, 'test', 1, '2020-04-24 18:00:00', '2020-04-24 18:00:00', 'IR001', '丰田皇冠教具车');
 
 -- ----------------------------
 -- Table structure for t_maintenance_record
