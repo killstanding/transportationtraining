@@ -28,7 +28,7 @@ public class MaintenanceRecordServiceImpl extends BaseService<MaintenanceRecord>
 	public int create(MaintenanceRecord entity) {
 		// TODO Auto-generated method stub
 		int k = super.create(entity);
-		if(entity.getRecordId().equals("")){
+		if(entity.getRecordId()==null||entity.getRecordId().equals("")){
 			//更新编号
 			MaintenanceRecord record = new MaintenanceRecord();
 	    	record.setId(entity.getId());
