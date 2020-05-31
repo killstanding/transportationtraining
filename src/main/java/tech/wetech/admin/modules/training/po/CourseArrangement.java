@@ -179,6 +179,11 @@ public class CourseArrangement {
     @Column(name = "update_Time")
     private String updateTime;
     
+    /**
+     * 工具数量
+     */
+    @Column(name = "number_of_tools")
+    private Integer numberOfTools;
     
     public interface CourseArrangementCreateChecks {}
 
@@ -614,5 +619,23 @@ public class CourseArrangement {
      */
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+    
+    /**
+     * 获取工具数量
+     *
+     * @return number_of_tools - 工具数量
+     */
+    public Integer getNumberOfTools() {
+        return numberOfTools;
+    }
+
+    /**
+     * 设置工具数量
+     *
+     * @param numberOfTools 工具数量
+     */
+    public void setNumberOfTools(Integer numberOfTools) {
+        this.numberOfTools = numberOfTools;
     }
 }
