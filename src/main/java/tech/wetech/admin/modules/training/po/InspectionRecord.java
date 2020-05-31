@@ -21,10 +21,17 @@ public class InspectionRecord  extends BaseRowModel{
     private Integer id;
 
     /**
+     * 资产id
+     */
+    @ApiModelProperty(value = "资产编号", name = "assetId", required = false, example = "1")
+    @Column(name = "asset_id")
+    private Integer assetId;
+    
+    /**
      * 资产编号
      */
     @ExcelProperty(value = {"资产编号","资产编号"},index = 0)
-    @ApiModelProperty(value = "资产编号(系统生成)", name = "assetCode", required = false, example = "1")
+    @ApiModelProperty(value = "资产编号", name = "assetCode", required = false, example = "1")
     @NotNull(message = "资产编号不能为空",groups = InspectionRecordCreateChecks.class)
     @Column(name = "asset_code")
     private String assetCode;
@@ -144,6 +151,24 @@ public class InspectionRecord  extends BaseRowModel{
         this.id = id;
     }
 
+    /**
+     * 获取资产id
+     *
+     * @return asset_id - 资产id
+     */
+    public Integer getAssetId() {
+        return assetId;
+    }
+
+    /**
+     * 设置资产id
+     *
+     * @param assetId 资产id
+     */
+    public void setAssetId(Integer assetId) {
+        this.assetId = assetId;
+    }
+    
     /**
      * 获取资产编号
      *
