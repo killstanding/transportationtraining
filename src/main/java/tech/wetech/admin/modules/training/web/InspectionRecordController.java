@@ -102,28 +102,32 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
 	public Result<List<InspectionRecord>> queryListByPlanIdForEdit(InspectionRecord entity) {    	
 		List<InspectionRecord> list =  service.keyValueByExample(entity);
 		if(list==null){
-			list = new ArrayList<>();
-			//获取实训室下面的设备
-			Asset assetPara = new Asset();
-			assetPara.setRoomId(entity.getRoomId());
-			//assetPara.setAssetStatusCode("asset_status_normal");
-			List<Asset> assets = assetService.queryList(assetPara);
-			if(assets!=null){
-				//设备的巡检记录基础信息
-				for (int i = 0; i < assets.size(); i++) {
-					Asset asset = assets.get(i);
-					InspectionRecord record = new InspectionRecord();
-					record.setAssetCode(asset.getAssetCode());
-					record.setAssetClassification(asset.getAssetClassification());
-					record.setAssetClassificationCode(asset.getAssetClassificationCode());
-					record.setAssetStatus(asset.getAssetStatus());
-					record.setAssetStatusCode(asset.getAssetStatusCode());
-					record.setIsRepair(0);
-					record.setPlanId(entity.getPlanId());
-					record.setAssetName(asset.getAssetName());
-					list.add(record);
-				}
-			}//if(assets!=null)
+			int planId = entity.getPlanId();
+			if(planId!=0){
+				InspectionPlan plan = inspectionPlanService.queryById(planId);
+				list = new ArrayList<>();
+				//获取实训室下面的设备
+				Asset assetPara = new Asset();
+				assetPara.setRoomId(plan.getRoomId());
+				//assetPara.setAssetStatusCode("asset_status_normal");
+				List<Asset> assets = assetService.queryList(assetPara);
+				if(assets!=null){
+					//设备的巡检记录基础信息
+					for (int i = 0; i < assets.size(); i++) {
+						Asset asset = assets.get(i);
+						InspectionRecord record = new InspectionRecord();
+						record.setAssetCode(asset.getAssetCode());
+						record.setAssetClassification(asset.getAssetClassification());
+						record.setAssetClassificationCode(asset.getAssetClassificationCode());
+						record.setAssetStatus(asset.getAssetStatus());
+						record.setAssetStatusCode(asset.getAssetStatusCode());
+						record.setIsRepair(0);
+						record.setPlanId(entity.getPlanId());
+						record.setAssetName(asset.getAssetName());
+						list.add(record);
+					}
+				}//if(assets!=null)
+			}//if(planId!=0)
 		}//if(list==null)
 		return Result.success(list);
 	}
