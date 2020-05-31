@@ -78,7 +78,7 @@ public class CoursesController extends BaseCrudController<Courses> {
 		chapter.setCourseId(entity.getId());
 		chapter.setCreateTime(curTime);
 		chapter.setUpdateTime(curTime);
-		chaptersService.count(chapter);
+		chaptersService.create(chapter);
 		
 		return Result.success();
 	}
