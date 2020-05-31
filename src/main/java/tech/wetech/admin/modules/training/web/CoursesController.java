@@ -73,11 +73,12 @@ public class CoursesController extends BaseCrudController<Courses> {
 		//新建章节根节点
 		Chapters chapter = new Chapters();
 		chapter.setChapterName("课程大纲");
-		chapter.setChapterSort("0");
-		chapter.setChapterLevel("0");
+		chapter.setChapterSort("1");
+		chapter.setChapterLevel("1");
 		chapter.setCourseId(entity.getId());
 		chapter.setCreateTime(curTime);
 		chapter.setUpdateTime(curTime);
+		chapter.setParentId(0);
 		chaptersService.create(chapter);
 		
 		return Result.success();
