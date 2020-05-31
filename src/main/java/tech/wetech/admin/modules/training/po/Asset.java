@@ -25,7 +25,7 @@ public class Asset extends BaseRowModel{
     /**
      * 资产编号
      */
-    @NotNull(message = "资产编号不能为空",groups = AssetCreateChecks.class)
+    //@NotNull(message = "资产编号不能为空",groups = AssetCreateChecks.class)
     @Column(name = "asset_code")
     @ApiModelProperty(value = "资产编号(自编)", name = "assetCode", required = false, example = "1702060002007000104")
     private String assetCode;
