@@ -41,6 +41,6 @@ public interface UserService extends IService<User> {
      * @param id
      * @return
      */
-    List<User> queryListByRoleId(String roleId);
+    List<User> queryListByRoleId(int roleId);
 
 }

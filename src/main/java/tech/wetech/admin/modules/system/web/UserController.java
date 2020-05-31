@@ -82,7 +82,7 @@ public class UserController extends BaseCrudController<User> {
     @GetMapping("/listbyroleid")
     @RequiresPermissions("user:view")
     @ApiOperation(value = "通过角色编号获取用户列表", notes = "通过角色编号获取用户列表")
-    public Result<List<UserVO>> queryListByRoleId(String roleId) {
+    public Result<List<UserVO>> queryListByRoleId(int roleId) {
         List<User> list =  userService.queryListByRoleId(roleId);
         List<UserVO> userVOS = new ArrayList<>();
         list.forEach(u -> {
