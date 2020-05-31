@@ -14,6 +14,7 @@ import tech.wetech.admin.core.utils.DateUtil;
 import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.system.common.CommonVariable;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.Chapters;
 import tech.wetech.admin.modules.training.po.Courses;
@@ -46,7 +47,7 @@ public class CoursesController extends BaseCrudController<Courses> {
 		PubCode pubCode = new PubCode();
     	pubCode.setPubType("course_type");
     	model.addAttribute("courseTypeList", pubCodeService.queryList(pubCode));
-    	model.addAttribute("userList", userService.queryAll());
+    	model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.COURSES_ADMIN_ROLE_ID));//获取课程管理员用户
 		return "system/courses";
 	}
 
