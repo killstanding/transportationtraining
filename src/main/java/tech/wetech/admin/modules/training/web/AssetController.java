@@ -7,9 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import com.github.pagehelper.Page;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import tech.wetech.admin.core.annotation.SystemLog;
@@ -150,7 +148,6 @@ public class AssetController extends BaseCrudController<Asset> {
 		sc.setSTATUS_NAME("总数");
 		sc.setCOUNT_NUM(total+"");
 		result.add(sc);
-        
         return Result.success(result);
     }
     
