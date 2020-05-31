@@ -18,6 +18,7 @@ import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.system.common.CommonVariable;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.AssetClassification;
 import tech.wetech.admin.modules.training.po.Consumables;
@@ -60,7 +61,7 @@ public class ConsumablesController extends BaseCrudController<Consumables> {
     	assetClassification.setAssetTypeCode("asset_type_consumables");//设备
     	model.addAttribute("assetClassificationList", assetClassificationService.queryList(assetClassification));
     	model.addAttribute("positionList", positionService.queryAll());
-    	model.addAttribute("userList", userService.queryAll());
+    	model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.CONSUMABLES_ADMIN_ROLE_ID));//获取耗材管理员用户
     	SpecificationType specificationType = new SpecificationType();
     	specificationType.setAssetTypeCode("asset_type_consumables");//耗材
     	model.addAttribute("assetTypeList", specificationTypeService.queryList(specificationType));//规格型号
