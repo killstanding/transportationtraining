@@ -106,7 +106,6 @@ public class FailureConfirmationController extends BaseCrudController<FailureCon
      * 故障确认更新设备状态为维修
      * @param entity
      */
-    
     private void updateAssetStatus(FailureConfirmation entity){
     	//故障确认，那么设备状态变为维修
     	int isRepair = entity.getRepairRequired();//是否需要维修 1 是 0 否
