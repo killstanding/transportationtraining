@@ -20,10 +20,13 @@ import tech.wetech.admin.modules.system.common.CommonVariable;
 import tech.wetech.admin.modules.system.po.Organization;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
+import tech.wetech.admin.modules.system.vo.UserVO;
 import tech.wetech.admin.modules.training.po.Asset;
+import tech.wetech.admin.modules.training.po.StatisticsPo;
 import tech.wetech.admin.modules.training.po.TrainingRoom;
 import tech.wetech.admin.modules.training.service.AssetService;
 import tech.wetech.admin.modules.training.service.PositionService;
+import tech.wetech.admin.modules.training.service.StatisticsPoService;
 import tech.wetech.admin.modules.training.service.TrainingRoomService;
 import tech.wetech.excel.ExcelWriteUtil;
 
@@ -51,7 +54,8 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
     private ConfigProperties configProperties;
     @Autowired
     private AssetService assetService;
-    
+    @Autowired
+    private StatisticsPoService statisticsPoService;
     @GetMapping
     @RequiresPermissions("trainingroom:view")
     public String page(Model model) {
@@ -71,6 +75,15 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
     @Override
     public Result<List<TrainingRoom>> queryList(TrainingRoom entity, PageQuery pageQuery) {
         Page<TrainingRoom> page = (Page<TrainingRoom>) service.queryListByLike(entity, pageQuery);
+        List<StatisticsPo> stList = statisticsPoService.selectAssetCountNumGroupByRoomId();
+        page.forEach(u -> {
+        	stList.forEach(st ->{
+        		 u.setEquipNum(0);
+        		 if(st.getStatisticsCode().equals(u.getId()+"")){
+        			 u.setEquipNum(st.getStatisticsTotal());
+        		 }
+        	});
+        });
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
     

@@ -182,6 +182,7 @@ public class CourseArrangement {
     /**
      * 工具数量
      */
+    @ApiModelProperty(value = "工具数量", name = "numberOfTools", required = false, example = "15")
     @Column(name = "number_of_tools")
     private Integer numberOfTools;
     

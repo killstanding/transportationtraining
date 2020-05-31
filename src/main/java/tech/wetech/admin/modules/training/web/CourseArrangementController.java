@@ -18,9 +18,11 @@ import tech.wetech.admin.modules.system.common.CommonVariable;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.CourseArrangement;
+import tech.wetech.admin.modules.training.po.StatisticsPo;
 import tech.wetech.admin.modules.training.po.TrainingRoom;
 import tech.wetech.admin.modules.training.service.CourseArrangementService;
 import tech.wetech.admin.modules.training.service.CoursesService;
+import tech.wetech.admin.modules.training.service.StatisticsPoService;
 import tech.wetech.admin.modules.training.service.TeachingPlanService;
 import tech.wetech.admin.modules.training.service.TrainingRoomService;
 import tech.wetech.admin.modules.training.service.WeekYearService;
@@ -36,75 +38,101 @@ import javax.validation.constraints.NotNull;
 public class CourseArrangementController extends BaseCrudController<CourseArrangement> {
 
 	@Autowired
-    private CourseArrangementService service;
-    @Autowired
-    private WeekYearService weekYearService;
+	private CourseArrangementService service;
+	@Autowired
+	private WeekYearService weekYearService;
 	@Autowired
 	private CoursesService coursesService;
 	@Autowired
 	private UserService userService;
 	@Autowired
-    private OrganizationService organizationService;
+	private OrganizationService organizationService;
 	@Autowired
-    private TrainingRoomService trainingRoomService;
+	private TrainingRoomService trainingRoomService;
 	@Autowired
-    private TeachingPlanService teachingPlanService;
-	
-    @GetMapping
-    @RequiresPermissions("coursearrangement:view")
-    public String page(Model model) {
-    	model.addAttribute("weekYearServiceList", weekYearService.queryAll());
-    	model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.TEACHER_ROLE_ID));//获取教师用户
-    	model.addAttribute("coursesList", coursesService.queryAll());
-    	model.addAttribute("organizationList", organizationService.queryAll());
-    	TrainingRoom tr = new TrainingRoom();
-    	tr.setIsEnabled(1);
-    	model.addAttribute("trainingRoomList", trainingRoomService.queryList(tr));
-    	model.addAttribute("teachingPlanList", teachingPlanService.queryAll());
-        return "system/coursearrangement";
-    }
-    
-    @ResponseBody
-    @GetMapping("/list")
-    @RequiresPermissions("coursearrangement:view")
-    @Override
-    public Result<List<CourseArrangement>> queryList(CourseArrangement entity, PageQuery pageQuery) {
-        Page<CourseArrangement> page = (Page<CourseArrangement>) service.queryListByLike(entity, pageQuery);
-        return Result.success(page.getResult()).addExtra("total", page.getTotal());
-    }
-    
-    @ResponseBody
-    @PostMapping("/create")
-    //@RequiresPermissions("coursearrangement:create")
-    @SystemLog("排课管理排课创建")
-    @Override
-    public Result<String> create(@Validated(CourseArrangement.CourseArrangementCreateChecks.class) CourseArrangement entity) {
-    	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
-    	entity.setCreateTime(curTime);
-    	entity.setUpdateTime(curTime);
-    	service.create(entity);
-        return Result.success();
-    }
-  
-    @ResponseBody
-    @PostMapping("/update")
-    @RequiresPermissions("coursearrangement:update")
-    @SystemLog("排课管理排课更新")
-    @Override
-    public Result<String> update(@Validated(CourseArrangement.CourseArrangementUpdateChecks.class) CourseArrangement entity) {
-    	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
-    	entity.setUpdateTime(curTime);
-    	service.updateNotNull(entity);
-        return Result.success();
-    }
+	private TeachingPlanService teachingPlanService;
+	@Autowired
+	private StatisticsPoService statisticsPoService;
 
-    @ResponseBody
-    @PostMapping("/delete-batch")
-    @RequiresPermissions("coursearrangement:delete")
-    @SystemLog("排课管理排课删除")
-    @Override
-    public Result<String> deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {
-        super.deleteBatchByIds(ids);
-        return Result.success();
-    }
+	@GetMapping
+	@RequiresPermissions("coursearrangement:view")
+	public String page(Model model) {
+		model.addAttribute("weekYearServiceList", weekYearService.queryAll());
+		model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.TEACHER_ROLE_ID));//获取教师用户
+		model.addAttribute("coursesList", coursesService.queryAll());
+		model.addAttribute("organizationList", organizationService.queryAll());
+		TrainingRoom tr = new TrainingRoom();
+		tr.setIsEnabled(1);
+		model.addAttribute("trainingRoomList", trainingRoomService.queryList(tr));
+		model.addAttribute("teachingPlanList", teachingPlanService.queryAll());
+		return "system/coursearrangement";
+	}
+
+	@ResponseBody
+	@GetMapping("/list")
+	@RequiresPermissions("coursearrangement:view")
+	@Override
+	public Result<List<CourseArrangement>> queryList(CourseArrangement entity, PageQuery pageQuery) {
+		Page<CourseArrangement> page = (Page<CourseArrangement>) service.queryListByLike(entity, pageQuery);
+		List<StatisticsPo> assetCountlist =  statisticsPoService.selectAssetCountNumGroupByCourseArrangementId();
+		List<StatisticsPo> consumablesCountlist =  statisticsPoService.selectConsumablesCountNumGroupByCourseArrangementId();
+		List<StatisticsPo> toolCountList =  statisticsPoService.selectToolCountNumGroupByCourseArrangementId();
+
+		page.forEach(u -> {
+			assetCountlist.forEach(st ->{
+				u.setNumberOfDevices(0);
+				if(st.getStatisticsCode().equals(u.getId()+"")){
+					u.setNumberOfDevices(st.getStatisticsTotal());
+				}
+			});
+			consumablesCountlist.forEach(st ->{
+				u.setNumberOfConsumables(0);
+				if(st.getStatisticsCode().equals(u.getId()+"")){
+					u.setNumberOfConsumables(st.getStatisticsTotal());
+				}
+			});
+			toolCountList.forEach(st ->{
+				u.setNumberOfTools(0);
+				if(st.getStatisticsCode().equals(u.getId()+"")){
+					u.setNumberOfTools(st.getStatisticsTotal());
+				}
+			});
+		});
+		return Result.success(page.getResult()).addExtra("total", page.getTotal());
+	}
+
+	@ResponseBody
+	@PostMapping("/create")
+	//@RequiresPermissions("coursearrangement:create")
+	@SystemLog("排课管理排课创建")
+	@Override
+	public Result<String> create(@Validated(CourseArrangement.CourseArrangementCreateChecks.class) CourseArrangement entity) {
+		String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
+		entity.setCreateTime(curTime);
+		entity.setUpdateTime(curTime);
+		service.create(entity);
+		return Result.success();
+	}
+
+	@ResponseBody
+	@PostMapping("/update")
+	@RequiresPermissions("coursearrangement:update")
+	@SystemLog("排课管理排课更新")
+	@Override
+	public Result<String> update(@Validated(CourseArrangement.CourseArrangementUpdateChecks.class) CourseArrangement entity) {
+		String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
+		entity.setUpdateTime(curTime);
+		service.updateNotNull(entity);
+		return Result.success();
+	}
+
+	@ResponseBody
+	@PostMapping("/delete-batch")
+	@RequiresPermissions("coursearrangement:delete")
+	@SystemLog("排课管理排课删除")
+	@Override
+	public Result<String> deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {
+		super.deleteBatchByIds(ids);
+		return Result.success();
+	}
 }

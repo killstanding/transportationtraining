@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tech.wetech.admin.modules.training.mapper.StatisticsPoMapper" >
+
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.StatisticsPo" >
+   	<result column="statistics_code" property="statisticsCode" jdbcType="VARCHAR" />
+    <result column="statistics_name" property="statisticsName" jdbcType="VARCHAR" />
+   	<result column="statistics_total" property="statisticsTotal" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <select id="selectAssetCountNumGroupByRoomId" resultType="tech.wetech.admin.modules.training.po.StatisticsPo">
+     select a.room_id as statistics_code,a.room_name as statistics_name,  count(1) as statistics_total from  t_asset a 
+	 group by a.room_id,a.room_name
+  </select>
+  
+  <select id="selectAssetCountNumGroupByCourseArrangementId" resultType="tech.wetech.admin.modules.training.po.StatisticsPo">
+    select t.course_arrangement_id as statistics_code,'' as statistics_name,  count(1) as statistics_total from  t_course_arrangement_re_asset t
+	group by t.course_arrangement_id
+  </select>
+  
+  <select id="selectConsumablesCountNumGroupByCourseArrangementId" resultType="tech.wetech.admin.modules.training.po.StatisticsPo">
+    select t.course_arrangement_id as statistics_code,'' as statistics_name,  count(1) as statistics_total from  t_course_arrangement_re_consumables t
+	group by t.course_arrangement_id
+  </select>
+  
+  <select id="selectToolCountNumGroupByCourseArrangementId" resultType="tech.wetech.admin.modules.training.po.StatisticsPo">
+    select t.course_arrangement_id as statistics_code,'' as statistics_name,  count(1) as statistics_total from  t_course_arrangement_re_tool t
+	group by t.course_arrangement_id
+  </select>
+  
+  
+</mapper>
