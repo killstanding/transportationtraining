@@ -14,9 +14,14 @@ import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
+import tech.wetech.admin.modules.training.po.Asset;
+import tech.wetech.admin.modules.training.po.FailureConfirmation;
+import tech.wetech.admin.modules.training.po.MaintenanceRecord;
 import tech.wetech.admin.modules.training.po.MaintenanceRecordResults;
 import tech.wetech.admin.modules.training.po.PubCode;
+import tech.wetech.admin.modules.training.service.AssetService;
 import tech.wetech.admin.modules.training.service.MaintenanceRecordResultsService;
+import tech.wetech.admin.modules.training.service.MaintenanceRecordService;
 import tech.wetech.admin.modules.training.service.PubCodeService;
 
 import org.springframework.ui.Model;
@@ -39,6 +44,10 @@ public class MaintenanceRecordResultsController extends BaseCrudController<Maint
     private OrganizationService organizationService;
 	@Autowired
     private PubCodeService pubCodeService;
+	@Autowired
+	private MaintenanceRecordService maintenanceRecordService;
+	@Autowired
+    private AssetService assetService;
 	
     @GetMapping
     @RequiresPermissions("maintenancerecordresults:view")
@@ -71,6 +80,8 @@ public class MaintenanceRecordResultsController extends BaseCrudController<Maint
     	entity.setCreateTime(curTime);
     	entity.setUpdateTime(curTime);
     	service.create(entity);
+    	//根据维修结果更新设备状态为维修  修理好，设备状态变为正常，修理不好，设备状态根据选择更新
+    	updateAssetStatus(entity);
         return Result.success();
     }
   
@@ -83,9 +94,37 @@ public class MaintenanceRecordResultsController extends BaseCrudController<Maint
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
     	entity.setUpdateTime(curTime);
     	service.updateNotNull(entity);
+    	//根据维修结果更新设备状态为维修  修理好，设备状态变为正常，修理不好，设备状态根据选择更新
+    	updateAssetStatus(entity);
         return Result.success();
     }
 
+    /**
+     * 根据维修结果更新设备状态为维修  修理好，设备状态变为正常，修理不好，设备状态根据选择更新
+     * @param entity
+     */
+    private void updateAssetStatus(MaintenanceRecordResults entity){
+    	//故障确认，那么设备状态变为维修
+    	int isRepair = entity.getIsRepaired();//是否维修好 1 是 0 否
+    	int recordId = entity.getRecordId();
+		MaintenanceRecord record = maintenanceRecordService.queryById(recordId);
+		int assetId = record.getAssetId();
+    	if(isRepair==1){
+    		Asset asset = new Asset();
+        	asset.setId(assetId);
+        	asset.setAssetStatus("正常");
+        	asset.setAssetStatusCode("asset_status_normal");
+        	assetService.updateNotNull(asset);
+     	}else{
+    		Asset asset = new Asset();
+        	asset.setId(assetId);
+        	asset.setAssetStatus(entity.getAssetStatus());
+        	asset.setAssetStatusCode(entity.getAssetStatusCode());
+        	assetService.updateNotNull(asset);
+     	}
+    } 
+    
+    
     @ResponseBody
     @PostMapping("/delete-batch")
     @RequiresPermissions("maintenancerecordresults:delete")
