@@ -14,6 +14,7 @@ import tech.wetech.admin.core.utils.DateUtil;
 import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.system.common.CommonVariable;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.CourseArrangement;
@@ -52,7 +53,7 @@ public class CourseArrangementController extends BaseCrudController<CourseArrang
     @RequiresPermissions("coursearrangement:view")
     public String page(Model model) {
     	model.addAttribute("weekYearServiceList", weekYearService.queryAll());
-    	model.addAttribute("userList", userService.queryAll());
+    	model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.TEACHER_ROLE_ID));//获取教师用户
     	model.addAttribute("coursesList", coursesService.queryAll());
     	model.addAttribute("organizationList", organizationService.queryAll());
     	model.addAttribute("trainingRoomList", trainingRoomService.queryAll());
