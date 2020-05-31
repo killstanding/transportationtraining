@@ -14,6 +14,7 @@ import tech.wetech.admin.core.utils.DateUtil;
 import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.training.po.Asset;
 import tech.wetech.admin.modules.training.po.AssetClassification;
 import tech.wetech.admin.modules.training.po.CourseArrangementReAsset;
 import tech.wetech.admin.modules.training.po.PubCode;
@@ -50,7 +51,9 @@ public class CourseArrangementReAssetController extends BaseCrudController<Cours
     	PubCode pubCode = new PubCode();
     	pubCode.setPubType("asset_status");
     	model.addAttribute("assetStatusList", pubCodeService.queryList(pubCode));
-    	model.addAttribute("assetList", assetService.queryAll());
+    	Asset asset = new Asset();
+    	asset.setAssetStatusCode("asset_status_normal");
+    	model.addAttribute("assetList", assetService.queryList(asset));
         return "system/coursearrangementreasset";
     }
     
