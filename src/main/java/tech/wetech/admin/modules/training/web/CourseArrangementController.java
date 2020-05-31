@@ -18,6 +18,7 @@ import tech.wetech.admin.modules.system.common.CommonVariable;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.CourseArrangement;
+import tech.wetech.admin.modules.training.po.TrainingRoom;
 import tech.wetech.admin.modules.training.service.CourseArrangementService;
 import tech.wetech.admin.modules.training.service.CoursesService;
 import tech.wetech.admin.modules.training.service.TeachingPlanService;
@@ -56,7 +57,9 @@ public class CourseArrangementController extends BaseCrudController<CourseArrang
     	model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.TEACHER_ROLE_ID));//获取教师用户
     	model.addAttribute("coursesList", coursesService.queryAll());
     	model.addAttribute("organizationList", organizationService.queryAll());
-    	model.addAttribute("trainingRoomList", trainingRoomService.queryAll());
+    	TrainingRoom tr = new TrainingRoom();
+    	tr.setIsEnabled(1);
+    	model.addAttribute("trainingRoomList", trainingRoomService.queryList(tr));
     	model.addAttribute("teachingPlanList", teachingPlanService.queryAll());
         return "system/coursearrangement";
     }
