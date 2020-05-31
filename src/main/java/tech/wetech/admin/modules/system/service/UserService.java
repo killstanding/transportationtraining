@@ -4,6 +4,7 @@ import tech.wetech.admin.core.exception.BizException;
 import tech.wetech.admin.modules.base.service.IService;
 import tech.wetech.admin.modules.system.po.User;
 
+import java.util.List;
 import java.util.Set;
 
 public interface UserService extends IService<User> {
@@ -34,5 +35,12 @@ public interface UserService extends IService<User> {
      * @return
      */
     Set<String> queryPermissions(String username);
+    
+    /**
+     * 根据角色编号获取用户
+     * @param id
+     * @return
+     */
+    List<User> queryListByRoleId(String roleId);
 
 }

@@ -12,8 +12,10 @@ import tech.wetech.admin.modules.system.service.PasswordHelper;
 import tech.wetech.admin.modules.system.service.RoleService;
 import tech.wetech.admin.modules.system.service.UserService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -71,4 +73,20 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
                 Arrays.asList(user.getRoleIds().split(",")).stream().map(Long::valueOf).collect(Collectors.toList()).toArray(new Long[0])
         );
     }
+
+	@Override
+	public List<User> queryListByRoleId(String roleId) {
+		List<User> list = userMapper.selectAll();
+		List<User> result = new ArrayList<User>();
+		if(list!=null){
+			for (int i = 0; i < list.size(); i++) {
+				User user = list.get(i);
+				String roleIds = user.getRoleIds()+",";
+				if(roleIds.indexOf(("roleId"+","))!=-1){
+					result.add(user);
+				}
+			}
+		}//if(list!=null)
+		return result;
+	}
 }

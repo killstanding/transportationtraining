@@ -1,6 +1,9 @@
 package tech.wetech.admin.modules.system.web;
 
 import com.github.pagehelper.Page;
+
+import io.swagger.annotations.ApiOperation;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +78,24 @@ public class UserController extends BaseCrudController<User> {
         return Result.success(userVOS).addExtra("total", page.getTotal());
     }
 
+    @ResponseBody
+    @GetMapping("/listbyroleid")
+    @RequiresPermissions("user:view")
+    @ApiOperation(value = "通过角色编号获取用户列表", notes = "通过角色编号获取用户列表")
+    public Result<List<UserVO>> queryListByRoleId(String roleId) {
+        List<User> list =  userService.queryListByRoleId(roleId);
+        List<UserVO> userVOS = new ArrayList<>();
+        list.forEach(u -> {
+            UserVO userVO = new UserVO(u);
+            userVO.setOrganizationName(getOrganizationName(Long.valueOf(userVO.getOrganizationId())));
+            userVO.setRoleNames(getRoleNames(userVO.getRoleIdList()));
+            userVO.setGroupNames(getGroupNames(userVO.getGroupIdList()));
+            userVOS.add(userVO);
+        });
+        return Result.success(userVOS);
+    }
+    
+    
     private String getGroupNames(Collection<Long> groupIds) {
         if (CollectionUtils.isEmpty(groupIds)) {
             return "";
