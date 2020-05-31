@@ -73,6 +73,11 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
 		return "system/inspectionrecord";
 	}
 
+	@GetMapping("/show")
+	@RequiresPermissions("inspectionrecord:view")
+	public String show(Model model) {
+		return "system/inspectionrecordshow";
+	}
 
 	@ResponseBody
 	@GetMapping("/list")
