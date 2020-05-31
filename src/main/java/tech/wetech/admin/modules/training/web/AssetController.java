@@ -20,6 +20,7 @@ import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.system.common.CommonVariable;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.Asset;
@@ -84,7 +85,7 @@ public class AssetController extends BaseCrudController<Asset> {
     	model.addAttribute("inspectionCycleList", pubCodeService.queryList(pubCode));
     	pubCode.setPubType("asset_status");
     	model.addAttribute("assetStatusList", pubCodeService.queryList(pubCode));
-    	model.addAttribute("userList", userService.queryAll());
+    	model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.DEVICE_ADMIN_ROLE_ID));//获取设备管理员用户
     	model.addAttribute("trainingRoomList", trainingRoomService.queryAll());
         return "system/asset";
     }
