@@ -46,6 +46,12 @@ public class AssetServiceImpl extends BaseService<Asset> implements AssetService
 		}
 		return k;
 	}
+
+	@Override
+	public void updateRoomIsEnabledByRoomId(Asset record) {
+		// TODO Auto-generated method stub
+		mapper.updateRoomIsEnabledByRoomId(record);
+	}
 	
 	
 }

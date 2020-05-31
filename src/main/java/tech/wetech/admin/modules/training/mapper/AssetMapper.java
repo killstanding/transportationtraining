@@ -10,4 +10,6 @@ public interface AssetMapper extends MyMapper<Asset> {
 	List<StatusCountResult> selectCountNumGourpByStatus();
 	
 	void updateCodeById(Asset record);
+	
+	void updateRoomIsEnabledByRoomId(Asset record);
 }

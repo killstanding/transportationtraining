@@ -11,4 +11,5 @@ public interface AssetService extends IService<Asset> {
 	
 	void updateCodeById(Asset record);
    
+	void updateRoomIsEnabledByRoomId(Asset record);
 }
