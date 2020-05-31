@@ -20,7 +20,9 @@ import tech.wetech.admin.modules.system.common.CommonVariable;
 import tech.wetech.admin.modules.system.po.Organization;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
+import tech.wetech.admin.modules.training.po.Asset;
 import tech.wetech.admin.modules.training.po.TrainingRoom;
+import tech.wetech.admin.modules.training.service.AssetService;
 import tech.wetech.admin.modules.training.service.PositionService;
 import tech.wetech.admin.modules.training.service.TrainingRoomService;
 import tech.wetech.excel.ExcelWriteUtil;
@@ -47,6 +49,8 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
     private UserService userService;
     @Autowired
     private ConfigProperties configProperties;
+    @Autowired
+    private AssetService assetService;
     
     @GetMapping
     @RequiresPermissions("trainingroom:view")
@@ -92,6 +96,12 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
     	entity.setUpdateTime(curTime);
     	service.updateNotNull(entity);
+    	
+    	//更新实训室状态到设备表
+    	Asset asset = new Asset();
+    	asset.setRoomId(entity.getId());
+    	asset.setRoomIsEnabled(1);
+    	assetService.updateRoomIsEnabledByRoomId(asset);
         return Result.success();
     }
 
