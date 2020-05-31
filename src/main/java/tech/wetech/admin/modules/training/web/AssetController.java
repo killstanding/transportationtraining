@@ -99,6 +99,16 @@ public class AssetController extends BaseCrudController<Asset> {
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
     
+    @ResponseBody
+    @GetMapping("/listbyroomid")
+    @RequiresPermissions("asset:view")
+    @ApiOperation(value = "根据实训室编号获取设备，不分页")
+    public Result<List<Asset>> queryListByRoomId(Asset entity) {
+    	entity.setRoomIsEnabled(1);
+    	List<Asset> list = service.keyValueByExample(entity);
+        return Result.success(list);
+    }
+    
     
     @ApiOperation(value = "根据资源状态统计数量", notes = "根据资源状态统计数量")
     @ResponseBody
