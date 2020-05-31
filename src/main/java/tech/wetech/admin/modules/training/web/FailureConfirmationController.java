@@ -14,11 +14,14 @@ import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
+import tech.wetech.admin.modules.training.po.Asset;
 import tech.wetech.admin.modules.training.po.AssetClassification;
 import tech.wetech.admin.modules.training.po.FailureConfirmation;
+import tech.wetech.admin.modules.training.po.MaintenanceRecord;
 import tech.wetech.admin.modules.training.service.AssetClassificationService;
 import tech.wetech.admin.modules.training.service.AssetService;
 import tech.wetech.admin.modules.training.service.FailureConfirmationService;
+import tech.wetech.admin.modules.training.service.MaintenanceRecordService;
 import tech.wetech.admin.modules.training.service.PositionService;
 
 import org.springframework.ui.Model;
@@ -43,6 +46,8 @@ public class FailureConfirmationController extends BaseCrudController<FailureCon
     private UserService userService;
 	@Autowired
     private AssetService assetService;
+	@Autowired
+	private MaintenanceRecordService maintenanceRecordService;
 	
     @GetMapping
     @RequiresPermissions("failureconfirmation:view")
@@ -77,6 +82,9 @@ public class FailureConfirmationController extends BaseCrudController<FailureCon
     	entity.setCreateTime(curTime);
     	entity.setUpdateTime(curTime);
     	service.create(entity);
+    	
+    	//故障确认更新设备状态为维修
+    	updateAssetStatus(entity);
         return Result.success();
     }
   
@@ -89,9 +97,31 @@ public class FailureConfirmationController extends BaseCrudController<FailureCon
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
     	entity.setUpdateTime(curTime);
     	service.updateNotNull(entity);
+    	//故障确认更新设备状态为维修
+    	updateAssetStatus(entity);
         return Result.success();
     }
-
+    
+    /**
+     * 故障确认更新设备状态为维修
+     * @param entity
+     */
+    
+    private void updateAssetStatus(FailureConfirmation entity){
+    	//故障确认，那么设备状态变为维修
+    	int isRepair = entity.getRepairRequired();//是否需要维修 1 是 0 否
+    	if(isRepair==1){
+    		int recordId = entity.getRecordId();
+    		MaintenanceRecord record = maintenanceRecordService.queryById(recordId);
+    		int assetId = record.getAssetId();
+    		Asset asset = new Asset();
+        	asset.setId(assetId);
+        	asset.setAssetStatus("维修");
+        	asset.setAssetStatusCode("asset_status_repair");
+        	assetService.updateNotNull(asset);
+     	}
+    } 
+    
     @ResponseBody
     @PostMapping("/delete-batch")
     @RequiresPermissions("failureconfirmation:delete")
