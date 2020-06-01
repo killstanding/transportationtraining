@@ -116,6 +116,7 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
 					for (int i = 0; i < assets.size(); i++) {
 						Asset asset = assets.get(i);
 						InspectionRecord record = new InspectionRecord();
+						record.setAssetId(asset.getId());
 						record.setAssetCode(asset.getAssetCode());
 						record.setAssetClassification(asset.getAssetClassification());
 						record.setAssetClassificationCode(asset.getAssetClassificationCode());
