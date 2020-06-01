@@ -36,8 +36,9 @@
 					                </span>
 					            </div>
                                 <label for="searchId"> 流程状态 </label>
-                                <select id="searchId" class="form-control select2" name="flowStatusCode"
+                                <select id="searchId" class="form-control select2" data-minimum-results-for-search="-1" name="flowStatusCode"
 	                                data-placeholder="请从列表选择一项" required>
+	                                <option></option>
 	                            <option th:each="flow_node: ${flowNodeList}" th:value="${flow_node.flowNodeCode}" th:text="${flow_node.flowNodeName}">
 	                            流程状态不存在
 	                            </option>
@@ -79,8 +80,16 @@
         });
         $table.bootstrapTable({
             url: CONTEXT_PATH + '/maintenancerecord/list',
+            idField: 'id',
+            detailView: false,
             columns: [
-                {field: 'id', title: '序号', sortable: true, halign: 'left'},
+                {field: 'id', title: '序号', sortable: true, halign: 'left',
+                	formatter: function(value,row,index) {
+                		var pageSize = $table.bootstrapTable('getOptions').pageSize;
+                		var pageNumber = $table.bootstrapTable('getOptions').pageNumber;
+                		return pageSize * (pageNumber - 1) + index + 1;
+                	}
+                },
                 {field: 'recordId', title: '维修记录编号', sortable: true, halign: 'left', formatter: 'recordIdFormatter'},
                 {field: 'recordName', title: '维修记录名称', halign: 'center', align: 'center'},
                 {field: 'assetName', title: '维修设备名称', halign: 'center', align: 'center', formatter: 'assetNameFormatter'},
@@ -93,17 +102,23 @@
     });
     
     function recordIdFormatter(value, row, index) {
-    	return '<a style="cursor: pointer" onclick="toFlow(' + row.id + ')">' + value + '</a>'
+    	return '<a style="cursor: pointer" onclick="toFlow(\'' + row.recordId +'\',\'' + row.id + '\',\'' + row.flowStatusCode + '\')">' + value + '</a>'
     }
     
     function assetNameFormatter(value, row, index) {
     	return '<a style="cursor: pointer" onclick="toAsset()">' + value + '</a>'
     }
     
-    function toFlow(id) {
-    	localStorage.setItem("weixiuId", id);
-    	window.location.hash = '#maintenancerecordresults';
-    	location.reload();
+    function toFlow(code,id,status) {
+    	if(status != 'em_write') {
+    		localStorage.setItem("weixiuCode", code);
+        	window.location.hash = '#maintenancerecordresults';
+        	location.reload();
+    	}else {
+    		localStorage.setItem("weixiuId", id);
+        	window.location.hash = '#maintenancerecord/edit';
+        	location.reload();
+    	}
     }
     
     function toAsset() {

@@ -81,30 +81,27 @@
             </div>
             <div class="modal-body">
                 <form id="addForm">
-                	<div class="form-group">
-                        <label class="control-label" for="assetCode"><span class="asterisk">*</span>工具编号:</label>
-                        <input id="assetCode" type="text" class="form-control" name="assetCode" placeholder="输入工具编号"
-                               required>
-                        <div class="help-block with-errors"></div>
-                    </div>
                     <div class="form-group">
+                    <div class="col-md-12">
                         <label class="control-label" for="assetName"><span class="asterisk">*</span>工具名称:</label>
                         <input id="assetName" type="text" class="form-control" name="assetName" placeholder="输入工具名称"
                                required>
                         <div class="help-block with-errors"></div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <div style="display: none;">
-                        	<label class="control-label" for="addAssetClassification"><span class="asterisk">*</span>资产分类:</label>
+                        	<label class="control-label" for="addAssetClassification"><span class="asterisk">*</span>工具分类:</label>
                         	<input id="addAssetClassification" type="text" class="form-control" name="assetClassification" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>资产分类:</label>
-	                        <select id="assetClassificationCode" class="form-control select2" name="assetClassificationCode" onchange="addAssetClassificationChange()"
+                        	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>工具分类:</label>
+	                        <select id="assetClassificationCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetClassificationCode" onchange="addAssetClassificationChange()"
 	                                data-placeholder="请从列表选择一项" required>
+	                                <option></option>
 	                            <option th:each="assetClassification: ${assetClassificationList}" th:value="${assetClassification.id}" th:text="${assetClassification.classificationName}">
-	                            所属分类不存在
+	                           工具分类不存在
 	                            </option>
 	                        </select>
 	                        <div class="help-block with-errors"></div>
@@ -116,8 +113,9 @@
                         </div>
                         <div class="col-md-6">
                         	<label class="control-label" for="specificationTypeCode"><span class="asterisk">*</span>规格型号:</label>
-	                        <select id="specificationTypeCode" class="form-control select2" name="specificationTypeCode" onchange="addSpecificationTypeChange()"
+	                        <select id="specificationTypeCode" class="form-control select2" data-minimum-results-for-search="-1" name="specificationTypeCode" onchange="addSpecificationTypeChange()"
 	                                data-placeholder="请从列表选择一项" required>
+	                                <option></option>
 	                            <option th:each="assetType: ${assetTypeList}" th:value="${assetType.id}" th:text="${assetType.typeName}">
 	                            规格型号不存在
 	                            </option>
@@ -126,15 +124,21 @@
                         </div>
                     </div>
                     <div class="form-group">
-                    	<div class="col-md-6">
-                        	<label class="control-label" for="addDatepicker"><span class="asterisk">*</span>登记日期:</label>
-                        	<div class='input-group date' id='addDatepicker'>
-				                <input type='text' class="form-control" name="bookkeepingDate" required>
-				                <span class="input-group-addon">
-				                    <span class="glyphicon glyphicon-calendar"></span>
-				                </span>
-				            </div>
-				            <div class="help-block with-errors"></div>
+                                            <div style="display: none;">
+                        	<label class="control-label" for="addUseDepartment"><span class="asterisk">*</span>所属系:</label>
+                        	<input id="addUseDepartment" type="text" class="form-control" name="useDepartment" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="useDepartmentId"><span class="asterisk">*</span>所属系:</label>
+	                        <select id="useDepartmentId" class="form-control select2" name="useDepartmentId" onchange="addUseDepartmentChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                                <option></option>
+	                            <option th:each="organization: ${organizationList}" th:value="${organization.id}" th:text="${organization.name}">
+	                            所属系不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
                         </div>
                         <div style="display: none;">
                         	<label class="control-label" for="addPositionName"><span class="asterisk">*</span>存放地点:</label>
@@ -145,6 +149,7 @@
                         	<label class="control-label" for="positionCode"><span class="asterisk">*</span>存放地点:</label>
 	                        <select id="positionCode" class="form-control select2" name="positionCode" onchange="addPositionChange()"
 	                                data-placeholder="请从列表选择一项" required>
+	                                <option></option>
 	                            <option th:each="position: ${positionList}" th:value="${position.id}" th:text="${position.positionName}">
 	                            存放地点不存在
 	                            </option>
@@ -154,40 +159,36 @@
                     </div>
                     <div class="form-group">
                         <div style="display: none;">
-                        	<label class="control-label" for="addUseDepartment"><span class="asterisk">*</span>所属系:</label>
-                        	<input id="addUseDepartment" type="text" class="form-control" name="useDepartment" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="col-md-6">
-                        	<label class="control-label" for="useDepartmentId"><span class="asterisk">*</span>所属系:</label>
-	                        <select id="useDepartmentId" class="form-control select2" name="useDepartmentId" onchange="addUseDepartmentChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="organization: ${organizationList}" th:value="${organization.id}" th:text="${organization.name}">
-	                            所属系不存在
-	                            </option>
-	                        </select>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div style="display: none;">
                         	<label class="control-label" for="addAssetUser"><span class="asterisk">*</span>使用人:</label>
                         	<input id="addAssetUser" type="text" class="form-control" name="assetUser" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
                         	<label class="control-label" for="assetUserId"><span class="asterisk">*</span>使用人:</label>
-	                        <select id="assetUserId" class="form-control select2" name="assetUserId" onchange="addAssetUserChange()"
+	                        <select id="assetUserId" class="form-control select2" data-minimum-results-for-search="-1" name="assetUserId" onchange="addAssetUserChange()"
 	                                data-placeholder="请从列表选择一项" required>
+	                                <option></option>
 	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
 	                            使用人不存在
 	                            </option>
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="addDatepicker"><span class="asterisk">*</span>记账日期:</label>
+                        	<div class='input-group date' id='addDatepicker'>
+				                <input type='text' class="form-control" name="bookkeepingDate" required>
+				                <span class="input-group-addon">
+				                    <span class="glyphicon glyphicon-calendar"></span>
+				                </span>
+				            </div>
+				            <div class="help-block with-errors"></div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                        	<label class="control-label" for="assetValue"><span class="asterisk">*</span>单位价格:</label>
-	                        <input id="assetValue" type="text" class="form-control" name="assetValue" placeholder="输入价格"
+                        	<label class="control-label" for="assetValue"><span class="asterisk">*</span>工具价值（元）:</label>
+	                        <input id="assetValue" type="text" class="form-control" name="assetValue" placeholder="输入价值"
                                required>
 	                        <div class="help-block with-errors"></div>
                         </div>
@@ -217,29 +218,33 @@
                 <form id="editForm">
                     <input type="hidden" name="id"/>
                     <div class="form-group">
+                    <div class="col-md-12">
                         <label class="control-label" for="assetCode"><span class="asterisk">*</span>工具编号:</label>
                         <input id="assetCode" type="text" class="form-control" name="assetCode"
                                readonly required>
                         <div class="help-block with-errors"></div>
+                        </div>
                     </div>
                     <div class="form-group">
+                    <div class="col-md-12">
                         <label class="control-label" for="assetName"><span class="asterisk">*</span>工具名称:</label>
                         <input id="assetName" type="text" class="form-control" name="assetName" placeholder="输入工具名称"
                                required>
                         <div class="help-block with-errors"></div>
+                        </div>
                     </div>
                                         <div class="form-group">
                         <div style="display: none;">
-                        	<label class="control-label" for="editAssetClassification"><span class="asterisk">*</span>资产分类:</label>
+                        	<label class="control-label" for="editAssetClassification"><span class="asterisk">*</span>工具分类:</label>
                         	<input id="editAssetClassification" type="text" class="form-control" name="assetClassification" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>资产分类:</label>
-	                        <select id="assetClassificationCode" class="form-control select2" name="assetClassificationCode" onchange="editAssetClassificationChange()"
+                        	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>工具分类:</label>
+	                        <select id="assetClassificationCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetClassificationCode" onchange="editAssetClassificationChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="assetClassification: ${assetClassificationList}" th:value="${assetClassification.id}" th:text="${assetClassification.classificationName}">
-	                            所属分类不存在
+	                            工具分类不存在
 	                            </option>
 	                        </select>
 	                        <div class="help-block with-errors"></div>
@@ -251,7 +256,7 @@
                         </div>
                         <div class="col-md-6">
                         	<label class="control-label" for="specificationTypeCode"><span class="asterisk">*</span>规格型号:</label>
-	                        <select id="specificationTypeCode" class="form-control select2" name="specificationTypeCode" onchange="editSpecificationTypeChange()"
+	                        <select id="specificationTypeCode" class="form-control select2" data-minimum-results-for-search="-1" name="specificationTypeCode" onchange="editSpecificationTypeChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="assetType: ${assetTypeList}" th:value="${assetType.id}" th:text="${assetType.typeName}">
 	                            规格型号不存在
@@ -261,15 +266,20 @@
                         </div>
                     </div>
                     <div class="form-group">
-                    	<div class="col-md-6">
-                        	<label class="control-label" for="editDatepicker"><span class="asterisk">*</span>登记日期:</label>
-                        	<div class='input-group date' id='editDatepicker'>
-				                <input type='text' class="form-control" name="bookkeepingDate" required>
-				                <span class="input-group-addon">
-				                    <span class="glyphicon glyphicon-calendar"></span>
-				                </span>
-				            </div>
-				            <div class="help-block with-errors"></div>
+                    <div style="display: none;">
+                        	<label class="control-label" for="editUseDepartment"><span class="asterisk">*</span>所属系:</label>
+                        	<input id="editUseDepartment" type="text" class="form-control" name="useDepartment" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="useDepartmentId"><span class="asterisk">*</span>所属系:</label>
+	                        <select id="useDepartmentId" class="form-control select2" name="useDepartmentId" onchange="editUseDepartmentChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="organization: ${organizationList}" th:value="${organization.id}" th:text="${organization.name}">
+	                            所属系不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
                         </div>
                         <div style="display: none;">
                         	<label class="control-label" for="editPositionName"><span class="asterisk">*</span>存放地点:</label>
@@ -289,28 +299,13 @@
                     </div>
                     <div class="form-group">
                         <div style="display: none;">
-                        	<label class="control-label" for="editUseDepartment"><span class="asterisk">*</span>所属系:</label>
-                        	<input id="editUseDepartment" type="text" class="form-control" name="useDepartment" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="col-md-6">
-                        	<label class="control-label" for="useDepartmentId"><span class="asterisk">*</span>所属系:</label>
-	                        <select id="useDepartmentId" class="form-control select2" name="useDepartmentId" onchange="editUseDepartmentChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="organization: ${organizationList}" th:value="${organization.id}" th:text="${organization.name}">
-	                            所属系不存在
-	                            </option>
-	                        </select>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div style="display: none;">
                         	<label class="control-label" for="editAssetUser"><span class="asterisk">*</span>使用人:</label>
                         	<input id="editAssetUser" type="text" class="form-control" name="assetUser" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
                         	<label class="control-label" for="assetUserId"><span class="asterisk">*</span>使用人:</label>
-	                        <select id="assetUserId" class="form-control select2" name="assetUserId" onchange="editAssetUserChange()"
+	                        <select id="assetUserId" class="form-control select2" data-minimum-results-for-search="-1" name="assetUserId" onchange="editAssetUserChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
 	                            使用人不存在
@@ -318,11 +313,21 @@
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="editDatepicker"><span class="asterisk">*</span>记账日期:</label>
+                        	<div class='input-group date' id='editDatepicker'>
+				                <input type='text' class="form-control" name="bookkeepingDate" required>
+				                <span class="input-group-addon">
+				                    <span class="glyphicon glyphicon-calendar"></span>
+				                </span>
+				            </div>
+				            <div class="help-block with-errors"></div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                        	<label class="control-label" for="assetValue"><span class="asterisk">*</span>单位价格:</label>
-	                        <input id="assetValue" type="text" class="form-control" name="assetValue" placeholder="输入价格"
+                        	<label class="control-label" for="assetValue"><span class="asterisk">*</span>工具价值（元）:</label>
+	                        <input id="assetValue" type="text" class="form-control" name="assetValue" placeholder="输入价值"
                                required>
 	                        <div class="help-block with-errors"></div>
                         </div>
@@ -383,11 +388,19 @@
         $table.bootstrapTable({
             url: CONTEXT_PATH + '/tools/list',
             idField: 'id',
+            detailView: false,
             columns: [
                 {field: 'state', checkbox: true},
-                {field: 'id', title: '序号', sortable: true, halign: 'left'},
+                {field: 'id', title: '序号', sortable: true, halign: 'left',
+                	formatter: function(value,row,index) {
+                		var pageSize = $table.bootstrapTable('getOptions').pageSize;
+                		var pageNumber = $table.bootstrapTable('getOptions').pageNumber;
+                		return pageSize * (pageNumber - 1) + index + 1;
+                	}
+                },
+                {field: 'assetCode', title: '工具编号', sortable: true, halign: 'left'},
                 {field: 'assetName', title: '工具名称', sortable: true, halign: 'left', formatter: 'assetNameFormatter'},
-                {field: 'assetClassification', title: '资产分类', halign: 'center', align: 'center'},
+                {field: 'assetClassification', title: '工具分类', halign: 'center', align: 'center'},
                 {field: 'specificationType', title: '规格型号', halign: 'center', align: 'center'},
                 {field: 'assetValue', title: '价值（元）', sortable: true, halign: 'left'},
                 {field: 'bookkeepingDate', title: '记账日期', halign: 'center', align: 'center'},
@@ -498,11 +511,11 @@
     }
     
     function addLoad() {
-    	addAssetClassificationChange();
-    	addSpecificationTypeChange();
-    	addPositionChange();
-    	addUseDepartmentChange();
-    	addAssetUserChange();
+    	//addAssetClassificationChange();
+    	//addSpecificationTypeChange();
+    	//addPositionChange();
+    	//addUseDepartmentChange();
+    	//addAssetUserChange();
     	$('#addDatepicker').datepicker('setDate', new Date());
     }
 </script>

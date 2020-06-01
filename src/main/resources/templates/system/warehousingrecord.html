@@ -20,6 +20,7 @@
             <div class="box">
                 <!-- /.box-header -->
                 <div class="box-body">
+                <div style="font-size: 18px;font-weight:700;margin:5px 0 0 10px">耗材信息</div>
                     <table id="tb"></table>
                 </div>
                 <!-- /.box-body -->
@@ -38,21 +39,24 @@
                     <div id="toolbar">
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
-                            	<input type="hidden" class="form-control input-sm" name="assetName" id="searchId" readonly>
+                            <input type="hidden" class="form-control input-sm" name="assetTypeCode" id="searchType" value="asset_type_consumables" readonly>
+                            	<input type="hidden" class="form-control input-sm" name="assetId" id="searchId" readonly>
                             </div>
                             <div class="btn-group btn-group-sm">
-                            	<button type="button" class="btn btn-default" onclick="lyjl()">
-                                    领用记录
-                                </button>
-                                <button type="button" class="btn btn-default" onclick="rkjl()">
-                                    入库记录
-                                </button>
                             	<button type="button" class="btn btn-default" onclick="returnBack()">
                                     返回上一级
                                 </button>
                             </div>
                         </form>
                     </div>
+                    <div class="btn-group btn-group-sm" style="margin: 5px 0 0 10px">
+                            	<button type="button" class="btn btn-default" onclick="lyjl()">
+                                    领用记录
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="rkjl()">
+                                    入库记录
+                                </button>
+                            </div>
                     <table id="table1"></table>
                     <table id="table2"></table>
                 </div>
@@ -80,7 +84,7 @@
     		}else {
     			document.querySelector('#nnaa').innerHTML = '';
     		}
-    		$('#searchId').val(consumableName);
+    		$('#searchId').val(consumableId);
     	}
     	$.ajax({
             type:"GET",
@@ -89,9 +93,12 @@
             	datas.push(data.data);
             	$('#tb').bootstrapTable({
                     data: datas,
+                    detailView: false,
                     pagination : false,
                     columns: [
+                              {field: 'consumablesCode', title: '耗材编号', halign: 'center', align: 'center'},
                               {field: 'consumablesName', title: '耗材名称', halign: 'center', align: 'center'},
+                              {field: 'assetClassification', title: '耗材类型', halign: 'center', align: 'center'},
                               {field: 'specificationType', title: '规格型号', halign: 'center', align: 'center'},
                               {field: 'positionName', title: '存放地点', halign: 'center', align: 'center'},
                               {field: 'manager', title: '管理人', halign: 'center', align: 'center'},
@@ -106,9 +113,16 @@
         $table1.bootstrapTable({
             url: CONTEXT_PATH + '/collectionrecord/list',
             idField: 'id',
+            detailView: false,
             columns: [
-				{field: 'id', title: '序号', sortable: true, width: '10%', halign: 'left'},
-                {field: 'collectionTime', title: '领用时间', width: '20%', sortable: true, halign: 'left'},
+				{field: 'id', title: '序号', width: '10%', halign: 'center', align: 'center',
+					formatter: function(value,row,index) {
+	            		var pageSize = $table1.bootstrapTable('getOptions').pageSize;
+	            		var pageNumber = $table1.bootstrapTable('getOptions').pageNumber;
+	            		return pageSize * (pageNumber - 1) + index + 1;
+	            	}
+				},
+                {field: 'collectionTime', title: '领用时间', width: '20%', halign: 'center', align: 'center'},
                 {field: 'collectionMajor', title: '领用专业', width: '20%', halign: 'center', align: 'center'},
                 {field: 'collectionCourse', title: '领用课程', width: '20%', halign: 'center', align: 'center'},
                 {field: 'applicant', title: '申请人', width: '20%', halign: 'center', align: 'center'},
@@ -118,13 +132,20 @@
         $table2.bootstrapTable({
             url: CONTEXT_PATH + '/warehousingrecord/list',
             idField: 'id',
+            detailView: false,
             onLoadSuccess: function() {
             	lyjl();
             },
             columns: [
-				{field: 'id', title: '序号', width: '10%', sortable: true, halign: 'left'},
-                {field: 'warehousingTime', title: '入库时间', width: '20%', sortable: true, halign: 'left'},
-                {field: 'unitPrice', title: '耗材单价（元）', width: '15%', sortable: true, halign: 'left'},
+				{field: 'id', title: '序号', width: '10%', halign: 'center', align: 'center',
+					formatter: function(value,row,index) {
+	            		var pageSize = $table2.bootstrapTable('getOptions').pageSize;
+	            		var pageNumber = $table2.bootstrapTable('getOptions').pageNumber;
+	            		return pageSize * (pageNumber - 1) + index + 1;
+	            	}
+				},
+                {field: 'warehousingTime', title: '入库时间', width: '20%', halign: 'center', align: 'center'},
+                {field: 'unitPrice', title: '单位价格（元）', width: '15%', sortable: true, halign: 'left'},
                 {field: 'warehousingQuantity', title: '入库数量', width: '15%', sortable: true, halign: 'left'},
                 {field: 'positionName', title: '存放地点', width: '20%', halign: 'center', align: 'center'},
                 {field: 'manager', title: '管理人', width: '20%', halign: 'center', align: 'center'}

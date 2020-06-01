@@ -94,8 +94,9 @@
                         </div>
                         <div class="col-md-12">
                         	<label class="control-label" for="roomId"><span class="asterisk">*</span>实训室名称:</label>
-	                        <select id="roomId" class="form-control select2" name="roomId" onchange="addRoomChange()"
+	                        <select id="roomId" class="form-control select2" data-minimum-results-for-search="-1" name="roomId" onchange="addRoomChange()"
 	                                data-placeholder="请从列表选择一项" required>
+	                                <option></option>
 	                            <option th:each="trainingRoom: ${trainingRoomList}" th:value="${trainingRoom.id}" th:text="${trainingRoom.roomName}">
 	                            实训室不存在
 	                            </option>
@@ -111,8 +112,9 @@
                         </div>
                         <div class="col-md-12">
                         	<label class="control-label" for="personInChargeId"><span class="asterisk">*</span>巡检负责人:</label>
-	                        <select id="personInChargeId" class="form-control select2" name="personInChargeId" onchange="addPersonInChargeChange()"
+	                        <select id="personInChargeId" class="form-control select2" data-minimum-results-for-search="-1" name="personInChargeId" onchange="addPersonInChargeChange()"
 	                                data-placeholder="请从列表选择一项" required>
+	                                <option></option>
 	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
 	                            巡检负责人不存在
 	                            </option>
@@ -128,7 +130,7 @@
                         </div>
                         <div class="col-md-12">
                         	<label class="control-label" for="inspectionCycleCode"><span class="asterisk">*</span>巡检周期:</label>
-	                        <select id="inspectionCycleCode" class="form-control select2" name="inspectionCycleCode" onchange="addInspectionCycleChange()"
+	                        <select id="inspectionCycleCode" class="form-control select2" data-minimum-results-for-search="-1" name="inspectionCycleCode" onchange="addInspectionCycleChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="inspectionCycle: ${inspectionCycleList}" th:value="${inspectionCycle.pubCode}" th:text="${inspectionCycle.pubName}">
 	                            巡检周期不存在
@@ -146,34 +148,14 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                        	<label class="control-label" for="inspectionedTimesYear"><span class="asterisk">*</span>本年度已巡检次数:</label>
-	                        <input id="inspectionedTimesYear" type="text" class="form-control" name="inspectionedTimesYear" placeholder="输入数字"
-                               required>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                        	<label class="control-label" for="numberAbnormalDevices"><span class="asterisk">*</span>异常设备数量:</label>
-	                        <input id="numberAbnormalDevices" type="text" class="form-control" name="numberAbnormalDevices" placeholder="输入数字"
-                               required>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                        	<label class="control-label" for="numberRepairedEquipmen"><span class="asterisk">*</span>已维修设备数量:</label>
-	                        <input id="numberRepairedEquipmen" type="text" class="form-control" name="numberRepairedEquipmen" placeholder="输入数字"
-                               required>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                        	<label class="control-label" for="numberReportedRepairEquipment"><span class="asterisk">*</span>已报修设备数量:</label>
-	                        <input id="numberReportedRepairEquipment" type="text" class="form-control" name="numberReportedRepairEquipment" placeholder="输入数字"
-                               required>
-	                        <div class="help-block with-errors"></div>
+                        	<label class="control-label" for="addDatepicker"><span class="asterisk">*</span>年份:</label>
+                        	<div class='input-group date' id='addDatepicker'>
+				                <input type='text' class="form-control" name="createYear" required>
+				                <span class="input-group-addon">
+				                    <span class="glyphicon glyphicon-calendar"></span>
+				                </span>
+				            </div>
+				            <div class="help-block with-errors"></div>
                         </div>
                     </div>
                 </form>
@@ -201,10 +183,12 @@
                 <form id="editForm">
                     <input type="hidden" name="id"/>
                     <div class="form-group">
+                    <div class="col-md-12">
                         <label class="control-label" for="roomName"><span class="asterisk">*</span>实训室名称:</label>
                         <input id="roomName" type="text" class="form-control" name="roomName"
                                readonly required>
                         <div class="help-block with-errors"></div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <div style="display:none;">
@@ -214,7 +198,7 @@
                         </div>
                         <div class="col-md-12">
                         	<label class="control-label" for="personInChargeId"><span class="asterisk">*</span>巡检负责人:</label>
-	                        <select id="personInChargeId" class="form-control select2" name="personInChargeId" onchange="editPersonInChargeChange()"
+	                        <select id="personInChargeId" class="form-control select2" data-minimum-results-for-search="-1" name="personInChargeId" onchange="editPersonInChargeChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
 	                            巡检负责人不存在
@@ -231,7 +215,7 @@
                         </div>
                         <div class="col-md-12">
                         	<label class="control-label" for="inspectionCycleCode"><span class="asterisk">*</span>巡检周期:</label>
-	                        <select id="inspectionCycleCode" class="form-control select2" name="inspectionCycleCode" onchange="editInspectionCycleChange()"
+	                        <select id="inspectionCycleCode" class="form-control select2" data-minimum-results-for-search="-1" name="inspectionCycleCode" onchange="editInspectionCycleChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="inspectionCycle: ${inspectionCycleList}" th:value="${inspectionCycle.pubCode}" th:text="${inspectionCycle.pubName}">
 	                            巡检周期不存在
@@ -249,34 +233,14 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                        	<label class="control-label" for="inspectionedTimesYear"><span class="asterisk">*</span>本年度已巡检次数:</label>
-	                        <input id="inspectionedTimesYear" type="text" class="form-control" name="inspectionedTimesYear" placeholder="输入数字"
-                               required>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                        	<label class="control-label" for="numberAbnormalDevices"><span class="asterisk">*</span>异常设备数量:</label>
-	                        <input id="numberAbnormalDevices" type="text" class="form-control" name="numberAbnormalDevices" placeholder="输入数字"
-                               required>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                        	<label class="control-label" for="numberRepairedEquipmen"><span class="asterisk">*</span>已维修设备数量:</label>
-	                        <input id="numberRepairedEquipmen" type="text" class="form-control" name="numberRepairedEquipmen" placeholder="输入数字"
-                               required>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                        	<label class="control-label" for="numberReportedRepairEquipment"><span class="asterisk">*</span>已报修设备数量:</label>
-	                        <input id="numberReportedRepairEquipment" type="text" class="form-control" name="numberReportedRepairEquipment" placeholder="输入数字"
-                               required>
-	                        <div class="help-block with-errors"></div>
+                        	<label class="control-label" for="editDatepicker"><span class="asterisk">*</span>年份:</label>
+                        	<div class='input-group date' id='editDatepicker'>
+				                <input type='text' class="form-control" name="createYear" required>
+				                <span class="input-group-addon">
+				                    <span class="glyphicon glyphicon-calendar"></span>
+				                </span>
+				            </div>
+				            <div class="help-block with-errors"></div>
                         </div>
                     </div>
                 </form>
@@ -330,12 +294,31 @@
             maxViewMode: 2,
             autoclose: true
         });
+    	$('#addDatepicker').datepicker({
+            format: 'yyyy',
+            minViewMode: 2,
+            maxViewMode: 2,
+            autoclose: true
+        });
+    	$('#editDatepicker').datepicker({
+            format: 'yyyy',
+            minViewMode: 2,
+            maxViewMode: 2,
+            autoclose: true
+        });
         $table.bootstrapTable({
             url: CONTEXT_PATH + '/inspectionplanyear/list',
             idField: 'id',
+            detailView: false,
             columns: [
                 {field: 'state', checkbox: true},
-                {field: 'id', title: '序号', sortable: true, halign: 'left'},
+                {field: 'id', title: '序号', sortable: true, halign: 'left',
+                	formatter: function(value,row,index) {
+                		var pageSize = $table.bootstrapTable('getOptions').pageSize;
+                		var pageNumber = $table.bootstrapTable('getOptions').pageNumber;
+                		return pageSize * (pageNumber - 1) + index + 1;
+                	}
+                },
                 {field: 'roomName', title: '实训室名称', sortable: true, halign: 'left', formatter: 'roomNameFormatter'},
                 {field: 'personInCharge', title: '巡检负责人', sortable: true, halign: 'left'},
                 {field: 'inspectionCycle', title: '巡检周期', halign: 'center', align: 'center'},
@@ -421,8 +404,9 @@
     }
     
     function addLoad() {
-    	addRoomChange();
-    	addPersonInChargeChange();
+    	$('#addDatepicker').datepicker('setDate', new Date());
+    	//addRoomChange();
+    	//addPersonInChargeChange();
     	addInspectionCycleChange();
     }
 </script>

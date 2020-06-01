@@ -455,7 +455,7 @@
                 {field: 'regionalTeacher', title: '区域教师', halign: 'left', align: 'center'},
                 {field: 'assistantTeacher', title: '辅助教师', halign: 'center', align: 'center'},
                 {field: 'trainingRoomName', title: '实训地点', halign: 'center', align: 'center'},
-                {field: 'trainingContent', title: '实训内容', halign: 'center', align: 'center'},
+                {field: 'trainingContent', title: '实训内容', halign: 'center', align: 'center',formatter: 'trainingContentFormatter'},
                 {field: 'teachingPlanName', title: '关联教案', halign: 'center', align: 'center'},
                 {field: 'numberOfDevices', title: '设备数', halign: 'center', align: 'center', formatter: 'numberOfDevicesFormatter'},
                 {field: 'numberOfConsumables', title: '耗材数', halign: 'center', align: 'center', formatter: 'numberOfConsumablesFormatter'},
@@ -479,6 +479,14 @@
     	$('#editForm').find('[name=classId]').find('option[value=' + row.classId + ']').prop('selected', true);
     	$('#editForm').find('[name=trainingRoomId]').find('option[value=' + row.trainingRoomId + ']').prop('selected', true);
     	$('#editForm').find('[name=teachingPlanId]').find('option[value=' + row.teachingPlanId + ']').prop('selected', true);
+    }
+    
+    function trainingContentFormatter(value, row, index) {
+    	if(value.length > 10) {
+    		return '<span title="' + value + '">' + value.substr(0,10) + '...</span>';
+    	}else {
+    		return '<span title="' + value + '">' + value + '</span>';
+    	}
     }
 
     function numberOfDevicesFormatter(value, row, index) {

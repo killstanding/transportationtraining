@@ -10,11 +10,13 @@
 	}
 	.oneline {
 		display: inline-block;
+		padding:0;
+		border-bottom: 1px solid #efefef;
 	}
 	.hint {
 		line-height: 35px;
     text-align: center;
-    background: #d7effe;
+    background: #eee;
     font-weight: 700;
 	}
 	.cott {
@@ -22,6 +24,19 @@
 	}
 	.fff {
 		text-align: center;
+	}
+	.row>.col-xs-12>.box {
+		padding: 0 30px
+	}
+	.box-body>.col-xs-12 {
+		padding: 0;
+		border :1px solid #ccc;
+	}
+	.box-body>.col-xs-12>.col-xs-12 {
+		padding: 0;
+	}
+	#sss1,#sss2,#sss3{
+		padding: 15px 66px;
 	}
 </style>
 <section class="content-header">
@@ -37,25 +52,76 @@
     </ol>
 </section>
 
-<section class="content">
-    <div class="row">
+<section class="content" style="padding:15px 8%">
+    <div class="row" id="step1">
         <div class="col-xs-12">
             <div class="box">
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <div id="toolbar">
-                        <form class="form-inline" id="searchForm">
-                        	<div class="form-group">
-                            	<label for="searchName"> 维修单信息 </label>
-                            </div>
-                            <div class="btn-group btn-group-sm">
-                            	<button type="button" class="btn btn-default" onclick="returnBack()">
-                                    返回上一级
-                                </button>
-                            </div>
-                        </form>
+                <button type="button" class="btn btn-default" onclick="returnBack()">
+		                   返回上一级
+		                </button>
+                    <div class="ttt">设备维修单信息</div>
+                    <div class="col-xs-12">
+                    	<div class="col-xs-12">
+                    		<div class="oneline col-xs-12">
+                    			<span class="hint col-xs-3">维修单名称</span>
+                    			<span class="cott col-xs-9" id="s1mc"></span>
+                    		</div>
+                    	</div>
+                    	<div class="col-xs-12">
+                    		<div class="oneline col-xs-6">
+                    			<span class="hint col-xs-6">维修单编号</span>
+                    			<span class="cott col-xs-6" id="s1no"></span>
+                    		</div>
+                    		<div class="oneline col-xs-6">
+                    			<span class="hint col-xs-6">申请时间</span>
+                    			<span class="cott col-xs-6" id="s1time"></span>
+                    		</div>
+                    	</div>
+                    	<div class="col-xs-12">
+                    		<div class="oneline col-xs-6">
+                    			<span class="hint col-xs-6">申请人</span>
+                    			<span class="cott col-xs-6" id="s1ren"></span>
+                    		</div>
+                    		<div class="oneline col-xs-6">
+                    			<span class="hint col-xs-6">申请人部门</span>
+                    			<span class="cott col-xs-6" id="s1bm"></span>
+                    		</div>
+                    	</div>
+                    	<div class="col-xs-12">
+                    		<div class="oneline col-xs-6">
+                    			<span class="hint col-xs-6">设备名称</span>
+                    			<span class="cott col-xs-6" id="s1sb"></span>
+                    		</div>
+                    		<div class="oneline col-xs-6">
+                    			<span class="hint col-xs-6">设备类型</span>
+                    			<span class="cott col-xs-6" id="s1type"></span>
+                    		</div>
+                    	</div>
+                    	<div class="col-xs-12">
+                    		<div class="oneline col-xs-6">
+                    			<span class="hint col-xs-6">存放地点</span>
+                    			<span class="cott col-xs-6" id="s1dd"></span>
+                    		</div>
+                    		<div class="oneline col-xs-6">
+                    			<span class="hint col-xs-6">故障发生时间</span>
+                    			<span class="cott col-xs-6" id="s1fs"></span>
+                    		</div>
+                    	</div>
+                    	<div class="col-xs-12">
+                    		<div class="oneline col-xs-12">
+                    			<span class="hint col-xs-3">故障描述</span>
+                    			<span class="cott col-xs-9" id="s1ms"></span>
+                    		</div>
+                    	</div>
+                    	<div class="col-xs-12">
+                    		<div class="oneline col-xs-12">
+                    			<span class="hint col-xs-3">附件</span>
+                    			<span class="cott col-xs-9" id="s1fj"></span>
+                    		</div>
+                    	</div>
                     </div>
-                    <table id="table"></table>
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -73,29 +139,29 @@
                     <div class="ttt">设备管理员确认故障</div>
                     <div class="col-xs-12">
                     	<div class="col-xs-12">
+                    	<div class="oneline col-xs-6">
+                    			<span class="hint col-xs-6">确认人</span>
+                    			<span class="cott col-xs-6" id="s2ren"></span>
+                    		</div>
                     		<div class="oneline col-xs-6">
                     			<span class="hint col-xs-6">确认部门</span>
                     			<span class="cott col-xs-6" id="s2bumen"></span>
                     		</div>
-                    		<div class="oneline col-xs-6">
-                    			<span class="hint col-xs-6">确认人</span>
-                    			<span class="cott col-xs-6" id="s2ren"></span>
-                    		</div>
                     	</div>
                     	<div class="col-xs-12">
                     		<div class="oneline col-xs-6">
-                    			<span class="hint col-xs-6">是否维修</span>
+                    			<span class="hint col-xs-6">是否需要维修</span>
                     			<span class="cott col-xs-6" id="s2sf"></span>
                     		</div>
                     		<div class="oneline col-xs-6">
-                    			<span class="hint col-xs-6">维修类型</span>
-                    			<span class="cott col-xs-6" id="s2type"></span>
+                    			<span class="hint col-xs-6">维修费用估计</span>
+                    			<span class="cott col-xs-6" id="s2cost"></span>
                     		</div>
                     	</div>
                     	<div class="col-xs-12">
                     		<div class="oneline col-xs-6">
-                    			<span class="hint col-xs-6">维修费用估计</span>
-                    			<span class="cott col-xs-6" id="s2cost"></span>
+                    			<span class="hint col-xs-6">维修类型</span>
+                    			<span class="cott col-xs-6" id="s2type"></span>
                     		</div>
                     		<div class="oneline col-xs-6">
                     			<span class="hint col-xs-6">维修配合单位</span>
@@ -103,17 +169,17 @@
                     		</div>
                     	</div>
                     	<div class="col-xs-12">
-                    		<div class="oneline col-xs-6">
-                    			<span class="hint col-xs-6">备注</span>
-                    			<span class="cott col-xs-6" id="s2bz"></span>
+                    		<div class="oneline col-xs-12">
+                    			<span class="hint col-xs-3">备注</span>
+                    			<span class="cott col-xs-9" id="s2bz"></span>
                     		</div>
                     	</div>
-                    	<!-- <div class="col-xs-12">
-                    		<div class="oneline col-xs-6">
-                    			<span class="hint col-xs-6">附件</span>
-                    			<span class="cott col-xs-6" id="s2fj"></span>
+                    	<div class="col-xs-12">
+                    		<div class="oneline col-xs-12">
+                    			<span class="hint col-xs-3">附件</span>
+                    			<span class="cott col-xs-9" id="s2fj"></span>
                     		</div>
-                    	</div> -->
+                    	</div>
                     </div>
                 </div>
                 <!-- /.box-body -->
@@ -133,12 +199,12 @@
                     <div class="col-xs-12">
                     	<div class="col-xs-12">
                     		<div class="oneline col-xs-6">
-                    			<span class="hint col-xs-6">审批部门</span>
-                    			<span class="cott col-xs-6" id="s3bumen"></span>
-                    		</div>
-                    		<div class="oneline col-xs-6">
                     			<span class="hint col-xs-6">审批人</span>
                     			<span class="cott col-xs-6" id="s3ren"></span>
+                    		</div>
+                    		<div class="oneline col-xs-6">
+                    			<span class="hint col-xs-6">审批部门</span>
+                    			<span class="cott col-xs-6" id="s3bumen"></span>
                     		</div>
                     	</div>
                     	<div class="col-xs-12">
@@ -170,12 +236,12 @@
                     <div class="col-xs-12">
                     	<div class="col-xs-12">
                     		<div class="oneline col-xs-6">
-                    			<span class="hint col-xs-6">记录部门</span>
-                    			<span class="cott col-xs-6" id="s4bumen"></span>
-                    		</div>
-                    		<div class="oneline col-xs-6">
                     			<span class="hint col-xs-6">记录人</span>
                     			<span class="cott col-xs-6" id="s4ren"></span>
+                    		</div>
+                    		<div class="oneline col-xs-6">
+                    			<span class="hint col-xs-6">记录部门</span>
+                    			<span class="cott col-xs-6" id="s4bumen"></span>
                     		</div>
                     	</div>
                     	<div class="col-xs-12">
@@ -189,9 +255,9 @@
                     		</div>
                     	</div>
                     	<div class="col-xs-12">
-                    		<div class="oneline col-xs-6">
-                    			<span class="hint col-xs-6">备注</span>
-                    			<span class="cott col-xs-6" id="s4bz"></span>
+                    		<div class="oneline col-xs-12">
+                    			<span class="hint col-xs-3">备注</span>
+                    			<span class="cott col-xs-9" id="s4bz"></span>
                     		</div>
                     	</div>
                     </div>
@@ -215,32 +281,38 @@
                 	<input type="hidden" id="S2RecordId" name="recordId"/>
                     <div class="form-group">
                         <div style="display: none;">
-                        	<label class="control-label" for="S2ConfirmationDepartment"><span class="asterisk">*</span>确认人部门:</label>
-                        	<input id="S2ConfirmationDepartment" type="text" class="form-control" name="confirmationDepartment" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="col-md-6">
                         	<label class="control-label" for="confirmationDepartmentId"><span class="asterisk">*</span>确认人部门:</label>
-	                        <select id="confirmationDepartmentId" class="form-control select2" name="confirmationDepartmentId" onchange="S2ConfirmationDepartmentChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="organization: ${organizationList}" th:value="${organization.id}" th:text="${organization.name}">
-	                            部门不存在
-	                            </option>
-	                        </select>
+                        	<input id="confirmationDepartmentId" type="text" class="form-control" name="confirmationDepartmentId" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div style="display: none;">
-                        	<label class="control-label" for="S2ConfirmingPerson"><span class="asterisk">*</span>确认人:</label>
-                        	<input id="S2ConfirmingPerson" type="text" class="form-control" name="confirmingPerson" readonly>
+                        	<label class="control-label" for="confirmationDepartment"><span class="asterisk">*</span>确认人部门:</label>
+                        	<input id="confirmationDepartment" type="text" class="form-control" name="confirmationDepartment" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div style="display: none;">
+                        	<label class="control-label" for="confirmingPersonId"><span class="asterisk">*</span>确认人:</label>
+                        	<input id="confirmingPersonId" type="text" class="form-control" name="confirmingPersonId" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="confirmingPersonId"><span class="asterisk">*</span>确认人:</label>
-	                        <select id="confirmingPersonId" class="form-control select2" name="confirmingPersonId" onchange="S2ConfirmingPersonChange()"
+                        	<label class="control-label" for="confirmingPerson"><span class="asterisk">*</span>确认人:</label>
+                        	<input id="confirmingPerson" type="text" class="form-control" name="confirmingPerson" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div style="display: none;">
+                        	<label class="control-label" for="S2PendingPerson"><span class="asterisk">*</span>处理人:</label>
+                        	<input id="S2PendingPerson" type="text" class="form-control" name="pendingPerson" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="pendingPersonId"><span class="asterisk">*</span>处理人:</label>
+	                        <select id="pendingPersonId" class="form-control select2" data-minimum-results-for-search="-1" name="pendingPersonId" onchange="S2PendingPersonChange()"
 	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
-	                            确认人不存在
-	                            </option>
+	                                <option></option>
+	                            <!-- <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
+	                         处理人不存在
+	                            </option> -->
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
@@ -248,14 +320,14 @@
                     <div class="form-group">
 						<div class="col-md-6">
                         	<label class="control-label" for="repairRequired"><span class="asterisk">*</span>是否需要维修:</label>
-	                        <select id="repairRequired" class="form-control select2" name="repairRequired"
+	                        <select id="repairRequired" class="form-control select2" data-minimum-results-for-search="-1" name="repairRequired"
                                 data-placeholder="请从列表选择一项" required>
 	                            <option value="1" selected>是</option>
 	                            <option value="0">否</option>
 	                        </select>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="maintenanceCostEstimate"><span class="asterisk">*</span>维修费用估计:</label>
+                        	<label class="control-label" for="maintenanceCostEstimate"><span class="asterisk">*</span>维修费用估计（元）:</label>
 	                        <input id="maintenanceCostEstimate" type="text" class="form-control" name="maintenanceCostEstimate" placeholder="输入费用" required>
 	                        <div class="help-block with-errors"></div>
                         </div>
@@ -267,20 +339,22 @@
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="maintenanceTypeCode"><span class="asterisk">*</span>维修类型:</label>
-	                        <select id="maintenanceTypeCode" class="form-control select2" name="maintenanceTypeCode" onchange="S2MaintenanceTypeChange()"
-	                                data-placeholder="请从列表选择一项" required>
+                        	<label class="control-label" for="maintenanceTypeCode">维修类型:</label>
+	                        <select id="maintenanceTypeCode" class="form-control select2" data-minimum-results-for-search="-1" name="maintenanceTypeCode" onchange="S2MaintenanceTypeChange()"
+	                                data-placeholder="请从列表选择一项">
+	                                <option></option>
 	                            <option th:each="maintenanceType: ${maintenanceTypeList}" th:value="${maintenanceType.pubCode}" th:text="${maintenanceType.pubName}">
-	                            类型不存在
+	                            维修类型不存在
 	                            </option>
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="maintenanceCooperationUnit"><span class="asterisk">*</span>审批人:</label>
-	                        <select id="maintenanceCooperationUnit" class="form-control select2" name="maintenanceCooperationUnit"
-	                                data-placeholder="请从列表选择一项" required>
-	                                <option value="XX公司" selected>XX公司</option>
+                        	<label class="control-label" for="maintenanceCooperationUnit">维修配合单位:</label>
+	                        <select id="maintenanceCooperationUnit" class="form-control select2" data-minimum-results-for-search="-1" name="maintenanceCooperationUnit"
+	                                data-placeholder="请从列表选择一项">
+	                                <option></option>
+	                                <option value="XX公司">XX公司</option>
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
@@ -288,18 +362,30 @@
                     <div class="form-group">
                         <div class="col-md-12">
                         	<label class="control-label" for="remark">备注:</label>
-	                        <input id="remark" type="text" class="form-control" name="remark" placeholder="输入备注">
+	                        <textarea id="remark" type="text" class="form-control" name="remark" placeholder="输入备注" rows="6"></textarea>
 	                        <div class="help-block with-errors"></div>
                         </div>
+                    	<div style="display: none">
+	                        <input id="attachmentName" type="text" class="form-control" name="attachmentName">
+	                        <input id="attachmentPath" type="text" class="form-control" name="attachmentPath">
+                    	</div>
                     </div>
                 </form>
                 	</div>
                 	<div class="fff">
-                		<button type="button" form="failureconfirmationForm" class="btn btn-primary" onclick="sstt2()">
-		                    确认
+                	<form id="upload_form" enctype="multipart/form-data" style="clear:both">
+             		<div class="col-md-6">
+             			<label class="control-label" for="documentPath" style="float:left">上传附件:</label>
+            			<input id="file" type="file" name="file" style="clear:both;display:inline-block;float:left;width:40%;"/>
+            			<button type="button" class="btn btn-default" onclick="uploadF()" style="margin-top:18px">上传</button>
+             		</div>
+        		</form>
+                		<button type="button" form="failureconfirmationForm" class="btn btn-primary" style="display:block;clear:both;margin:30px auto 20px auto;" onclick="sstt2()">
+		                    提交审批
 		                </button>
                 	</div>
                 	</div>
+                	
                 <div class="box-body" id="sss3" style="display: none;">
                 	<div class="ttt">实训管理主任审批</div>
                 	<div class="wxd">
@@ -307,32 +393,38 @@
                 	<input type="hidden" id="S3RecordId" name="recordId"/>
                     <div class="form-group">
                         <div style="display: none;">
-                        	<label class="control-label" for="S3ApprovalDepartment"><span class="asterisk">*</span>审批人部门:</label>
-                        	<input id="S3ApprovalDepartment" type="text" class="form-control" name="approvalDepartment" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="col-md-6">
                         	<label class="control-label" for="approvalDepartmentId"><span class="asterisk">*</span>审批人部门:</label>
-	                        <select id="approvalDepartmentId" class="form-control select2" name="approvalDepartmentId" onchange="S3ApprovalDepartmentChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="organization: ${organizationList}" th:value="${organization.id}" th:text="${organization.name}">
-	                            部门不存在
-	                            </option>
-	                        </select>
+                        	<input id="approvalDepartmentId" type="text" class="form-control" name="approvalDepartmentId" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div style="display: none;">
-                        	<label class="control-label" for="S3Approver"><span class="asterisk">*</span>审批人:</label>
-                        	<input id="S3Approver" type="text" class="form-control" name="approver" readonly>
+                        	<label class="control-label" for="approvalDepartment"><span class="asterisk">*</span>审批人部门:</label>
+                        	<input id="approvalDepartment" type="text" class="form-control" name="approvalDepartment" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div style="display: none;">
+                        	<label class="control-label" for="approverId"><span class="asterisk">*</span>审批人:</label>
+                        	<input id="approverId" type="text" class="form-control" name="approverId" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="approverId"><span class="asterisk">*</span>审批人:</label>
-	                        <select id="approverId" class="form-control select2" name="approverId" onchange="S3ApproverChange()"
+                        	<label class="control-label" for="approver"><span class="asterisk">*</span>审批人:</label>
+                        	<input id="approver" type="text" class="form-control" name="approver" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div style="display: none;">
+                        	<label class="control-label" for="S3PendingPerson"><span class="asterisk">*</span>处理人:</label>
+                        	<input id="S3PendingPerson" type="text" class="form-control" name="pendingPerson" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="pendingPersonId"><span class="asterisk">*</span>处理人:</label>
+	                        <select id="pendingPersonId" class="form-control select2" data-minimum-results-for-search="-1" name="pendingPersonId" onchange="S3PendingPersonChange()"
 	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
-	                            审批人不存在
-	                            </option>
+	                                <option></option>
+	                            <!-- <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
+	                         处理人不存在
+	                            </option> -->
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
@@ -340,7 +432,7 @@
                     <div class="form-group">
 						<div class="col-md-12">
                         	<label class="control-label" for="passOrNot"><span class="asterisk">*</span>是否审批:</label>
-	                        <select id="passOrNot" class="form-control select2" name="passOrNot"
+	                        <select id="passOrNot" class="form-control select2" data-minimum-results-for-search="-1" name="passOrNot"
                                 data-placeholder="请从列表选择一项" required>
 	                            <option value="1" selected>是</option>
 	                            <option value="0">否</option>
@@ -351,18 +443,19 @@
                     <div class="form-group">
                         <div class="col-md-12">
                         	<label class="control-label" for="approvalComments">审批意见:</label>
-	                        <input id="approvalComments" type="text" class="form-control" name="approvalComments" placeholder="输入审批意见">
+	                        <textarea id="approvalComments" type="text" class="form-control" name="approvalComments" rows="6" placeholder="输入审批意见"></textarea>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
                 </form>
                 	</div>
                 	<div class="fff">
-                		<button type="button" form="directorapprovalForm" class="btn btn-primary" onclick="sstt3()">
+                		<button type="button" form="directorapprovalForm" class="btn btn-primary" style="margin:30px auto 20px auto;" onclick="sstt3()">
 		                    审批
 		                </button>
                 	</div>
                 	</div>
+                	
                 <div class="box-body" id="sss4" style="display: none;">
                 	<div class="ttt">设备管理员维修记录</div>
                 	<div class="wxd">
@@ -370,32 +463,38 @@
                 	<input type="hidden" id="S4RecordId" name="recordId"/>
                     <div class="form-group">
                         <div style="display: none;">
-                        	<label class="control-label" for="S4RecordDepartment"><span class="asterisk">*</span>记录人部门:</label>
-                        	<input id="S4RecordDepartment" type="text" class="form-control" name="recordDepartment" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="col-md-6">
                         	<label class="control-label" for="recordDepartmentId"><span class="asterisk">*</span>记录人部门:</label>
-	                        <select id="recordDepartmentId" class="form-control select2" name="recordDepartmentId" onchange="S4RecordDepartmentChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="organization: ${organizationList}" th:value="${organization.id}" th:text="${organization.name}">
-	                            部门不存在
-	                            </option>
-	                        </select>
+                        	<input id="recordDepartmentId" type="text" class="form-control" name="recordDepartmentId" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div style="display: none;">
-                        	<label class="control-label" for="S4RecordPerson"><span class="asterisk">*</span>记录人:</label>
-                        	<input id="S4RecordPerson" type="text" class="form-control" name="recordPerson" readonly>
+                        	<label class="control-label" for="recordDepartment"><span class="asterisk">*</span>记录人部门:</label>
+                        	<input id="recordDepartment" type="text" class="form-control" name="recordDepartment" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div style="display: none;">
+                        	<label class="control-label" for="recordPersonId"><span class="asterisk">*</span>记录人:</label>
+                        	<input id="recordPersonId" type="text" class="form-control" name="recordPersonId" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="recordPersonId"><span class="asterisk">*</span>记录人:</label>
-	                        <select id="recordPersonId" class="form-control select2" name="recordPersonId" onchange="S4RecordPersonChange()"
+                        	<label class="control-label" for="recordPerson"><span class="asterisk">*</span>记录人:</label>
+                        	<input id="recordPerson" type="text" class="form-control" name="recordPerson" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div style="display: none;">
+                        	<label class="control-label" for="S4PendingPerson"><span class="asterisk">*</span>处理人:</label>
+                        	<input id="S4PendingPerson" type="text" class="form-control" name="pendingPerson" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="pendingPersonId"><span class="asterisk">*</span>处理人:</label>
+	                        <select id="pendingPersonId" class="form-control select2" data-minimum-results-for-search="-1" name="pendingPersonId" onchange="S4PendingPersonChange()"
 	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
-	                            记录人不存在
-	                            </option>
+	                                <option></option>
+	                            <!-- <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
+	                         处理人不存在
+	                            </option> -->
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
@@ -403,29 +502,45 @@
                     <div class="form-group">
 						<div class="col-md-6">
                         	<label class="control-label" for="isRepaired"><span class="asterisk">*</span>是否修好:</label>
-	                        <select id="isRepaired" class="form-control select2" name="isRepaired"
+	                        <select id="isRepaired" class="form-control select2" data-minimum-results-for-search="-1" name="isRepaired" onchange="sbztchange()"
                                 data-placeholder="请从列表选择一项" required>
 	                            <option value="1" selected>是</option>
 	                            <option value="0">否</option>
 	                        </select>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="maintenanceCosts"><span class="asterisk">*</span>维修费用:</label>
+                        	<label class="control-label" for="maintenanceCosts"><span class="asterisk">*</span>维修费用（元）:</label>
 	                        <input id="maintenanceCosts" type="text" class="form-control" name="maintenanceCosts" placeholder="输入费用" required>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    	<div style="display:none">
+                        	<label class="control-label" for="assetStatus">设备状态:</label>
+                        	<input id="assetStatus" type="text" class="form-control" name="assetStatus" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-12" id="sbztttt" style="display:none">
+                        	<label class="control-label" for="assetStatusCode">设备状态:</label>
+                        	<select id="assetStatusCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetStatusCode" onchange="assetStatusChange()"
+                                data-placeholder="请从列表选择一项">
+	                            <option value="asset_status_abnormal" selected>异常</option>
+	                            <option value="asset_status_scrapped">报废</option>
+	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
                         	<label class="control-label" for="remark">备注:</label>
-	                        <input id="remark" type="text" class="form-control" name="remark" placeholder="输入备注">
+	                        <textarea id="remark" type="text" class="form-control" name="remark" placeholder="输入备注" rows="6"></textarea>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
                 </form>
                 	</div>
                 	<div class="fff">
-                		<button type="button" form="maintenancerecordresultsForm" class="btn btn-primary" onclick="sstt4()">
+                		<button type="button" form="maintenancerecordresultsForm" class="btn btn-primary" style="margin:30px auto 20px auto;" onclick="sstt4()">
 		                    归档
 		                </button>
                 	</div>
@@ -442,82 +557,143 @@
 
 <script th:inline="javascript">
     var $table = $('#table');
-
+    var weixiuId;
     $(function () {
     	var datas = [];
-    	var weixiuId = localStorage.getItem("weixiuId");
-    	$('#S2RecordId').val(weixiuId);
-    	S2ConfirmationDepartmentChange();
-    	S2ConfirmingPersonChange();
-    	S2MaintenanceTypeChange();
-    	$('#S3RecordId').val(weixiuId);
-    	S3ApprovalDepartmentChange();
-    	S3ApproverChange();
-    	$('#S4RecordId').val(weixiuId);
-    	S4RecordDepartmentChange();
-    	S4RecordPersonChange();
+    	var weixiuCode = localStorage.getItem("weixiuCode");
+    	assetStatusChange();
+    	var username = $('.dropdown-toggle .hidden-xs')[0].innerHTML;
     	$.ajax({
             type:"GET",
-            url: CONTEXT_PATH + '/maintenancerecord/' + weixiuId,
+            url: CONTEXT_PATH + '/user/list?username=' + username,
             success:function(data){
-            	datas.push(data.data);
-            	$table.bootstrapTable({
-                    data: datas,
-                    pagination : false,
-                    columns: [
-                              {field: 'recordId', title: '维修单编号', halign: 'center', align: 'center'},
-                              {field: 'recordName', title: '维修单名称', halign: 'center', align: 'center'},
-                              {field: 'assetName', title: '资产名称', halign: 'center', align: 'center'},
-                              {field: 'assetClassification', title: '资产分类', halign: 'center', align: 'center'},
-                              {field: 'applicantDepartment', title: '申请部门', halign: 'center', align: 'center'},
-                              {field: 'applicant', title: '申请人', halign: 'center', align: 'center'},
-                              {field: 'failureTime', title: '故障时间', halign: 'center', align: 'center'},
-                              {field: 'positionName', title: '存放地点', halign: 'center', align: 'center'},
-                              {field: 'faultDescription', title: '故障描述', halign: 'center', align: 'center'},
-                              {field: 'attachmentName', title: '附件', halign: 'center', align: 'center', formatter: 'attachmentNameFormatter'}
-                    ]
-                });
+            	$('#confirmationDepartmentId').val(data.data[0].organizationId);
+            	$('#confirmationDepartment').val(data.data[0].organizationName);
+            	$('#confirmingPersonId').val(data.data[0].id);
+            	$('#confirmingPerson').val(data.data[0].username);
+            	$('#approvalDepartmentId').val(data.data[0].organizationId);
+            	$('#approvalDepartment').val(data.data[0].organizationName);
+            	$('#approverId').val(data.data[0].id);
+            	$('#approver').val(data.data[0].username);
+            	$('#recordDepartmentId').val(data.data[0].organizationId);
+            	$('#recordDepartment').val(data.data[0].organizationName);
+            	$('#recordPersonId').val(data.data[0].id);
+            	$('#recordPerson').val(data.data[0].username);
+            }
+        });
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/maintenancerecord/list?recordId=' + weixiuCode,
+            success:function(data){
+            	datas.push(data.data[0]);
+            	$('#s1mc').append(data.data[0].recordName);
+            	$('#s1no').append(data.data[0].recordId);
+            	$('#s1time').append(data.data[0].createTime);
+            	$('#s1ren').append(data.data[0].applicant);
+            	$('#s1bm').append(data.data[0].applicantDepartment);
+            	$('#s1sb').append(data.data[0].assetName);
+            	$('#s1type').append(data.data[0].assetClassification);
+            	$('#s1dd').append(data.data[0].positionName);
+            	$('#s1fs').append(data.data[0].failureTime);
+            	$('#s1ms').append(data.data[0].faultDescription);
+            	$('#s1fj').append('<a href="' + data.data[0].attachmentPath + '" download="' + data.data[0].attachmentName + '">' + data.data[0].attachmentName + '</a>');
+            	
+            	weixiuId = data.data[0].id;
+            	$('#S2RecordId').val(weixiuId);
+            	$('#S3RecordId').val(weixiuId);
+            	$('#S4RecordId').val(weixiuId);
+            	
             	if(datas[0].flowStatus == '待确认') {
+            		$.ajax({
+                        type:"GET",
+                        url: CONTEXT_PATH + '/user/list?roleIds=11',
+                        success:function(data){
+                        	for(let i = 0; i < data.data.length; i++) {
+                        		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].username + '</option>';
+                        		$('#failureconfirmationForm').find('[name=pendingPersonId]').append(opt);
+                        	}
+                        }
+                    });
             		$('#sss2').css('display', 'block');
+            	}else if(datas[0].flowStatus == '无需修理') {
+            		$.ajax({
+                        type:"GET",
+                        url: CONTEXT_PATH + '/failureconfirmation/list?recordId=' + weixiuId,
+                        success:function(data){
+                        	$('#s2bumen').append(data.data[data.data.length-1].confirmationDepartment);
+                        	$('#s2ren').append(data.data[data.data.length-1].confirmingPerson);
+                        	if(data.data[data.data.length-1].repairRequired == 1) {
+                        		$('#s2sf').append('是');
+                        	}else {
+                        		$('#s2sf').append('否');
+                        	}
+                        	$('#s2type').append(data.data[data.data.length-1].maintenanceType);
+                        	$('#s2cost').append(data.data[data.data.length-1].maintenanceCostEstimate+'元');
+                        	$('#s2dw').append(data.data[data.data.length-1].maintenanceCooperationUnit);
+                        	$('#s2bz').append(data.data[data.data.length-1].remark);
+                        	$('#s2fj').append('<a href="' + data.data[data.data.length-1].attachmentPath + '" download="' + data.data[data.data.length-1].attachmentName + '">' + data.data[data.data.length-1].attachmentName + '</a>');
+                        }
+                    });
+                	$('#step2').css('display', 'block');
             	}else if(datas[0].flowStatus == '待审批') {
+            		$.ajax({
+                        type:"GET",
+                        url: CONTEXT_PATH + '/user/list?roleIds=12',
+                        success:function(data){
+                        	for(let i = 0; i < data.data.length; i++) {
+                        		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].username + '</option>';
+                        		$('#directorapprovalForm').find('[name=pendingPersonId]').append(opt);
+                        	}
+                        }
+                    });
             		$('#sss3').css('display', 'block');
                 	$.ajax({
                         type:"GET",
                         url: CONTEXT_PATH + '/failureconfirmation/list?recordId=' + weixiuId,
                         success:function(data){
-                        	$('#s2bumen').append(data.data[0].confirmationDepartment);
-                        	$('#s2ren').append(data.data[0].confirmingPerson);
-                        	if(data.data[0].repairRequired == 1) {
+                        	$('#s2bumen').append(data.data[data.data.length-1].confirmationDepartment);
+                        	$('#s2ren').append(data.data[data.data.length-1].confirmingPerson);
+                        	if(data.data[data.data.length-1].repairRequired == 1) {
                         		$('#s2sf').append('是');
                         	}else {
                         		$('#s2sf').append('否');
                         	}
-                        	$('#s2type').append(data.data[0].maintenanceType);
-                        	$('#s2cost').append(data.data[0].maintenanceCostEstimate);
-                        	$('#s2dw').append(data.data[0].maintenanceCooperationUnit);
-                        	$('#s2bz').append(data.data[0].remark);
-                        	//$('#s2fj').append(data.data[0].attachmentName);
+                        	$('#s2type').append(data.data[data.data.length-1].maintenanceType);
+                        	$('#s2cost').append(data.data[data.data.length-1].maintenanceCostEstimate+'元');
+                        	$('#s2dw').append(data.data[data.data.length-1].maintenanceCooperationUnit);
+                        	$('#s2bz').append(data.data[data.data.length-1].remark);
+                        	$('#s2fj').append('<a href="' + data.data[data.data.length-1].attachmentPath + '" download="' + data.data[data.data.length-1].attachmentName + '">' + data.data[data.data.length-1].attachmentName + '</a>');
                         }
                     });
                 	$('#step2').css('display', 'block');
             	}else if(datas[0].flowStatus == '维修中') {
+            		$.ajax({
+                        type:"GET",
+                        url: CONTEXT_PATH + '/user/list?roleIds=13',
+                        success:function(data){
+                        	for(let i = 0; i < data.data.length; i++) {
+                        		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].username + '</option>';
+                        		$('#maintenancerecordresultsForm').find('[name=pendingPersonId]').append(opt);
+                        	}
+                        }
+                    });
             		$('#sss4').css('display', 'block');
                 	$.ajax({
                         type:"GET",
                         url: CONTEXT_PATH + '/failureconfirmation/list?recordId=' + weixiuId,
                         success:function(data){
-                        	$('#s2bumen').append(data.data[0].confirmationDepartment);
-                        	$('#s2ren').append(data.data[0].confirmingPerson);
-                        	if(data.data[0].repairRequired == 1) {
+                        	$('#s2bumen').append(data.data[data.data.length-1].confirmationDepartment);
+                        	$('#s2ren').append(data.data[data.data.length-1].confirmingPerson);
+                        	if(data.data[data.data.length-1].repairRequired == 1) {
                         		$('#s2sf').append('是');
                         	}else {
                         		$('#s2sf').append('否');
                         	}
-                        	$('#s2type').append(data.data[0].maintenanceType);
-                        	$('#s2cost').append(data.data[0].maintenanceCostEstimate);
-                        	$('#s2dw').append(data.data[0].maintenanceCooperationUnit);
-                        	$('#s2bz').append(data.data[0].remark);
-                        	//$('#s2fj').append(data.data[0].attachmentName);
+                        	$('#s2type').append(data.data[data.data.length-1].maintenanceType);
+                        	$('#s2cost').append(data.data[data.data.length-1].maintenanceCostEstimate+'元');
+                        	$('#s2dw').append(data.data[data.data.length-1].maintenanceCooperationUnit);
+                        	$('#s2bz').append(data.data[data.data.length-1].remark);
+                        	$('#s2fj').append('<a href="' + data.data[data.data.length-1].attachmentPath + '" download="' + data.data[data.data.length-1].attachmentName + '">' + data.data[data.data.length-1].attachmentName + '</a>');
                         }
                     });
                 	$('#step2').css('display', 'block');
@@ -541,18 +717,18 @@
                         type:"GET",
                         url: CONTEXT_PATH + '/failureconfirmation/list?recordId=' + weixiuId,
                         success:function(data){
-                        	$('#s2bumen').append(data.data[0].confirmationDepartment);
-                        	$('#s2ren').append(data.data[0].confirmingPerson);
-                        	if(data.data[0].repairRequired == 1) {
+                        	$('#s2bumen').append(data.data[data.data.length-1].confirmationDepartment);
+                        	$('#s2ren').append(data.data[data.data.length-1].confirmingPerson);
+                        	if(data.data[data.data.length-1].repairRequired == 1) {
                         		$('#s2sf').append('是');
                         	}else {
                         		$('#s2sf').append('否');
                         	}
-                        	$('#s2type').append(data.data[0].maintenanceType);
-                        	$('#s2cost').append(data.data[0].maintenanceCostEstimate);
-                        	$('#s2dw').append(data.data[0].maintenanceCooperationUnit);
-                        	$('#s2bz').append(data.data[0].remark);
-                        	//$('#s2fj').append(data.data[0].attachmentName);
+                        	$('#s2type').append(data.data[data.data.length-1].maintenanceType);
+                        	$('#s2cost').append(data.data[data.data.length-1].maintenanceCostEstimate+'元');
+                        	$('#s2dw').append(data.data[data.data.length-1].maintenanceCooperationUnit);
+                        	$('#s2bz').append(data.data[data.data.length-1].remark);
+                        	$('#s2fj').append('<a href="' + data.data[data.data.length-1].attachmentPath + '" download="' + data.data[data.data.length-1].attachmentName + '">' + data.data[data.data.length-1].attachmentName + '</a>');
                         }
                     });
                 	$('#step2').css('display', 'block');
@@ -582,7 +758,7 @@
                         	}else {
                         		$('#s4sf').append('否');
                         	}
-                        	$('#s4cost').append(data.data[0].maintenanceCosts);
+                        	$('#s4cost').append(data.data[0].maintenanceCosts+'元');
                         	$('#s4bz').append(data.data[0].remark);
                         }
                     });
@@ -611,6 +787,11 @@
     	$('#S2MaintenanceType').val(S2MaintenanceTypeText);
     }
     
+    function S2PendingPersonChange() {
+    	var pendingPersonText = $('#failureconfirmationForm').find('[name=pendingPersonId]').find('option:selected').text();
+    	$('#S2PendingPerson').val(pendingPersonText);
+    }
+    
     function S3ApprovalDepartmentChange() {
     	var S3ApprovalDepartmentText = $('#directorapprovalForm').find('[name=approvalDepartmentId]').find('option:selected').text();
     	$('#S3ApprovalDepartment').val(S3ApprovalDepartmentText);
@@ -619,6 +800,11 @@
 	function S3ApproverChange() {
 		var S3ApproverText = $('#directorapprovalForm').find('[name=approverId]').find('option:selected').text();
     	$('#S3Approver').val(S3ApproverText);
+    }
+	
+	function S3PendingPersonChange() {
+    	var pendingPersonText = $('#directorapprovalForm').find('[name=pendingPersonId]').find('option:selected').text();
+    	$('#S3PendingPerson').val(pendingPersonText);
     }
 	
 	function S4RecordDepartmentChange() {
@@ -631,103 +817,329 @@
     	$('#S4RecordPerson').val(S4recordPersonText);
     }
 	
+	function S4PendingPersonChange() {
+    	var pendingPersonText = $('#maintenancerecordresultsForm').find('[name=pendingPersonId]').find('option:selected').text();
+    	$('#S4PendingPerson').val(pendingPersonText);
+    }
+	
+	function sbztchange() {
+		if($('#maintenancerecordresultsForm').find('[name=isRepaired]').val() == 1) {
+			$('#sbztttt').css('display', 'none');
+		}else {
+			$('#sbztttt').css('display', 'block');
+		}
+	}
+	
+	function assetStatusChange() {
+		var assetStatusText = $('#maintenancerecordresultsForm').find('[name=assetStatusCode]').find('option:selected').text();
+    	$('#assetStatus').val(assetStatusText);
+	}
+	
 	function sstt2() {
-		console.log(111);
-		$.ajax({
-            type:"POST",
-            url: CONTEXT_PATH + '/failureconfirmation/create',
-            data: {
-            	confirmationDepartmentId: $('#failureconfirmationForm').find('[name=confirmationDepartmentId]').val(),
-            	confirmationDepartment: $('#failureconfirmationForm').find('[name=confirmationDepartment]').val(),
-            	confirmingPersonId: $('#failureconfirmationForm').find('[name=confirmingPersonId]').val(),
-            	confirmingPerson: $('#failureconfirmationForm').find('[name=confirmingPerson]').val(),
-            	repairRequired: $('#failureconfirmationForm').find('[name=repairRequired]').val(),
-            	maintenanceCostEstimate: $('#failureconfirmationForm').find('[name=maintenanceCostEstimate]').val(),
-            	maintenanceTypeCode: $('#failureconfirmationForm').find('[name=maintenanceTypeCode]').val(),
-            	maintenanceType: $('#failureconfirmationForm').find('[name=maintenanceType]').val(),
-            	maintenanceCooperationUnit: $('#failureconfirmationForm').find('[name=maintenanceCooperationUnit]').val(),
-            	remark: $('#failureconfirmationForm').find('[name=remark]').val(),
-            	recordId: $('#failureconfirmationForm').find('[name=recordId]').val()
-            },
-            success:function(data){
-            	$.ajax({
-                    type:"POST",
-                    url: CONTEXT_PATH + '/maintenancerecord/update',
-                    data: {
-                    	id: $('#failureconfirmationForm').find('[name=recordId]').val(),
-                    	flowStatus: '待审批',
-                    	flowStatusCode: 'em_pending_approval'
-                    },
-                    success:function(data){
-                    	location.reload();
-                    }
-                });
-            }
-        });
+		if($('#failureconfirmationForm').find('[name=pendingPersonId]').val() == '') {
+			return;
+		}
+		if($('#failureconfirmationForm').find('[name=maintenanceCostEstimate]').val() == '') {
+			$('#failureconfirmationForm').find('[name=maintenanceCostEstimate]').val(0)
+		}
+		if($('#failureconfirmationForm').find('[name=repairRequired]').val() == 1) {
+			$.ajax({
+	            type:"POST",
+	            url: CONTEXT_PATH + '/failureconfirmation/create',
+	            data: {
+	            	confirmationDepartmentId: $('#failureconfirmationForm').find('[name=confirmationDepartmentId]').val(),
+	            	confirmationDepartment: $('#failureconfirmationForm').find('[name=confirmationDepartment]').val(),
+	            	confirmingPersonId: $('#failureconfirmationForm').find('[name=confirmingPersonId]').val(),
+	            	confirmingPerson: $('#failureconfirmationForm').find('[name=confirmingPerson]').val(),
+	            	repairRequired: $('#failureconfirmationForm').find('[name=repairRequired]').val(),
+	            	maintenanceCostEstimate: $('#failureconfirmationForm').find('[name=maintenanceCostEstimate]').val(),
+	            	maintenanceTypeCode: $('#failureconfirmationForm').find('[name=maintenanceTypeCode]').val(),
+	            	maintenanceType: $('#failureconfirmationForm').find('[name=maintenanceType]').val(),
+	            	maintenanceCooperationUnit: $('#failureconfirmationForm').find('[name=maintenanceCooperationUnit]').val(),
+	            	remark: $('#failureconfirmationForm').find('[name=remark]').val(),
+	            	attachmentPath: $('#failureconfirmationForm').find('[name=attachmentPath]').val(),
+	            	attachmentName: $('#failureconfirmationForm').find('[name=attachmentName]').val(),
+	            	recordId: $('#failureconfirmationForm').find('[name=recordId]').val()
+	            },
+	            success:function(data){
+	            	$.ajax({
+	                    type:"POST",
+	                    url: CONTEXT_PATH + '/flowdetail/create',
+	                    data: {
+	                    	flowId: $('#failureconfirmationForm').find('[name=recordId]').val(),
+	                    	personId: $('#failureconfirmationForm').find('[name=confirmingPersonId]').val(),
+	    	            	personName: $('#failureconfirmationForm').find('[name=confirmingPerson]').val(),
+	    	            	processingContent: '确认设备故障',
+	    	            	flowTypeCode: 'equipment_maintenance',
+	    	            	flowType: '设备维修'
+	                    },
+	                    success:function(data){
+	                    	$.ajax({
+	    	                    type:"POST",
+	    	                    url: CONTEXT_PATH + '/maintenancerecord/update',
+	    	                    data: {
+	    	                    	id: $('#failureconfirmationForm').find('[name=recordId]').val(),
+	    	                    	pendingPersonId: $('#failureconfirmationForm').find('[name=pendingPersonId]').val(),
+	    	                    	pendingPerson: $('#failureconfirmationForm').find('[name=pendingPerson]').val(),
+	    	                    	flowStatus: '待审批',
+	    	                    	flowStatusCode: 'em_pending_approval'
+	    	                    },
+	    	                    success:function(data){
+	    	                    	location.reload();
+	    	                    }
+	    	                });
+	                    }
+	                });
+	            }
+	        });
+		}else {
+			$.ajax({
+                type:"POST",
+                url: CONTEXT_PATH + '/flowdetail/create',
+                data: {
+                	flowId: $('#failureconfirmationForm').find('[name=recordId]').val(),
+                	personId: $('#failureconfirmationForm').find('[name=confirmingPersonId]').val(),
+	            	personName: $('#failureconfirmationForm').find('[name=confirmingPerson]').val(),
+	            	processingContent: '确认设备故障',
+	            	flowTypeCode: 'equipment_maintenance',
+	            	flowType: '设备维修'
+                },
+                success:function(data){
+                	$.ajax({
+                        type:"GET",
+                        url: CONTEXT_PATH + '/flowdetail/list?flowId=' + $('#failureconfirmationForm').find('[name=recordId]').val(),
+                        success:function(data){
+                        	$.ajax({
+        	                    type:"POST",
+        	                    url: CONTEXT_PATH + '/maintenancerecord/update',
+        	                    data: {
+        	                    	id: $('#failureconfirmationForm').find('[name=recordId]').val(),
+        	                    	pendingPersonId: data.data[data.data.length - 2].personId,
+        	                    	pendingPerson: data.data[data.data.length - 2].personName,
+        	                    	flowStatus: '填写设备维修单',
+        	                    	flowStatusCode: 'em_write'
+        	                    },
+        	                    success:function(data){
+        	                    	document.querySelector('a[href="#maintenancerecord"]').click();
+        	                    }
+        	                });
+                        }
+                    });
+                }
+            });
+		}
 	}
 	
 	function sstt3() {
-		$.ajax({
-            type:"POST",
-            url: CONTEXT_PATH + '/directorapproval/create',
-            data: {
-            	approvalDepartmentId: $('#directorapprovalForm').find('[name=approvalDepartmentId]').val(),
-            	approvalDepartment: $('#directorapprovalForm').find('[name=approvalDepartment]').val(),
-            	approverId: $('#directorapprovalForm').find('[name=approverId]').val(),
-            	approver: $('#directorapprovalForm').find('[name=approver]').val(),
-            	passOrNot: $('#directorapprovalForm').find('[name=passOrNot]').val(),
-            	approvalComments: $('#directorapprovalForm').find('[name=approvalComments]').val(),
-            	recordId: $('#directorapprovalForm').find('[name=recordId]').val()
-            },
-            success:function(data){
-            	$.ajax({
-                    type:"POST",
-                    url: CONTEXT_PATH + '/maintenancerecord/update',
-                    data: {
-                    	id: $('#directorapprovalForm').find('[name=recordId]').val(),
-                    	flowStatus: '维修中',
-                    	flowStatusCode: 'em_to_be_repaired'
-                    },
-                    success:function(data){
-                    	location.reload();
-                    }
-                });
-            }
-        });
+		if($('#directorapprovalForm').find('[name=pendingPersonId]').val() == '') {
+			return;
+		}
+		if($('#directorapprovalForm').find('[name=passOrNot]').val() == 1) {
+			$.ajax({
+	            type:"POST",
+	            url: CONTEXT_PATH + '/directorapproval/create',
+	            data: {
+	            	approvalDepartmentId: $('#directorapprovalForm').find('[name=approvalDepartmentId]').val(),
+	            	approvalDepartment: $('#directorapprovalForm').find('[name=approvalDepartment]').val(),
+	            	approverId: $('#directorapprovalForm').find('[name=approverId]').val(),
+	            	approver: $('#directorapprovalForm').find('[name=approver]').val(),
+	            	passOrNot: $('#directorapprovalForm').find('[name=passOrNot]').val(),
+	            	approvalComments: $('#directorapprovalForm').find('[name=approvalComments]').val(),
+	            	recordId: $('#directorapprovalForm').find('[name=recordId]').val()
+	            },
+	            success:function(data){
+	            	$.ajax({
+	                    type:"POST",
+	                    url: CONTEXT_PATH + '/flowdetail/create',
+	                    data: {
+	                    	flowId: $('#directorapprovalForm').find('[name=recordId]').val(),
+	                    	personId: $('#directorapprovalForm').find('[name=approverId]').val(),
+	    	            	personName: $('#directorapprovalForm').find('[name=approver]').val(),
+	    	            	processingContent: '审批设备维修单',
+	    	            	flowTypeCode: 'equipment_maintenance',
+	    	            	flowType: '设备维修'
+	                    },
+	                    success:function(data){
+	                    	$.ajax({
+	    	                    type:"POST",
+	    	                    url: CONTEXT_PATH + '/maintenancerecord/update',
+	    	                    data: {
+	    	                    	id: $('#directorapprovalForm').find('[name=recordId]').val(),
+	    	                    	pendingPersonId: $('#directorapprovalForm').find('[name=pendingPersonId]').val(),
+	    	                    	pendingPerson: $('#directorapprovalForm').find('[name=pendingPerson]').val(),
+	    	                    	flowStatus: '维修中',
+	    	                    	flowStatusCode: 'em_to_be_repaired'
+	    	                    },
+	    	                    success:function(data){
+	    	                    	location.reload();
+	    	                    }
+	    	                });
+	                    }
+	                });
+	            }
+	        });
+		}else {
+			$.ajax({
+                type:"POST",
+                url: CONTEXT_PATH + '/flowdetail/create',
+                data: {
+                	flowId: $('#directorapprovalForm').find('[name=recordId]').val(),
+                	personId: $('#directorapprovalForm').find('[name=approverId]').val(),
+	            	personName: $('#directorapprovalForm').find('[name=approver]').val(),
+	            	processingContent: '审批设备维修单',
+	            	flowTypeCode: 'equipment_maintenance',
+	            	flowType: '设备维修'
+                },
+                success:function(data){
+                	$.ajax({
+                        type:"GET",
+                        url: CONTEXT_PATH + '/flowdetail/list?flowId=' + $('#directorapprovalForm').find('[name=recordId]').val(),
+                        success:function(data){
+                        	console.log(data);
+                        	$.ajax({
+        	                    type:"POST",
+        	                    url: CONTEXT_PATH + '/maintenancerecord/update',
+        	                    data: {
+        	                    	id: $('#directorapprovalForm').find('[name=recordId]').val(),
+        	                    	pendingPersonId: data.data[data.data.length - 2].personId,
+        	                    	pendingPerson: data.data[data.data.length - 2].personName,
+        	                    	flowStatus: '待确认',
+        	                    	flowStatusCode: 'em_confirmed'
+        	                    },
+        	                    success:function(data){
+        	                    	location.reload();
+        	                    }
+        	                });
+                        }
+                    });
+                }
+            });
+		}
 	}
 	
 	function sstt4() {
-		$.ajax({
-            type:"POST",
-            url: CONTEXT_PATH + '/maintenancerecordresults/create',
-            data: {
-            	recordDepartmentId: $('#maintenancerecordresultsForm').find('[name=recordDepartmentId]').val(),
-            	recordDepartment: $('#maintenancerecordresultsForm').find('[name=recordDepartment]').val(),
-            	recordPersonId: $('#maintenancerecordresultsForm').find('[name=recordPersonId]').val(),
-            	recordPerson: $('#maintenancerecordresultsForm').find('[name=recordPerson]').val(),
-            	isRepaired: $('#maintenancerecordresultsForm').find('[name=isRepaired]').val(),
-            	maintenanceCosts: $('#maintenancerecordresultsForm').find('[name=maintenanceCosts]').val(),
-            	remark: $('#maintenancerecordresultsForm').find('[name=remark]').val(),
-            	recordId: $('#maintenancerecordresultsForm').find('[name=recordId]').val()
-            },
-            success:function(data){
-            	$.ajax({
-                    type:"POST",
-                    url: CONTEXT_PATH + '/maintenancerecord/update',
-                    data: {
-                    	id: $('#maintenancerecordresultsForm').find('[name=recordId]').val(),
-                    	maintenanceCosts: $('#maintenancerecordresultsForm').find('[name=maintenanceCosts]').val(),
-                    	flowStatus: '维修完成',
-                    	flowStatusCode: 'em_end'
-                    },
-                    success:function(data){
-                    	location.reload();
-                    }
-                });
-            }
-        });
+		if($('#maintenancerecordresultsForm').find('[name=pendingPersonId]').val() == '') {
+			return;
+		}
+		if($('#maintenancerecordresultsForm').find('[name=isRepaired]').val() == 1) {
+			$.ajax({
+	            type:"POST",
+	            url: CONTEXT_PATH + '/maintenancerecordresults/create',
+	            data: {
+	            	recordDepartmentId: $('#maintenancerecordresultsForm').find('[name=recordDepartmentId]').val(),
+	            	recordDepartment: $('#maintenancerecordresultsForm').find('[name=recordDepartment]').val(),
+	            	recordPersonId: $('#maintenancerecordresultsForm').find('[name=recordPersonId]').val(),
+	            	recordPerson: $('#maintenancerecordresultsForm').find('[name=recordPerson]').val(),
+	            	isRepaired: $('#maintenancerecordresultsForm').find('[name=isRepaired]').val(),
+	            	maintenanceCosts: $('#maintenancerecordresultsForm').find('[name=maintenanceCosts]').val(),
+	            	remark: $('#maintenancerecordresultsForm').find('[name=remark]').val(),
+	            	assetStatusCode: 'asset_status_normal',
+	            	assetStatus: '正常',
+	            	recordId: $('#maintenancerecordresultsForm').find('[name=recordId]').val()
+	            },
+	            success:function(data){
+	            	$.ajax({
+	                    type:"POST",
+	                    url: CONTEXT_PATH + '/flowdetail/create',
+	                    data: {
+	                    	flowId: $('#maintenancerecordresultsForm').find('[name=recordId]').val(),
+	                    	personId: $('#maintenancerecordresultsForm').find('[name=recordPersonId]').val(),
+	    	            	personName: $('#maintenancerecordresultsForm').find('[name=recordPerson]').val(),
+	    	            	processingContent: '填写设备维修结果',
+	    	            	flowTypeCode: 'equipment_maintenance',
+	    	            	flowType: '设备维修'
+	                    },
+	                    success:function(data){
+	                    	$.ajax({
+	                            type:"POST",
+	                            url: CONTEXT_PATH + '/maintenancerecord/update',
+	                            data: {
+	                            	id: $('#maintenancerecordresultsForm').find('[name=recordId]').val(),
+	                            	maintenanceCosts: $('#maintenancerecordresultsForm').find('[name=maintenanceCosts]').val(),
+	                            	pendingPersonId: 0,
+	    	                    	pendingPerson: '',
+	                            	flowStatus: '维修完成',
+	                            	flowStatusCode: 'em_end'
+	                            },
+	                            success:function(data){
+	                            	location.reload();
+	                            }
+	                        });
+	                    }
+	                });
+	            }
+	        });
+		}else {
+			$.ajax({
+	            type:"POST",
+	            url: CONTEXT_PATH + '/maintenancerecordresults/create',
+	            data: {
+	            	recordDepartmentId: $('#maintenancerecordresultsForm').find('[name=recordDepartmentId]').val(),
+	            	recordDepartment: $('#maintenancerecordresultsForm').find('[name=recordDepartment]').val(),
+	            	recordPersonId: $('#maintenancerecordresultsForm').find('[name=recordPersonId]').val(),
+	            	recordPerson: $('#maintenancerecordresultsForm').find('[name=recordPerson]').val(),
+	            	isRepaired: $('#maintenancerecordresultsForm').find('[name=isRepaired]').val(),
+	            	maintenanceCosts: $('#maintenancerecordresultsForm').find('[name=maintenanceCosts]').val(),
+	            	remark: $('#maintenancerecordresultsForm').find('[name=remark]').val(),
+	            	assetStatusCode: $('#maintenancerecordresultsForm').find('[name=assetStatusCode]').val(),
+	            	assetStatus: $('#maintenancerecordresultsForm').find('[name=assetStatus]').val(),
+	            	recordId: $('#maintenancerecordresultsForm').find('[name=recordId]').val()
+	            },
+	            success:function(data){
+	            	$.ajax({
+	                    type:"POST",
+	                    url: CONTEXT_PATH + '/flowdetail/create',
+	                    data: {
+	                    	flowId: $('#maintenancerecordresultsForm').find('[name=recordId]').val(),
+	                    	personId: $('#maintenancerecordresultsForm').find('[name=recordPersonId]').val(),
+	    	            	personName: $('#maintenancerecordresultsForm').find('[name=recordPerson]').val(),
+	    	            	processingContent: '填写设备维修结果',
+	    	            	flowTypeCode: 'equipment_maintenance',
+	    	            	flowType: '设备维修'
+	                    },
+	                    success:function(data){
+	                    	$.ajax({
+	                            type:"POST",
+	                            url: CONTEXT_PATH + '/maintenancerecord/update',
+	                            data: {
+	                            	id: $('#maintenancerecordresultsForm').find('[name=recordId]').val(),
+	                            	maintenanceCosts: $('#maintenancerecordresultsForm').find('[name=maintenanceCosts]').val(),
+	                            	pendingPersonId: 0,
+	    	                    	pendingPerson: '',
+	                            	flowStatus: '维修完成',
+	                            	flowStatusCode: 'em_end'
+	                            },
+	                            success:function(data){
+	                            	location.reload();
+	                            }
+	                        });
+	                    }
+	                });
+	            }
+	        });
+		}
 	}
     
+	function uploadF() {
+    	var formData = new FormData($('#upload_form', window.parent.document)[0]);
+    	$.ajax({
+            type:"POST",
+            url: CONTEXT_PATH + '/file/upload/',
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success:function(data){
+            	var a = $('#file')[0].value.split('.');
+            	a = a[a.length - 2];
+            	a = a.split('\\');
+            	a = a[a.length-1];
+            	$('#failureconfirmationForm').find('[name=attachmentName]').val(a);
+            	$('#failureconfirmationForm').find('[name=attachmentPath]').val(data.data);
+            }
+        });
+    }
+	
     function returnBack() {
     	document.querySelector('a[href="#maintenancerecord"]').click();
     }

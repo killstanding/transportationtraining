@@ -20,6 +20,7 @@
             <div class="box">
                 <!-- /.box-header -->
                 <div class="box-body">
+                <div style="font-size: 18px;font-weight:700;margin:5px 0 0 10px">工具信息</div>
                     <table id="tb"></table>
                 </div>
                 <!-- /.box-body -->
@@ -38,18 +39,17 @@
                     <div id="toolbar">
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
-                            	<input type="hidden" class="form-control input-sm" name="assetName" id="searchId" readonly>
+                            	<input type="hidden" class="form-control input-sm" name="assetTypeCode" id="searchType" value="asset_type_tool" readonly>
+                            	<input type="hidden" class="form-control input-sm" name="assetId" id="searchId" readonly>
                             </div>
                             <div class="btn-group btn-group-sm">
-                            	<button type="button" class="btn btn-default">
-                                    领用记录
-                                </button>
                             	<button type="button" class="btn btn-default" onclick="returnBack()">
                                     返回上一级
                                 </button>
                             </div>
                         </form>
                     </div>
+                    <div style="font-size: 18px;font-weight:700;margin:5px 0 0 10px">领用记录</div>
                     <table id="table"></table>
                 </div>
                 <!-- /.box-body -->
@@ -75,7 +75,7 @@
     		}else {
     			document.querySelector('#nnaa').innerHTML = '';
     		}
-    		$('#searchId').val(toolName);
+    		$('#searchId').val(toolId);
     	}
     	$.ajax({
             type:"GET",
@@ -84,10 +84,12 @@
             	datas.push(data.data);
             	$('#tb').bootstrapTable({
                     data: datas,
+                    detailView: false,
                     pagination : false,
                     columns: [
+						{field: 'assetCode', title: '工具编号', halign: 'center', align: 'center'},
         				{field: 'assetName', title: '工具名称', halign: 'center', align: 'center'},
-        				{field: 'assetClassification', title: '资产分类', halign: 'center', align: 'center'},
+        				{field: 'assetClassification', title: '工具分类', halign: 'center', align: 'center'},
         				{field: 'specificationType', title: '规格型号', halign: 'center', align: 'center'},
         				{field: 'assetValue', title: '价值（元）', halign: 'center', align: 'center'},
         				{field: 'bookkeepingDate', title: '记账日期', halign: 'center', align: 'center'},
@@ -101,9 +103,16 @@
         $table.bootstrapTable({
             url: CONTEXT_PATH + '/collectionrecord/list',
             idField: 'id',
+            detailView: false,
             columns: [
-				{field: 'id', title: '序号', sortable: true, halign: 'left'},
-                {field: 'collectionTime', title: '领用时间', sortable: true, halign: 'left'},
+				{field: 'id', title: '序号', halign: 'center', align: 'center',
+					formatter: function(value,row,index) {
+	            		var pageSize = $table.bootstrapTable('getOptions').pageSize;
+	            		var pageNumber = $table.bootstrapTable('getOptions').pageNumber;
+	            		return pageSize * (pageNumber - 1) + index + 1;
+	            	}
+				},
+                {field: 'collectionTime', title: '领用时间', halign: 'center', align: 'center'},
                 {field: 'collectionMajor', title: '领用专业', halign: 'center', align: 'center'},
                 {field: 'collectionCourse', title: '领用课程', halign: 'center', align: 'center'},
                 {field: 'applicant', title: '申请人', halign: 'center', align: 'center'},

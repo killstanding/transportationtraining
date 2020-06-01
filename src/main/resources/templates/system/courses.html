@@ -41,7 +41,7 @@
                             <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
                             <button shiro:hasPermission="courses:create" type="button" id="addBtn" class="btn btn-default"
                                     data-toggle="modal"
-                                    data-target="#addModal" onclick="addLoad()"><i class="glyphicon glyphicon-plus"></i> 新增
+                                    data-target="#addModal"><i class="glyphicon glyphicon-plus"></i> 新增
                             </button>
                             <!-- Indicates caution should be taken with this action -->
                             <button shiro:hasPermission="courses:update" type="button" id="editBtn" class="btn btn-default"
@@ -100,8 +100,9 @@
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <label class="control-label" for="courseTypeCode"><span class="asterisk">*</span>课程类型:</label>
-	                    <select id="courseTypeCode" class="form-control select2" name="courseTypeCode" onchange="addCourseTypeChange()"
+	                    <select id="courseTypeCode" class="form-control select2" data-minimum-results-for-search="-1" name="courseTypeCode" onchange="addCourseTypeChange()"
 	                            data-placeholder="请从列表选择一项" required>
+	                            <option></option>
 	                        <option th:each="courseType: ${courseTypeList}" th:value="${courseType.pubCode}" th:text="${courseType.pubName}">
 	                            课程类型不存在
 	                        </option>
@@ -115,10 +116,11 @@
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <label class="control-label" for="courseDirectorId"><span class="asterisk">*</span>课程负责人:</label>
-	                    <select id="courseDirectorId" class="form-control select2" name="courseDirectorId" onchange="addCourseDirectorChange()"
+	                    <select id="courseDirectorId" class="form-control select2" data-minimum-results-for-search="-1" name="courseDirectorId" onchange="addCourseDirectorChange()"
 	                            data-placeholder="请从列表选择一项" required>
+	                            <option></option>
 	                        <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
-	                            使用人不存在
+	                            课程负责人不存在
 	                        </option>
 	                    </select>
 	                    <div class="help-block with-errors"></div>
@@ -166,7 +168,7 @@
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <label class="control-label" for="courseTypeCode"><span class="asterisk">*</span>课程类型:</label>
-	                    <select id="courseTypeCode" class="form-control select2" name="courseTypeCode" onchange="editCourseTypeChange()"
+	                    <select id="courseTypeCode" class="form-control select2" data-minimum-results-for-search="-1" name="courseTypeCode" onchange="editCourseTypeChange()"
 	                            data-placeholder="请从列表选择一项" required>
 	                        <option th:each="courseType: ${courseTypeList}" th:value="${courseType.pubCode}" th:text="${courseType.pubName}">
 	                            课程类型不存在
@@ -181,10 +183,10 @@
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <label class="control-label" for="courseDirectorId"><span class="asterisk">*</span>课程负责人:</label>
-	                    <select id="courseDirectorId" class="form-control select2" name="courseDirectorId" onchange="editCourseDirectorChange()"
+	                    <select id="courseDirectorId" class="form-control select2" data-minimum-results-for-search="-1" name="courseDirectorId" onchange="editCourseDirectorChange()"
 	                            data-placeholder="请从列表选择一项" required>
 	                        <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
-	                            使用人不存在
+	                           课程负责人不存在
 	                        </option>
 	                    </select>
 	                    <div class="help-block with-errors"></div>
@@ -237,10 +239,17 @@
         $table.bootstrapTable({
             url: CONTEXT_PATH + '/courses/list',
             idField: 'id',
+            detailView: false,
             columns: [
                 {field: 'state', checkbox: true},
-                {field: 'id', title: '序号', sortable: true, halign: 'left'},
-                {field: 'courseCode', title: '课程编码', sortable: true, halign: 'left', formatter: 'courseCodeFormatter'},
+                {field: 'id', title: '序号', sortable: true, halign: 'left',
+                	formatter: function(value,row,index) {
+                		var pageSize = $table.bootstrapTable('getOptions').pageSize;
+                		var pageNumber = $table.bootstrapTable('getOptions').pageNumber;
+                		return pageSize * (pageNumber - 1) + index + 1;
+                	}
+                },
+                {field: 'courseCode', title: '课程编号', sortable: true, halign: 'left', formatter: 'courseCodeFormatter'},
                 {field: 'courseName', title: '课程名称', halign: 'center', align: 'center'},
                 {field: 'courseType', title: '课程类型', halign: 'center', align: 'center'},
                 {field: 'courseDirector', title: '课程负责人', halign: 'center', align: 'center'},
@@ -315,8 +324,8 @@
     }
     
     function addLoad() {
-    	addCourseDirectorChange();
-    	addCourseTypeChange();
+    	//addCourseDirectorChange();
+    	//addCourseTypeChange();
     }
 </script>
 </html>

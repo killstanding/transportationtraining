@@ -220,8 +220,15 @@ $(function () {
     $table.bootstrapTable({
         data: datas,
         idField: 'id',
+        detailView: false,
         columns: [
-            {field: 'id', title: '序号', halign: 'center', align: 'center'},
+            {field: 'id', title: '序号', halign: 'center', align: 'center',
+            	formatter: function(value,row,index) {
+            		var pageSize = $table.bootstrapTable('getOptions').pageSize;
+            		var pageNumber = $table.bootstrapTable('getOptions').pageNumber;
+            		return pageSize * (pageNumber - 1) + index + 1;
+            	}
+            },
             {field: 'item', title: '待办事项', halign: 'center', align: 'center'},
             {field: 'title', title: '待办标题', halign: 'center', align: 'center'},
             {field: 'people', title: '提交人', halign: 'center', align: 'center'},
