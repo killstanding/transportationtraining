@@ -58,6 +58,12 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
         return "system/maintenancerecord";
     }
     
+    @GetMapping("/edit")
+    @RequiresPermissions("maintenancerecord:view")
+    public String editpage(Model model) {
+        return "system/maintenancerecordedit";
+    }
+    
     @ResponseBody
     @GetMapping("/list")
     @RequiresPermissions("maintenancerecord:view")
@@ -66,6 +72,7 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
         Page<MaintenanceRecord> page = (Page<MaintenanceRecord>) service.queryList(entity, pageQuery);
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
+    
     
     @ApiOperation(value = "根据设备维修记录统计数量", notes = "根据设备维修记录统计数量")
     @ResponseBody
