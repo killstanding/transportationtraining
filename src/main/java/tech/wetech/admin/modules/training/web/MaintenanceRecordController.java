@@ -21,6 +21,7 @@ import tech.wetech.admin.modules.training.po.FlowDetail;
 import tech.wetech.admin.modules.training.po.FlowNode;
 import tech.wetech.admin.modules.training.po.MaintenanceRecord;
 import tech.wetech.admin.modules.training.po.StatusCountResult;
+import tech.wetech.admin.modules.training.service.AssetService;
 import tech.wetech.admin.modules.training.service.FlowDetailService;
 import tech.wetech.admin.modules.training.service.FlowNodeService;
 import tech.wetech.admin.modules.training.service.MaintenanceRecordService;
@@ -47,7 +48,8 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
     private FlowNodeService flowNodeService;
     @Autowired
     private FlowDetailService flowDetailservice;
-	
+	@Autowired
+    private AssetService assetService;
     @GetMapping
     @RequiresPermissions("maintenancerecord:view")
     public String page(Model model) {
@@ -55,6 +57,7 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
     	flowNode.setFlowTypeCode("equipment_maintenance");
     	List<FlowNode> flowNodeList = flowNodeService.queryList(flowNode);
     	model.addAttribute("flowNodeList", flowNodeList);
+    	model.addAttribute("assetList", assetService.queryAll());
         return "system/maintenancerecord";
     }
     
