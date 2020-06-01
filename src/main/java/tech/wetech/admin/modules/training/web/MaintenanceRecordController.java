@@ -16,9 +16,12 @@ import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.system.common.CommonVariable;
+import tech.wetech.admin.modules.training.po.FlowDetail;
 import tech.wetech.admin.modules.training.po.FlowNode;
 import tech.wetech.admin.modules.training.po.MaintenanceRecord;
 import tech.wetech.admin.modules.training.po.StatusCountResult;
+import tech.wetech.admin.modules.training.service.FlowDetailService;
 import tech.wetech.admin.modules.training.service.FlowNodeService;
 import tech.wetech.admin.modules.training.service.MaintenanceRecordService;
 import tech.wetech.excel.ExcelWriteUtil;
@@ -42,6 +45,8 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
     private ConfigProperties configProperties;
     @Autowired
     private FlowNodeService flowNodeService;
+    @Autowired
+    private FlowDetailService flowDetailservice;
 	
     @GetMapping
     @RequiresPermissions("maintenancerecord:view")
@@ -118,6 +123,21 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
     	entity.setUpdateTime(curTime);
     	entity.setCreateYear(DateUtil.dateToStr(d, DateUtil.YEAR_FORMATE));
     	service.create(entity);
+    	
+    	//添加流程记录信息
+    	FlowDetail fd = new FlowDetail();
+    	fd.setPersonId(entity.getApplicantId());
+    	fd.setPersonName(entity.getApplicant());
+    	fd.setRoleId(CommonVariable.DEVICE_ADMIN_ROLE_ID);
+    	fd.setRoleName("设备管理员");
+    	fd.setProcessingContent("填写位置在"+entity.getPositionName()+"的"+entity.getAssetName()+"设备维修单");
+    	fd.setProcessingDate(DateUtil.dateToStr(d, DateUtil.DATE_FORMATE));
+    	fd.setCreateTime(curTime);
+    	fd.setUpdateTime(curTime);
+    	fd.setFlowType("设备维修");
+    	fd.setFlowTypeCode("equipment_maintenance");
+    	fd.setFlowId(entity.getId());
+    	flowDetailservice.create(fd);
         return Result.success();
     }
   
