@@ -96,6 +96,7 @@
                         <label class="control-label" for="belongSysId"><span class="asterisk">*</span>所属系:</label>
                         <select id="belongSysId" class="form-control select2" name="belongSysId" onchange="addSysChange()"
                                 data-placeholder="请从列表选择一项" required>
+                            <option></option>
                             <option th:each="sys: ${sysList}" th:value="${sys.id}" th:text="${sys.name}">
                                 所属系不存在
                             </option>
@@ -111,6 +112,7 @@
                         <label class="control-label" for="roomPositionCode"><span class="asterisk">*</span>位置:</label>
                         <select id="roomPositionCode" class="form-control select2" name="roomPositionCode" onchange="addPositionChange()"
                                 data-placeholder="请从列表选择一项" required>
+                                <option></option>
                             <option th:each="position: ${positionList}" th:value="${position.id}" th:text="${position.positionName}">
                                 位置不存在
                             </option>
@@ -118,14 +120,15 @@
                         <div class="help-block with-errors"></div>
                     </div>
                     <div class="form-group" style="display: none;">
-                        <label class="control-label" for="addRoomAdmin"><span class="asterisk">*</span>管理员:</label>
+                        <label class="control-label" for="addRoomAdmin"><span class="asterisk">*</span>实训室管理员:</label>
                         <input id="addRoomAdmin" type="text" class="form-control" name="roomAdmin" readonly>
                         <div class="help-block with-errors"></div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="roomAdminId"><span class="asterisk">*</span>管理员:</label>
-                        <select id="roomAdminId" class="form-control select2" name="roomAdminId" onchange="addAdminChange()"
+                        <label class="control-label" for="roomAdminId"><span class="asterisk">*</span>实训室管理员:</label>
+                        <select id="roomAdminId" class="form-control select2" data-minimum-results-for-search="-1" name="roomAdminId" onchange="addAdminChange()"
                                 data-placeholder="请从列表选择一项" required>
+                                <option></option>
                             <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
                                 管理员不存在
                             </option>
@@ -134,7 +137,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="isEnabled"><span class="asterisk">*</span>状态:</label>
-                        <select id="isEnabled" class="form-control select2" name="isEnabled"
+                        <select id="isEnabled" class="form-control select2" data-minimum-results-for-search="-1" name="isEnabled"
                                 data-placeholder="请从列表选择一项" required>
                             <option value="1">启用</option>
                             <option value="0">停用</option>
@@ -202,13 +205,13 @@
                         <div class="help-block with-errors"></div>
                     </div>
                     <div class="form-group" style="display: none;">
-                        <label class="control-label" for="editRoomAdmin"><span class="asterisk">*</span>管理员:</label>
+                        <label class="control-label" for="editRoomAdmin"><span class="asterisk">*</span>实训室管理员:</label>
                         <input id="editRoomAdmin" type="text" class="form-control" name="roomAdmin" readonly>
                         <div class="help-block with-errors"></div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="roomAdminId"><span class="asterisk">*</span>管理员:</label>
-                        <select id="roomAdminId" class="form-control select2" name="roomAdminId" onchange="editAdminChange()"
+                        <label class="control-label" for="roomAdminId"><span class="asterisk">*</span>实训室管理员:</label>
+                        <select id="roomAdminId" class="form-control select2" data-minimum-results-for-search="-1" name="roomAdminId" onchange="editAdminChange()"
                                 data-placeholder="请从列表选择一项" required>
                             <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
                                 管理员不存在
@@ -218,7 +221,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="isEnabled"><span class="asterisk">*</span>状态:</label>
-                        <select id="isEnabled" class="form-control select2" name="isEnabled"
+                        <select id="isEnabled" class="form-control select2" data-minimum-results-for-search="-1" name="isEnabled"
                                 data-placeholder="请从列表选择一项" required>
                             <option value="1">启用</option>
                             <option value="0">停用</option>
@@ -273,13 +276,20 @@
         $table.bootstrapTable({
             url: CONTEXT_PATH + '/trainingroom/list',
             idField: 'id',
+            detailView: false,
             columns: [
                 {field: 'state', checkbox: true},
-                {field: 'id', title: '序号', sortable: true, halign: 'left'},
+                {field: 'id', title: '序号', sortable: true, halign: 'left',
+                	formatter: function(value,row,index) {
+                		var pageSize = $table.bootstrapTable('getOptions').pageSize;
+                		var pageNumber = $table.bootstrapTable('getOptions').pageNumber;
+                		return pageSize * (pageNumber - 1) + index + 1;
+                	}
+                },
                 {field: 'roomName', title: '实训室名称', sortable: true, halign: 'left', formatter: 'roomNameFormatter'},
                 {field: 'belongSys', title: '所属系', halign: 'center', align: 'center'},
                 {field: 'roomPosition', title: '位置', halign: 'center', align: 'center'},
-                {field: 'roomAdmin', title: '管理员', halign: 'center', align: 'center'},
+                {field: 'roomAdmin', title: '实训室管理员', halign: 'center', align: 'center'},
                 {field: 'createTime', title: '建立时间', halign: 'center', align: 'center'},
                 {field: 'equipNum', title: '设备数量', sortable: true, halign: 'left'},
                 {field: 'isEnabled', title: '是否启用', halign: 'center', align: 'center', formatter: 'enabledFormatter'},

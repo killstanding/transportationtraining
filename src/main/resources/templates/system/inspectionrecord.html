@@ -25,7 +25,7 @@
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
                             	<input type="hidden" class="form-control input-sm" name="planId" id="searchId" readonly>
-                                <label for="searchName"> 资产名称 </label>
+                                <label for="searchName"> 设备名称 </label>
                                 <input type="text" class="form-control input-sm" name="assetName" id="searchName" placeholder="请输入资产名称">
                             </div>
                             <div class="btn-group btn-group-sm">
@@ -42,27 +42,6 @@
                                 </button>
                             </div>
                         </form>
-                        <div class="btn-group btn-group-sm">
-                            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
-                            <button shiro:hasPermission="inspectionrecord:create" type="button" id="addBtn" class="btn btn-default"
-                                    data-toggle="modal"
-                                    data-target="#addModal" onclick="addLoad()"><i class="glyphicon glyphicon-plus"></i> 新增
-                            </button>
-                            <!-- Indicates caution should be taken with this action -->
-                            <button shiro:hasPermission="inspectionrecord:update" type="button" id="editBtn" class="btn btn-default"
-                                    data-toggle="modal"
-                                    data-target="#editModal"
-                                    data-action="{type:'editable',form:'#editForm',table:'#table',after:'editAfter'}"
-                                    disabled><i class="glyphicon glyphicon-edit"></i> 修改
-                            </button>
-                            <!-- Indicates a dangerous or potentially negative action -->
-                            <button shiro:hasPermission="inspectionrecord:delete" type="button" id="deleteBtn" class="btn btn-default"
-                            		data-toggle="modal"
-                                    data-target="#deleteModal"
-                                    data-action="{type:'delete',form:'#deleteForm',idField:'id',table:'#table'}"
-                                    disabled><i class="glyphicon glyphicon-remove"></i> 删除
-                            </button>
-                        </div>
                     </div>
                     <table id="table"></table>
                 </div>
@@ -75,210 +54,6 @@
     <!-- /.row -->
 </section>
 <!-- /.content -->
-
-<!-- add Modal -->
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="addModalLabel">添加巡检详情</h4>
-            </div>
-            <div class="modal-body">
-                <form id="addForm">
-                	<input type="hidden" id="addPlanId" name="planId"/>
-                	<div class="form-group">
-                		<div style="display: none;">
-                        	<label class="control-label" for="addAssetName"><span class="asterisk">*</span>资产名称:</label>
-                        	<input id="addAssetName" type="text" class="form-control" name="assetName" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <label class="control-label" for="assetCode"><span class="asterisk">*</span>资产名称:</label>
-	                    <select id="assetCode" class="form-control select2" name="assetCode" onchange="addAssetChange()"
-	                            data-placeholder="请从列表选择一项" required>
-	                        <option th:each="asset: ${assetList}" th:value="${asset.id}" th:text="${asset.assetName}">
-	                            资产不存在
-	                        </option>
-	                    </select>
-	                    <div class="help-block with-errors"></div>
-                	</div>
-                    <div class="form-group">
-                    	<div style="display: none;">
-                        	<label class="control-label" for="addAssetClassification"><span class="asterisk">*</span>资产分类:</label>
-                        	<input id="addAssetClassification" type="text" class="form-control" name="assetClassification" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>资产分类:</label>
-	                    <select id="assetClassificationCode" class="form-control select2" name="assetClassificationCode" onchange="addAssetClassificationChange()"
-	                            data-placeholder="请从列表选择一项" required>
-	                        <option th:each="assetClassification: ${assetClassificationList}" th:value="${assetClassification.id}" th:text="${assetClassification.classificationName}">
-	                            所属分类不存在
-	                        </option>
-	                    </select>
-	                    <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                    	<div style="display: none;">
-                        	<label class="control-label" for="addAssetStatus"><span class="asterisk">*</span>设备状态:</label>
-                        	<input id="addAssetStatus" type="text" class="form-control" name="assetStatus" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <label class="control-label" for="assetStatusCode"><span class="asterisk">*</span>设备状态:</label>
-	                    <select id="assetStatusCode" class="form-control select2" name="assetStatusCode" onchange="addAssetStatusChange()"
-	                            data-placeholder="请从列表选择一项" required>
-	                        <option th:each="assetStatus: ${assetStatusList}" th:value="${assetStatus.pubCode}" th:text="${assetStatus.pubName}">
-	                            设备状态不存在
-	                        </option>
-	                    </select>
-	                    <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="statusDescription">状态描述:</label>
-	                    <input id="statusDescription" type="text" class="form-control" name="statusDescription" placeholder="输入价值">
-	                    <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                    	<label class="control-label" for="isRepair"><span class="asterisk">*</span>是否维修:</label>
-                        <select id="isRepair" class="form-control select2" name="isRepair"
-                                data-placeholder="请从列表选择一项" required>
-                            <option value="0">未维修</option>
-                            <option value="1">已维修</option>
-                        </select>
-                        <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                    	<label class="control-label" for="repairOrderNo">维修单号:</label>
-	                    <input id="repairOrderNo" type="text" class="form-control" name="repairOrderNo" placeholder="输入维修单号">
-	                    <div class="help-block with-errors"></div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="submit" form="addForm" class="btn btn-primary"
-                        data-action="{type:'submit',form:'#addForm',url:'@{/inspectionrecord/create}',after:'$.myAction.refreshTable'}">
-                    确定
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- edit Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="editModalLabel">修改巡检详情</h4>
-            </div>
-            <div class="modal-body">
-                <form id="editForm">
-                    <input type="hidden" name="id"/>
-                	<div class="form-group">
-                		<div style="display: none;">
-                        	<label class="control-label" for="editAssetName"><span class="asterisk">*</span>资产名称:</label>
-                        	<input id="editAssetName" type="text" class="form-control" name="assetName" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <label class="control-label" for="assetCode"><span class="asterisk">*</span>资产名称:</label>
-	                    <select id="assetCode" class="form-control select2" name="assetCode" onchange="editAssetChange()"
-	                            data-placeholder="请从列表选择一项" required>
-	                        <option th:each="asset: ${assetList}" th:value="${asset.id}" th:text="${asset.assetName}">
-	                            资产不存在
-	                        </option>
-	                    </select>
-	                    <div class="help-block with-errors"></div>
-                	</div>
-                    <div class="form-group">
-                    	<div style="display: none;">
-                        	<label class="control-label" for="editAssetClassification"><span class="asterisk">*</span>资产分类:</label>
-                        	<input id="editAssetClassification" type="text" class="form-control" name="assetClassification" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>资产分类:</label>
-	                    <select id="assetClassificationCode" class="form-control select2" name="assetClassificationCode" onchange="editAssetClassificationChange()"
-	                            data-placeholder="请从列表选择一项" required>
-	                        <option th:each="assetClassification: ${assetClassificationList}" th:value="${assetClassification.id}" th:text="${assetClassification.classificationName}">
-	                            所属分类不存在
-	                        </option>
-	                    </select>
-	                    <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                    	<div style="display: none;">
-                        	<label class="control-label" for="editAssetStatus"><span class="asterisk">*</span>设备状态:</label>
-                        	<input id="editAssetStatus" type="text" class="form-control" name="assetStatus" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <label class="control-label" for="assetStatusCode"><span class="asterisk">*</span>设备状态:</label>
-	                    <select id="assetStatusCode" class="form-control select2" name="assetStatusCode" onchange="editAssetStatusChange()"
-	                            data-placeholder="请从列表选择一项" required>
-	                        <option th:each="assetStatus: ${assetStatusList}" th:value="${assetStatus.pubCode}" th:text="${assetStatus.pubName}">
-	                            设备状态不存在
-	                        </option>
-	                    </select>
-	                    <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="statusDescription">状态描述:</label>
-	                    <input id="statusDescription" type="text" class="form-control" name="statusDescription" placeholder="输入价值">
-	                    <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                    	<label class="control-label" for="isRepair"><span class="asterisk">*</span>是否维修:</label>
-                        <select id="isRepair" class="form-control select2" name="isRepair"
-                                data-placeholder="请从列表选择一项" required>
-                            <option value="0">未维修</option>
-                            <option value="1">已维修</option>
-                        </select>
-                        <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                    	<label class="control-label" for="repairOrderNo">维修单号:</label>
-	                    <input id="repairOrderNo" type="text" class="form-control" name="repairOrderNo" placeholder="输入维修单号">
-	                    <div class="help-block with-errors"></div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="submit" form="editForm" class="btn btn-primary"
-                        data-action="{type:'submit',form:'#editForm',url:'@{/inspectionrecord/update}',after:'$.myAction.refreshTable'}">
-                    确定
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- delete modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteSmallModalLabel">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="deleteSmallModalLabel">删除巡检详情</h4>
-            </div>
-            <div class="modal-body">
-                <form id="deleteForm"></form>
-                确定要删除选中的 <span class="records"></span> 条记录?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" form="deleteForm" class="btn btn-primary"
-                        data-action="{type:'submit',form:'#deleteForm',url:'@{/inspectionrecord/delete-batch}',after:'$.myAction.refreshTable'}">
-                    确定
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="actionButtons" class="admin-hide">
-    <!-- <a class="like" href="javascript:void(0)" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a> -->
-    <a shiro:hasPermission="inspectionrecord:update" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="编辑"><i class="glyphicon glyphicon-edit"></i></a>　
-    <a shiro:hasPermission="inspectionrecord:delete" class="remove ml10" href="javascript:void(0)" data-toggle="tooltip" title="删除"><i class="glyphicon glyphicon-remove"></i></a>　
-</div>
 
 <script th:inline="javascript">
     var $table = $('#table');
@@ -295,39 +70,29 @@
     		}
     	}
         $table.bootstrapTable({
-            url: CONTEXT_PATH + '/inspectionrecord/list',
+            url: CONTEXT_PATH + '/inspectionrecord/listbyplanidforshow',
             idField: 'id',
+            detailView: false,
+            pagination : false,
             columns: [
-                {field: 'state', checkbox: true},
-                {field: 'id', title: '序号', sortable: true, halign: 'left'},
-                {field: 'assetCode', title: '资产编号', sortable: true, halign: 'left', formatter: 'assetCodeFormatter'},
-                {field: 'assetName', title: '资产名称', sortable: true, halign: 'left'},
-                {field: 'assetClassification', title: '资产分类', halign: 'center', align: 'center'},
+                {field: 'id', title: '序号', sortable: true, halign: 'left',
+                	formatter: function(value,row,index) {
+                		return index + 1;
+                	}
+                },
+                {field: 'assetCode', title: '设备编号', sortable: true, halign: 'left', formatter: 'assetCodeFormatter'},
+                {field: 'assetName', title: '设备名称', sortable: true, halign: 'left'},
+                {field: 'assetClassification', title: '设备分类', halign: 'center', align: 'center'},
                 {field: 'assetStatus', title: '设备状态', halign: 'center', align: 'center', formatter: 'enabledFormatter'},
                 {field: 'statusDescription', title: '状态描述', halign: 'center', align: 'center'},
                 {field: 'isRepair', title: '是否维修', halign: 'center', align: 'center', formatter: 'repairFormatter'},
-                {field: 'repairOrderNo', title: '维修单号', halign: 'center', align: 'center', formatter: 'repairOrderNoFormatter'},
-                {
-                    field: 'action',
-                    title: '操作',
-                    halign: 'center',
-                    align: 'center',
-                    formatter: 'actionFormatter',
-                    events: 'actionEvents',
-                    clickToSelect: false
-                }
+                {field: 'repairOrderNo', title: '维修单号', halign: 'center', align: 'center', formatter: 'repairOrderNoFormatter'}
             ]
         });
     });
 
-    function editAfter(obj, row) {
-    	$('#editForm').find('[name=assetCode]').find('option[value=' + row.assetCode + ']').prop('selected', true);
-    	$('#editForm').find('[name=assetClassification]').find('option[value=' + row.assetClassification + ']').prop('selected', true);
-    	$('#editForm').find('[name=assetStatus]').find('option[value=' + row.assetStatus + ']').prop('selected', true);
-    }
-
     function assetCodeFormatter(value, row, index) {
-    	return '<a href="#" onclick="refresh()">' + value +'</a>'
+    	return '<a href="#inspectionrecord" onclick="refresh()">' + value +'</a>'
     }
 
     function enabledFormatter(value, row, index) {
@@ -335,6 +100,8 @@
     		return '<span class="zaiyong">在用</span>';
     	}else if(value == '正常') {
     		return '<span class="zhengchang">正常</span>';
+    	}else if(value == '异常') {
+    		return '<span class="weixiu">异常</span>';
     	}else if(value == '维修') {
     		return '<span class="weixiu">维修</span>';
     	}else if(value == '报废') {
@@ -361,10 +128,6 @@
     	}
     	return '-';
     }
-    
-    function actionFormatter(value, row, index) {
-        return $('#actionButtons').html();
-    }
 
     function refresh() {
     }
@@ -372,60 +135,6 @@
     function returnBack() {
     	window.location.hash = '#inspectionplan';
     	location.reload();
-    }
-
-    window.actionEvents = {
-        'click .edit': function (e, value, row, index) {
-            $('#editModal').modal('show')
-            $('#editForm').fillForm(row);
-            editAfter('', row);
-        },
-        'click .remove': function (e, value, row, index) {
-            $('#deleteModal').modal('show');
-            $('.records').html('1');
-            var html = '';
-            for (var key in row) {
-                html += '<input type="hidden" name="' + key + '" value="' + row[key] + '">';
-            }
-            $('#deleteForm').html(html);
-        }
-    };
-    
-    function addAssetChange() {
-    	var addAssetText = $('#addForm').find('[name=assetCode]').find('option:selected').text();
-    	$('#addAssetName').val(addAssetText);
-    }
-    
-    function addAssetClassificationChange() {
-    	var addAssetClassificationText = $('#addForm').find('[name=assetClassificationCode]').find('option:selected').text();
-    	$('#addAssetClassification').val(addAssetClassificationText);
-    }
-    
-    function addAssetStatusChange() {
-    	var addAssetStatusText = $('#addForm').find('[name=assetStatusCode]').find('option:selected').text();
-    	$('#addAssetStatus').val(addAssetStatusText);
-    }
-    
-    function editAssetChange() {
-    	var editAssetText = $('#editForm').find('[name=assetCode]').find('option:selected').text();
-    	$('#editAssetName').val(editAssetText);
-    }
-    
-    function editAssetClassificationChange() {
-    	var editAssetClassificationText = $('#editForm').find('[name=assetClassificationCode]').find('option:selected').text();
-    	$('#editAssetClassification').val(editAssetClassificationText);
-    }
-    
-    function editAssetStatusChange() {
-    	var editAssetStatusText = $('#editForm').find('[name=assetStatusCode]').find('option:selected').text();
-    	$('#editAssetStatus').val(editAssetStatusText);
-    }
-    
-    function addLoad() {
-    	$('#addPlanId').val(localStorage.getItem("planId"));
-    	addAssetChange();
-    	addAssetClassificationChange();
-    	addAssetStatusChange();
     }
 </script>
 </html>

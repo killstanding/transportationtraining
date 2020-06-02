@@ -24,7 +24,7 @@
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
                             	<input type="hidden" class="form-control input-sm" name="roomId" id="searchId" readonly>
-                                <label for="searchName"> 资产名称 </label>
+                                <label for="searchName"> 设备名称 </label>
                                 <input type="text" class="form-control input-sm" name="assetName" id="searchName" placeholder="请输入资产名称">
                             </div>
                             <div class="btn-group btn-group-sm">
@@ -78,34 +78,31 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="addModalLabel">添加资产</h4>
+                <h4 class="modal-title" id="addModalLabel">添加设备</h4>
             </div>
             <div class="modal-body">
                 <form id="addForm">
-                	<div class="form-group">
-                        <label class="control-label" for="assetCode"><span class="asterisk">*</span>资产编号:</label>
-                        <input id="assetCode" type="text" class="form-control" name="assetCode" placeholder="输入资产编号"
-                               required>
-                        <div class="help-block with-errors"></div>
-                    </div>
                     <div class="form-group">
-                        <label class="control-label" for="assetName"><span class="asterisk">*</span>资产名称:</label>
-                        <input id="assetName" type="text" class="form-control" name="assetName" placeholder="输入资产名称"
+                    <div class="col-md-12">
+                        <label class="control-label" for="assetName"><span class="asterisk">*</span>设备名称:</label>
+                        <input id="assetName" type="text" class="form-control" name="assetName" placeholder="输入设备名称"
                                required>
                         <div class="help-block with-errors"></div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <div style="display: none;">
-                        	<label class="control-label" for="addAssetClassification"><span class="asterisk">*</span>资产分类:</label>
+                        	<label class="control-label" for="addAssetClassification"><span class="asterisk">*</span>设备分类:</label>
                         	<input id="addAssetClassification" type="text" class="form-control" name="assetClassification" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>资产分类:</label>
-	                        <select id="assetClassificationCode" class="form-control select2" name="assetClassificationCode" onchange="addAssetClassificationChange()"
+                        	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>设备分类:</label>
+	                        <select id="assetClassificationCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetClassificationCode" onchange="addAssetClassificationChange()"
 	                                data-placeholder="请从列表选择一项" required>
+	                                <option></option>
 	                            <option th:each="assetClassification: ${assetClassificationList}" th:value="${assetClassification.id}" th:text="${assetClassification.classificationName}">
-	                            所属分类不存在
+	                            设备分类不存在
 	                            </option>
 	                        </select>
 	                        <div class="help-block with-errors"></div>
@@ -117,8 +114,9 @@
                         </div>
                         <div class="col-md-6">
                         	<label class="control-label" for="assetTypeCode"><span class="asterisk">*</span>规格型号:</label>
-	                        <select id="assetTypeCode" class="form-control select2" name="assetTypeCode" onchange="addAssetTypeChange()"
+	                        <select id="assetTypeCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetTypeCode" onchange="addAssetTypeChange()"
 	                                data-placeholder="请从列表选择一项" required>
+	                                <option></option>
 	                            <option th:each="assetType: ${assetTypeList}" th:value="${assetType.id}" th:text="${assetType.typeName}">
 	                            规格型号不存在
 	                            </option>
@@ -134,8 +132,9 @@
                         </div>
                         <div class="col-md-6">
                         	<label class="control-label" for="roomId"><span class="asterisk">*</span>所属实训室:</label>
-	                        <select id="roomId" class="form-control select2" name="roomId" onchange="addRoomChange()"
+	                        <select id="roomId" class="form-control select2" data-minimum-results-for-search="-1" name="roomId" onchange="addRoomChange()"
 	                                data-placeholder="请从列表选择一项" required>
+	                                <option></option>
 	                            <option th:each="trainingRoom: ${trainingRoomList}" th:value="${trainingRoom.id}" th:text="${trainingRoom.roomName}">
 	                            所属实训室不存在
 	                            </option>
@@ -143,48 +142,44 @@
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div style="display: none;">
-                        	<label class="control-label" for="addPositionName"><span class="asterisk">*</span>存放地点:</label>
-                        	<input id="addPositionName" type="text" class="form-control" name="positionName" readonly>
+                        	<label class="control-label" for="addRoomIsEnabled"><span class="asterisk">*</span>实训室状态:</label>
+                        	<input id="addRoomIsEnabled" type="text" class="form-control" name="roomIsEnabled" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div style="display: none;">
+                        	<label class="control-label" for="addPositionCode"><span class="asterisk">*</span>存放地点:</label>
+                        	<input id="addPositionCode" type="text" class="form-control" name="positionCode" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="positionCode"><span class="asterisk">*</span>存放地点:</label>
-	                        <select id="positionCode" class="form-control select2" name="positionCode" onchange="addPositionChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="position: ${positionList}" th:value="${position.id}" th:text="${position.positionName}">
-	                            存放地点不存在
-	                            </option>
-	                        </select>
+                        	<label class="control-label" for="addPositionName"><span class="asterisk">*</span>存放地点:</label>
+                        	<input id="addPositionName" type="text" class="form-control" name="positionName" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <div style="display: none;">
+                        	<label class="control-label" for="addUseDepartmentId"><span class="asterisk">*</span>所属系:</label>
+                        	<input id="addUseDepartmentId" type="text" class="form-control" name="useDepartmentId" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
                         	<label class="control-label" for="addUseDepartment"><span class="asterisk">*</span>所属系:</label>
                         	<input id="addUseDepartment" type="text" class="form-control" name="useDepartment" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
-                        	<label class="control-label" for="useDepartmentId"><span class="asterisk">*</span>所属系:</label>
-	                        <select id="useDepartmentId" class="form-control select2" name="useDepartmentId" onchange="addUseDepartmentChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="organization: ${organizationList}" th:value="${organization.id}" th:text="${organization.name}">
-	                            所属系不存在
-	                            </option>
-	                        </select>
-	                        <div class="help-block with-errors"></div>
-                        </div>
                         <div style="display: none;">
-                        	<label class="control-label" for="addAssetUser"><span class="asterisk">*</span>使用人:</label>
+                        	<label class="control-label" for="addAssetUser"><span class="asterisk">*</span>设备管理员:</label>
                         	<input id="addAssetUser" type="text" class="form-control" name="assetUser" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="assetUserId"><span class="asterisk">*</span>使用人:</label>
-	                        <select id="assetUserId" class="form-control select2" name="assetUserId" onchange="addAssetUserChange()"
+                        	<label class="control-label" for="assetUserId"><span class="asterisk">*</span>设备管理员:</label>
+	                        <select id="assetUserId" class="form-control select2" data-minimum-results-for-search="-1" name="assetUserId" onchange="addAssetUserChange()"
 	                                data-placeholder="请从列表选择一项" required>
+	                                <option></option>
 	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
-	                            使用人不存在
+	                            设备管理员不存在
 	                            </option>
 	                        </select>
 	                        <div class="help-block with-errors"></div>
@@ -208,7 +203,7 @@
                         </div>
                         <div class="col-md-6">
                         	<label class="control-label" for="inspectionCycleCode"><span class="asterisk">*</span>巡检周期:</label>
-	                        <select id="inspectionCycleCode" class="form-control select2" name="inspectionCycleCode" onchange="addInspectionCycleChange()"
+	                        <select id="inspectionCycleCode" class="form-control select2" data-minimum-results-for-search="-1" name="inspectionCycleCode" onchange="addInspectionCycleChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="inspectionCycle: ${inspectionCycleList}" th:value="${inspectionCycle.pubCode}" th:text="${inspectionCycle.pubName}">
 	                            巡检周期不存在
@@ -218,7 +213,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                        	<label class="control-label" for="assetValue"><span class="asterisk">*</span>资产价值:</label>
+                        	<label class="control-label" for="assetValue"><span class="asterisk">*</span>设备价值（元）:</label>
 	                        <input id="assetValue" type="text" class="form-control" name="assetValue" placeholder="输入价值"
                                required>
 	                        <div class="help-block with-errors"></div>
@@ -226,16 +221,16 @@
                     </div>
                     <div class="form-group">
                         <div style="display: none;">
-                        	<label class="control-label" for="addAssetStatus"><span class="asterisk">*</span>资产状态:</label>
+                        	<label class="control-label" for="addAssetStatus"><span class="asterisk">*</span>设备状态:</label>
                         	<input id="addAssetStatus" type="text" class="form-control" name="assetStatus" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-12">
-                        	<label class="control-label" for="assetStatusCode"><span class="asterisk">*</span>资产状态:</label>
-	                        <select id="assetStatusCode" class="form-control select2" name="assetStatusCode" onchange="addAssetStatusChange()"
+                        	<label class="control-label" for="assetStatusCode"><span class="asterisk">*</span>设备状态:</label>
+	                        <select id="assetStatusCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetStatusCode" onchange="addAssetStatusChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="assetStatus: ${assetStatusList}" th:value="${assetStatus.pubCode}" th:text="${assetStatus.pubName}">
-	                            资产状态不存在
+	                            设备状态不存在
 	                            </option>
 	                        </select>
 	                        <div class="help-block with-errors"></div>
@@ -260,35 +255,39 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="editModalLabel">修改资产</h4>
+                <h4 class="modal-title" id="editModalLabel">修改设备</h4>
             </div>
             <div class="modal-body">
                 <form id="editForm">
                     <input type="hidden" name="id"/>
                     <div class="form-group">
-                        <label class="control-label" for="assetCode"><span class="asterisk">*</span>资产编号:</label>
+                    <div class="col-md-12">
+                        <label class="control-label" for="assetCode"><span class="asterisk">*</span>设备编号:</label>
                         <input id="assetCode" type="text" class="form-control" name="assetCode"
                                readonly required>
                         <div class="help-block with-errors"></div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="assetName"><span class="asterisk">*</span>资产名称:</label>
-                        <input id="assetName" type="text" class="form-control" name="assetName" placeholder="输入资产名称"
+                    <div class="col-md-12">
+                        <label class="control-label" for="assetName"><span class="asterisk">*</span>设备名称:</label>
+                        <input id="assetName" type="text" class="form-control" name="assetName" placeholder="输入设备名称"
                                required>
                         <div class="help-block with-errors"></div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <div style="display: none;">
-                        	<label class="control-label" for="editAssetClassification"><span class="asterisk">*</span>资产分类:</label>
+                        	<label class="control-label" for="editAssetClassification"><span class="asterisk">*</span>设备分类:</label>
                         	<input id="editAssetClassification" type="text" class="form-control" name="assetClassification" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>资产分类:</label>
-	                        <select id="assetClassificationCode" class="form-control select2" name="assetClassificationCode" onchange="editAssetClassificationChange()"
+                        	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>设备分类:</label>
+	                        <select id="assetClassificationCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetClassificationCode" onchange="editAssetClassificationChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="assetClassification: ${assetClassificationList}" th:value="${assetClassification.id}" th:text="${assetClassification.classificationName}">
-	                            所属分类不存在
+	                            设备分类不存在
 	                            </option>
 	                        </select>
 	                        <div class="help-block with-errors"></div>
@@ -300,7 +299,7 @@
                         </div>
                         <div class="col-md-6">
                         	<label class="control-label" for="assetTypeCode"><span class="asterisk">*</span>规格型号:</label>
-	                        <select id="assetTypeCode" class="form-control select2" name="assetTypeCode" onchange="editAssetTypeChange()"
+	                        <select id="assetTypeCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetTypeCode" onchange="editAssetTypeChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="assetType: ${assetTypeList}" th:value="${assetType.id}" th:text="${assetType.typeName}">
 	                            规格型号不存在
@@ -317,7 +316,7 @@
                         </div>
                         <div class="col-md-6">
                         	<label class="control-label" for="roomId"><span class="asterisk">*</span>所属实训室:</label>
-	                        <select id="roomId" class="form-control select2" name="roomId" onchange="editRoomChange()"
+	                        <select id="roomId" class="form-control select2" data-minimum-results-for-search="-1" name="roomId" onchange="editRoomChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="trainingRoom: ${trainingRoomList}" th:value="${trainingRoom.id}" th:text="${trainingRoom.roomName}">
 	                            所属实训室不存在
@@ -326,48 +325,43 @@
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div style="display: none;">
-                        	<label class="control-label" for="editPositionName"><span class="asterisk">*</span>存放地点:</label>
-                        	<input id="editPositionName" type="text" class="form-control" name="positionName" readonly>
+                        	<label class="control-label" for="editRoomIsEnabled"><span class="asterisk">*</span>实训室状态:</label>
+                        	<input id="editRoomIsEnabled" type="text" class="form-control" name="roomIsEnabled" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div style="display: none;">
+                        	<label class="control-label" for="editPositionCode"><span class="asterisk">*</span>存放地点:</label>
+                        	<input id="editPositionCode" type="text" class="form-control" name="positionCode" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="positionCode"><span class="asterisk">*</span>存放地点:</label>
-	                        <select id="positionCode" class="form-control select2" name="positionCode" onchange="editPositionChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="position: ${positionList}" th:value="${position.id}" th:text="${position.positionName}">
-	                            存放地点不存在
-	                            </option>
-	                        </select>
+                        	<label class="control-label" for="editPositionName"><span class="asterisk">*</span>存放地点:</label>
+                        	<input id="editPositionName" type="text" class="form-control" name="positionName" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <div style="display: none;">
-                        	<label class="control-label" for="editUseDepartment"><span class="asterisk">*</span>所属系:</label>
-                        	<input id="editUseDepartment" type="text" class="form-control" name="useDepartment" readonly>
+                        	<label class="control-label" for="editUseDepartmentId"><span class="asterisk">*</span>所属系:</label>
+                        	<input id="editUseDepartmentId" type="text" class="form-control" name="useDepartmentId" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="useDepartmentId"><span class="asterisk">*</span>所属系:</label>
-	                        <select id="useDepartmentId" class="form-control select2" name="useDepartmentId" onchange="editUseDepartmentChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="organization: ${organizationList}" th:value="${organization.id}" th:text="${organization.name}">
-	                            所属系不存在
-	                            </option>
-	                        </select>
+                        	<label class="control-label" for="editUseDepartment"><span class="asterisk">*</span>所属系:</label>
+	                        <input id="editUseDepartment" type="text" class="form-control" name="useDepartment" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div style="display: none;">
-                        	<label class="control-label" for="editAssetUser"><span class="asterisk">*</span>使用人:</label>
+                        	<label class="control-label" for="editAssetUser"><span class="asterisk">*</span>设备管理员:</label>
                         	<input id="editAssetUser" type="text" class="form-control" name="assetUser" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="assetUserId"><span class="asterisk">*</span>使用人:</label>
-	                        <select id="assetUserId" class="form-control select2" name="assetUserId" onchange="editAssetUserChange()"
+                        	<label class="control-label" for="assetUserId"><span class="asterisk">*</span>设备管理员:</label>
+	                        <select id="assetUserId" class="form-control select2" data-minimum-results-for-search="-1" name="assetUserId" onchange="editAssetUserChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
-	                            使用人不存在
+	                            设备管理员不存在
 	                            </option>
 	                        </select>
 	                        <div class="help-block with-errors"></div>
@@ -391,7 +385,7 @@
                         </div>
                         <div class="col-md-6">
                         	<label class="control-label" for="inspectionCycleCode"><span class="asterisk">*</span>巡检周期:</label>
-	                        <select id="inspectionCycleCode" class="form-control select2" name="inspectionCycleCode" onchange="editInspectionCycleChange()"
+	                        <select id="inspectionCycleCode" class="form-control select2" data-minimum-results-for-search="-1" name="inspectionCycleCode" onchange="editInspectionCycleChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="inspectionCycle: ${inspectionCycleList}" th:value="${inspectionCycle.pubCode}" th:text="${inspectionCycle.pubName}">
 	                            巡检周期不存在
@@ -401,23 +395,25 @@
                         </div>
                     </div>
                     <div class="form-group">
-                    	<label class="control-label" for="assetValue"><span class="asterisk">*</span>资产价值:</label>
+                    <div class="col-md-12">
+                    	<label class="control-label" for="assetValue"><span class="asterisk">*</span>资产价值（元）:</label>
 	                    <input id="assetValue" type="text" class="form-control" name="assetValue" placeholder="输入价值"
                                required>
 	                    <div class="help-block with-errors"></div>
+	                    </div>
                     </div>
                     <div class="form-group">
                         <div style="display: none;">
-                        	<label class="control-label" for="editAssetStatus"><span class="asterisk">*</span>资产状态:</label>
+                        	<label class="control-label" for="editAssetStatus"><span class="asterisk">*</span>设备状态:</label>
                         	<input id="editAssetStatus" type="text" class="form-control" name="assetStatus" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-12">
-                        	<label class="control-label" for="assetStatusCode"><span class="asterisk">*</span>资产状态:</label>
+                        	<label class="control-label" for="assetStatusCode"><span class="asterisk">*</span>设备状态:</label>
 	                        <select id="assetStatusCode" class="form-control select2" name="assetStatusCode" onchange="editAssetStatusChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="assetStatus: ${assetStatusList}" th:value="${assetStatus.pubCode}" th:text="${assetStatus.pubName}">
-	                            资产状态不存在
+	                            设备状态不存在
 	                            </option>
 	                        </select>
 	                        <div class="help-block with-errors"></div>
@@ -441,7 +437,7 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="deleteSmallModalLabel">删除资产</h4>
+                <h4 class="modal-title" id="deleteSmallModalLabel">删除设备</h4>
             </div>
             <div class="modal-body">
                 <form id="deleteForm"></form>
@@ -491,21 +487,28 @@
         $table.bootstrapTable({
             url: CONTEXT_PATH + '/asset/list',
             idField: 'id',
+            detailView: false,
             columns: [
                 {field: 'state', checkbox: true},
-                {field: 'id', title: '序号', sortable: true, halign: 'left'},
-                {field: 'assetCode', title: '资产编号', sortable: true, halign: 'left', formatter: 'assetCodeFormatter'},
-                {field: 'assetName', title: '资产名称', sortable: true, halign: 'left'},
-                {field: 'assetClassification', title: '资产分类', halign: 'center', align: 'center'},
+                {field: 'id', title: '序号', sortable: true, halign: 'left',
+                	formatter: function(value,row,index) {
+                		var pageSize = $table.bootstrapTable('getOptions').pageSize;
+                		var pageNumber = $table.bootstrapTable('getOptions').pageNumber;
+                		return pageSize * (pageNumber - 1) + index + 1;
+                	}
+                },
+                {field: 'assetCode', title: '设备编号', sortable: true, halign: 'left', formatter: 'assetCodeFormatter'},
+                {field: 'assetName', title: '设备名称', sortable: true, halign: 'left'},
+                {field: 'assetClassification', title: '设备分类', halign: 'center', align: 'center'},
                 {field: 'assetType', title: '规格型号', halign: 'center', align: 'center'},
                 {field: 'assetValue', title: '价值（元）', sortable: true, halign: 'left'},
                 {field: 'bookkeepingDate', title: '记账日期', halign: 'left', align: 'center'},
                 {field: 'roomName', title: '所属实训室', halign: 'center', align: 'center'},
                 {field: 'positionName', title: '存放地点', halign: 'center', align: 'center'},
                 {field: 'useDepartment', title: '所属系', halign: 'center', align: 'center'},
-                {field: 'assetUser', title: '使用人', halign: 'center', align: 'center'},
+                {field: 'assetUser', title: '设备管理员', halign: 'center', align: 'center'},
                 {field: 'inspectionCycle', title: '巡检周期', halign: 'center', align: 'center'},
-                {field: 'assetStatus', title: '资产状态', halign: 'center', align: 'center', formatter: 'enabledFormatter'},
+                {field: 'assetStatus', title: '设备状态', halign: 'center', align: 'center', formatter: 'enabledFormatter'},
                 {
                     field: 'action',
                     title: '操作',
@@ -524,10 +527,8 @@
     function editAfter(obj, row) {
     	$('#editForm').find('[name=assetClassificationCode]').find('option[value=' + row.assetClassificationCode + ']').prop('selected', true);
     	$('#editForm').find('[name=assetTypeCode]').find('option[value=' + row.assetTypeCode + ']').prop('selected', true);
-    	$('#editForm').find('[name=useDepartmentId]').find('option[value=' + row.useDepartmentId + ']').prop('selected', true);
     	$('#editForm').find('[name=assetUserId]').find('option[value=' + row.assetUserId + ']').prop('selected', true);
     	$('#editForm').find('[name=roomId]').find('option[value=' + row.roomId + ']').prop('selected', true);
-    	$('#editForm').find('[name=postionCode]').find('option[value=' + row.postionCode + ']').prop('selected', true);
     	$('#editForm').find('[name=inspectionCycleCode]').find('option[value=' + row.inspectionCycleCode + ']').prop('selected', true);
     	$('#editForm').find('[name=assetStatusCode]').find('option[value=' + row.assetStatusCode + ']').prop('selected', true);
     }
@@ -541,6 +542,8 @@
     		return '<span class="zaiyong">在用</span>';
     	}else if(value == '正常') {
     		return '<span class="zhengchang">正常</span>';
+    	}else if(value == '异常') {
+    		return '<span class="weixiu">异常</span>';
     	}else if(value == '维修') {
     		return '<span class="weixiu">维修</span>';
     	}else if(value == '报废') {
@@ -591,10 +594,23 @@
     	var addAssetUserText = $('#addForm').find('[name=assetUserId]').find('option:selected').text();
     	$('#addAssetUser').val(addAssetUserText);
     }
-    
+    var addRoomStatus;
     function addRoomChange() {
     	var addRoomText = $('#addForm').find('[name=roomId]').find('option:selected').text();
     	$('#addRoomName').val(addRoomText);
+    	var addId = $('#addForm').find('[name=roomId]').find('option:selected').val();
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/trainingroom/list?id=' + addId,
+            success:function(data){
+            	console.log(data.data)
+            	$('#addPositionCode').val(data.data[0].roomPositionCode);
+            	$('#addPositionName').val(data.data[0].roomPosition);
+            	$('#addUseDepartmentId').val(data.data[0].belongSysId);
+            	$('#addUseDepartment').val(data.data[0].belongSys);
+            	$('#addRoomIsEnabled').val(data.data[0].isEnabled);
+            }
+        });
     }
     
     function addPositionChange() {
@@ -631,10 +647,23 @@
     	var editAssetUserText = $('#editForm').find('[name=assetUserId]').find('option:selected').text();
     	$('#editAssetUser').val(editAssetUserText);
     }
-    
+    var editRoomStatus;
     function editRoomChange() {
     	var editRoomText = $('#editForm').find('[name=roomId]').find('option:selected').text();
     	$('#editRoomName').val(editRoomText);
+    	var editId = $('#editForm').find('[name=roomId]').find('option:selected').val();
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/trainingroom/list?id=' + editId,
+            success:function(data){
+            	console.log(data.data)
+            	$('#editPositionCode').val(data.data[0].roomPositionCode);
+            	$('#editPositionName').val(data.data[0].roomPosition);
+            	$('#editUseDepartmentId').val(data.data[0].belongSysId);
+            	$('#editUseDepartment').val(data.data[0].belongSys);
+            	$('#editroomIsEnabled').val(data.data[0].isEnabled);
+            }
+        });
     }
     
     function editPositionChange() {
@@ -653,12 +682,13 @@
     }
     
     function addLoad() {
-    	addAssetClassificationChange();
-    	addAssetTypeChange();
-    	addRoomChange();
-    	addPositionChange();
-    	addUseDepartmentChange();
-    	addAssetUserChange();
+    	$('#addForm').find('[name=assetStatusCode]').val('asset_status_normal').trigger('change');
+    	//addAssetClassificationChange();
+    	//addAssetTypeChange();
+    	//addRoomChange();
+    	//addPositionChange();
+    	//addUseDepartmentChange();
+    	//addAssetUserChange();
     	addInspectionCycleChange();
     	addAssetStatusChange();
     	$('#addDatepicker').datepicker('setDate', new Date());

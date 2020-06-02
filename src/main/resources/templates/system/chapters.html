@@ -78,9 +78,6 @@
                 <div class="box-body">
                 	<div id="toolbar">
                         <form class="form-inline" id="searchForm">
-                            <div class="form-group">
-                            	<label for="searchName"> 课程信息 </label>
-                            </div>
                             <div class="btn-group btn-group-sm">
                             	<button type="button" class="btn btn-default" onclick="returnBack()">
                                     返回上一级
@@ -88,6 +85,7 @@
                             </div>
                         </form>
                     </div>
+                    <div style="font-size: 18px;font-weight:700;margin:5px 0 0 10px">课程信息</div>
                     <table id="tb"></table>
                 </div>
                 <!-- /.box-body -->
@@ -262,8 +260,9 @@
             	$('#tb').bootstrapTable({
                     data: datas,
                     pagination : false,
+                    detailView: false,
                     columns: [
-                              {field: 'courseCode', title: '课程编码', halign: 'center', align: 'center'},
+                              {field: 'courseCode', title: '课程编号', halign: 'center', align: 'center'},
                               {field: 'courseName', title: '课程名称', halign: 'center', align: 'center'},
                               {field: 'courseType', title: '课程类型', halign: 'center', align: 'center'},
                               {field: 'courseDirector', title: '课程负责人', halign: 'center', align: 'center'},

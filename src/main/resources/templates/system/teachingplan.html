@@ -56,9 +56,16 @@
     $(function () {
         $table.bootstrapTable({
             url: CONTEXT_PATH + '/courses/list',
+            detailView: false,
             columns: [
-                {field: 'id', title: '序号', sortable: true, halign: 'left'},
-                {field: 'courseCode', title: '课程编码', sortable: true, halign: 'left'},
+                {field: 'id', title: '序号', sortable: true, halign: 'left',
+                	formatter: function(value,row,index) {
+                		var pageSize = $table.bootstrapTable('getOptions').pageSize;
+                		var pageNumber = $table.bootstrapTable('getOptions').pageNumber;
+                		return pageSize * (pageNumber - 1) + index + 1;
+                	}
+                },
+                {field: 'courseCode', title: '课程编号', sortable: true, halign: 'left'},
                 {field: 'courseName', title: '课程名称', halign: 'center', align: 'center'},
                 {field: 'courseType', title: '课程类型', halign: 'center', align: 'center'},
                 {field: 'courseDirector', title: '课程负责人', halign: 'center', align: 'center'},

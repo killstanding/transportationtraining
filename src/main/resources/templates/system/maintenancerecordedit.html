@@ -12,13 +12,13 @@
 <section class="content-header">
     <h1>
         设备维修
-        <small>维修申请页面</small>
+        <small>维修修改页面</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
         <li><a href="#">设备管理</a></li>
         <li><a href="#">设备维修</a></li>
-        <li class="active">维修单申请</li>
+        <li class="active">维修单修改</li>
     </ol>
 </section>
 
@@ -26,12 +26,16 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
+            <button type="button" class="btn btn-default" onclick="returnBack()">
+		                   返回上一级
+		                </button>
                 <!-- /.box-header -->
                 <div class="box-body" style="padding: 0 20%;">
                 <div style="border-left:1px solid #c1c1c1;border-right:1px solid #c1c1c1;padding:10px 30px;">
-                	<div class="ttt" style="margin-bottom: 30px">新增设备维修申请单</div>
+                	<div class="ttt" style="margin-bottom: 30px">修改设备维修申请单</div>
                 	<div class="wxd">
                 <form id="addForm">
+                	<input type="hidden" id="id" name="id"/>
                 	<input type="hidden" id="flowStatusCode" name="flowStatusCode"/>
                 	<input type="hidden" id="flowStatus" name="flowStatus"/>
                 	<div class="form-group">
@@ -156,8 +160,8 @@
                 	</div>
                 	<div class="fff" style="text-align:center">
                 		<button style="margin:20px auto 30px auto" type="submit" form="addForm" class="btn btn-primary"
-		                        data-action="{type:'submit',form:'#addForm',url:'@{/maintenancerecord/create}'}">
-		                    申请维修
+		                        data-action="{type:'submit',form:'#addForm',url:'@{/maintenancerecord/update}',after:'returnBack'}">
+		                    重新申请
 		                </button>
                 	</div>
                 	</div>
@@ -173,12 +177,15 @@
 <!-- /.content -->
 
 <script th:inline="javascript">
+var weixiuId;
+
     $(function () {
+    	weixiuId = localStorage.getItem("weixiuId");
     	$('#datepicker').datepicker({
             format: 'yyyy-mm-dd',
             autoclose: true
         });
-    	$('#datepicker').datepicker('setDate', new Date());
+    	$('#id').val(weixiuId);
     	$('#flowStatusCode').val('em_confirmed');
     	$('#flowStatus').val('待确认');
     	var username = $('.dropdown-toggle .hidden-xs')[0].innerHTML;
@@ -200,13 +207,21 @@
             		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].username + '</option>';
                 	$("#pendingPersonId").append(opt);
             	}
+            	$.ajax({
+                    type:"GET",
+                    url: CONTEXT_PATH + '/maintenancerecord/list?id=' + weixiuId,
+                    success:function(data){
+                    	console.log(data);
+                    	$('#recordName').val(data.data[0].recordName);
+                    	$('#datepicker').datepicker('setDate', new Date(data.data[0].failureTime));
+                    	$('#addForm').find('[name=assetId]').val(data.data[0].assetId).trigger("change");
+                    	$('#faultDescription').val(data.data[0].faultDescription);
+                    	$('#attachmentName').val(data.data[0].attachmentName);
+                    	$('#attachmentPath').val(data.data[0].attachmentPath);
+                    }
+                });
             }
         });
-    	//assetChange();
-    	//assetClassificationChange();
-    	//applicantDepartmentChange();
-    	//applicantChange();
-    	//positionChange();
     });
     
     function assetChange() {
@@ -264,6 +279,11 @@
             	$('#addForm').find('[name=attachmentPath]').val(data.data);
             }
         });
+    }
+    
+    function aa() {alert(1)}
+    function returnBack() {
+    	document.querySelector('a[href="#maintenancerecord"]').click();
     }
 </script>
 </html>

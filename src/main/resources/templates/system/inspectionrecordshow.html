@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+      <style>
+      	select {
+      		height: 25px;
+      	}
+      </style>
+<section class="content-header">
+    <h1>
+        设备巡检
+        <small>巡检巡检单页面</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li><a href="#">设备管理</a></li>
+        <li><a href="#">设备巡检</a></li>
+        <li><a href="#">巡检管理</a></li>
+        <li class="active"><span id="nnaa"></span>巡检单填写</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="toolbar">
+                        <form class="form-inline" id="searchForm">
+                            <div class="form-group">
+                            	<input type="hidden" class="form-control input-sm" name="planId" id="searchId" readonly>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="btn-group btn-group-sm" style="margin: 5px 0 0 10px;">
+                            <button type="button" class="btn btn-default" onclick="saveList()">
+                                    保存
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="returnBack()">
+                                    返回上一级
+                                </button>
+                            </div>
+                    <table id="table"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<div class="modal fade" id="noModal" tabindex="-1" role="dialog" aria-labelledby="noModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="noModel()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="noModalLabel">选择维修单号</h4>
+            </div>
+            <div class="modal-body">
+           		<table id="ntable"></table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="noModel()">取消</button>
+                <button type="button" class="btn btn-primary" onclick="conno()">
+                    确定
+                </button>
+            </div>
+		</div> 
+	</div>
+</div>
+<script th:inline="javascript">
+    var $table = $('#table');
+var datas;
+var statuss;
+var discs;
+var repairs;
+var renos;
+    $(function () {
+    	var planId = localStorage.getItem("planId");
+    	var trainingRoom = localStorage.getItem("ItrainingRoom");
+    	$('#searchId').val(planId);
+    	if(trainingRoom != undefined) {
+    		if(trainingRoom != '') {
+    			document.querySelector('#nnaa').innerHTML = trainingRoom + '-';
+    		}else {
+    			document.querySelector('#nnaa').innerHTML = '';
+    		}
+    	}
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/inspectionrecord/listbyplanidforedit?planId=' + planId,
+            success:function(data){
+            	datas = data.data;
+            	$table.bootstrapTable({
+                    data:data.data,
+                    idField: 'id',
+                    detailView: false,
+                    pagination : false,
+                    columns: [
+                        {field: 'id', title: '序号', sortable: true, halign: 'left',
+                        	formatter: function(value,row,index) {
+                        		return index + 1;
+                        	}
+                        },
+                        {field: 'assetCode', title: '设备编号', sortable: true, halign: 'left', formatter: 'assetCodeFormatter'},
+                        {field: 'assetName', title: '设备名称', sortable: true, halign: 'left'},
+                        {field: 'assetClassification', title: '设备分类', halign: 'center', align: 'center'},
+                        {field: 'assetStatus', title: '设备状态', halign: 'center', align: 'center', formatter: 'enabledFormatter'},
+                        {field: 'statusDescription', title: '状态描述', halign: 'center', align: 'center', formatter: 'statusDescriptionFormatter'},
+                        {field: 'isRepair', title: '是否维修', halign: 'center', align: 'center', formatter: 'repairFormatter'},
+                        {field: 'repairOrderNo', title: '维修单号', halign: 'center', align: 'center', formatter: 'repairOrderNoFormatter'},
+                        {field: 'chooseNO', title: '选择单号', halign: 'center', align: 'center', formatter: 'chooseNOFormatter'}
+                    ]
+                });
+            	statuss = $('.status');
+            	discs = $('.disc');
+            	repairs = $('.repair');
+            	renos = $('.reno');
+            	for(let i = 0; i < data.data.length;i++) {
+            		statuss[i].value = data.data[i].assetStatusCode;
+            		discs[i].value = data.data[i].statusDescription;
+            		repairs[i].value = data.data[i].isRepair;
+            	}
+            }
+        });
+    });
+
+    function assetCodeFormatter(value, row, index) {
+    	return '<a href="#inspectionrecord/show" onclick="refresh1()">' + value +'</a>'
+    }
+
+    function enabledFormatter(value, row, index) {
+    	return '<select class="status" style="width: 80px;" onchange="listChange()"><option value="asset_status_normal">正常</option><option value="asset_status_abnormal">异常</option><option value="asset_status_repair">维修</option><option value="asset_status_scrapped">报废</option></select>'
+    }
+    
+    function statusDescriptionFormatter() {
+    	return '<input class="disc" typy="text" onchange="listChange()"/>';
+    }
+    
+    function repairFormatter(value, row, index) {
+    	return '<select style="width: 50px;" class="repair" onchange="listChange()"><option value="0">否</option><option value="1">是</option></select>'
+    }
+    
+    function repairOrderNoFormatter(value, row, index) {
+    	return '<a href="#inspectionrecord/show" onclick="refresh2(\'' + value + '\')">' + value + '</a>';
+    }
+    var nonoid;
+    function chooseNOFormatter(value, row, index) {
+    	nonoid = index;
+    	console.log(1);
+    	return '<span onclick="showNo(' + row.assetId + ')" style="cursor:pointer;"><i class="glyphicon glyphicon-plus"></i></span>';
+    }
+    
+    function showNo(id) {
+    	$.ajax({
+            type:"GET",
+            //url: CONTEXT_PATH + '/maintenancerecord/list',
+            url: CONTEXT_PATH + '/maintenancerecord/list?assetId='+ id,
+            success:function(ndata){
+            	$('#noModal').css('display', 'block');
+            	$('#noModal').addClass('in');
+            	$('#ntable').bootstrapTable({
+                    data:ndata.data,
+                    detailView: false,
+                    singleSelect: true,
+                    pagination : false,
+                    columns: [
+						{field: 'state', checkbox: true},
+                        {field: 'recordId', title: '维修单号', halign: 'center', align: 'center'},
+                        {field: 'recordName', title: '维修单名称', halign: 'center', align: 'center'}
+                    ]
+                });
+            }
+        });
+    }
+    
+    function conno() {
+    	var nolist = $('#ntable').bootstrapTable('getSelections');
+    	if(nolist.length != 0) {
+    		datas[nonoid].repairOrderNo = nolist[0].recordId;
+    	}
+    	$table.bootstrapTable('load', datas);
+    	statuss = $('.status');
+    	discs = $('.disc');
+    	repairs = $('.repair');
+    	renos = $('.reno');
+    	for(let i = 0; i < datas.length;i++) {
+    		statuss[i].value = datas[i].assetStatusCode;
+    		discs[i].value = datas[i].statusDescription;
+    		repairs[i].value = datas[i].isRepair;
+    	}
+    		noModel();
+    }
+    
+    function noModel() {
+    	$('#noModal').css('display', 'none');
+    	$('#noModal').removeClass("in");
+    }
+    
+    function listChange() {
+    	for(let i = 0; i < datas.length;i++) {
+    		datas[i].assetStatusCode = statuss[i].value;
+    		for(let j = 0; j < statuss[i].length; j++) {
+    			if(statuss[i][j].selected) {
+    				datas[i].assetStatus = statuss[i][j].textContent;
+    			}
+    		}
+    		datas[i].statusDescription = discs[i].value;
+    		datas[i].isRepair = repairs[i].value;
+    	}
+    }
+    
+    function refresh1() {
+    	
+    }
+    
+    function refresh2(code) {
+    	localStorage.setItem("weixiuCode", code);
+    	window.location.hash = '#maintenancerecordresults';
+    	location.reload();
+    }
+    
+    function returnBack() {
+    	window.location.hash = '#inspectionplan';
+    	location.reload();
+    }
+    
+    function saveList() {
+    	$.ajax({
+            type:"POST",
+            url: CONTEXT_PATH + '/inspectionrecord/createbylist',
+            data: {objList:datas},
+            success:function(data){
+            }
+        });
+    }
+</script>
+</html>

@@ -113,55 +113,13 @@
                         </div>
                         <div class="col-md-12">
                         	<label class="control-label" for="inspectorId"><span class="asterisk">*</span>巡检人:</label>
-	                        <select id="inspectorId" class="form-control select2" name="inspectorId" onchange="addInspectorChange()"
+	                        <select id="inspectorId" class="form-control select2" data-minimum-results-for-search="-1" name="inspectorId" onchange="addInspectorChange()"
 	                                data-placeholder="请从列表选择一项" required>
+	                                <option></option>
 	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
 	                            巡检人不存在
 	                            </option>
 	                        </select>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                        	<label class="control-label" for="normalDevicesInInspection"><span class="asterisk">*</span>本次巡检设备数:</label>
-	                        <input id="normalDevicesInInspection" type="text" class="form-control" name="normalDevicesInInspection" placeholder="输入数字"
-                               required>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                        	<label class="control-label" for="numberNormalDevices"><span class="asterisk">*</span>正常设备数量:</label>
-	                        <input id="numberNormalDevices" type="text" class="form-control" name="numberNormalDevices" placeholder="输入数字"
-                               required>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                        	<label class="control-label" for="numberAbnormalDevices"><span class="asterisk">*</span>异常设备数量:</label>
-	                        <input id="numberAbnormalDevices" type="text" class="form-control" name="numberAbnormalDevices" placeholder="输入数字"
-                               required>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                        	<label class="control-label" for="numberReportedRepairEquipment"><span class="asterisk">*</span>已报修设备数量:</label>
-	                        <input id="numberReportedRepairEquipment" type="text" class="form-control" name="numberReportedRepairEquipment" placeholder="输入数字"
-                               required>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                        	<label class="control-label" for="inspectionStatus"><span class="asterisk">*</span>巡检状态:</label>
-	                        <select id="inspectionStatus" class="form-control select2" name="inspectionStatus"
-                                data-placeholder="请从列表选择一项" required>
-                            	<option value="0">正常</option>
-                            	<option value="1">异常</option>
-                        	</select>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
@@ -209,55 +167,12 @@
                         </div>
                         <div class="col-md-12">
                         	<label class="control-label" for="inspectorId"><span class="asterisk">*</span>巡检人:</label>
-	                        <select id="inspectorId" class="form-control select2" name="inspectorId" onchange="editInspectorChange()"
+	                        <select id="inspectorId" class="form-control select2" data-minimum-results-for-search="-1" name="inspectorId" onchange="editInspectorChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
 	                            巡检人不存在
 	                            </option>
 	                        </select>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                        	<label class="control-label" for="normalDevicesInInspection"><span class="asterisk">*</span>本次巡检设备数:</label>
-	                        <input id="normalDevicesInInspection" type="text" class="form-control" name="normalDevicesInInspection" placeholder="输入数字"
-                               required>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                        	<label class="control-label" for="numberNormalDevices"><span class="asterisk">*</span>正常设备数量:</label>
-	                        <input id="numberNormalDevices" type="text" class="form-control" name="numberNormalDevices" placeholder="输入数字"
-                               required>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                        	<label class="control-label" for="numberAbnormalDevices"><span class="asterisk">*</span>异常设备数量:</label>
-	                        <input id="numberAbnormalDevices" type="text" class="form-control" name="numberAbnormalDevices" placeholder="输入数字"
-                               required>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                        	<label class="control-label" for="numberReportedRepairEquipment"><span class="asterisk">*</span>已报修设备数量:</label>
-	                        <input id="numberReportedRepairEquipment" type="text" class="form-control" name="numberReportedRepairEquipment" placeholder="输入数字"
-                               required>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                        	<label class="control-label" for="inspectionStatus"><span class="asterisk">*</span>巡检状态:</label>
-	                        <select id="inspectionStatus" class="form-control select2" name="inspectionStatus"
-                                data-placeholder="请从列表选择一项" required>
-                            	<option value="0">正常</option>
-                            	<option value="1">异常</option>
-                        	</select>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
@@ -331,9 +246,16 @@
         $table.bootstrapTable({
             url: CONTEXT_PATH + '/inspectionplan/list',
             idField: 'id',
+            detailView: false,
             columns: [
                 {field: 'state', checkbox: true},
-                {field: 'id', title: '序号', sortable: true, halign: 'left'},
+                {field: 'id', title: '序号', sortable: true, halign: 'left',
+                	formatter: function(value,row,index) {
+                		var pageSize = $table.bootstrapTable('getOptions').pageSize;
+                		var pageNumber = $table.bootstrapTable('getOptions').pageNumber;
+                		return pageSize * (pageNumber - 1) + index + 1;
+                	}
+                },
                 {field: 'inspectionTime', title: '巡检时间', sortable: true, halign: 'left', formatter: 'inspectionTimeFormatter'},
                 {field: 'inspector', title: '巡检人', sortable: true, halign: 'left'},
                 {field: 'inspectionStatus', title: '巡检状态', halign: 'center', align: 'center', formatter: 'inspectionStatusFormatter'},
@@ -341,6 +263,7 @@
                 {field: 'numberNormalDevices', title: '正常设备数量', halign: 'center', align: 'center'},
                 {field: 'numberAbnormalDevices', title: '异常设备数量', halign: 'center', align: 'center'},
                 {field: 'numberReportedRepairEquipment', title: '已报修设备数量', halign: 'center', align: 'center'},
+                {field: 'editRecord', title: '编辑巡检单', halign: 'center', align: 'center', formatter: 'editRecordFormatter'},
                 {
                     field: 'action',
                     title: '操作',
@@ -359,14 +282,19 @@
     }
 
     function inspectionTimeFormatter(value, row, index) {
-    	return '<a href="#" onclick="refresh(\'' + row.id + '\')">' + value +'</a>'
+    	return '<a href="#teachingplan" onclick="refresh(\'' + row.id + '\')">' + value +'</a>'
+    }
+    
+    function editRecordFormatter(value, row, index) {
+    	return '<a href="#teachingplan" onclick="toEdit(\'' + row.id + '\')"><i class="glyphicon glyphicon-plus"></i></a>'
     }
     
     function inspectionStatusFormatter(value, row, index) {
     	if(value == 0) {
     		return '<span class="qiyong">正常</span>'
+    	}else if(value == 0) {
+    		return '<span class="tingyong">异常</span>'
     	}
-    	return '<span class="tingyong">异常</span>'
     }
 
     function actionFormatter(value, row, index) {
@@ -376,6 +304,12 @@
     function refresh(id) {
     	localStorage.setItem("planId", id);
     	window.location.hash = '#inspectionrecord';
+    	location.reload();
+    }
+    
+    function toEdit(id) {
+    	localStorage.setItem("editPlanId", id);
+    	window.location.hash = '#inspectionrecord/show';
     	location.reload();
     }
     
@@ -413,7 +347,7 @@
     function addLoad() {
     	$('#addRoomId').val(localStorage.getItem("ItrainingRoomId"));
     	$('#addRoomName').val(localStorage.getItem("ItrainingRoom"));
-    	addInspectorChange();
+    	//addInspectorChange();
     	$('#addDatepicker').datepicker('setDate', new Date());
     }
 </script>
