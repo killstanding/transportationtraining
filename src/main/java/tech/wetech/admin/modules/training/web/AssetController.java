@@ -88,6 +88,12 @@ public class AssetController extends BaseCrudController<Asset> {
         return "system/asset";
     }
     
+    @GetMapping("/detail")
+    @RequiresPermissions("asset:view")
+    public String detailpage(Model model) {
+        return "system/assetdetail";
+    }
+    
     @ResponseBody
     @GetMapping("/list")
     @RequiresPermissions("asset:view")
