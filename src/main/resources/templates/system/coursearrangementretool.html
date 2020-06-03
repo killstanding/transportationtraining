@@ -4,13 +4,13 @@
 <section class="content-header">
     <h1>
         课程实施
-        <small>排课耗材页面</small>
+        <small>排课工具页面</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
         <li><a href="#">课程管理</a></li>
         <li><a href="#">课程实施</a></li>
-        <li class="active"><span id="nnaa"></span>排课耗材</li>
+        <li class="active"><span id="nnaa"></span>排课工具</li>
     </ol>
 </section>
 
@@ -24,8 +24,8 @@
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
                             	<input type="hidden" class="form-control input-sm" name=courseArrangementId id="searchId" readonly>
-                                <label for="searchName"> 耗材名称 </label>
-                                <input type="text" class="form-control input-sm" name="consumablesName" id="searchName" placeholder="请输入耗材名称">
+                                <label for="searchName"> 工具名称 </label>
+                                <input type="text" class="form-control input-sm" name="assetName" id="searchName" placeholder="请输入工具名称">
                             </div>
                             <div class="btn-group btn-group-sm">
                                 <button type="button" class="btn btn-default" onclick="javascript:$('table').bootstrapTable('refresh', {silent: true});">
@@ -43,19 +43,19 @@
                         </form>
                         <div class="btn-group btn-group-sm">
                             <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
-                            <button shiro:hasPermission="coursearrangementreconsumables:create" type="button" id="addBtn" class="btn btn-default"
+                            <button shiro:hasPermission="coursearrangementreasset:create" type="button" id="addBtn" class="btn btn-default"
                                     data-toggle="modal"
                                     data-target="#addModal" onclick="addLoad()"><i class="glyphicon glyphicon-plus"></i> 新增
                             </button>
-                            <!-- Indicates caution should be taken with this action -->
-                            <button shiro:hasPermission="coursearrangementreconsumables:update" type="button" id="editBtn" class="btn btn-default"
+                            <!-- Indicates caution should be taken with this action
+                            <button shiro:hasPermission="coursearrangementreasset:update" type="button" id="editBtn" class="btn btn-default"
                                     data-toggle="modal"
                                     data-target="#editModal"
                                     data-action="{type:'editable',form:'#editForm',table:'#table',after:'editAfter'}"
                                     disabled><i class="glyphicon glyphicon-edit"></i> 修改
-                            </button>
+                            </button> -->
                             <!-- Indicates a dangerous or potentially negative action -->
-                            <button shiro:hasPermission="coursearrangementreconsumables:delete" type="button" id="deleteBtn" class="btn btn-default"
+                            <button shiro:hasPermission="coursearrangementreasset:delete" type="button" id="deleteBtn" class="btn btn-default"
                             		data-toggle="modal"
                                     data-target="#deleteModal"
                                     data-action="{type:'delete',form:'#deleteForm',idField:'id',table:'#table'}"
@@ -81,67 +81,59 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="addModalLabel">添加耗材</h4>
+                <h4 class="modal-title" id="addModalLabel">添加工具</h4>
             </div>
             <div class="modal-body">
                 <form id="addForm">
                 	<input type="hidden" id="addPkbh" name="courseArrangementId"/>
                 	<div class="form-group">
-                        <div style="display: none;">
-                        	<label class="control-label" for="addConsumablesName"><span class="asterisk">*</span>耗材名称:</label>
-                        	<input id="addConsumablesName" type="text" class="form-control" name="consumablesName" readonly>
+                		<div style="display: none;">
+                        	<label class="control-label" for="addAssetName"><span class="asterisk">*</span>工具名称:</label>
+                        	<input id="addAssetName" type="text" class="form-control" name="assetName" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-12">
-	                        <label class="control-label" for="consumablesId"><span class="asterisk">*</span>耗材名称:</label>
-		                    <select id="consumablesId" class="form-control select2" data-minimum-results-for-search="-1" name="consumablesId" onchange="addConsumablesChange()"
-		                            data-placeholder="请从列表选择一项" required>
-		                            <option></option>
-		                        <option th:each="consumables: ${consumablesList}" th:value="${consumables.id}" th:text="${consumables.consumablesName}">
-		                            耗材名称不存在
-		                        </option>
-		                    </select>
-		                    <div class="help-block with-errors"></div>
-	                    </div>
-                    </div>
-                    <div class="form-group">
-                        <div style="display: none;">
-                        	<label class="control-label" for="specificationTypeCode"><span class="asterisk">*</span>规格型号:</label>
-                        	<input id="specificationTypeCode" type="text" class="form-control" name="specificationTypeCode" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="col-md-12">
-	                        <label class="control-label" for="specificationType"><span class="asterisk">*</span>规格型号:</label>
-	                        <input id="specificationType" type="text" class="form-control" name="specificationType" readonly>
-		                    <div class="help-block with-errors"></div>
-	                    </div>
-                    </div>
-                    <div class="form-group">
-                        <div style="display: none;">
-                        	<label class="control-label" for="positionCode"><span class="asterisk">*</span>存放地点:</label>
-                        	<input id="positionCode" type="text" class="form-control" name="positionCode" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="col-md-12">
-                        	<label class="control-label" for="positionName"><span class="asterisk">*</span>存放地点:</label>
-                        	<input id="positionName" type="text" class="form-control" name="positionName" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                        	<label class="control-label" for="numberOfApplications"><span class="asterisk">*</span>申请数量:</label>
-	                    	<input id="numberOfApplications" type="text" class="form-control" name="numberOfApplications" placeholder="输入数量"
-                               required>
+                        	<label class="control-label" for="assetId"><span class="asterisk">*</span>工具名称:</label>
+	                    	<select id="assetId" class="form-control select2" data-minimum-results-for-search="-1" name="assetId" onchange="addAssetChange()"
+	                            	data-placeholder="请从列表选择一项" required>
+	                            	<option></option>
+	                        	<option th:each="asset: ${toolList}" th:value="${asset.id}" th:text="${asset.assetName}">
+	                           工具不存在
+	                        	</option>
+	                    	</select>
 	                    	<div class="help-block with-errors"></div>
+	                    </div>
+                	</div>
+                    <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>工具分类:</label>
+                        	<input id="assetClassificationCode" type="text" class="form-control" name="assetClassificationCode" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-12">
+                        	<label class="control-label" for="assetClassification"><span class="asterisk">*</span>工具分类:</label>
+                        	<input id="assetClassification" type="text" class="form-control" name="assetClassification" readonly>
+	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
+                    <!-- <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="assetStatusCode"><span class="asterisk">*</span>工具状态:</label>
+                        	<input id="assetStatusCode" type="text" class="form-control" name="assetStatusCode" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-12">
+                        	<label class="control-label" for="assetStatus"><span class="asterisk">*</span>工具状态:</label>
+                        	<input id="assetStatus" type="text" class="form-control" name="assetStatus" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div> -->
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button type="submit" form="addForm" class="btn btn-primary"
-                        data-action="{type:'submit',form:'#addForm',url:'@{/coursearrangementreconsumables/create}',after:'$.myAction.refreshTable'}">
+                        data-action="{type:'submit',form:'#addForm',url:'@{/coursearrangementreasset/create}',after:'$.myAction.refreshTable'}">
                     确定
                 </button>
             </div>
@@ -155,24 +147,50 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="editModalLabel">修改耗材</h4>
+                <h4 class="modal-title" id="editModalLabel">修改工具</h4>
             </div>
             <div class="modal-body">
                 <form id="editForm">
                     <input type="hidden" name="id"/>
+                	<div class="form-group">
+                		<div class="col-md-12">
+                        	<label class="control-label" for="editAssetName"><span class="asterisk">*</span>设备名称:</label>
+                        	<input id="editAssetName" type="text" class="form-control" name="assetName" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                	</div>
                     <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="editAssetClassification"><span class="asterisk">*</span>设备分类:</label>
+                        	<input id="editAssetClassification" type="text" class="form-control" name="assetClassification" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
                         <div class="col-md-12">
-                        	<label class="control-label" for="editConsumablesName"><span class="asterisk">*</span>耗材名称:</label>
-                        	<input id="editConsumablesName" type="text" class="form-control" name="consumablesName" readonly>
+                        	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>设备分类:</label>
+	                        <select id="assetClassificationCode" class="form-control select2" name="assetClassificationCode" onchange="editAssetClassificationChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="assetClassification: ${assetClassificationList}" th:value="${assetClassification.id}" th:text="${assetClassification.classificationName}">
+	                            工具分类不存在
+	                            </option>
+	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
                     <div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="editAssetStatus"><span class="asterisk">*</span>设备状态:</label>
+                        	<input id="editAssetStatus" type="text" class="form-control" name="assetStatus" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
                         <div class="col-md-12">
-                        	<label class="control-label" for="numberOfApplications"><span class="asterisk">*</span>申请数量:</label>
-	                    	<input id="numberOfApplications" type="text" class="form-control" name="numberOfApplications" placeholder="输入数量"
-                               required>
-	                    	<div class="help-block with-errors"></div>
+                        	<label class="control-label" for="assetStatusCode"><span class="asterisk">*</span>设备状态:</label>
+	                        <select id="assetStatusCode" class="form-control select2" name="assetStatusCode" onchange="editAssetStatusChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option th:each="assetStatus: ${assetStatusList}" th:value="${assetStatus.pubCode}" th:text="${assetStatus.pubName}">
+	                            工具状态不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
                 </form>
@@ -180,7 +198,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button type="submit" form="editForm" class="btn btn-primary"
-                        data-action="{type:'submit',form:'#editForm',url:'@{/coursearrangementreconsumables/update}',after:'$.myAction.refreshTable'}">
+                        data-action="{type:'submit',form:'#editForm',url:'@{/coursearrangementreasset/update}',after:'$.myAction.refreshTable'}">
                     确定
                 </button>
             </div>
@@ -193,7 +211,7 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="deleteSmallModalLabel">删除耗材</h4>
+                <h4 class="modal-title" id="deleteSmallModalLabel">删除工具</h4>
             </div>
             <div class="modal-body">
                 <form id="deleteForm"></form>
@@ -202,7 +220,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button type="button" form="deleteForm" class="btn btn-primary"
-                        data-action="{type:'submit',form:'#deleteForm',url:'@{/coursearrangementreconsumables/delete-batch}',after:'$.myAction.refreshTable'}">
+                        data-action="{type:'submit',form:'#deleteForm',url:'@{/coursearrangementreasset/delete-batch}',after:'$.myAction.refreshTable'}">
                     确定
                 </button>
             </div>
@@ -212,8 +230,8 @@
 
 <div id="actionButtons" class="admin-hide">
     <!-- <a class="like" href="javascript:void(0)" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a> -->
-    <a shiro:hasPermission="coursearrangementreconsumables:update" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="编辑"><i class="glyphicon glyphicon-edit"></i></a>　
-    <a shiro:hasPermission="coursearrangementreconsumables:delete" class="remove ml10" href="javascript:void(0)" data-toggle="tooltip" title="删除"><i class="glyphicon glyphicon-remove"></i></a>　
+    <!-- <a shiro:hasPermission="coursearrangementreasset:update" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="编辑"><i class="glyphicon glyphicon-edit"></i></a> -->　
+    <a shiro:hasPermission="coursearrangementreasset:delete" class="remove ml10" href="javascript:void(0)" data-toggle="tooltip" title="删除"><i class="glyphicon glyphicon-remove"></i></a>　
 </div>
 
 <script th:inline="javascript">
@@ -233,7 +251,7 @@
     		}
     	}
         $table.bootstrapTable({
-            url: CONTEXT_PATH + '/coursearrangementreconsumables/list',
+            url: CONTEXT_PATH + '/coursearrangementretool/list',
             idField: 'id',
             detailView: false,
             columns: [
@@ -245,10 +263,9 @@
                 		return pageSize * (pageNumber - 1) + index + 1;
                 	}
                 },
-                {field: 'consumablesName', title: '耗材名称', sortable: true, halign: 'left'},
-                {field: 'specificationType', title: '规格型号', halign: 'center', align: 'center'},
-                {field: 'positionName', title: '存放地点', halign: 'center', align: 'center'},
-                {field: 'numberOfApplications', title: '申请数量', sortable: true, halign: 'left'},
+                {field: 'assetName', title: '工具名称', sortable: true, halign: 'left'},
+                {field: 'assetClassification', title: '工具分类', halign: 'center', align: 'center'},
+                //{field: 'assetStatus', title: '工具状态', halign: 'center', align: 'center', formatter: 'enabledFormatter'},
                 {
                     field: 'action',
                     title: '操作',
@@ -263,18 +280,32 @@
     });
 
     function editAfter(obj, row) {
-    	$('#editForm').find('[name=specificationTypeCode]').find('option[value=' + row.specificationTypeCode + ']').prop('selected', true);
-    	$('#editForm').find('[name=postionCode]').find('option[value=' + row.postionCode + ']').prop('selected', true);
+    	$('#editForm').find('[name=assetClassificationCode]').find('option[value=' + row.assetClassificationCode + ']').prop('selected', true);
+    	$('#editForm').find('[name=assetStatusCode]').find('option[value=' + row.assetStatusCode + ']').prop('selected', true);
+    }
+
+    function enabledFormatter(value, row, index) {
+    	if(value == '在用') {
+    		return '<span class="zaiyong">在用</span>';
+    	}else if(value == '正常') {
+    		return '<span class="zhengchang">正常</span>';
+    	}else if(value == '异常') {
+    		return '<span class="weixiu">异常</span>';
+    	}else if(value == '维修') {
+    		return '<span class="weixiu">维修</span>';
+    	}else if(value == '报废') {
+    		return '<span class="baofei">报废</span>';
+    	}
     }
 
     function actionFormatter(value, row, index) {
         return $('#actionButtons').html();
     }
-
+    
     function returnBack() {
     	document.querySelector('a[href="#coursearrangement"]').click();
     }
-    
+
     window.actionEvents = {
         'click .edit': function (e, value, row, index) {
             $('#editModal').modal('show')
@@ -292,47 +323,46 @@
         }
     };
     
-    function addConsumablesChange() {
-    	var addConsumablesText = $('#addForm').find('[name=consumablesId]').find('option:selected').text();
-    	$('#addConsumablesName').val(addConsumablesText);
-    	var addId = $('#addForm').find('[name=consumablesId]').find('option:selected').val();
+    function addAssetChange() {
+    	var addAssetText = $('#addForm').find('[name=assetId]').find('option:selected').text();
+    	$('#addAssetName').val(addAssetText);
+    	var addId = $('#addForm').find('[name=assetId]').find('option:selected').val();
     	$.ajax({
             type:"GET",
-            url: CONTEXT_PATH + '/consumables/list?id=' + addId,
+            url: CONTEXT_PATH + '/tools/list?id=' + addId,
             success:function(data){
-            	$('#positionCode').val(data.data[0].positionCode);
-            	$('#positionName').val(data.data[0].positionName);
-            	$('#specificationTypeCode').val(data.data[0].specificationTypeCode);
-            	$('#specificationType').val(data.data[0].specificationType);
+            	console.log(data)
+            	$('#assetClassificationCode').val(data.data[0].assetClassificationCode);
+            	$('#assetClassification').val(data.data[0].assetClassification);
             }
         });
     }
     
-    function addSpecificationTypeChange() {
-    	var addSpecificationTypeText = $('#addForm').find('[name=specificationTypeCode]').find('option:selected').text();
-    	$('#addSpecificationType').val(addSpecificationTypeText);
+    function addAssetClassificationChange() {
+    	var addAssetClassificationText = $('#addForm').find('[name=assetClassificationCode]').find('option:selected').text();
+    	$('#addAssetClassification').val(addAssetClassificationText);
     }
     
-    function addPositionChange() {
-    	var addPositionText = $('#addForm').find('[name=positionCode]').find('option:selected').text();
-    	$('#addPositionName').val(addPositionText);
+    function addAssetStatusChange() {
+    	var addAssetStatusText = $('#addForm').find('[name=assetStatusCode]').find('option:selected').text();
+    	$('#addAssetStatus').val(addAssetStatusText);
     }
     
-    function editSpecificationTypeChange() {
-    	var editSpecificationTypeText = $('#editForm').find('[name=specificationTypeCode]').find('option:selected').text();
-    	$('#editSpecificationType').val(editSpecificationTypeText);
+    function editAssetClassificationChange() {
+    	var editAssetClassificationText = $('#editForm').find('[name=assetClassificationCode]').find('option:selected').text();
+    	$('#editAssetClassification').val(editAssetClassificationText);
     }
     
-    function editPositionChange() {
-    	var editPositionText = $('#editForm').find('[name=positionCode]').find('option:selected').text();
-    	$('#editPositionName').val(editPositionText);
+    function editAssetStatusChange() {
+    	var editAssetStatusText = $('#editForm').find('[name=assetStatusCode]').find('option:selected').text();
+    	$('#editAssetStatus').val(editAssetStatusText);
     }
     
     function addLoad() {
     	$('#addPkbh').val(localStorage.getItem("pkbh"));
-    	//addConsumablesChange();
-    	//addSpecificationTypeChange();
-    	//addPositionChange();
+    	//addAssetClassificationChange();
+    	//addAssetChange();
+    	//addAssetStatusChange();
     }
 </script>
 </html>

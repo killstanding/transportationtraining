@@ -129,7 +129,7 @@ var renos;
     });
 
     function assetCodeFormatter(value, row, index) {
-    	return '<a href="#inspectionrecord/show" onclick="refresh1()">' + value +'</a>'
+    	return '<a href="#inspectionrecord/show" onclick="refresh1(' + row.assetId + ')">' + value +'</a>'
     }
 
     function enabledFormatter(value, row, index) {
@@ -213,8 +213,11 @@ var renos;
     	}
     }
     
-    function refresh1() {
-    	
+    function refresh1(id) {
+    	localStorage.setItem("assetDetailId", id);
+    	localStorage.setItem("assetDetailUrl", '#inspectionrecord/show');
+    	window.location.hash = '#asset/detail';
+    	location.reload();
     }
     
     function refresh2(code) {

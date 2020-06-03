@@ -26,7 +26,7 @@
                             <div class="form-group">
                             	<input type="hidden" class="form-control input-sm" name="planId" id="searchId" readonly>
                                 <label for="searchName"> 设备名称 </label>
-                                <input type="text" class="form-control input-sm" name="assetName" id="searchName" placeholder="请输入资产名称">
+                                <input type="text" class="form-control input-sm" name="assetName" id="searchName" placeholder="请输入设备名称">
                             </div>
                             <div class="btn-group btn-group-sm">
                                 <button type="button" class="btn btn-default" onclick="javascript:$('table').bootstrapTable('refresh', {silent: true});">
@@ -92,7 +92,7 @@
     });
 
     function assetCodeFormatter(value, row, index) {
-    	return '<a href="#inspectionrecord" onclick="refresh()">' + value +'</a>'
+    	return '<a href="#inspectionrecord" onclick="refresh(' + row.assetId + ')">' + value +'</a>'
     }
 
     function enabledFormatter(value, row, index) {
@@ -129,7 +129,11 @@
     	return '-';
     }
 
-    function refresh() {
+    function refresh(id) {
+    	localStorage.setItem("assetDetailId", id);
+    	localStorage.setItem("assetDetailUrl", '#inspectionrecord');
+    	window.location.hash = '#asset/detail';
+    	location.reload();
     }
     
     function returnBack() {

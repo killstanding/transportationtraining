@@ -106,7 +106,7 @@
     }
     
     function assetNameFormatter(value, row, index) {
-    	return '<a style="cursor: pointer" onclick="toAsset()">' + value + '</a>'
+    	return '<a style="cursor: pointer" onclick="toAsset(' + row.assetId + ')">' + value + '</a>'
     }
     
     function toFlow(code,id,status) {
@@ -116,12 +116,16 @@
         	location.reload();
     	}else {
     		localStorage.setItem("weixiuId", id);
-        	window.location.hash = '#maintenancerecord/edit';
+        	window.location.hash = '#maintenancerecord';
         	location.reload();
     	}
     }
     
-    function toAsset() {
+    function toAsset(id) {
+    	localStorage.setItem("assetDetailId", id);
+    	localStorage.setItem("assetDetailUrl", '#maintenancerecord');
+    	window.location.hash = '#asset/detail';
+    	location.reload();
     }
 </script>
 </html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<style>
+	.main-content {
+		display: flex;
+		padding: 10px 20px;
+	}
+	.left {
+		margin-right: 50px;
+		flex: 1;
+		box-shadow: 5px 5px 5px #e1e1e1;
+		border-radius: 10px;
+    	padding: 20px;
+    	border: 1px solid #eee;
+	}
+	.left-title {
+		font-size: 18px;
+		font-weight: 700;
+	}
+	.img-wrapper {
+		margin: 20px auto;
+		width: 80%;
+	}
+	.msg-wrapper {
+		border: 1px solid #c1c1c1;
+		width:90%;
+		border-radius: 10px;
+		margin: 0 auto;
+		display: flex;
+	}
+	.msg-left {
+		background: #ccc;
+		border-right: 1px solid #c1c1c1;
+		width: 160px;
+		text-align: right;
+		font-weight:700;
+		padding:15px 20px;
+		line-height: 2.4;
+	}
+	.msg-right {
+		flex: 1;
+		line-height: 2.4;
+    	padding: 15px 0 15px 20px;
+	}
+	.hint, .cont {
+		height: 33px;
+	}
+	.right {
+		flex: 2;
+		height:100px;
+		position: relative;
+	}
+	.right-bar {
+		margin: 10px 0 0 15px;
+	}
+	.table-wrapper {
+		position: absolute;
+		top: 50px;
+		width:100%;
+	}
+</style>
+<section class="content-header">
+    <h1>
+        设备管理
+        <small>设备详情页面</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li><a href="#">设备管理</a></li>
+        <li><a href="#">设备管理</a></li>
+        <li class="active">设备详情</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                	<div class="main-content">
+                		<div class="left">
+                			<div class="left-title">
+                				<span style="line-height: 34px">当前设备</span>
+                				<button type="button" class="btn btn-default" style="float:right" onclick="returnBack()">
+                                    返回上一级
+                            	</button>
+                			</div>
+                			<div class="img-wrapper">
+                				<img src="static/img/assetdetail.svg" width="100%" height="auto">
+                			</div>
+                			<div class="msg-wrapper">
+                				<div class="msg-left">
+                					<div class="hint">设备编号</div>
+                					<div class="hint">设备分类</div>
+                					<div class="hint">设备名称</div>
+                					<div class="hint">价值（元）</div>
+                					<div class="hint">记账日期</div>
+                					<div class="hint">规格型号</div>
+                					<div class="hint">设备管理员</div>
+                					<div class="hint">存放地点</div>
+                					<div class="hint">使用部门</div>
+                				</div>
+                				<div class="msg-right">
+                					<div id="sbbh" class="cont"></div>
+                					<div id="sbfl" class="cont"></div>
+                					<div id="sbmc" class="cont"></div>
+                					<div id="jz" class="cont"></div>
+                					<div id="jzrq" class="cont"></div>
+                					<div id="ggxh" class="cont"></div>
+                					<div id="gly" class="cont"></div>
+                					<div id="cfdd" class="cont"></div>
+                					<div id="sybm" class="cont"></div>
+                				</div>
+                			</div>
+                		</div>
+                		<div class="right">
+                			<div class="right-bar">
+	                			<div class="btn-group btn-group-sm">
+	                				<!-- <button type="button" class="btn btn-default" onclick="switchTable(1)"> 借用记录</button> -->
+	                				<button type="button" class="btn btn-default" onclick="switchTable(2)"> 维修记录</button>
+	                				<button type="button" class="btn btn-default" onclick="switchTable(3)"> 巡检记录</button>
+	                        	</div>
+                			</div>
+                			<div id="t1" class="table-wrapper" style="display: none">
+                				<table id="table1"></table>
+                			</div>
+                			<div id="t2" class="table-wrapper">
+                				<table id="table2"></table>
+                			</div>
+                			<div id="t3" class="table-wrapper" style="display: none">
+                				<table id="table3"></table>
+                			</div>
+                		</div>
+                	</div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<script th:inline="javascript">
+    var $table1 = $('#table1');
+    var $table2 = $('#table2');
+    var $table3 = $('#table3');
+
+    $(function () {
+    	var id = localStorage.getItem("assetDetailId");
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/asset/' + id,
+            success:function(data){
+            	console.log(data);
+            	$('#sbbh').append(data.data.assetCode);
+            	$('#sbfl').append(data.data.assetType);
+            	$('#sbmc').append(data.data.assetName);
+            	$('#jz').append(data.data.assetValue);
+            	$('#jzrq').append(data.data.bookkeepingDate);
+            	$('#ggxh').append(data.data.assetClassification);
+            	$('#gly').append(data.data.assetUser);
+            	$('#cfdd').append(data.data.positionName);
+            	$('#sybm').append(data.data.useDepartment);
+            }
+        });
+        $table2.bootstrapTable({
+            url: CONTEXT_PATH + '/maintenancerecord/list?assetId=' + id,
+            detailView: false,
+            columns: [
+                {field: 'recordId', title: '维修单编号', halign: 'center', align: 'center'},
+                {field: 'recordName', title: '维修单名称', halign: 'center', align: 'center'},
+                {field: 'failureTime', title: '故障发生时间', halign: 'center', align: 'center'},
+                {field: 'positionName', title: '存放地点', halign: 'center', align: 'center'},
+                {field: 'faultDescription', title: '故障描述', halign: 'center', align: 'center'},
+                {field: 'applicantDepartment', title: '申请人部门', halign: 'center', align: 'center'},
+                {field: 'applicant', title: '申请人', halign: 'center', align: 'center'},
+                {field: 'maintenanceCosts', title: '维修费用', halign: 'center', align: 'center'},
+                {field: 'flowStatus', title: '流程状态', halign: 'center', align: 'center'}
+            ]
+        });
+        $table3.bootstrapTable({
+            url: CONTEXT_PATH + '/inspectionrecord/list?assetId=' + id,
+            detailView: false,
+            columns: [
+                {field: 'assetName', title: '设备名称', halign: 'center', align: 'center'},
+                {field: 'assetClassification', title: '设备分类', halign: 'center', align: 'center'},
+                {field: 'assetStatus', title: '设备状态', halign: 'center', align: 'center'},
+                {field: 'statusDescription', title: '状态描述', halign: 'center', align: 'center'},
+                {field: 'isRepair', title: '是否维修', halign: 'center', align: 'center', formatter: 'isRepairFormatter'},
+                {field: 'repairOrderNo', title: '维修单号', halign: 'center', align: 'center'}
+            ]
+        });
+    });
+    
+    function isRepairFormatter(value, row, index) {
+    	if(value == 1) {
+    		return '是';
+    	}else {
+    		return '否';
+    	}
+    }
+    
+    function switchTable(id) {
+    	if(id == 1) {
+    		$('#t1').css('display', 'block');
+    		$('#t2').css('display', 'none');
+    		$('#t3').css('display', 'none');
+    	}else if(id == 2) {
+    		$('#t1').css('display', 'none');
+    		$('#t2').css('display', 'block');
+    		$('#t3').css('display', 'none');
+    	}else if(id == 3) {
+    		$('#t1').css('display', 'none');
+    		$('#t2').css('display', 'none');
+    		$('#t3').css('display', 'block');
+    	}
+    }
+    
+    function returnBack() {
+    	var url = localStorage.getItem("assetDetailUrl");
+    	if(url == '#asset') {
+    		document.querySelector('a[href="#asset"]').click();
+    	}else if(url == '#maintenancerecord') {
+    		document.querySelector('a[href="#maintenancerecord"]').click();
+    	}else {
+    		window.location.hash = url;
+        	location.reload();
+    	}
+    }
+</script>
+</html>

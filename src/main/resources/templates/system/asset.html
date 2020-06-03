@@ -25,7 +25,7 @@
                             <div class="form-group">
                             	<input type="hidden" class="form-control input-sm" name="roomId" id="searchId" readonly>
                                 <label for="searchName"> 设备名称 </label>
-                                <input type="text" class="form-control input-sm" name="assetName" id="searchName" placeholder="请输入资产名称">
+                                <input type="text" class="form-control input-sm" name="assetName" id="searchName" placeholder="请输入设备名称">
                             </div>
                             <div class="btn-group btn-group-sm">
                                 <button type="button" class="btn btn-default" onclick="javascript:$('table').bootstrapTable('refresh', {silent: true});">
@@ -396,7 +396,7 @@
                     </div>
                     <div class="form-group">
                     <div class="col-md-12">
-                    	<label class="control-label" for="assetValue"><span class="asterisk">*</span>资产价值（元）:</label>
+                    	<label class="control-label" for="assetValue"><span class="asterisk">*</span>设备价值（元）:</label>
 	                    <input id="assetValue" type="text" class="form-control" name="assetValue" placeholder="输入价值"
                                required>
 	                    <div class="help-block with-errors"></div>
@@ -534,7 +534,7 @@
     }
 
     function assetCodeFormatter(value, row, index) {
-    	return '<a href="#" onclick="refresh()">' + value +'</a>'
+    	return '<a href="#" onclick="refresh(' + row.id + ')">' + value +'</a>'
     }
 
     function enabledFormatter(value, row, index) {
@@ -555,7 +555,11 @@
         return $('#actionButtons').html();
     }
 
-    function refresh() {
+    function refresh(id) {
+    	localStorage.setItem("assetDetailId", id);
+    	localStorage.setItem("assetDetailUrl", '#asset');
+    	window.location.hash = '#asset/detail';
+    	location.reload();
     }
 
     window.actionEvents = {
@@ -603,7 +607,6 @@
             type:"GET",
             url: CONTEXT_PATH + '/trainingroom/list?id=' + addId,
             success:function(data){
-            	console.log(data.data)
             	$('#addPositionCode').val(data.data[0].roomPositionCode);
             	$('#addPositionName').val(data.data[0].roomPosition);
             	$('#addUseDepartmentId').val(data.data[0].belongSysId);
