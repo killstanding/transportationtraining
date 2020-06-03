@@ -18,7 +18,7 @@ import tech.wetech.admin.modules.training.po.AssetClassification;
 import tech.wetech.admin.modules.training.po.CourseArrangementReTool;
 import tech.wetech.admin.modules.training.po.PubCode;
 import tech.wetech.admin.modules.training.service.AssetClassificationService;
-import tech.wetech.admin.modules.training.service.AssetService;
+import tech.wetech.admin.modules.training.service.ToolsService;
 import tech.wetech.admin.modules.training.service.CourseArrangementReToolService;
 import tech.wetech.admin.modules.training.service.PubCodeService;
 import java.util.Date;
@@ -33,7 +33,7 @@ public class CourseArrangementReToolController extends BaseCrudController<Course
 	@Autowired
     private CourseArrangementReToolService service;
 	@Autowired
-    private AssetService assetService;
+    private ToolsService toolsService;
 	@Autowired
     private AssetClassificationService assetClassificationService;
 	@Autowired
@@ -48,7 +48,7 @@ public class CourseArrangementReToolController extends BaseCrudController<Course
     	PubCode pubCode = new PubCode();
     	pubCode.setPubType("asset_status");
     	model.addAttribute("assetStatusList", pubCodeService.queryList(pubCode));
-    	model.addAttribute("assetList", assetService.queryAll());
+    	model.addAttribute("toolList", toolsService.queryAll());
         return "system/coursearrangementretool";
     }
     
