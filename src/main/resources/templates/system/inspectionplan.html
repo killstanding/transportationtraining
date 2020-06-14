@@ -287,11 +287,11 @@
     }
 
     function inspectionTimeFormatter(value, row, index) {
-    	return '<a href="#teachingplan" onclick="refresh(\'' + row.id + '\')">' + value +'</a>'
+    	return '<a href="#inspectionrecord" onclick="refresh(\'' + row.id + '\')">' + value +'</a>'
     }
     
     function editRecordFormatter(value, row, index) {
-    	return '<a href="#teachingplan" onclick="toEdit(\'' + row.id + '\')"><i class="glyphicon glyphicon-plus"></i></a>'
+    	return '<a href="#inspectionrecord/show" onclick="toEdit(\'' + row.id + '\')"><i class="glyphicon glyphicon-plus"></i></a>'
     }
     
     function inspectionStatusFormatter(value, row, index) {
