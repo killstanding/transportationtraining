@@ -37,6 +37,7 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div id="toolbar">
+                    <a href="" style="display: none" id="exceldownload" download="工具详情.xls"></a>
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
                             	<input type="hidden" class="form-control input-sm" name="assetTypeCode" id="searchType" value="asset_type_tool" readonly>
@@ -49,8 +50,20 @@
                             </div>
                         </form>
                     </div>
-                    <div style="font-size: 18px;font-weight:700;margin:5px 0 0 10px">领用记录</div>
-                    <table id="table"></table>
+                    <div class="btn-group btn-group-sm" style="margin: 5px 0 0 10px">
+                            	<button type="button" class="btn btn-default" onclick="lyjl()">
+                                    领用记录
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="rkjl()">
+                                    入库记录
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="exportexcel()">
+                                    <i class="glyphicon glyphicon-save"></i>
+                                    导出
+                                </button>
+                            </div>
+                    <table id="table1"></table>
+                    <table id="table2"></table>
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -63,7 +76,8 @@
 <!-- /.content -->
 
 <script th:inline="javascript">
-    var $table = $('#table');
+var $table1 = $('#table1');
+var $table2 = $('#table2');
 
     $(function () {
     	var datas = [];
@@ -91,38 +105,112 @@
         				{field: 'assetName', title: '工具名称', halign: 'center', align: 'center'},
         				{field: 'assetClassification', title: '工具分类', halign: 'center', align: 'center'},
         				{field: 'specificationType', title: '规格型号', halign: 'center', align: 'center'},
-        				{field: 'assetValue', title: '价值（元）', halign: 'center', align: 'center'},
-        				{field: 'bookkeepingDate', title: '记账日期', halign: 'center', align: 'center'},
         				{field: 'positionName', title: '存放地点', halign: 'center', align: 'center'},
         				{field: 'useDepartment', title: '所属系', halign: 'center', align: 'center'},
         				{field: 'assetUser', title: '使用人', halign: 'center', align: 'center'},
+        				{field: 'cumulativeReceiptQuantity', title: '累计入库数量', halign: 'center', align: 'center'},
+                        {field: 'totalExisting', title: '现存数量', halign: 'center', align: 'center'},
+                        {field: 'cumulativeCollectedQuantity', title: '领用数量', halign: 'center', align: 'center'},
+                        {field: 'remainingQuantity', title: '剩余数量', halign: 'center', align: 'center'}
                     ]
                 });
             }
         });
-        $table.bootstrapTable({
+    	$table1.bootstrapTable({
             url: CONTEXT_PATH + '/collectionrecord/list',
             idField: 'id',
             detailView: false,
             columns: [
-				{field: 'id', title: '序号', halign: 'center', align: 'center',
+				{field: 'id', title: '序号', width: '10%', halign: 'center', align: 'center',
 					formatter: function(value,row,index) {
-	            		var pageSize = $table.bootstrapTable('getOptions').pageSize;
-	            		var pageNumber = $table.bootstrapTable('getOptions').pageNumber;
+	            		var pageSize = $table1.bootstrapTable('getOptions').pageSize;
+	            		var pageNumber = $table1.bootstrapTable('getOptions').pageNumber;
 	            		return pageSize * (pageNumber - 1) + index + 1;
 	            	}
 				},
-                {field: 'collectionTime', title: '领用时间', halign: 'center', align: 'center'},
-                {field: 'collectionMajor', title: '领用专业', halign: 'center', align: 'center'},
-                {field: 'collectionCourse', title: '领用课程', halign: 'center', align: 'center'},
-                {field: 'applicant', title: '申请人', halign: 'center', align: 'center'},
-                {field: 'collectedQuantity', title: '领用数量', sortable: true, halign: 'left'}
+                {field: 'collectionTime', title: '领用时间', width: '20%', halign: 'center', align: 'center'},
+                {field: 'collectionMajor', title: '领用专业', width: '20%', halign: 'center', align: 'center'},
+                {field: 'collectionCourse', title: '领用课程', width: '20%', halign: 'center', align: 'center'},
+                {field: 'applicant', title: '申请人', width: '20%', halign: 'center', align: 'center'},
+                {field: 'collectedQuantity', title: '领用数量', width: '10%', sortable: true, halign: 'left'}
+            ]
+        });
+        $table2.bootstrapTable({
+            url: CONTEXT_PATH + '/warehousingrecord/list',
+            idField: 'id',
+            detailView: false,
+            onLoadSuccess: function() {
+            	lyjl();
+            },
+            columns: [
+				{field: 'id', title: '序号', width: '10%', halign: 'center', align: 'center',
+					formatter: function(value,row,index) {
+	            		var pageSize = $table2.bootstrapTable('getOptions').pageSize;
+	            		var pageNumber = $table2.bootstrapTable('getOptions').pageNumber;
+	            		return pageSize * (pageNumber - 1) + index + 1;
+	            	}
+				},
+                {field: 'warehousingTime', title: '入库时间', width: '20%', halign: 'center', align: 'center'},
+                {field: 'unitPrice', title: '单位价格（元）', width: '15%', sortable: true, halign: 'left'},
+                {field: 'warehousingQuantity', title: '入库数量', width: '15%', sortable: true, halign: 'left'},
+                {field: 'positionName', title: '存放地点', width: '20%', halign: 'center', align: 'center'},
+                {field: 'manager', title: '管理人', width: '20%', halign: 'center', align: 'center'}
             ]
         });
     });
     
+    var hcxqss = 1;
+    function lyjl() {
+    	hcxqss = 1;
+    	$('.fixed-table-toolbar')[1].style.display = 'block';
+		$('.fixed-table-toolbar')[2].style.display = 'none';
+    	$table1.css('display', 'block');
+    	$table2.css('display', 'none');
+    	$('.fixed-table-pagination')[1].style.display = 'block';
+    	$('.fixed-table-pagination')[2].style.display = 'none';
+    }
+    
+    function rkjl() {
+    	hcxqss =2;
+    	$('.fixed-table-toolbar')[1].style.display = 'none';
+    	$('.fixed-table-toolbar')[2].style.display = 'block';
+    	$table1.css('display', 'none');
+    	$table2.css('display', 'block');
+    	$('.fixed-table-pagination')[1].style.display = 'none';
+    	$('.fixed-table-pagination')[2].style.display = 'block';
+    }
+    
     function returnBack() {
     	document.querySelector('a[href="#tools"]').click();
+    }
+    
+    function exportexcel() {
+    	var assetId = $('#searchId').val();
+    	if(hcxqss === 1) {
+    		$.ajax({
+                type:"POST",
+                data: {
+                	assetId: assetId,
+                	assetTypeCode: 'asset_type_tool'
+                },
+                url: CONTEXT_PATH + '/collectionrecord/exportexcel',
+                success:function(data){
+                	commondownload(data.data);
+                }
+            });
+    	}else {
+    		$.ajax({
+                type:"POST",
+                data: {
+                	assetId: assetId,
+                	assetTypeCode: 'asset_type_tool'
+                },
+                url: CONTEXT_PATH + '/warehousingrecord/exportexcel',
+                success:function(data){
+                	commondownload(data.data);
+                }
+            });
+    	}
     }
 </script>
 </html>

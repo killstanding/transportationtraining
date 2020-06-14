@@ -47,13 +47,13 @@
                                     data-toggle="modal"
                                     data-target="#addModal" onclick="addLoad()"><i class="glyphicon glyphicon-plus"></i> 新增
                             </button>
-                            <!-- Indicates caution should be taken with this action
+                            <!-- Indicates caution should be taken with this action -->
                             <button shiro:hasPermission="coursearrangementreasset:update" type="button" id="editBtn" class="btn btn-default"
                                     data-toggle="modal"
                                     data-target="#editModal"
                                     data-action="{type:'editable',form:'#editForm',table:'#table',after:'editAfter'}"
                                     disabled><i class="glyphicon glyphicon-edit"></i> 修改
-                            </button> -->
+                            </button>
                             <!-- Indicates a dangerous or potentially negative action -->
                             <button shiro:hasPermission="coursearrangementreasset:delete" type="button" id="deleteBtn" class="btn btn-default"
                             		data-toggle="modal"
@@ -128,12 +128,20 @@
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div> -->
+                    <div class="form-group">
+                        <div class="col-md-12">
+                        	<label class="control-label" for="numberOfApplications"><span class="asterisk">*</span>申请数量:</label>
+	                    	<input id="numberOfApplications" type="text" class="form-control" name="numberOfApplications" placeholder="输入数量"
+                               required>
+	                    	<div class="help-block with-errors"></div>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button type="submit" form="addForm" class="btn btn-primary"
-                        data-action="{type:'submit',form:'#addForm',url:'@{/coursearrangementreasset/create}',after:'$.myAction.refreshTable'}">
+                        data-action="{type:'submit',form:'#addForm',url:'@{/coursearrangementretool/create}',after:'$.myAction.refreshTable'}">
                     确定
                 </button>
             </div>
@@ -161,36 +169,34 @@
                 	</div>
                     <div class="form-group">
                         <div style="display: none;">
-                        	<label class="control-label" for="editAssetClassification"><span class="asterisk">*</span>设备分类:</label>
-                        	<input id="editAssetClassification" type="text" class="form-control" name="assetClassification" readonly>
+                        	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>工具分类:</label>
+                        	<input id="assetClassificationCode" type="text" class="form-control" name="assetClassificationCode" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-12">
-                        	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>设备分类:</label>
-	                        <select id="assetClassificationCode" class="form-control select2" name="assetClassificationCode" onchange="editAssetClassificationChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="assetClassification: ${assetClassificationList}" th:value="${assetClassification.id}" th:text="${assetClassification.classificationName}">
-	                            工具分类不存在
-	                            </option>
-	                        </select>
+                        	<label class="control-label" for="assetClassification"><span class="asterisk">*</span>工具分类:</label>
+                        	<input id="assetClassification" type="text" class="form-control" name="assetClassification" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <div style="display: none;">
-                        	<label class="control-label" for="editAssetStatus"><span class="asterisk">*</span>设备状态:</label>
-                        	<input id="editAssetStatus" type="text" class="form-control" name="assetStatus" readonly>
+                        	<label class="control-label" for="assetStatusCode"><span class="asterisk">*</span>工具状态:</label>
+                        	<input id="assetStatusCode" type="text" class="form-control" name="assetStatusCode" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-12">
-                        	<label class="control-label" for="assetStatusCode"><span class="asterisk">*</span>设备状态:</label>
-	                        <select id="assetStatusCode" class="form-control select2" name="assetStatusCode" onchange="editAssetStatusChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="assetStatus: ${assetStatusList}" th:value="${assetStatus.pubCode}" th:text="${assetStatus.pubName}">
-	                            工具状态不存在
-	                            </option>
-	                        </select>
+                        	<label class="control-label" for="assetStatus"><span class="asterisk">*</span>工具状态:</label>
+                        	<input id="assetStatus" type="text" class="form-control" name="assetStatus" readonly>
 	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <div class="col-md-12">
+                        	<label class="control-label" for="numberOfApplications"><span class="asterisk">*</span>申请数量:</label>
+	                    	<input id="numberOfApplications" type="text" class="form-control" name="numberOfApplications" placeholder="输入数量"
+                               required>
+	                    	<div class="help-block with-errors"></div>
                         </div>
                     </div>
                 </form>
@@ -198,7 +204,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button type="submit" form="editForm" class="btn btn-primary"
-                        data-action="{type:'submit',form:'#editForm',url:'@{/coursearrangementreasset/update}',after:'$.myAction.refreshTable'}">
+                        data-action="{type:'submit',form:'#editForm',url:'@{/coursearrangementretool/update}',after:'$.myAction.refreshTable'}">
                     确定
                 </button>
             </div>
@@ -220,7 +226,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button type="button" form="deleteForm" class="btn btn-primary"
-                        data-action="{type:'submit',form:'#deleteForm',url:'@{/coursearrangementreasset/delete-batch}',after:'$.myAction.refreshTable'}">
+                        data-action="{type:'submit',form:'#deleteForm',url:'@{/coursearrangementretool/delete-batch}',after:'$.myAction.refreshTable'}">
                     确定
                 </button>
             </div>
@@ -230,7 +236,7 @@
 
 <div id="actionButtons" class="admin-hide">
     <!-- <a class="like" href="javascript:void(0)" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a> -->
-    <!-- <a shiro:hasPermission="coursearrangementreasset:update" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="编辑"><i class="glyphicon glyphicon-edit"></i></a> -->　
+    <a shiro:hasPermission="coursearrangementreasset:update" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="编辑"><i class="glyphicon glyphicon-edit"></i></a>　
     <a shiro:hasPermission="coursearrangementreasset:delete" class="remove ml10" href="javascript:void(0)" data-toggle="tooltip" title="删除"><i class="glyphicon glyphicon-remove"></i></a>　
 </div>
 
@@ -265,6 +271,7 @@
                 },
                 {field: 'assetName', title: '工具名称', sortable: true, halign: 'left'},
                 {field: 'assetClassification', title: '工具分类', halign: 'center', align: 'center'},
+                {field: 'numberOfApplications', title: '申请数量', halign: 'center', align: 'center'},
                 //{field: 'assetStatus', title: '工具状态', halign: 'center', align: 'center', formatter: 'enabledFormatter'},
                 {
                     field: 'action',
@@ -280,8 +287,6 @@
     });
 
     function editAfter(obj, row) {
-    	$('#editForm').find('[name=assetClassificationCode]').find('option[value=' + row.assetClassificationCode + ']').prop('selected', true);
-    	$('#editForm').find('[name=assetStatusCode]').find('option[value=' + row.assetStatusCode + ']').prop('selected', true);
     }
 
     function enabledFormatter(value, row, index) {
@@ -331,7 +336,6 @@
             type:"GET",
             url: CONTEXT_PATH + '/tools/list?id=' + addId,
             success:function(data){
-            	console.log(data)
             	$('#assetClassificationCode').val(data.data[0].assetClassificationCode);
             	$('#assetClassification').val(data.data[0].assetClassification);
             }

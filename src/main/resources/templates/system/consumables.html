@@ -21,6 +21,7 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div id="toolbar">
+                    <a href="" style="display: none" id="exceldownload" download="耗材.xls"></a>
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
                                 <label for="searchName"> 耗材名称 </label>
@@ -34,6 +35,10 @@
                                 <button type="reset" class="btn btn-default">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     清空
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="exportexcel()">
+                                    <i class="glyphicon glyphicon-save"></i>
+                                    导出
                                 </button>
                             </div>
                         </form>
@@ -366,7 +371,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="noAddNumberModel()"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="editModalLabel">耗材入库</h4>
+                <h4 class="modal-title" id="addNumberModalLabel">耗材入库</h4>
             </div>
             <div class="modal-body">
             	                <form id="addNumberForm">
@@ -603,6 +608,20 @@
     	//addManagerChange();
     	//addPositionChange();
     	$('#addDatepicker').datepicker('setDate', new Date());
+    }
+    
+    function exportexcel() {
+    	var consumablesName = $('#searchName').val();
+    	$.ajax({
+            type:"POST",
+            data: {
+            	consumablesName: consumablesName
+            },
+            url: CONTEXT_PATH + '/consumables/exportexcel',
+            success:function(data){
+            	commondownload(data.data);
+            }
+        });
     }
 </script>
 </html>

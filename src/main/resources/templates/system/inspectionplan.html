@@ -22,12 +22,13 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div id="toolbar">
+                    <a href="" style="display: none" id="exceldownload" download="巡检记录.xls"></a>
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
                             	<input type="hidden" class="form-control input-sm" name="roomId" id="searchId" readonly>
                                 <label for="searchName"> 巡检时间 </label>
                                 <div class='input-group date' id='searchName'>
-					                <input type='text' class="form-control" name="inspectionTime">
+					                <input type='text' class="form-control" id="itimeitime" name="inspectionTime">
 					                <span class="input-group-addon">
 					                    <span class="glyphicon glyphicon-calendar"></span>
 					                </span>
@@ -41,6 +42,10 @@
                                 <button type="reset" class="btn btn-default">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     清空
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="exportexcel()">
+                                    <i class="glyphicon glyphicon-save"></i>
+                                    导出
                                 </button>
                                 <button type="button" class="btn btn-default" onclick="returnBack()">
                                     返回上一级
@@ -349,6 +354,22 @@
     	$('#addRoomName').val(localStorage.getItem("ItrainingRoom"));
     	//addInspectorChange();
     	$('#addDatepicker').datepicker('setDate', new Date());
+    }
+    function exportexcel() {
+    	var inspectionTime = $('#itimeitime').val();
+    	var roomId = $('#searchId').val();
+    	var datas = {roomId: roomId};
+    	if(inspectionTime != '') {
+    		datas.inspectionTime = inspectionTime;
+    	}
+    	$.ajax({
+            type:"POST",
+            data: datas,
+            url: CONTEXT_PATH + '/inspectionplan/exportexcel',
+            success:function(data){
+            	commondownload(data.data);
+            }
+        });
     }
 </script>
 </html>

@@ -38,6 +38,9 @@
 	#sss1,#sss2,#sss3{
 		padding: 15px 66px;
 	}
+	.upsucc{
+		color: green
+	}
 </style>
 <section class="content-header">
     <h1>
@@ -305,7 +308,7 @@
                         	<input id="S2PendingPerson" type="text" class="form-control" name="pendingPerson" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" id="step201">
                         	<label class="control-label" for="pendingPersonId"><span class="asterisk">*</span>处理人:</label>
 	                        <select id="pendingPersonId" class="form-control select2" data-minimum-results-for-search="-1" name="pendingPersonId" onchange="S2PendingPersonChange()"
 	                                data-placeholder="请从列表选择一项" required>
@@ -320,19 +323,19 @@
                     <div class="form-group">
 						<div class="col-md-6">
                         	<label class="control-label" for="repairRequired"><span class="asterisk">*</span>是否需要维修:</label>
-	                        <select id="repairRequired" class="form-control select2" data-minimum-results-for-search="-1" name="repairRequired"
+	                        <select id="repairRequired" class="form-control select2" data-minimum-results-for-search="-1" name="repairRequired" onchange="step2statuschange()"
                                 data-placeholder="请从列表选择一项" required>
 	                            <option value="1" selected>是</option>
 	                            <option value="0">否</option>
 	                        </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" id="step202">
                         	<label class="control-label" for="maintenanceCostEstimate"><span class="asterisk">*</span>维修费用估计（元）:</label>
 	                        <input id="maintenanceCostEstimate" type="text" class="form-control" name="maintenanceCostEstimate" placeholder="输入费用" required>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="step2001">
                         <div style="display: none;">
                         	<label class="control-label" for="S2MaintenanceType"><span class="asterisk">*</span>维修类型:</label>
                         	<input id="S2MaintenanceType" type="text" class="form-control" name="maintenanceType" readonly>
@@ -351,7 +354,7 @@
                         </div>
                         <div class="col-md-6">
                         	<label class="control-label" for="maintenanceCooperationUnit">维修配合单位:</label>
-	                        <select id="maintenanceCooperationUnit" class="form-control select2" data-minimum-results-for-search="-1" name="maintenanceCooperationUnit"
+	                        <select id="maintenanceCooperationUnit" class="form-control select2" name="maintenanceCooperationUnit"
 	                                data-placeholder="请从列表选择一项">
 	                                <option></option>
 	                                <option value="XX公司">XX公司</option>
@@ -375,7 +378,7 @@
                 	<div class="fff">
                 	<form id="upload_form" enctype="multipart/form-data" style="clear:both">
              		<div class="col-md-6">
-             			<label class="control-label" for="documentPath" style="float:left">上传附件:</label>
+             			<label class="control-label" for="documentPath" style="float:left" id="succup">上传附件:</label>
             			<input id="file" type="file" name="file" style="clear:both;display:inline-block;float:left;width:40%;"/>
             			<button type="button" class="btn btn-default" onclick="uploadF()" style="margin-top:18px">上传</button>
              		</div>
@@ -417,7 +420,7 @@
                         	<input id="S3PendingPerson" type="text" class="form-control" name="pendingPerson" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" id="step301">
                         	<label class="control-label" for="pendingPersonId"><span class="asterisk">*</span>处理人:</label>
 	                        <select id="pendingPersonId" class="form-control select2" data-minimum-results-for-search="-1" name="pendingPersonId" onchange="S3PendingPersonChange()"
 	                                data-placeholder="请从列表选择一项" required>
@@ -432,7 +435,7 @@
                     <div class="form-group">
 						<div class="col-md-12">
                         	<label class="control-label" for="passOrNot"><span class="asterisk">*</span>是否审批:</label>
-	                        <select id="passOrNot" class="form-control select2" data-minimum-results-for-search="-1" name="passOrNot"
+	                        <select id="passOrNot" class="form-control select2" data-minimum-results-for-search="-1" name="passOrNot" onchange="step3statuschange()"
                                 data-placeholder="请从列表选择一项" required>
 	                            <option value="1" selected>是</option>
 	                            <option value="0">否</option>
@@ -482,36 +485,20 @@
                         	<input id="recordPerson" type="text" class="form-control" name="recordPerson" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div style="display: none;">
-                        	<label class="control-label" for="S4PendingPerson"><span class="asterisk">*</span>处理人:</label>
-                        	<input id="S4PendingPerson" type="text" class="form-control" name="pendingPerson" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="pendingPersonId"><span class="asterisk">*</span>处理人:</label>
-	                        <select id="pendingPersonId" class="form-control select2" data-minimum-results-for-search="-1" name="pendingPersonId" onchange="S4PendingPersonChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                                <option></option>
-	                            <!-- <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
-	                         处理人不存在
-	                            </option> -->
-	                        </select>
+                        	<label class="control-label" for="maintenanceCosts"><span class="asterisk">*</span>维修费用（元）:</label>
+	                        <input id="maintenanceCosts" type="text" class="form-control" name="maintenanceCosts" placeholder="输入费用" required>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
                     <div class="form-group">
-						<div class="col-md-6">
+						<div class="col-md-12">
                         	<label class="control-label" for="isRepaired"><span class="asterisk">*</span>是否修好:</label>
 	                        <select id="isRepaired" class="form-control select2" data-minimum-results-for-search="-1" name="isRepaired" onchange="sbztchange()"
                                 data-placeholder="请从列表选择一项" required>
 	                            <option value="1" selected>是</option>
 	                            <option value="0">否</option>
 	                        </select>
-                        </div>
-                        <div class="col-md-6">
-                        	<label class="control-label" for="maintenanceCosts"><span class="asterisk">*</span>维修费用（元）:</label>
-	                        <input id="maintenanceCosts" type="text" class="form-control" name="maintenanceCosts" placeholder="输入费用" required>
-	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -579,191 +566,188 @@
             	$('#recordDepartment').val(data.data[0].organizationName);
             	$('#recordPersonId').val(data.data[0].id);
             	$('#recordPerson').val(data.data[0].username);
-            }
-        });
-    	$.ajax({
-            type:"GET",
-            url: CONTEXT_PATH + '/maintenancerecord/list?recordId=' + weixiuCode,
-            success:function(data){
-            	datas.push(data.data[0]);
-            	$('#s1mc').append(data.data[0].recordName);
-            	$('#s1no').append(data.data[0].recordId);
-            	$('#s1time').append(data.data[0].createTime);
-            	$('#s1ren').append(data.data[0].applicant);
-            	$('#s1bm').append(data.data[0].applicantDepartment);
-            	$('#s1sb').append(data.data[0].assetName);
-            	$('#s1type').append(data.data[0].assetClassification);
-            	$('#s1dd').append(data.data[0].positionName);
-            	$('#s1fs').append(data.data[0].failureTime);
-            	$('#s1ms').append(data.data[0].faultDescription);
-            	$('#s1fj').append('<a href="' + data.data[0].attachmentPath + '" download="' + data.data[0].attachmentName + '">' + data.data[0].attachmentName + '</a>');
-            	
-            	weixiuId = data.data[0].id;
-            	$('#S2RecordId').val(weixiuId);
-            	$('#S3RecordId').val(weixiuId);
-            	$('#S4RecordId').val(weixiuId);
-            	
-            	if(datas[0].flowStatus == '待确认') {
-            		$.ajax({
-                        type:"GET",
-                        url: CONTEXT_PATH + '/user/list?roleIds=11',
-                        success:function(data){
-                        	for(let i = 0; i < data.data.length; i++) {
-                        		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].username + '</option>';
-                        		$('#failureconfirmationForm').find('[name=pendingPersonId]').append(opt);
-                        	}
-                        }
-                    });
-            		$('#sss2').css('display', 'block');
-            	}else if(datas[0].flowStatus == '无需修理') {
-            		$.ajax({
-                        type:"GET",
-                        url: CONTEXT_PATH + '/failureconfirmation/list?recordId=' + weixiuId,
-                        success:function(data){
-                        	$('#s2bumen').append(data.data[data.data.length-1].confirmationDepartment);
-                        	$('#s2ren').append(data.data[data.data.length-1].confirmingPerson);
-                        	if(data.data[data.data.length-1].repairRequired == 1) {
-                        		$('#s2sf').append('是');
-                        	}else {
-                        		$('#s2sf').append('否');
-                        	}
-                        	$('#s2type').append(data.data[data.data.length-1].maintenanceType);
-                        	$('#s2cost').append(data.data[data.data.length-1].maintenanceCostEstimate+'元');
-                        	$('#s2dw').append(data.data[data.data.length-1].maintenanceCooperationUnit);
-                        	$('#s2bz').append(data.data[data.data.length-1].remark);
-                        	$('#s2fj').append('<a href="' + data.data[data.data.length-1].attachmentPath + '" download="' + data.data[data.data.length-1].attachmentName + '">' + data.data[data.data.length-1].attachmentName + '</a>');
-                        }
-                    });
-                	$('#step2').css('display', 'block');
-            	}else if(datas[0].flowStatus == '待审批') {
-            		$.ajax({
-                        type:"GET",
-                        url: CONTEXT_PATH + '/user/list?roleIds=12',
-                        success:function(data){
-                        	for(let i = 0; i < data.data.length; i++) {
-                        		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].username + '</option>';
-                        		$('#directorapprovalForm').find('[name=pendingPersonId]').append(opt);
-                        	}
-                        }
-                    });
-            		$('#sss3').css('display', 'block');
-                	$.ajax({
-                        type:"GET",
-                        url: CONTEXT_PATH + '/failureconfirmation/list?recordId=' + weixiuId,
-                        success:function(data){
-                        	$('#s2bumen').append(data.data[data.data.length-1].confirmationDepartment);
-                        	$('#s2ren').append(data.data[data.data.length-1].confirmingPerson);
-                        	if(data.data[data.data.length-1].repairRequired == 1) {
-                        		$('#s2sf').append('是');
-                        	}else {
-                        		$('#s2sf').append('否');
-                        	}
-                        	$('#s2type').append(data.data[data.data.length-1].maintenanceType);
-                        	$('#s2cost').append(data.data[data.data.length-1].maintenanceCostEstimate+'元');
-                        	$('#s2dw').append(data.data[data.data.length-1].maintenanceCooperationUnit);
-                        	$('#s2bz').append(data.data[data.data.length-1].remark);
-                        	$('#s2fj').append('<a href="' + data.data[data.data.length-1].attachmentPath + '" download="' + data.data[data.data.length-1].attachmentName + '">' + data.data[data.data.length-1].attachmentName + '</a>');
-                        }
-                    });
-                	$('#step2').css('display', 'block');
-            	}else if(datas[0].flowStatus == '维修中') {
-            		$.ajax({
-                        type:"GET",
-                        url: CONTEXT_PATH + '/user/list?roleIds=13',
-                        success:function(data){
-                        	for(let i = 0; i < data.data.length; i++) {
-                        		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].username + '</option>';
-                        		$('#maintenancerecordresultsForm').find('[name=pendingPersonId]').append(opt);
-                        	}
-                        }
-                    });
-            		$('#sss4').css('display', 'block');
-                	$.ajax({
-                        type:"GET",
-                        url: CONTEXT_PATH + '/failureconfirmation/list?recordId=' + weixiuId,
-                        success:function(data){
-                        	$('#s2bumen').append(data.data[data.data.length-1].confirmationDepartment);
-                        	$('#s2ren').append(data.data[data.data.length-1].confirmingPerson);
-                        	if(data.data[data.data.length-1].repairRequired == 1) {
-                        		$('#s2sf').append('是');
-                        	}else {
-                        		$('#s2sf').append('否');
-                        	}
-                        	$('#s2type').append(data.data[data.data.length-1].maintenanceType);
-                        	$('#s2cost').append(data.data[data.data.length-1].maintenanceCostEstimate+'元');
-                        	$('#s2dw').append(data.data[data.data.length-1].maintenanceCooperationUnit);
-                        	$('#s2bz').append(data.data[data.data.length-1].remark);
-                        	$('#s2fj').append('<a href="' + data.data[data.data.length-1].attachmentPath + '" download="' + data.data[data.data.length-1].attachmentName + '">' + data.data[data.data.length-1].attachmentName + '</a>');
-                        }
-                    });
-                	$('#step2').css('display', 'block');
-                	$.ajax({
-                        type:"GET",
-                        url: CONTEXT_PATH + '/directorapproval/list?recordId=' + weixiuId,
-                        success:function(data){
-                        	$('#s3bumen').append(data.data[0].approvalDepartment);
-                        	$('#s3ren').append(data.data[0].approver);
-                        	if(data.data[0].passOrNot == 1) {
-                        		$('#s3sf').append('是');
-                        	}else {
-                        		$('#s3sf').append('否');
-                        	}
-                        	$('#s3yj').append(data.data[0].approvalComments);
-                        }
-                    });
-                	$('#step3').css('display', 'block');
-            	}else if(datas[0].flowStatus == '维修完成') {
-                	$.ajax({
-                        type:"GET",
-                        url: CONTEXT_PATH + '/failureconfirmation/list?recordId=' + weixiuId,
-                        success:function(data){
-                        	$('#s2bumen').append(data.data[data.data.length-1].confirmationDepartment);
-                        	$('#s2ren').append(data.data[data.data.length-1].confirmingPerson);
-                        	if(data.data[data.data.length-1].repairRequired == 1) {
-                        		$('#s2sf').append('是');
-                        	}else {
-                        		$('#s2sf').append('否');
-                        	}
-                        	$('#s2type').append(data.data[data.data.length-1].maintenanceType);
-                        	$('#s2cost').append(data.data[data.data.length-1].maintenanceCostEstimate+'元');
-                        	$('#s2dw').append(data.data[data.data.length-1].maintenanceCooperationUnit);
-                        	$('#s2bz').append(data.data[data.data.length-1].remark);
-                        	$('#s2fj').append('<a href="' + data.data[data.data.length-1].attachmentPath + '" download="' + data.data[data.data.length-1].attachmentName + '">' + data.data[data.data.length-1].attachmentName + '</a>');
-                        }
-                    });
-                	$('#step2').css('display', 'block');
-                	$.ajax({
-                        type:"GET",
-                        url: CONTEXT_PATH + '/directorapproval/list?recordId=' + weixiuId,
-                        success:function(data){
-                        	$('#s3bumen').append(data.data[0].approvalDepartment);
-                        	$('#s3ren').append(data.data[0].approver);
-                        	if(data.data[0].passOrNot == 1) {
-                        		$('#s3sf').append('是');
-                        	}else {
-                        		$('#s3sf').append('否');
-                        	}
-                        	$('#s3yj').append(data.data[0].approvalComments);
-                        }
-                    });
-                	$('#step3').css('display', 'block');
-                	$.ajax({
-                        type:"GET",
-                        url: CONTEXT_PATH + '/maintenancerecordresults/list?recordId=' + weixiuId,
-                        success:function(data){
-                        	$('#s4bumen').append(data.data[0].recordDepartment);
-                        	$('#s4ren').append(data.data[0].recordPerson);
-                        	if(data.data[0].isRepaired == 1) {
-                        		$('#s4sf').append('是');
-                        	}else {
-                        		$('#s4sf').append('否');
-                        	}
-                        	$('#s4cost').append(data.data[0].maintenanceCosts+'元');
-                        	$('#s4bz').append(data.data[0].remark);
-                        }
-                    });
-                	$('#step4').css('display', 'block');
-            	}
+            	var role = data.data[0].roleIdList;
+            	$.ajax({
+                    type:"GET",
+                    url: CONTEXT_PATH + '/maintenancerecord/list?recordId=' + weixiuCode,
+                    success:function(data){
+                    	datas.push(data.data[0]);
+                    	$('#s1mc').append(data.data[0].recordName);
+                    	$('#s1no').append(data.data[0].recordId);
+                    	$('#s1time').append(data.data[0].createTime);
+                    	$('#s1ren').append(data.data[0].applicant);
+                    	$('#s1bm').append(data.data[0].applicantDepartment);
+                    	$('#s1sb').append(data.data[0].assetName);
+                    	$('#s1type').append(data.data[0].assetClassification);
+                    	$('#s1dd').append(data.data[0].positionName);
+                    	$('#s1fs').append(data.data[0].failureTime);
+                    	$('#s1ms').append(data.data[0].faultDescription);
+                    	$('#s1fj').append('<a href="' + data.data[0].attachmentPath + '" download="' + data.data[0].attachmentName + '">' + data.data[0].attachmentName + '</a>');
+                    	
+                    	weixiuId = data.data[0].id;
+                    	$('#S2RecordId').val(weixiuId);
+                    	$('#S3RecordId').val(weixiuId);
+                    	$('#S4RecordId').val(weixiuId);
+                    	
+                    	if(datas[0].flowStatus == '待确认') {
+                    		$.ajax({
+                                type:"GET",
+                                url: CONTEXT_PATH + '/user/list?roleIds=10',
+                                success:function(data){
+                                	for(let i = 0; i < data.data.length; i++) {
+                                		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].username + '</option>';
+                                		$('#failureconfirmationForm').find('[name=pendingPersonId]').append(opt);
+                                	}
+                                }
+                            });
+                    		if(role.indexOf(1) != -1 || role.indexOf(6) != -1) {
+                    			$('#sss2').css('display', 'block');
+                    		}
+                    	}else if(datas[0].flowStatus == '无需修理') {
+                    		$.ajax({
+                                type:"GET",
+                                url: CONTEXT_PATH + '/failureconfirmation/list?recordId=' + weixiuId,
+                                success:function(data){
+                                	$('#s2bumen').append(data.data[data.data.length-1].confirmationDepartment);
+                                	$('#s2ren').append(data.data[data.data.length-1].confirmingPerson);
+                                	if(data.data[data.data.length-1].repairRequired == 1) {
+                                		$('#s2sf').append('是');
+                                	}else {
+                                		$('#s2sf').append('否');
+                                	}
+                                	$('#s2type').append(data.data[data.data.length-1].maintenanceType);
+                                	$('#s2cost').append(data.data[data.data.length-1].maintenanceCostEstimate+'元');
+                                	$('#s2dw').append(data.data[data.data.length-1].maintenanceCooperationUnit);
+                                	$('#s2bz').append(data.data[data.data.length-1].remark);
+                                	$('#s2fj').append('<a href="' + data.data[data.data.length-1].attachmentPath + '" download="' + data.data[data.data.length-1].attachmentName + '">' + data.data[data.data.length-1].attachmentName + '</a>');
+                                }
+                            });
+                        	$('#step2').css('display', 'block');
+                    	}else if(datas[0].flowStatus == '待审批') {
+                    		$.ajax({
+                                type:"GET",
+                                url: CONTEXT_PATH + '/user/list?roleIds=8',
+                                success:function(data){
+                                	for(let i = 0; i < data.data.length; i++) {
+                                		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].username + '</option>';
+                                		$('#directorapprovalForm').find('[name=pendingPersonId]').append(opt);
+                                	}
+                                }
+                            });
+                    		if(role.indexOf(1) != -1 || role.indexOf(10) != -1) {
+                    			$('#sss3').css('display', 'block');
+                    		}
+                        	$.ajax({
+                                type:"GET",
+                                url: CONTEXT_PATH + '/failureconfirmation/list?recordId=' + weixiuId,
+                                success:function(data){
+                                	$('#s2bumen').append(data.data[data.data.length-1].confirmationDepartment);
+                                	$('#s2ren').append(data.data[data.data.length-1].confirmingPerson);
+                                	if(data.data[data.data.length-1].repairRequired == 1) {
+                                		$('#s2sf').append('是');
+                                	}else {
+                                		$('#s2sf').append('否');
+                                	}
+                                	$('#s2type').append(data.data[data.data.length-1].maintenanceType);
+                                	$('#s2cost').append(data.data[data.data.length-1].maintenanceCostEstimate+'元');
+                                	$('#s2dw').append(data.data[data.data.length-1].maintenanceCooperationUnit);
+                                	$('#s2bz').append(data.data[data.data.length-1].remark);
+                                	$('#s2fj').append('<a href="' + data.data[data.data.length-1].attachmentPath + '" download="' + data.data[data.data.length-1].attachmentName + '">' + data.data[data.data.length-1].attachmentName + '</a>');
+                                }
+                            });
+                        	$('#step2').css('display', 'block');
+                    	}else if(datas[0].flowStatus == '维修中') {
+                    		if(role.indexOf(1) != -1 || role.indexOf(8) != -1) {
+                    			$('#sss4').css('display', 'block');
+                    		}
+                        	$.ajax({
+                                type:"GET",
+                                url: CONTEXT_PATH + '/failureconfirmation/list?recordId=' + weixiuId,
+                                success:function(data){
+                                	$('#s2bumen').append(data.data[data.data.length-1].confirmationDepartment);
+                                	$('#s2ren').append(data.data[data.data.length-1].confirmingPerson);
+                                	if(data.data[data.data.length-1].repairRequired == 1) {
+                                		$('#s2sf').append('是');
+                                	}else {
+                                		$('#s2sf').append('否');
+                                	}
+                                	$('#s2type').append(data.data[data.data.length-1].maintenanceType);
+                                	$('#s2cost').append(data.data[data.data.length-1].maintenanceCostEstimate+'元');
+                                	$('#s2dw').append(data.data[data.data.length-1].maintenanceCooperationUnit);
+                                	$('#s2bz').append(data.data[data.data.length-1].remark);
+                                	$('#s2fj').append('<a href="' + data.data[data.data.length-1].attachmentPath + '" download="' + data.data[data.data.length-1].attachmentName + '">' + data.data[data.data.length-1].attachmentName + '</a>');
+                                }
+                            });
+                        	$('#step2').css('display', 'block');
+                        	$.ajax({
+                                type:"GET",
+                                url: CONTEXT_PATH + '/directorapproval/list?recordId=' + weixiuId,
+                                success:function(data){
+                                	$('#s3bumen').append(data.data[0].approvalDepartment);
+                                	$('#s3ren').append(data.data[0].approver);
+                                	if(data.data[0].passOrNot == 1) {
+                                		$('#s3sf').append('是');
+                                	}else {
+                                		$('#s3sf').append('否');
+                                	}
+                                	$('#s3yj').append(data.data[0].approvalComments);
+                                }
+                            });
+                        	$('#step3').css('display', 'block');
+                    	}else if(datas[0].flowStatus == '维修完成') {
+                        	$.ajax({
+                                type:"GET",
+                                url: CONTEXT_PATH + '/failureconfirmation/list?recordId=' + weixiuId,
+                                success:function(data){
+                                	$('#s2bumen').append(data.data[data.data.length-1].confirmationDepartment);
+                                	$('#s2ren').append(data.data[data.data.length-1].confirmingPerson);
+                                	if(data.data[data.data.length-1].repairRequired == 1) {
+                                		$('#s2sf').append('是');
+                                	}else {
+                                		$('#s2sf').append('否');
+                                	}
+                                	$('#s2type').append(data.data[data.data.length-1].maintenanceType);
+                                	$('#s2cost').append(data.data[data.data.length-1].maintenanceCostEstimate+'元');
+                                	$('#s2dw').append(data.data[data.data.length-1].maintenanceCooperationUnit);
+                                	$('#s2bz').append(data.data[data.data.length-1].remark);
+                                	$('#s2fj').append('<a href="' + data.data[data.data.length-1].attachmentPath + '" download="' + data.data[data.data.length-1].attachmentName + '">' + data.data[data.data.length-1].attachmentName + '</a>');
+                                }
+                            });
+                        	$('#step2').css('display', 'block');
+                        	$.ajax({
+                                type:"GET",
+                                url: CONTEXT_PATH + '/directorapproval/list?recordId=' + weixiuId,
+                                success:function(data){
+                                	$('#s3bumen').append(data.data[0].approvalDepartment);
+                                	$('#s3ren').append(data.data[0].approver);
+                                	if(data.data[0].passOrNot == 1) {
+                                		$('#s3sf').append('是');
+                                	}else {
+                                		$('#s3sf').append('否');
+                                	}
+                                	$('#s3yj').append(data.data[0].approvalComments);
+                                }
+                            });
+                        	$('#step3').css('display', 'block');
+                        	$.ajax({
+                                type:"GET",
+                                url: CONTEXT_PATH + '/maintenancerecordresults/list?recordId=' + weixiuId,
+                                success:function(data){
+                                	$('#s4bumen').append(data.data[0].recordDepartment);
+                                	$('#s4ren').append(data.data[0].recordPerson);
+                                	if(data.data[0].isRepaired == 1) {
+                                		$('#s4sf').append('是');
+                                	}else {
+                                		$('#s4sf').append('否');
+                                	}
+                                	$('#s4cost').append(data.data[0].maintenanceCosts+'元');
+                                	$('#s4bz').append(data.data[0].remark);
+                                }
+                            });
+                        	$('#step4').css('display', 'block');
+                    	}
+                    }
+                });
             }
         });
     });
@@ -836,13 +820,13 @@
 	}
 	
 	function sstt2() {
-		if($('#failureconfirmationForm').find('[name=pendingPersonId]').val() == '') {
-			return;
-		}
-		if($('#failureconfirmationForm').find('[name=maintenanceCostEstimate]').val() == '') {
-			$('#failureconfirmationForm').find('[name=maintenanceCostEstimate]').val(0)
-		}
 		if($('#failureconfirmationForm').find('[name=repairRequired]').val() == 1) {
+			if($('#failureconfirmationForm').find('[name=pendingPersonId]').val() == '') {
+				return;
+			}
+			if($('#failureconfirmationForm').find('[name=maintenanceCostEstimate]').val() == '') {
+				$('#failureconfirmationForm').find('[name=maintenanceCostEstimate]').val(0)
+			}
 			$.ajax({
 	            type:"POST",
 	            url: CONTEXT_PATH + '/failureconfirmation/create',
@@ -931,10 +915,10 @@
 	}
 	
 	function sstt3() {
-		if($('#directorapprovalForm').find('[name=pendingPersonId]').val() == '') {
-			return;
-		}
 		if($('#directorapprovalForm').find('[name=passOrNot]').val() == 1) {
+			if($('#directorapprovalForm').find('[name=pendingPersonId]').val() == '') {
+				return;
+			}
 			$.ajax({
 	            type:"POST",
 	            url: CONTEXT_PATH + '/directorapproval/create',
@@ -1018,7 +1002,7 @@
 	}
 	
 	function sstt4() {
-		if($('#maintenancerecordresultsForm').find('[name=pendingPersonId]').val() == '') {
+		if($('#maintenancerecordresultsForm').find('[name=maintenanceCosts]').val() == '') {
 			return;
 		}
 		if($('#maintenancerecordresultsForm').find('[name=isRepaired]').val() == 1) {
@@ -1136,12 +1120,33 @@
             	a = a[a.length-1];
             	$('#failureconfirmationForm').find('[name=attachmentName]').val(a);
             	$('#failureconfirmationForm').find('[name=attachmentPath]').val(data.data);
+            	$('#succup').append('<span class="upsucc">（上传成功）</span>');
             }
         });
     }
 	
     function returnBack() {
     	document.querySelector('a[href="#maintenancerecord"]').click();
+    }
+    
+    function step2statuschange(){
+    	if($('#failureconfirmationForm').find('[name=repairRequired]').val() == 1) {
+    		$('#step201').show();
+    		$('#step202').show();
+    		$('#step2001').show();
+    	}else {
+    		$('#step201').hide();
+    		$('#step202').hide();
+    		$('#step2001').hide();
+    	}
+    }
+    
+    function step3statuschange(){
+    	if($('#directorapprovalForm').find('[name=passOrNot]').val() == 1) {
+    		$('#step301').show();
+    	}else {
+    		$('#step301').hide();
+    	}
     }
 </script>
 </html>

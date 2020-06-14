@@ -21,6 +21,7 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div id="toolbar">
+                    <a href="" style="display: none" id="exceldownload" download="实训室.xls"></a>
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
                                 <label for="searchName"> 实训室名称 </label>
@@ -34,6 +35,10 @@
                                 <button type="reset" class="btn btn-default">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     清空
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="exportexcel()">
+                                    <i class="glyphicon glyphicon-save"></i>
+                                    导出
                                 </button>
                             </div>
                         </form>
@@ -385,6 +390,20 @@
     	addSysChange();
     	addPositionChange();
     	addAdminChange();
+    }
+    
+    function exportexcel() {
+    	var roomName = $('#searchName').val();
+    	$.ajax({
+            type:"POST",
+            data: {
+            	roomName: roomName
+            },
+            url: CONTEXT_PATH + '/trainingroom/exportexcel',
+            success:function(data){
+            	commondownload(data.data);
+            }
+        });
     }
 </script>
 </html>

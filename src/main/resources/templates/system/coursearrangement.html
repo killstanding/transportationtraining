@@ -48,6 +48,7 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div id="toolbar">
+                    <a href="" style="display: none" id="exceldownload" download="排课表.xls"></a>
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
                             	<select id="weekId" class="form-control select2" data-minimum-results-for-search="-1" name="weekId"
@@ -65,6 +66,10 @@
                                 <button type="reset" class="btn btn-default">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     清空
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="exportexcel()">
+                                    <i class="glyphicon glyphicon-save"></i>
+                                    导出
                                 </button>
                             </div>
                         </form>
@@ -417,7 +422,7 @@
                     <div class="form-group">
                         <div class="col-md-12">
                         	<label class="control-label" for="trainingContent">实训内容:</label>
-	                        <textarea id="trainingContent" type="text" class="form-control" rows="" name="trainingContent" placeholder="输入实训内容"></textarea>
+	                        <textarea id="trainingContent" type="text" class="form-control" rows="6" name="trainingContent" placeholder="输入实训内容"></textarea>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
@@ -553,7 +558,12 @@
             type:"GET",
             url: CONTEXT_PATH + '/teachingplan/'+ id,
             success:function(data){
-            	console.log(data)
+            	$('#modell1').empty();
+            	$('#modell2').empty();
+            	$('#modell3').empty();
+            	$('#modell4').empty();
+            	$('#modell5').empty();
+            	
             	$('#modell1').append(data.data.teachingPlanName);
             	$('#modell2').append('预计时长：' + data.data.estimatedTimeDuration + '分钟');
             	$('#modell3').append(data.data.teachingPlanDescription);
@@ -691,6 +701,20 @@
     	//addClassChange();
     	//addTrainingRoomChange();
     	//addTeachingPlanChange();
+    }
+    
+    function exportexcel() {
+    	var weekId = $('#weekId').val();
+    	$.ajax({
+            type:"POST",
+            data: {
+            	weekId: weekId
+            },
+            url: CONTEXT_PATH + '/teachingplan/exportexcel',
+            success:function(data){
+            	commondownload(data.data);
+            }
+        });
     }
 </script>
 </html>
