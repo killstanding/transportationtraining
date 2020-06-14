@@ -9,9 +9,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.github.pagehelper.Page;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import tech.wetech.admin.core.annotation.SystemLog;
+import tech.wetech.admin.core.common.ConfigProperties;
 import tech.wetech.admin.core.utils.DateUtil;
+import tech.wetech.admin.core.utils.Logger;
 import tech.wetech.admin.core.utils.Result;
+import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.common.CommonVariable;
@@ -26,6 +30,7 @@ import tech.wetech.admin.modules.training.service.StatisticsPoService;
 import tech.wetech.admin.modules.training.service.TeachingPlanService;
 import tech.wetech.admin.modules.training.service.TrainingRoomService;
 import tech.wetech.admin.modules.training.service.WeekYearService;
+import tech.wetech.excel.ExcelWriteUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -53,7 +58,9 @@ public class CourseArrangementController extends BaseCrudController<CourseArrang
 	private TeachingPlanService teachingPlanService;
 	@Autowired
 	private StatisticsPoService statisticsPoService;
-
+    @Autowired
+    private ConfigProperties configProperties;
+    
 	@GetMapping
 	@RequiresPermissions("coursearrangement:view")
 	public String page(Model model) {
@@ -134,5 +141,46 @@ public class CourseArrangementController extends BaseCrudController<CourseArrang
 	public Result<String> deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {
 		super.deleteBatchByIds(ids);
 		return Result.success();
+	}
+    @ResponseBody
+	@PostMapping("/exportexcel")
+	@ApiOperation(value = "导出")
+	@RequiresPermissions("asset:exportexcel")
+	public Result<String> exportExcel(CourseArrangement entity) {
+		String fileName="";
+		try {
+			List<CourseArrangement> list = service.keyValueByExample(entity);
+			List<StatisticsPo> assetCountlist =  statisticsPoService.selectAssetCountNumGroupByCourseArrangementId();
+			List<StatisticsPo> consumablesCountlist =  statisticsPoService.selectConsumablesCountNumGroupByCourseArrangementId();
+			List<StatisticsPo> toolCountList =  statisticsPoService.selectToolCountNumGroupByCourseArrangementId();
+
+			list.forEach(u -> {
+				assetCountlist.forEach(st ->{
+					u.setNumberOfDevices(0);
+					if(st.getStatisticsCode().equals(u.getId()+"")){
+						u.setNumberOfDevices(st.getStatisticsTotal());
+					}
+				});
+				consumablesCountlist.forEach(st ->{
+					u.setNumberOfConsumables(0);
+					if(st.getStatisticsCode().equals(u.getId()+"")){
+						u.setNumberOfConsumables(st.getStatisticsTotal());
+					}
+				});
+				toolCountList.forEach(st ->{
+					u.setNumberOfTools(0);
+					if(st.getStatisticsCode().equals(u.getId()+"")){
+						u.setNumberOfTools(st.getStatisticsTotal());
+					}
+				});
+			});
+			fileName = ExcelWriteUtil.writeData(configProperties.getExcelPath(), list, CourseArrangement.class, "资产信息");
+		} catch (Exception e) {
+			e.printStackTrace();
+			Logger.error(getClass(), e.getMessage());
+			return Result.failure(ResultCodeEnum.NOT_IMPLEMENTED);
+		}
+		
+		return Result.success(fileName);
 	}
 }

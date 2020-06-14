@@ -355,4 +355,22 @@ public class TrainingRoom  extends BaseRowModel{
     public void setRoomAdminId(Integer roomAdminId) {
         this.roomAdminId = roomAdminId;
     }
+
+	public String getRoomCode() {
+		return roomCode;
+	}
+
+	public void setRoomCode(String roomCode) {
+		this.roomCode = roomCode;
+	}
+
+	public String getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+    
+    
 }
