@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tech.wetech.admin.modules.training.mapper.MainMapper" >
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.vo.ToDoVo" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="matter_id" property="matterId" jdbcType="INTEGER" />
+    <result column="matter_code" property="matterCode" jdbcType="VARCHAR" />
+    <result column="matter_type" property="matterType" jdbcType="VARCHAR" />
+    <result column="matter_type_code" property="matterTypeCode" jdbcType="VARCHAR" />
+    <result column="matter_name" property="matterName" jdbcType="VARCHAR" />
+    <result column="submitter" property="submitter" jdbcType="VARCHAR" />
+    <result column="submit_time" property="submitTime" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <select id="selectToDoData" resultMap="BaseResultMap" parameterType="tech.wetech.admin.modules.system.po.User">
+select mr.id as matter_id,mr.record_id as matter_code, '设备维修' as matter_type, 'devices_maintenance' as matter_type_code, mr.record_name as matter_name,mr.pending_person as submitter, mr.create_time as submit_time  from  t_maintenance_record mr 
+where mr.pending_person_id  = #{id} and mr.flow_status_code !=  'em_end'
+UNION
+select cr.id as matter_id, cr.record_id as matter_code,'耗材申请' as matter_type, 'consumables_collect' as matter_type_code, cr.record_name as matter_name,cr.applicant as submitter, cr.create_time as submit_time  from  t_collection_record cr 
+where cr.pending_person_id  = #{id} and cr.asset_type_code='asset_type_consumables' and  cr.flow_status_code!='ccr_end'
+UNION
+select cr.id as matter_id, cr.record_id as matter_code,'工具申请' as matter_type, 'tools_collect' as matter_type_code, cr.record_name as matter_name,cr.applicant as submitter, cr.create_time as submit_time  from  t_collection_record cr 
+where cr.pending_person_id  = #{id} and cr.asset_type_code='asset_type_tool' and  cr.flow_status_code!='tcr_end'
+UNION
+select ip.id as matter_id,CONCAT(REPLACE (ip.inspection_time,'-',''),ip.id) as matter_code, '设备巡检' as matter_type, 'devices_inspection' as matter_type_code, CONCAT(ip.room_name,'巡检') as matter_name,ip.inspector as submitter, ip.inspection_time as submit_time  from  t_inspection_plan ip 
+where ip.inspector_id  = #{id} and  0 =(select count(1) from t_inspection_record ir where ir.plan_id = ip.id)   
+  </select>
+</mapper>

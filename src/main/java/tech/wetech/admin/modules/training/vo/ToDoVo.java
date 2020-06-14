@@ -7,8 +7,10 @@ import lombok.Data;
 @ApiModel(description = "待办事项")
 @Data
 public class ToDoVo {
-    @ApiModelProperty(value = "事项编号", name = "matterId", required = false, example = "1")
+	@ApiModelProperty(value = "事项编号(系统自动生成)", name = "matterId", required = false, example = "1")
 	private String matterId;
+	@ApiModelProperty(value = "事项编号(自编)", name = "matterCode", required = false, example = "MR001")
+	private String matterCode;
     @ApiModelProperty(value = "事项类型", name = "matterType", required = false, example = "设备维修")
 	private String matterType;
     @ApiModelProperty(value = "事项类型编号", name = "matterTypeCode", required = false, example = "devices_maintenance")

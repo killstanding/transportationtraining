@@ -3,6 +3,8 @@ package tech.wetech.admin.modules.training.web;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,11 +14,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import tech.wetech.admin.core.utils.DateUtil;
 import tech.wetech.admin.core.utils.Result;
+import tech.wetech.admin.modules.base.web.BaseController;
+import tech.wetech.admin.modules.system.po.User;
+import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.AssetClassification;
 import tech.wetech.admin.modules.training.po.PubCode;
 import tech.wetech.admin.modules.training.po.SummaryStatisticsDate;
 import tech.wetech.admin.modules.training.po.SummaryStatisticsMonth;
 import tech.wetech.admin.modules.training.service.AssetClassificationService;
+import tech.wetech.admin.modules.training.service.MainService;
 import tech.wetech.admin.modules.training.service.PubCodeService;
 import tech.wetech.admin.modules.training.service.SummaryStatisticsDateService;
 import tech.wetech.admin.modules.training.service.SummaryStatisticsMonthService;
@@ -27,7 +33,7 @@ import tech.wetech.admin.modules.training.vo.ToDoVo;
 @Api(value = "main", tags = {"main"}, description = "主页")
 @Controller
 @RequestMapping("/main")
-public class MainController {
+public class MainController extends BaseController{
 
 	@Autowired
 	private SummaryStatisticsDateService summaryStatisticsDateService; 
@@ -37,7 +43,10 @@ public class MainController {
     private PubCodeService pubCodeService;
 	@Autowired
     private AssetClassificationService assetClassificationService;
-	
+	@Autowired
+    private MainService mainService;
+	@Autowired
+    private UserService userService;
 	
     @GetMapping
     @RequiresPermissions("main:view")
@@ -54,7 +63,7 @@ public class MainController {
      * 获取柱状图数据
      * @return
      */
-    private HistogramVo getHistogramData(String statisticsCode){
+    protected HistogramVo getHistogramData(String statisticsCode){
     	HistogramVo result = new HistogramVo();
     	List<String> xAxisValues = new ArrayList<>();
     	List<Integer> monthList = DateUtil.MONTH_LIST;
@@ -64,13 +73,13 @@ public class MainController {
 		}
     	result.setXAxisValues(xAxisValues);
     	Date d = new Date();
-    	String thisYear = DateUtil.dateToStr(d, DateUtil.TIME_FORMATE);
+    	String thisYear = DateUtil.dateToStr(d, DateUtil.YEAR_FORMATE);
     	result.setYAxisValuesA(getYAxisValues(statisticsCode,thisYear));
-    	String lastyear = DateUtil.dateToStr(DateUtil.getLastYear(d), DateUtil.TIME_FORMATE);
+    	String lastyear = DateUtil.dateToStr(DateUtil.getLastYear(d), DateUtil.YEAR_FORMATE);
     	result.setYAxisValuesB(getYAxisValues(statisticsCode,lastyear));
     	return result;
     }
-    private List<String> getYAxisValues(String statisticsCode,String year){
+    protected List<String> getYAxisValues(String statisticsCode,String year){
     	List<String> result = new ArrayList<String>();
     	SummaryStatisticsMonth entity = new SummaryStatisticsMonth();
     	entity.setStatisticsCode(statisticsCode);
@@ -84,7 +93,7 @@ public class MainController {
     		result.add("0");
     		for (int j = 0; j < dataList.size(); j++) {
     			SummaryStatisticsMonth record = dataList.get(j);
-    			if(record.getStatisticsCode().equals(monthStr)){
+    			if(record.getStatisticsMonth().equals(monthStr)){
     				result.add(i, record.getStatisticsValue());
     				continue monthListFor;
     			}
@@ -99,7 +108,7 @@ public class MainController {
      * 类别饼图数据
      * @return
      */
-    private List<PieVo> getPieData(String assetTypeCode,String statisticsTypeCode) {
+    protected List<PieVo> getPieData(String assetTypeCode,String statisticsTypeCode) {
     	AssetClassification assetClassification = new AssetClassification();
     	assetClassification.setAssetTypeCode(assetTypeCode);//类别
     	List<AssetClassification> assetClassifications =  assetClassificationService.queryList(assetClassification);
@@ -131,7 +140,7 @@ public class MainController {
      * 获取指标牌数据
      * @return
      */
-    private  List<SummaryStatisticsDate> getSignBoardData(){
+    protected  List<SummaryStatisticsDate> getSignBoardData(){
     	Date d =new Date();
     	String dateStr = DateUtil.dateToStr(d, DateUtil.DATE_FORMATE);
     	SummaryStatisticsDate entity = new SummaryStatisticsDate();
@@ -169,7 +178,7 @@ public class MainController {
     @GetMapping("/signboarddata")
     @ApiOperation(value = "获取指标牌数据")
     @RequiresPermissions("main:view")
-    private Result<List<SummaryStatisticsDate>> getSignBoardDataShow(){
+    public Result<List<SummaryStatisticsDate>> getSignBoardDataShow(){
     	List<SummaryStatisticsDate> list = getSignBoardData();
     	return  Result.success(list);
     }
@@ -182,7 +191,7 @@ public class MainController {
     @GetMapping("/devicepiedata")
     @ApiOperation(value = "获取设备饼图数据")
     @RequiresPermissions("main:view")
-    private Result<List<PieVo>> getDevicePieData(){
+    public Result<List<PieVo>> getDevicePieData(){
     	List<PieVo> list = getPieData("asset_type_device","statistics_type_device_classification");
     	return  Result.success(list);
     }
@@ -195,7 +204,7 @@ public class MainController {
     @GetMapping("/consumablespiedata")
     @ApiOperation(value = "获取耗材饼图数据")
     @RequiresPermissions("main:view")
-    private Result<List<PieVo>> getConsumablesPieData(){
+    public Result<List<PieVo>> getConsumablesPieData(){
     	List<PieVo> list = getPieData("asset_type_consumables","statistics_type_consumables_classification");
     	return  Result.success(list);
     }
@@ -208,7 +217,7 @@ public class MainController {
     @GetMapping("/devicehistogramdata")
     @ApiOperation(value = "获取设备柱状图数据")
     @RequiresPermissions("main:view")
-    private Result<HistogramVo> getDeviceHistogramData(){
+    public Result<HistogramVo> getDeviceHistogramData(){
     	HistogramVo vo = getHistogramData("devices_total_num");
     	return  Result.success(vo);
     }
@@ -222,7 +231,7 @@ public class MainController {
     @GetMapping("/consumableshistogramdata")
     @ApiOperation(value = "获取耗材柱状图数据")
     @RequiresPermissions("main:view")
-    private Result<HistogramVo> getConsumablesHistogramData(){
+    public Result<HistogramVo> getConsumablesHistogramData(){
     	HistogramVo vo = getHistogramData("consumables_total_num");
     	return  Result.success(vo);
     }
@@ -235,9 +244,12 @@ public class MainController {
     @GetMapping("/todolist")
     @ApiOperation(value = "获取待办列表不分页")
     @RequiresPermissions("main:view")
-    private Result<List<ToDoVo>> getToDoList(){
-    	List<ToDoVo> toDoVos = null;
-    	
+    public Result<List<ToDoVo>> getToDoList(){
+    	String username = (String) SecurityUtils.getSubject().getPrincipal();
+    	User entity = new User();
+    	entity.setUsername(username);
+    	User user = userService.queryOne(entity);
+    	List<ToDoVo> toDoVos = mainService.selectToDoData(user);
     	return  Result.success(toDoVos);
     }
 }
