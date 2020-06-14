@@ -26,11 +26,12 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div id="toolbar">
+                    <a href="" style="display: none" id="exceldownload" download="维修记录.xls"></a>
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
                             	<label for="searchName"> 创建年份 </label>
                                 <div class='input-group date' id='searchName' style="width:35%;">
-					                <input type='text' class="form-control" name="createYear">
+					                <input type='text' class="form-control" id="cyearcyear" name="createYear">
 					                <span class="input-group-addon">
 					                    <span class="glyphicon glyphicon-calendar"></span>
 					                </span>
@@ -52,6 +53,10 @@
                                 <button type="reset" class="btn btn-default">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     清空
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="exportexcel()">
+                                    <i class="glyphicon glyphicon-save"></i>
+                                    导出
                                 </button>
                             </div>
                         </form>
@@ -116,7 +121,7 @@
         	location.reload();
     	}else {
     		localStorage.setItem("weixiuId", id);
-        	window.location.hash = '#maintenancerecord';
+        	window.location.hash = '#maintenancerecord/edit';
         	location.reload();
     	}
     }
@@ -126,6 +131,26 @@
     	localStorage.setItem("assetDetailUrl", '#maintenancerecord');
     	window.location.hash = '#asset/detail';
     	location.reload();
+    }
+    
+    function exportexcel() {
+    	var createYear = $('#cyearcyear').val();
+    	var flowStatusCode = $('#searchId').val();
+    	var datas = {};
+    	if(createYear != '') {
+    		datas.createYear= createYear;
+    	}
+    	if(flowStatusCode != '') {
+    		datas.flowStatusCode= flowStatusCode;
+    	}
+    	$.ajax({
+            type:"POST",
+            data: datas,
+            url: CONTEXT_PATH + '/maintenancerecord/exportexcel',
+            success:function(data){
+            	commondownload(data.data);
+            }
+        });
     }
 </script>
 </html>

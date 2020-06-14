@@ -21,6 +21,7 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div id="toolbar">
+                    <a href="" style="display: none" id="exceldownload" download="工具.xls"></a>
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
                                 <label for="searchName"> 工具名称 </label>
@@ -34,6 +35,10 @@
                                 <button type="reset" class="btn btn-default">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     清空
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="exportexcel()">
+                                    <i class="glyphicon glyphicon-save"></i>
+                                    导出
                                 </button>
                             </div>
                         </form>
@@ -95,7 +100,7 @@
                         	<input id="addAssetClassification" type="text" class="form-control" name="assetClassification" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                         	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>工具分类:</label>
 	                        <select id="assetClassificationCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetClassificationCode" onchange="addAssetClassificationChange()"
 	                                data-placeholder="请从列表选择一项" required>
@@ -106,12 +111,14 @@
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
+                    </div>
+                    <div class="form-group">
                         <div style="display: none;">
                         	<label class="control-label" for="addSpecificationType"><span class="asterisk">*</span>规格型号:</label>
                         	<input id="addSpecificationType" type="text" class="form-control" name="specificationType" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                         	<label class="control-label" for="specificationTypeCode"><span class="asterisk">*</span>规格型号:</label>
 	                        <select id="specificationTypeCode" class="form-control select2" data-minimum-results-for-search="-1" name="specificationTypeCode" onchange="addSpecificationTypeChange()"
 	                                data-placeholder="请从列表选择一项" required>
@@ -124,12 +131,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-                                            <div style="display: none;">
+                        <div style="display: none;">
                         	<label class="control-label" for="addUseDepartment"><span class="asterisk">*</span>所属系:</label>
                         	<input id="addUseDepartment" type="text" class="form-control" name="useDepartment" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                         	<label class="control-label" for="useDepartmentId"><span class="asterisk">*</span>所属系:</label>
 	                        <select id="useDepartmentId" class="form-control select2" name="useDepartmentId" onchange="addUseDepartmentChange()"
 	                                data-placeholder="请从列表选择一项" required>
@@ -140,12 +147,14 @@
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
+                    </div>
+                    <div class="form-group">
                         <div style="display: none;">
                         	<label class="control-label" for="addPositionName"><span class="asterisk">*</span>存放地点:</label>
                         	<input id="addPositionName" type="text" class="form-control" name="positionName" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                         	<label class="control-label" for="positionCode"><span class="asterisk">*</span>存放地点:</label>
 	                        <select id="positionCode" class="form-control select2" name="positionCode" onchange="addPositionChange()"
 	                                data-placeholder="请从列表选择一项" required>
@@ -163,7 +172,7 @@
                         	<input id="addAssetUser" type="text" class="form-control" name="assetUser" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                         	<label class="control-label" for="assetUserId"><span class="asterisk">*</span>使用人:</label>
 	                        <select id="assetUserId" class="form-control select2" data-minimum-results-for-search="-1" name="assetUserId" onchange="addAssetUserChange()"
 	                                data-placeholder="请从列表选择一项" required>
@@ -174,24 +183,26 @@
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
-                        	<label class="control-label" for="addDatepicker"><span class="asterisk">*</span>记账日期:</label>
-                        	<div class='input-group date' id='addDatepicker'>
-				                <input type='text' class="form-control" name="bookkeepingDate" required>
-				                <span class="input-group-addon">
-				                    <span class="glyphicon glyphicon-calendar"></span>
-				                </span>
-				            </div>
-				            <div class="help-block with-errors"></div>
-                        </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                        	<label class="control-label" for="assetValue"><span class="asterisk">*</span>工具价值（元）:</label>
-	                        <input id="assetValue" type="text" class="form-control" name="assetValue" placeholder="输入价值"
-                               required>
-	                        <div class="help-block with-errors"></div>
-                        </div>
+                    <div class="form-group" style="display: none">
+                        <label class="control-label" for="cumulativeReceiptQuantity"><span class="asterisk">*</span>累计入库数量:</label>
+	                    <input id="cumulativeReceiptQuantity" type="text" class="form-control" name="cumulativeReceiptQuantity" placeholder="输入数量"
+                               value="0">
+                    </div>
+                    <div class="form-group" style="display: none">
+                        <label class="control-label" for="totalExisting"><span class="asterisk">*</span>现存数量:</label>
+	                    <input id="totalExisting" type="text" class="form-control" name="totalExisting" placeholder="输入数量"
+                               value="0">
+                    </div>
+                    <div class="form-group" style="display: none">
+                        <label class="control-label" for="cumulativeCollectedQuantity"><span class="asterisk">*</span>领用数量:</label>
+	                    <input id="cumulativeCollectedQuantity" type="text" class="form-control" name="cumulativeCollectedQuantity" placeholder="输入数量"
+                               value="0">
+                    </div>
+                    <div class="form-group" style="display: none">
+                        <label class="control-label" for="remainingQuantity"><span class="asterisk">*</span>剩余数量:</label>
+	                    <input id="remainingQuantity" type="text" class="form-control" name="remainingQuantity" placeholder="输入数量"
+                               value="0">
                     </div>
                 </form>
             </div>
@@ -233,13 +244,13 @@
                         <div class="help-block with-errors"></div>
                         </div>
                     </div>
-                                        <div class="form-group">
+                    <div class="form-group">
                         <div style="display: none;">
                         	<label class="control-label" for="editAssetClassification"><span class="asterisk">*</span>工具分类:</label>
                         	<input id="editAssetClassification" type="text" class="form-control" name="assetClassification" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                         	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>工具分类:</label>
 	                        <select id="assetClassificationCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetClassificationCode" onchange="editAssetClassificationChange()"
 	                                data-placeholder="请从列表选择一项" required>
@@ -249,12 +260,14 @@
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
+                    </div>
+                    <div class="form-group">
                         <div style="display: none;">
                         	<label class="control-label" for="editSpecificationType"><span class="asterisk">*</span>规格型号:</label>
                         	<input id="editSpecificationType" type="text" class="form-control" name="specificationType" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                         	<label class="control-label" for="specificationTypeCode"><span class="asterisk">*</span>规格型号:</label>
 	                        <select id="specificationTypeCode" class="form-control select2" data-minimum-results-for-search="-1" name="specificationTypeCode" onchange="editSpecificationTypeChange()"
 	                                data-placeholder="请从列表选择一项" required>
@@ -271,7 +284,7 @@
                         	<input id="editUseDepartment" type="text" class="form-control" name="useDepartment" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                         	<label class="control-label" for="useDepartmentId"><span class="asterisk">*</span>所属系:</label>
 	                        <select id="useDepartmentId" class="form-control select2" name="useDepartmentId" onchange="editUseDepartmentChange()"
 	                                data-placeholder="请从列表选择一项" required>
@@ -281,12 +294,14 @@
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
+                    </div>
+                    <div class="form-group">
                         <div style="display: none;">
                         	<label class="control-label" for="editPositionName"><span class="asterisk">*</span>存放地点:</label>
                         	<input id="editPositionName" type="text" class="form-control" name="positionName" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                         	<label class="control-label" for="positionCode"><span class="asterisk">*</span>存放地点:</label>
 	                        <select id="positionCode" class="form-control select2" name="positionCode" onchange="editPositionChange()"
 	                                data-placeholder="请从列表选择一项" required>
@@ -303,7 +318,7 @@
                         	<input id="editAssetUser" type="text" class="form-control" name="assetUser" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                         	<label class="control-label" for="assetUserId"><span class="asterisk">*</span>使用人:</label>
 	                        <select id="assetUserId" class="form-control select2" data-minimum-results-for-search="-1" name="assetUserId" onchange="editAssetUserChange()"
 	                                data-placeholder="请从列表选择一项" required>
@@ -311,24 +326,6 @@
 	                            使用人不存在
 	                            </option>
 	                        </select>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="col-md-6">
-                        	<label class="control-label" for="editDatepicker"><span class="asterisk">*</span>记账日期:</label>
-                        	<div class='input-group date' id='editDatepicker'>
-				                <input type='text' class="form-control" name="bookkeepingDate" required>
-				                <span class="input-group-addon">
-				                    <span class="glyphicon glyphicon-calendar"></span>
-				                </span>
-				            </div>
-				            <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                        	<label class="control-label" for="assetValue"><span class="asterisk">*</span>工具价值（元）:</label>
-	                        <input id="assetValue" type="text" class="form-control" name="assetValue" placeholder="输入价值"
-                               required>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
@@ -367,6 +364,56 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="addNumberModal" tabindex="-1" role="dialog" aria-labelledby="addNumberModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="noAddNumberModel()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addNumberModalLabel">工具入库</h4>
+            </div>
+            <div class="modal-body">
+            	<form id="addNumberForm">
+                    <div class="form-group">
+                        <label class="control-label" for="consumablesName"><span class="asterisk">*</span>工具名称:</label>
+                        <input id="consumablesName" type="text" class="form-control" name="consumablesName"
+                               readonly>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="quantity"><span class="asterisk">*</span>入库数量:</label>
+	                    <input id="quantity" type="text" class="form-control" name="quantity" placeholder="输入数量"
+                               required>
+                               <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                    	<label class="control-label" for="unitPrice"><span class="asterisk">*</span>单位价格（元）:</label>
+	                    <input id="unitPrice" type="text" class="form-control" name="unitPrice" placeholder="输入价格"
+                               required>
+	                    <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        	<label class="control-label" for="numberDatepicker"><span class="asterisk">*</span>入库日期:</label>
+                        	<div class='input-group date' id='numberDatepicker'>
+				                <input type='text' class="form-control" name="addNumberDate" required>
+				                <span class="input-group-addon">
+				                    <span class="glyphicon glyphicon-calendar"></span>
+				                </span>
+				            </div>
+				            <div class="help-block with-errors"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="noAddNumberModel()">取消</button>
+                <button type="button" class="btn btn-primary" onclick="addNumber()">
+                    确定
+                </button>
+            </div>
+		</div> 
+	</div>
+</div>
+
 <div id="actionButtons" class="admin-hide">
     <!-- <a class="like" href="javascript:void(0)" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a> -->
     <a shiro:hasPermission="tools:update" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="编辑"><i class="glyphicon glyphicon-edit"></i></a>　
@@ -377,11 +424,7 @@
     var $table = $('#table');
 
     $(function () {
-    	$('#addDatepicker').datepicker({
-            format: 'yyyy-mm-dd',
-            autoclose: true
-        });
-    	$('#editDatepicker').datepicker({
+    	$('#numberDatepicker').datepicker({
             format: 'yyyy-mm-dd',
             autoclose: true
         });
@@ -402,11 +445,14 @@
                 {field: 'assetName', title: '工具名称', sortable: true, halign: 'left', formatter: 'assetNameFormatter'},
                 {field: 'assetClassification', title: '工具分类', halign: 'center', align: 'center'},
                 {field: 'specificationType', title: '规格型号', halign: 'center', align: 'center'},
-                {field: 'assetValue', title: '价值（元）', sortable: true, halign: 'left'},
-                {field: 'bookkeepingDate', title: '记账日期', halign: 'center', align: 'center'},
                 {field: 'positionName', title: '存放地点', halign: 'center', align: 'center'},
                 {field: 'useDepartment', title: '所属系', halign: 'center', align: 'center'},
                 {field: 'assetUser', title: '使用人', halign: 'center', align: 'center'},
+                {field: 'cumulativeReceiptQuantity', title: '累计入库数量', halign: 'center', align: 'center'},
+                {field: 'totalExisting', title: '现存数量', halign: 'center', align: 'center'},
+                {field: 'cumulativeCollectedQuantity', title: '领用数量', halign: 'center', align: 'center'},
+                {field: 'remainingQuantity', title: '剩余数量', halign: 'center', align: 'center'},
+                {field: 'addNumber', title: '入库操作', halign: 'center', align: 'center', formatter: 'addNumberFormatter'},
                 {
                     field: 'action',
                     title: '操作',
@@ -430,6 +476,12 @@
 
     function assetNameFormatter(value, row, index) {
     	return '<a href="#" onclick="refresh(\'' + row.id + '\',\'' + row.assetName + '\')">' + value +'</a>'
+    }
+    
+    var addNumberDatas = {};
+    function addNumberFormatter(value, row, index) {
+    	addNumberDatas[index] = row;
+    	return '<a href="#tools" onclick="addNumberModel(' + index + ')"><i class="glyphicon glyphicon-plus"></i></a>';
     }
 
     function actionFormatter(value, row, index) {
@@ -459,6 +511,50 @@
             $('#deleteForm').html(html);
         }
     };
+    
+    var addNumberData;
+    function addNumberModel(data) {
+    	addNumberData = addNumberDatas[data];
+    	$('#addNumberForm').find('[name=consumablesName]').val(addNumberData.assetName);
+    	$('#addNumberForm').find('[name=quantity]').val('');
+    	$('#addNumberForm').find('[name=unitPrice]').val('');
+    	$('#numberDatepicker').datepicker('setDate', new Date());
+    	$('#addNumberModal').css('display', 'block');
+    	$('#addNumberModal').addClass('in');
+    }
+    
+    function noAddNumberModel() {
+    	$('#addNumberModal').css('display', 'none');
+    	$('#addNumberModal').removeClass("in");
+    }
+    
+    function addNumber() {
+    	if($('#numberDatepicker').datepicker('getDate') == '' || $('#addNumberForm').find('[name=unitPrice]').val() == '' || $('#addNumberForm').find('[name=quantity]').val() == '')
+    		{
+    		return;
+    		}
+    	var data = {};
+    	data.assetId = addNumberData.id;
+    	data.assetName = addNumberData.assetName;
+    	data.assetType = '工具';
+    	data.assetTypeCode = 'asset_type_tool';
+    	data.warehousingTime = $("#numberDatepicker").find("input").val();
+    	data.unitPrice = $('#addNumberForm').find('[name=unitPrice]').val();
+    	data.warehousingQuantity = $('#addNumberForm').find('[name=quantity]').val();
+    	data.positionCode = addNumberData.positionCode;
+    	data.positionName = addNumberData.positionName;
+    	data.managerId = addNumberData.assetUserId;
+    	data.manager = addNumberData.assetUser;
+    	console.log(1);
+    	$.ajax({
+            type:"POST",
+            url: CONTEXT_PATH + '/warehousingrecord/create',
+            data: data,
+            success:function(data){
+            	noAddNumberModel()
+            }
+        });
+    }
     
     function addAssetClassificationChange() {
     	var addAssetClassificationText = $('#addForm').find('[name=assetClassificationCode]').find('option:selected').text();
@@ -516,7 +612,20 @@
     	//addPositionChange();
     	//addUseDepartmentChange();
     	//addAssetUserChange();
-    	$('#addDatepicker').datepicker('setDate', new Date());
+    }
+    
+    function exportexcel() {
+    	var assetName = $('#searchName').val();
+    	$.ajax({
+            type:"POST",
+            data: {
+            	assetName: assetName
+            },
+            url: CONTEXT_PATH + '/tools/exportexcel',
+            success:function(data){
+            	commondownload(data.data);
+            }
+        });
     }
 </script>
 </html>

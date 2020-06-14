@@ -37,6 +37,7 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div id="toolbar">
+                    <a href="" style="display: none" id="exceldownload" download="耗材详情.xls"></a>
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
                             <input type="hidden" class="form-control input-sm" name="assetTypeCode" id="searchType" value="asset_type_consumables" readonly>
@@ -55,6 +56,10 @@
                                 </button>
                                 <button type="button" class="btn btn-default" onclick="rkjl()">
                                     入库记录
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="exportexcel()">
+                                    <i class="glyphicon glyphicon-save"></i>
+                                    导出
                                 </button>
                             </div>
                     <table id="table1"></table>
@@ -152,8 +157,9 @@
             ]
         });
     });
-    
+    var hcxqss = 1;
     function lyjl() {
+    	hcxqss = 1;
     	$('.fixed-table-toolbar')[1].style.display = 'block';
 		$('.fixed-table-toolbar')[2].style.display = 'none';
     	$table1.css('display', 'block');
@@ -163,6 +169,7 @@
     }
     
     function rkjl() {
+    	hcxqss =2;
     	$('.fixed-table-toolbar')[1].style.display = 'none';
     	$('.fixed-table-toolbar')[2].style.display = 'block';
     	$table1.css('display', 'none');
@@ -173,6 +180,35 @@
     
     function returnBack() {
     	document.querySelector('a[href="#consumables"]').click();
+    }
+    
+    function exportexcel() {
+    	var assetId = $('#searchId').val();
+    	if(hcxqss === 1) {
+    		$.ajax({
+                type:"POST",
+                data: {
+                	assetId: assetId,
+                	assetTypeCode: 'asset_type_consumables'
+                },
+                url: CONTEXT_PATH + '/collectionrecord/exportexcel',
+                success:function(data){
+                	commondownload(data.data);
+                }
+            });
+    	}else {
+    		$.ajax({
+                type:"POST",
+                data: {
+                	assetId: assetId,
+                	assetTypeCode: 'asset_type_consumables'
+                },
+                url: CONTEXT_PATH + '/warehousingrecord/exportexcel',
+                success:function(data){
+                	commondownload(data.data);
+                }
+            });
+    	}
     }
 </script>
 </html>

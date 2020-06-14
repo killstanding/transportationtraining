@@ -81,6 +81,7 @@
                 <div class="box-body">
                 	<div class="main-content">
                 		<div class="left">
+                		<a href="" style="display: none" id="exceldownload" download="设备详情.xls"></a>
                 			<div class="left-title">
                 				<span style="line-height: 34px">当前设备</span>
                 				<button type="button" class="btn btn-default" style="float:right" onclick="returnBack()">
@@ -122,6 +123,10 @@
 	                				<button type="button" class="btn btn-default" onclick="switchTable(2)"> 维修记录</button>
 	                				<button type="button" class="btn btn-default" onclick="switchTable(3)"> 巡检记录</button>
 	                        	</div>
+	                        	<button type="button" class="btn btn-default" style="position: absolute;right:15px" onclick="exportexcel()">
+                                    <i class="glyphicon glyphicon-save"></i>
+                                    导出
+                                </button>
                 			</div>
                 			<div id="t1" class="table-wrapper" style="display: none">
                 				<table id="table1"></table>
@@ -204,8 +209,9 @@
     		return '否';
     	}
     }
-    
+    var iiddiid = 2;
     function switchTable(id) {
+    	iiddiid = id;
     	if(id == 1) {
     		$('#t1').css('display', 'block');
     		$('#t2').css('display', 'none');
@@ -230,6 +236,33 @@
     	}else {
     		window.location.hash = url;
         	location.reload();
+    	}
+    }
+    
+    function exportexcel() {
+    	var assetId = localStorage.getItem("assetDetailId");
+    	if(iiddiid == 2) {
+    		$.ajax({
+                type:"POST",
+                data: {
+                	assetId: assetId
+                },
+                url: CONTEXT_PATH + '/maintenancerecord/exportexcel',
+                success:function(data){
+                	commondownload(data.data);
+                }
+            });
+    	} else if(iiddiid == 3) {
+    		$.ajax({
+                type:"POST",
+                data: {
+                	assetId: assetId
+                },
+                url: CONTEXT_PATH + '/inspectionrecord/exportexcel',
+                success:function(data){
+                	commondownload(data.data);
+                }
+            });
     	}
     }
 </script>

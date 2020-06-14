@@ -78,28 +78,28 @@
                 			<img class="tap_img" th:src="@{/static/img/room.png}">
                 			<div class="tap_msg">
                 				<div class="tap_title">实训教室数</div>
-                				<div class="tap_num">47</div>
+                				<div class="tap_num" id="signbar1"></div>
                 			</div>
                 		</div>
                 		<div class="tap_item" style="background: linear-gradient(90deg, rgb(254, 141, 123) 0%, rgb(255, 99, 161) 100%);">
                 			<img class="tap_img" th:src="@{/static/img/sb.png}">
                 			<div class="tap_msg">
                 				<div class="tap_title">设备总数</div>
-                				<div class="tap_num">2000</div>
+                				<div class="tap_num" id="signbar2"></div>
                 			</div>
                 		</div>
                 		<div class="tap_item" style="background: linear-gradient(90deg, rgb(238, 177, 112) 0%, rgb(254, 122, 83) 100%);">
                 			<img class="tap_img" th:src="@{/static/img/xl.png}">
                 			<div class="tap_msg">
                 				<div class="tap_title">维修设备数</div>
-                				<div class="tap_num">12</div>
+                				<div class="tap_num" id="signbar3"></div>
                 			</div>
                 		</div>
                 		<div class="tap_item" style="background: linear-gradient(90deg, rgb(111, 209, 239) 0%, rgb(82, 155, 251) 100%);">
                 			<img class="tap_img" th:src="@{/static/img/hc.png}">
                 			<div class="tap_msg">
                 				<div class="tap_title">耗材总数</div>
-                				<div class="tap_num">4500</div>
+                				<div class="tap_num" id="signbar4"></div>
                 			</div>
                 		</div>
                 	</div>
@@ -217,51 +217,66 @@ var datas = [{
 }]
 
 $(function () {
+	$.ajax({
+        type:"GET",
+        url: CONTEXT_PATH + '/main/signboarddata',
+        success:function(data){
+        	$('#signbar1')[0].innerHTML = data.data[0].statisticsValue;
+        	$('#signbar2')[0].innerHTML = data.data[1].statisticsValue;
+        	$('#signbar3')[0].innerHTML = data.data[2].statisticsValue;
+        	$('#signbar4')[0].innerHTML = data.data[3].statisticsValue;
+        }
+    });
     $table.bootstrapTable({
-        data: datas,
+    	url: CONTEXT_PATH + '/main/todolist',
         idField: 'id',
         detailView: false,
         columns: [
-            {field: 'id', title: '序号', halign: 'center', align: 'center',
+            {field: 'matterId', title: '序号', halign: 'center', align: 'center',
             	formatter: function(value,row,index) {
             		var pageSize = $table.bootstrapTable('getOptions').pageSize;
             		var pageNumber = $table.bootstrapTable('getOptions').pageNumber;
             		return pageSize * (pageNumber - 1) + index + 1;
             	}
             },
-            {field: 'item', title: '待办事项', halign: 'center', align: 'center'},
-            {field: 'title', title: '待办标题', halign: 'center', align: 'center'},
-            {field: 'people', title: '提交人', halign: 'center', align: 'center'},
-            {field: 'time', title: '提交时间', halign: 'center', align: 'center'}
+            {field: 'matterType', title: '待办事项', halign: 'center', align: 'center'},
+            {field: 'matterName', title: '待办标题', halign: 'center', align: 'center'},
+            {field: 'submitter', title: '提交人', halign: 'center', align: 'center'},
+            {field: 'submitTime', title: '提交时间', halign: 'center', align: 'center'}
         ]
     });
-    drawPie1();
-    drawPie2();
-    drawBar1();
-    drawBar2();
+    $.ajax({
+        type:"GET",
+        url: CONTEXT_PATH + '/main/devicepiedata',
+        success:function(data){
+        	drawPie1(data.data);
+        }
+    });
+    $.ajax({
+        type:"GET",
+        url: CONTEXT_PATH + '/main/consumablespiedata',
+        success:function(data){
+        	drawPie2(data.data);
+        }
+    });
+    $.ajax({
+        type:"GET",
+        url: CONTEXT_PATH + '/main/devicehistogramdata',
+        success:function(data){
+        	drawBar1(data.data);
+        }
+    });
+    $.ajax({
+        type:"GET",
+        url: CONTEXT_PATH + '/main/consumableshistogramdata',
+        success:function(data){
+        	drawBar2(data.data);
+        }
+    });
 });
 
-function drawPie1() {
-	var echartData = [{
-	    value: 200,
-	    name: '发动机'
-	}, {
-	    value: 77,
-	    name: '汽车模型'
-	}, {
-	    value: 19,
-	    name: '汽车零件'
-	}, {
-	    value: 165,
-	    name: '配件'
-	}, {
-	    value: 99,
-	    name: '示教板'
-	}, {
-	    value: 111,
-	    name: '模具车'
-	}]
-	option = {
+function drawPie1(echartData) {
+	var option = {
 	    title: {
 	        text:'设备总数',
 	        left:'center',
@@ -283,7 +298,7 @@ function drawPie1() {
 	            var total = 0;
 	            var averagePercent;
 	            echartData.forEach(function(value, index, array) {
-	                total += value.value;
+	                total += value.value * 1;
 	            });
 	            return total;
 	        },
@@ -310,24 +325,8 @@ function drawPie1() {
 	myChart.setOption(option);
 }
 
-function drawPie2() {
-	var echartData = [{
-	    value: 1523,
-	    name: '润滑油'
-	}, {
-	    value: 2213,
-	    name: '手套'
-	}, {
-	    value: 1231,
-	    name: '扳手'
-	}, {
-	    value: 223,
-	    name: '教材'
-	}, {
-	    value: 564,
-	    name: '卡纸'
-	}]
-	option = {
+function drawPie2(echartData) {
+	var option = {
 	    title: {
 	        text:'本年度耗材使用',
 	        left:'center',
@@ -349,7 +348,7 @@ function drawPie2() {
 	            var total = 0;
 	            var averagePercent;
 	            echartData.forEach(function(value, index, array) {
-	                total += value.value;
+	                total += value.value * 1;
 	            });
 	            return total;
 	        },
@@ -376,7 +375,7 @@ function drawPie2() {
 	myChart.setOption(option);
 }
 
-function drawBar1() {
+function drawBar1(data) {
 	 var colors = [{
 	     type: 'linear',
 	     x: 0,
@@ -416,7 +415,7 @@ function drawBar1() {
 	         color: '#0f299a'
 	     }]
 	 }];
-	 option = {
+	 var option = {
 	     tooltip: {
 	         trigger: 'item',
 	     },
@@ -443,7 +442,7 @@ function drawBar1() {
 	         axisLabel: {
 	             fontSize: 14
 	         },
-	         data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+	         data: data.xaxisValues,
 	     }],
 	     yAxis: [{
 	         type: 'value',
@@ -471,27 +470,12 @@ function drawBar1() {
 	             name: '今年使用量',
 	             type: 'bar',
 	             barWidth: 25,
-	             data: [20, 9, 37, 23, 25, 67, 16, 59, 40, 24, 27, 77],
+	             data: data.yaxisValuesA,
 	             itemStyle: {
 	                 normal: {
 	                     color: colors[0]
 	                 },
 	             }
-	         }, {
-	             z: 3,
-	             type: 'pictorialBar',
-	             symbolPosition: 'end',
-	             data: [20, 9, 37, 23, 25, 67, 16, 59, 40, 24, 27, 77],
-	             symbol: 'diamond',
-	             symbolOffset: [-12.5, '-50%'],
-	             symbolSize: [25 - 4, (10 * (25 - 4)) / 25],
-	             itemStyle: {
-	                 normal: {
-	                     borderColor: '#12bac1',
-	                     borderWidth: 2,
-	                     color: '#12bac1'
-	                 }
-	             },
 	         },
 	         {
 	             z: 1,
@@ -499,28 +483,12 @@ function drawBar1() {
 	             type: 'bar',
 	             barGap: 0,
 	             barWidth: 25,
-	             data: [16, 59, 40, 24, 27, 77, 20, 9, 37, 23, 25, 67],
+	             data: data.yaxisValuesB,
 	             itemStyle: {
 	                 normal: {
 	                     color: colors[1]
 	                 }
 	             }
-	         },
-	         {
-	             z: 3,
-	             type: 'pictorialBar',
-	             symbolPosition: 'end',
-	             data: [16, 59, 40, 24, 27, 77, 20, 9, 37, 23, 25, 67],
-	             symbol: 'diamond',
-	             symbolOffset: [12.5, '-50%'],
-	             symbolSize: [25 - 4, (10 * (25 - 4)) / 25],
-	             itemStyle: {
-	                 normal: {
-	                     borderColor: '#319cf1',
-	                     borderWidth: 2,
-	                     color: '#319cf1'
-	                 }
-	             },
 	         }
 	     ]
 	 };
@@ -528,7 +496,7 @@ function drawBar1() {
 		myChart.setOption(option);
 }
 
-function drawBar2() {
+function drawBar2(data) {
 	 var colors = [{
 	     type: 'linear',
 	     x: 0,
@@ -568,7 +536,7 @@ function drawBar2() {
 	         color: '#0f299a'
 	     }]
 	 }];
-	 option = {
+	 var option = {
 	     tooltip: {
 	         trigger: 'item',
 	     },
@@ -595,7 +563,7 @@ function drawBar2() {
 	         axisLabel: {
 	             fontSize: 14
 	         },
-	         data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+	         data: data.xaxisValues,
 	     }],
 	     yAxis: [{
 	         type: 'value',
@@ -623,27 +591,12 @@ function drawBar2() {
 	             name: '今年使用量',
 	             type: 'bar',
 	             barWidth: 25,
-	             data: [20, 9, 37, 23, 25, 67, 16, 59, 40, 24, 27, 77],
+	             data: data.yaxisValuesA,
 	             itemStyle: {
 	                 normal: {
 	                     color: colors[0]
 	                 },
 	             }
-	         }, {
-	             z: 3,
-	             type: 'pictorialBar',
-	             symbolPosition: 'end',
-	             data: [20, 9, 37, 23, 25, 67, 16, 59, 40, 24, 27, 77],
-	             symbol: 'diamond',
-	             symbolOffset: [-12.5, '-50%'],
-	             symbolSize: [25 - 4, (10 * (25 - 4)) / 25],
-	             itemStyle: {
-	                 normal: {
-	                     borderColor: '#12bac1',
-	                     borderWidth: 2,
-	                     color: '#12bac1'
-	                 }
-	             },
 	         },
 	         {
 	             z: 1,
@@ -651,28 +604,12 @@ function drawBar2() {
 	             type: 'bar',
 	             barGap: 0,
 	             barWidth: 25,
-	             data: [16, 59, 40, 24, 27, 77, 20, 9, 37, 23, 25, 67],
+	             data: data.yaxisValuesB,
 	             itemStyle: {
 	                 normal: {
 	                     color: colors[1]
 	                 }
 	             }
-	         },
-	         {
-	             z: 3,
-	             type: 'pictorialBar',
-	             symbolPosition: 'end',
-	             data: [16, 59, 40, 24, 27, 77, 20, 9, 37, 23, 25, 67],
-	             symbol: 'diamond',
-	             symbolOffset: [12.5, '-50%'],
-	             symbolSize: [25 - 4, (10 * (25 - 4)) / 25],
-	             itemStyle: {
-	                 normal: {
-	                     borderColor: '#319cf1',
-	                     borderWidth: 2,
-	                     color: '#319cf1'
-	                 }
-	             },
 	         }
 	     ]
 	 };

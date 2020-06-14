@@ -22,6 +22,7 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div id="toolbar">
+                    <a href="" style="display: none" id="exceldownload" download="巡检详情.xls"></a>
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
                             	<input type="hidden" class="form-control input-sm" name="planId" id="searchId" readonly>
@@ -36,6 +37,10 @@
                                 <button type="reset" class="btn btn-default">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     清空
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="exportexcel()">
+                                    <i class="glyphicon glyphicon-save"></i>
+                                    导出
                                 </button>
                                 <button type="button" class="btn btn-default" onclick="returnBack()">
                                     返回上一级
@@ -139,6 +144,22 @@
     function returnBack() {
     	window.location.hash = '#inspectionplan';
     	location.reload();
+    }
+    
+    function exportexcel() {
+    	var planId = $('#searchId').val();
+    	var assetName = $('#searchName').val();
+    	$.ajax({
+            type:"POST",
+            data: {
+            	planId: planId,
+            	assetName: assetName
+            },
+            url: CONTEXT_PATH + '/inspectionrecord/exportexcel',
+            success:function(data){
+            	commondownload(data.data);
+            }
+        });
     }
 </script>
 </html>
