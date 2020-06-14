@@ -136,6 +136,39 @@ public class Tools extends BaseRowModel{
     private Integer useDepartmentId;
 
     /**
+     * 累计入库数量
+     */
+    @ApiModelProperty(value = "累计入库数量", name = "cumulativeReceiptQuantity", required = false, example = "100")
+    @ExcelProperty(value = {"累计入库数量","累计入库数量"},index = 9)
+    @Column(name = "cumulative_receipt_quantity")
+    private String cumulativeReceiptQuantity;
+
+    /**
+     * 现存总数
+     */
+    @ApiModelProperty(value = "现存总数", name = "totalExisting", required = false, example = "50")
+    @ExcelProperty(value = {"现存总数","现存总数"},index = 10)
+    @Column(name = "total_existing")
+    private String totalExisting;
+
+    /**
+     * 累计领用数量
+     */
+    @ApiModelProperty(value = "累计领用数量", name = "cumulativeCollectedQuantity", required = false, example = "40")
+    @ExcelProperty(value = {"累计领用数量","累计领用数量"},index = 11)
+    @Column(name = "cumulative_collected_quantity")
+    private String cumulativeCollectedQuantity;
+
+    /**
+     * 剩余数量
+     */
+    @ApiModelProperty(value = "剩余数量", name = "remainingQuantity", required = false, example = "10")
+    @ExcelProperty(value = {"剩余数量","剩余数量"},index = 12)
+    @Column(name = "remaining_quantity")
+    private String remainingQuantity;
+    
+    
+    /**
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间", name = "createTime", required = false, example = "2020-04-24 18:00:00")
@@ -423,6 +456,78 @@ public class Tools extends BaseRowModel{
         this.useDepartmentId = useDepartmentId;
     }
 
+    /**
+     * 获取累计入库数量
+     *
+     * @return cumulative_receipt_quantity - 累计入库数量
+     */
+    public String getCumulativeReceiptQuantity() {
+        return cumulativeReceiptQuantity;
+    }
+
+    /**
+     * 设置累计入库数量
+     *
+     * @param cumulativeReceiptQuantity 累计入库数量
+     */
+    public void setCumulativeReceiptQuantity(String cumulativeReceiptQuantity) {
+        this.cumulativeReceiptQuantity = cumulativeReceiptQuantity;
+    }
+
+    /**
+     * 获取现存总数
+     *
+     * @return total_existing - 现存总数
+     */
+    public String getTotalExisting() {
+        return totalExisting;
+    }
+
+    /**
+     * 设置现存总数
+     *
+     * @param totalExisting 现存总数
+     */
+    public void setTotalExisting(String totalExisting) {
+        this.totalExisting = totalExisting;
+    }
+
+    /**
+     * 获取累计领用数量
+     *
+     * @return cumulative_collected_quantity - 累计领用数量
+     */
+    public String getCumulativeCollectedQuantity() {
+        return cumulativeCollectedQuantity;
+    }
+
+    /**
+     * 设置累计领用数量
+     *
+     * @param cumulativeCollectedQuantity 累计领用数量
+     */
+    public void setCumulativeCollectedQuantity(String cumulativeCollectedQuantity) {
+        this.cumulativeCollectedQuantity = cumulativeCollectedQuantity;
+    }
+
+    /**
+     * 获取剩余数量
+     *
+     * @return remaining_quantity - 剩余数量
+     */
+    public String getRemainingQuantity() {
+        return remainingQuantity;
+    }
+
+    /**
+     * 设置剩余数量
+     *
+     * @param remainingQuantity 剩余数量
+     */
+    public void setRemainingQuantity(String remainingQuantity) {
+        this.remainingQuantity = remainingQuantity;
+    }
+    
     /**
      * 获取创建时间
      *

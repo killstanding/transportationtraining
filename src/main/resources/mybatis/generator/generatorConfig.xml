@@ -26,11 +26,17 @@
         <javaClientGenerator targetPackage="tech.wetech.admin.modules.training.mapper" targetProject="src/main/resources"
                              type="XMLMAPPER"/>
                              
-        <table schema="wetech_admin" tableName="t_tools_new" domainObjectName="ToolsNew">
+        <table schema="wetech_admin" tableName="t_tools" domainObjectName="Tools">
             <!--mysql 配置-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <!--oracle 配置-->
             <!--<generatedKey column="id" sqlStatement="select SEQ_{1}.nextval from dual" identity="false" type="pre"/>-->
-        </table> 
+        </table>
+        <table schema="wetech_admin" tableName="t_course_arrangement_re_tool" domainObjectName="CourseArrangementReTool">
+            <!--mysql 配置-->
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <!--oracle 配置-->
+            <!--<generatedKey column="id" sqlStatement="select SEQ_{1}.nextval from dual" identity="false" type="pre"/>-->
+        </table>
     </context>  
 </generatorConfiguration>

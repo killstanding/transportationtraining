@@ -22,6 +22,10 @@
     <result column="use_department_id" property="useDepartmentId" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="cumulative_receipt_quantity" property="cumulativeReceiptQuantity" jdbcType="VARCHAR" />
+    <result column="total_existing" property="totalExisting" jdbcType="VARCHAR" />
+    <result column="cumulative_collected_quantity" property="cumulativeCollectedQuantity" jdbcType="VARCHAR" />
+    <result column="remaining_quantity" property="remainingQuantity" jdbcType="VARCHAR" />
   </resultMap>
   
   <update id="updateCodeById" parameterType="tech.wetech.admin.modules.training.po.Tools">

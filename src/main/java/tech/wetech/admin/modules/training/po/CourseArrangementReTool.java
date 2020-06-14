@@ -88,6 +88,12 @@ public class CourseArrangementReTool {
     @Column(name = "update_Time")
     private String updateTime;
     
+    /**
+     * 申请数量
+     */
+    @ApiModelProperty(value = "申请数量", name = "numberOfApplications", required = false, example = "15")
+    @Column(name = "number_of_applications")
+    private Integer numberOfApplications;
     
     public interface CourseArrangementReToolCreateChecks {}
 
@@ -289,5 +295,23 @@ public class CourseArrangementReTool {
      */
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+    
+    /**
+     * 获取申请数量
+     *
+     * @return number_of_applications - 申请数量
+     */
+    public Integer getNumberOfApplications() {
+        return numberOfApplications;
+    }
+
+    /**
+     * 设置申请数量
+     *
+     * @param numberOfApplications 申请数量
+     */
+    public void setNumberOfApplications(Integer numberOfApplications) {
+        this.numberOfApplications = numberOfApplications;
     }
 }
