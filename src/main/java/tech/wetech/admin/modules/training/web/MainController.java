@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import tech.wetech.admin.core.utils.DateUtil;
+import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.modules.training.po.AssetClassification;
 import tech.wetech.admin.modules.training.po.PubCode;
 import tech.wetech.admin.modules.training.po.SummaryStatisticsDate;
@@ -20,6 +22,7 @@ import tech.wetech.admin.modules.training.service.SummaryStatisticsDateService;
 import tech.wetech.admin.modules.training.service.SummaryStatisticsMonthService;
 import tech.wetech.admin.modules.training.vo.HistogramVo;
 import tech.wetech.admin.modules.training.vo.PieVo;
+import tech.wetech.admin.modules.training.vo.ToDoVo;
 
 @Api(value = "main", tags = {"main"}, description = "主页")
 @Controller
@@ -39,11 +42,11 @@ public class MainController {
     @GetMapping
     @RequiresPermissions("main:view")
     public String page(Model model) {
-    	model.addAttribute("signBoardData",getSignBoardData());// 指标牌数据
-    	model.addAttribute("assetPieData",getPieData("asset_type_device","statistics_type_device_classification"));// 设备类别饼图数据   
-    	model.addAttribute("PieData",getPieData("asset_type_consumables","statistics_type_consumables_classification"));// 耗材类别饼图数据  
-    	model.addAttribute("deviceHistogramData",getHistogramData("devices_total_num"));// 设备柱状图数据
-    	model.addAttribute("consumablesHistogramData",getHistogramData("consumables_total_num"));// 耗材柱状图数据
+//    	model.addAttribute("signBoardData",getSignBoardData());// 指标牌数据
+//    	model.addAttribute("assetPieData",getPieData("asset_type_device","statistics_type_device_classification"));// 设备类别饼图数据   
+//    	model.addAttribute("PieData",getPieData("asset_type_consumables","statistics_type_consumables_classification"));// 耗材类别饼图数据  
+//    	model.addAttribute("deviceHistogramData",getHistogramData("devices_total_num"));// 设备柱状图数据
+//    	model.addAttribute("consumablesHistogramData",getHistogramData("consumables_total_num"));// 耗材柱状图数据
         return "system/main";
     }
    
@@ -68,7 +71,7 @@ public class MainController {
     	return result;
     }
     private List<String> getYAxisValues(String statisticsCode,String year){
-    	List<String> result = new ArrayList();
+    	List<String> result = new ArrayList<String>();
     	SummaryStatisticsMonth entity = new SummaryStatisticsMonth();
     	entity.setStatisticsCode(statisticsCode);
     	entity.setStatisticsTypeCode("statistics_type_summary");
@@ -128,7 +131,7 @@ public class MainController {
      * 获取指标牌数据
      * @return
      */
-    private List<SummaryStatisticsDate> getSignBoardData(){
+    private  List<SummaryStatisticsDate> getSignBoardData(){
     	Date d =new Date();
     	String dateStr = DateUtil.dateToStr(d, DateUtil.DATE_FORMATE);
     	SummaryStatisticsDate entity = new SummaryStatisticsDate();
@@ -162,5 +165,79 @@ public class MainController {
     	return result;
     }
 
+    @ResponseBody
+    @GetMapping("/signboarddata")
+    @ApiOperation(value = "获取指标牌数据")
+    @RequiresPermissions("main:view")
+    private Result<List<SummaryStatisticsDate>> getSignBoardDataShow(){
+    	List<SummaryStatisticsDate> list = getSignBoardData();
+    	return  Result.success(list);
+    }
     
+    /**
+     * 获取设备饼图数据
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/devicepiedata")
+    @ApiOperation(value = "获取设备饼图数据")
+    @RequiresPermissions("main:view")
+    private Result<List<PieVo>> getDevicePieData(){
+    	List<PieVo> list = getPieData("asset_type_device","statistics_type_device_classification");
+    	return  Result.success(list);
+    }
+    
+    /**
+     * 获取耗材饼图数据
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/consumablespiedata")
+    @ApiOperation(value = "获取耗材饼图数据")
+    @RequiresPermissions("main:view")
+    private Result<List<PieVo>> getConsumablesPieData(){
+    	List<PieVo> list = getPieData("asset_type_consumables","statistics_type_consumables_classification");
+    	return  Result.success(list);
+    }
+    
+    /**
+     * 获取设备柱状图数据
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/devicehistogramdata")
+    @ApiOperation(value = "获取设备柱状图数据")
+    @RequiresPermissions("main:view")
+    private Result<HistogramVo> getDeviceHistogramData(){
+    	HistogramVo vo = getHistogramData("devices_total_num");
+    	return  Result.success(vo);
+    }
+    
+
+    /**
+     * 获取耗材柱状图数据
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/consumableshistogramdata")
+    @ApiOperation(value = "获取耗材柱状图数据")
+    @RequiresPermissions("main:view")
+    private Result<HistogramVo> getConsumablesHistogramData(){
+    	HistogramVo vo = getHistogramData("consumables_total_num");
+    	return  Result.success(vo);
+    }
+    
+    /**
+     * 获取待办列表不分页
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/todolist")
+    @ApiOperation(value = "获取待办列表不分页")
+    @RequiresPermissions("main:view")
+    private Result<List<ToDoVo>> getToDoList(){
+    	List<ToDoVo> toDoVos = null;
+    	
+    	return  Result.success(toDoVos);
+    }
 }
