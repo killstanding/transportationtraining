@@ -159,7 +159,7 @@ public class AssetController extends BaseCrudController<Asset> {
     
     @ResponseBody
     @PostMapping("/create")
-    //@RequiresPermissions("asset:create")
+    @RequiresPermissions("asset:create")
     @SystemLog("资产管理资产创建")
     @Override
     public Result<String> create(@Validated(Asset.AssetCreateChecks.class) Asset entity) {
@@ -191,7 +191,8 @@ public class AssetController extends BaseCrudController<Asset> {
         super.deleteBatchByIds(ids);
         return Result.success();
     }
-
+    
+    @ResponseBody
 	@PostMapping("/exportexcel")
 	@ApiOperation(value = "导出")
 	@RequiresPermissions("asset:exportexcel")
@@ -209,7 +210,7 @@ public class AssetController extends BaseCrudController<Asset> {
 		return Result.success(fileName);
 	}
 	
-	
+    @ResponseBody
 	@PostMapping("/importexcel/")
 	@ApiOperation(value = "导入")
 	@RequiresPermissions("asset:importexcel")

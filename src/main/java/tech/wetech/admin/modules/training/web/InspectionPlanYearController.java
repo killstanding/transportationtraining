@@ -106,6 +106,7 @@ public class InspectionPlanYearController extends BaseCrudController<InspectionP
         return Result.success();
     }
 
+    @ResponseBody
 	@PostMapping("/exportexcel")
 	@ApiOperation(value = "年度巡检计划统计导出")
 	@RequiresPermissions("inspectionplan:exportexcel")

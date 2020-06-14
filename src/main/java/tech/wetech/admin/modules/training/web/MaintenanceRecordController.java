@@ -173,6 +173,7 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
         return Result.success();
     }
 
+    @ResponseBody
 	@PostMapping("/exportexcel")
 	@ApiOperation(value = "导出")
 	@RequiresPermissions("maintenancerecord:exportexcel")

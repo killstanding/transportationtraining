@@ -128,6 +128,7 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
         return Result.success();
     }
 
+    @ResponseBody
 	@PostMapping("/exportexcel")
 	@ApiOperation(value = "导出")
 	@RequiresPermissions("trainingroom:exportexcel")

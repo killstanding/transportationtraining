@@ -115,6 +115,7 @@ public class ToolsController extends BaseCrudController<Tools> {
         return Result.success();
     }
 
+    @ResponseBody
 	@PostMapping("/exportexcel")
 	@ApiOperation(value = "导出")
 	@RequiresPermissions("tools:exportexcel")
@@ -132,7 +133,7 @@ public class ToolsController extends BaseCrudController<Tools> {
 		return Result.success(fileName);
 	}
 	
-	
+    @ResponseBody
 	@PostMapping("/importexcel/")
 	@ApiOperation(value = "导入")
 	@RequiresPermissions("tools:importexcel")

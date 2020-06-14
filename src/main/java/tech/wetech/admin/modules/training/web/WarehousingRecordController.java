@@ -94,6 +94,7 @@ public class WarehousingRecordController extends BaseCrudController<WarehousingR
         return Result.success();
     }
 
+    @ResponseBody
 	@PostMapping("/exportexcel")
 	@ApiOperation(value = "导出")
 	@RequiresPermissions("warehousingrecord:exportexcel")

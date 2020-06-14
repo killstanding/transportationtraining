@@ -92,6 +92,7 @@ public class StudentController extends BaseCrudController<Student> {
         return Result.success();
     }
 
+    @ResponseBody
 	@PostMapping("/exportexcel")
 	@ApiOperation(value = "导出")
 	@RequiresPermissions("student:exportexcel")
@@ -109,7 +110,7 @@ public class StudentController extends BaseCrudController<Student> {
 		return Result.success(fileName);
 	}
 	
-	
+    @ResponseBody
 	@PostMapping("/importexcel/")
 	@ApiOperation(value = "导入")
 	@RequiresPermissions("student:importexcel")

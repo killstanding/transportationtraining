@@ -87,6 +87,7 @@ public class FlowDetailController extends BaseCrudController<FlowDetail> {
         return Result.success();
     }
 
+    @ResponseBody
 	@PostMapping("/exportexcel")
 	@ApiOperation(value = "导出")
 	@RequiresPermissions("flowdetail:exportexcel")

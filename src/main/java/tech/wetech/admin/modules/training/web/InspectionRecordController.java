@@ -232,6 +232,8 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
 		return Result.success();
 	}
 
+	
+	@ResponseBody
 	@PostMapping("/exportexcel")
 	@ApiOperation(value = "导出")
 	@RequiresPermissions("inspectionrecord:exportexcel")

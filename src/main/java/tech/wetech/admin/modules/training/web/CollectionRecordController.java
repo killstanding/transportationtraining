@@ -94,7 +94,8 @@ public class CollectionRecordController extends BaseCrudController<CollectionRec
         super.deleteBatchByIds(ids);
         return Result.success();
     }
-
+    
+    @ResponseBody
 	@PostMapping("/exportexcel")
 	@ApiOperation(value = "导出")
 	@RequiresPermissions("collectionrecord:exportexcel")

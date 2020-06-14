@@ -112,6 +112,7 @@ public class ConsumablesController extends BaseCrudController<Consumables> {
         return Result.success();
     }
 
+    @ResponseBody
 	@PostMapping("/exportexcel")
 	@ApiOperation(value = "导出")
 	@RequiresPermissions("consumables:exportexcel")
@@ -129,7 +130,7 @@ public class ConsumablesController extends BaseCrudController<Consumables> {
 		return Result.success(fileName);
 	}
 	
-	
+    @ResponseBody
 	@PostMapping("/importexcel/")
 	@ApiOperation(value = "导入")
 	@RequiresPermissions("consumables:importexcel")
