@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tech.wetech.admin.modules.training.mapper.ToolsNewMapper" >
+  <resultMap id="BaseResultMap" type="tech.wetech.admin.modules.training.po.ToolsNew" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="tools_code" property="toolsCode" jdbcType="VARCHAR" />
+    <result column="tools_name" property="toolsName" jdbcType="VARCHAR" />
+    <result column="bookkeeping_date" property="bookkeepingDate" jdbcType="VARCHAR" />
+    <result column="specification_type" property="specificationType" jdbcType="VARCHAR" />
+    <result column="specification_type_code" property="specificationTypeCode" jdbcType="VARCHAR" />
+    <result column="unit_price" property="unitPrice" jdbcType="VARCHAR" />
+    <result column="position_code" property="positionCode" jdbcType="VARCHAR" />
+    <result column="position_name" property="positionName" jdbcType="VARCHAR" />
+    <result column="manager" property="manager" jdbcType="VARCHAR" />
+    <result column="manager_id" property="managerId" jdbcType="INTEGER" />
+    <result column="cumulative_receipt_quantity" property="cumulativeReceiptQuantity" jdbcType="VARCHAR" />
+    <result column="total_existing" property="totalExisting" jdbcType="VARCHAR" />
+    <result column="cumulative_collected_quantity" property="cumulativeCollectedQuantity" jdbcType="VARCHAR" />
+    <result column="remaining_quantity" property="remainingQuantity" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="asset_classification_code" property="assetClassificationCode" jdbcType="VARCHAR" />
+    <result column="asset_classification" property="assetClassification" jdbcType="VARCHAR" />
+  </resultMap>
+  <update id="updateCodeById" parameterType="tech.wetech.admin.modules.training.po.ToolsNew">
+		UPDATE t_tools_new t 
+		SET t.position_code = ( SELECT p.position_name FROM t_position p WHERE p.id = t.position_name ),
+			t.manager_id = ( SELECT u.id FROM sys_user u WHERE u.username = t.manager )			
+		where t.id=#{id}
+  </update>
+</mapper>
