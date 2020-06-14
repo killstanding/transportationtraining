@@ -42,93 +42,93 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/trainingroom")
 public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
 
-    @Autowired
-    private TrainingRoomService service;
-    @Autowired
-    private OrganizationService organizationService;
-    @Autowired
-    private PositionService positionService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private ConfigProperties configProperties;
-    @Autowired
-    private AssetService assetService;
-    @Autowired
-    private StatisticsPoService statisticsPoService;
-    @GetMapping
-    @RequiresPermissions("trainingroom:view")
-    public String page(Model model) {
-    	Organization org = new Organization();
-    	org.setParentId(1L);
-    	org.setAvailable(true);
-    	model.addAttribute("sysList", organizationService.queryList(org));
-    	model.addAttribute("positionList", positionService.queryAll());
-    	model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.TRAINING_ROOM_ADMIN_ROLE_ID));//获取实训室管理员用户
-        return "system/trainingroom";
-    }
-    
-    
-    @ResponseBody
-    @GetMapping("/list")
-    @RequiresPermissions("trainingroom:view")
-    @Override
-    public Result<List<TrainingRoom>> queryList(TrainingRoom entity, PageQuery pageQuery) {
-        Page<TrainingRoom> page = (Page<TrainingRoom>) service.queryListByLike(entity, pageQuery);
-        List<StatisticsPo> stList = statisticsPoService.selectAssetCountNumGroupByRoomId();
-        page.forEach(u -> {
-        	stList.forEach(st ->{
-        		 u.setEquipNum(0);
-        		 if(st.getStatisticsCode().equals(u.getId()+"")){
-        			 u.setEquipNum(st.getStatisticsTotal());
-        		 }
-        	});
-        });
-        return Result.success(page.getResult()).addExtra("total", page.getTotal());
-    }
-    
-    @ResponseBody
-    @PostMapping("/create")
-    @RequiresPermissions("trainingroom:create")
-    @SystemLog("实训室管理实训室创建")
-    @Override
-    public Result create(@Validated(TrainingRoom.TrainingRoomCreateChecks.class) TrainingRoom entity) {
-    	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
-    	entity.setCreateTime(curTime);
-    	entity.setUpdateTime(curTime);
-    	service.create(entity);
-        return Result.success();
-    }
-  
-    @ResponseBody
-    @PostMapping("/update")
-    @RequiresPermissions("trainingroom:update")
-    @SystemLog("实训室管理实训室更新")
-    @Override
-    public Result update(@Validated(TrainingRoom.TrainingRoomUpdateChecks.class) TrainingRoom entity) {
-    	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
-    	entity.setUpdateTime(curTime);
-    	service.updateNotNull(entity);
-    	
-    	//更新实训室状态到设备表
-    	Asset asset = new Asset();
-    	asset.setRoomId(entity.getId());
-    	asset.setRoomIsEnabled(1);
-    	assetService.updateRoomIsEnabledByRoomId(asset);
-        return Result.success();
-    }
+	@Autowired
+	private TrainingRoomService service;
+	@Autowired
+	private OrganizationService organizationService;
+	@Autowired
+	private PositionService positionService;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private ConfigProperties configProperties;
+	@Autowired
+	private AssetService assetService;
+	@Autowired
+	private StatisticsPoService statisticsPoService;
+	@GetMapping
+	@RequiresPermissions("trainingroom:view")
+	public String page(Model model) {
+		Organization org = new Organization();
+		org.setParentId(1L);
+		org.setAvailable(true);
+		model.addAttribute("sysList", organizationService.queryList(org));
+		model.addAttribute("positionList", positionService.queryAll());
+		model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.TRAINING_ROOM_ADMIN_ROLE_ID));//获取实训室管理员用户
+		return "system/trainingroom";
+	}
 
-    @ResponseBody
-    @PostMapping("/delete-batch")
-    @RequiresPermissions("trainingroom:delete")
-    @SystemLog("实训室管理实训室删除")
-    @Override
-    public Result deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {
-        super.deleteBatchByIds(ids);
-        return Result.success();
-    }
 
-    @ResponseBody
+	@ResponseBody
+	@GetMapping("/list")
+	@RequiresPermissions("trainingroom:view")
+	@Override
+	public Result<List<TrainingRoom>> queryList(TrainingRoom entity, PageQuery pageQuery) {
+		Page<TrainingRoom> page = (Page<TrainingRoom>) service.queryListByLike(entity, pageQuery);
+		List<StatisticsPo> stList = statisticsPoService.selectAssetCountNumGroupByRoomId();
+		page.forEach(u -> {
+			stList.forEach(st ->{
+				u.setEquipNum(0);
+				if(st.getStatisticsCode().equals(u.getId()+"")){
+					u.setEquipNum(st.getStatisticsTotal());
+				}
+			});
+		});
+		return Result.success(page.getResult()).addExtra("total", page.getTotal());
+	}
+
+	@ResponseBody
+	@PostMapping("/create")
+	@RequiresPermissions("trainingroom:create")
+	@SystemLog("实训室管理实训室创建")
+	@Override
+	public Result create(@Validated(TrainingRoom.TrainingRoomCreateChecks.class) TrainingRoom entity) {
+		String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
+		entity.setCreateTime(curTime);
+		entity.setUpdateTime(curTime);
+		service.create(entity);
+		return Result.success();
+	}
+
+	@ResponseBody
+	@PostMapping("/update")
+	@RequiresPermissions("trainingroom:update")
+	@SystemLog("实训室管理实训室更新")
+	@Override
+	public Result update(@Validated(TrainingRoom.TrainingRoomUpdateChecks.class) TrainingRoom entity) {
+		String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
+		entity.setUpdateTime(curTime);
+		service.updateNotNull(entity);
+
+		//更新实训室状态到设备表
+		Asset asset = new Asset();
+		asset.setRoomId(entity.getId());
+		asset.setRoomIsEnabled(1);
+		assetService.updateRoomIsEnabledByRoomId(asset);
+		return Result.success();
+	}
+
+	@ResponseBody
+	@PostMapping("/delete-batch")
+	@RequiresPermissions("trainingroom:delete")
+	@SystemLog("实训室管理实训室删除")
+	@Override
+	public Result deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {
+		super.deleteBatchByIds(ids);
+		return Result.success();
+	}
+
+	@ResponseBody
 	@PostMapping("/exportexcel")
 	@ApiOperation(value = "导出")
 	@RequiresPermissions("trainingroom:exportexcel")
@@ -136,13 +136,22 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
 		String fileName="";
 		try {
 			List<TrainingRoom> list = service.keyValueByExample(entity);
+			List<StatisticsPo> stList = statisticsPoService.selectAssetCountNumGroupByRoomId();
+			list.forEach(u -> {
+				stList.forEach(st ->{
+					u.setEquipNum(0);
+					if(st.getStatisticsCode().equals(u.getId()+"")){
+						u.setEquipNum(st.getStatisticsTotal());
+					}
+				});
+			});
 			fileName = ExcelWriteUtil.writeData(configProperties.getExcelPath(), list, TrainingRoom.class, "实训室信息");
 		} catch (Exception e) {
 			e.printStackTrace();
 			Logger.error(getClass(), e.getMessage());
 			return Result.failure(ResultCodeEnum.NOT_IMPLEMENTED);
 		}
-		
+
 		return Result.success(fileName);
 	}
 }
