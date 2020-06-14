@@ -19,11 +19,19 @@ public class DateUtil {
 	 * 月份数字list
 	 */
 	public static List<Integer> MONTH_LIST = new ArrayList<Integer>(); 
+	public static List<String> MONTH_LIST_STR = new ArrayList<String>(); 
 	static{
 		for (int i = 1; i <= 12; i++) {
 			MONTH_LIST.add(i);
+			String str = i+"";
+			if(str.length()==1){
+				str = "0" + i;
+			}
+			MONTH_LIST_STR.add(str);
 		}
 	}
+	
+	
 	/** 一秒有多少毫秒 **/
 	public static final long RATE_SECOND = 1000;
 	/** 一分钟有多少毫秒 **/

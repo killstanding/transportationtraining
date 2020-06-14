@@ -86,9 +86,9 @@ public class MainController extends BaseController{
     	entity.setStatisticsTypeCode("statistics_type_summary");
     	entity.setStatisticsYear(year);
     	List<SummaryStatisticsMonth> dataList =  summaryStatisticsMonthService.queryList(entity);
-    	List<Integer> monthList = DateUtil.MONTH_LIST;
+    	List<String> monthList = DateUtil.MONTH_LIST_STR;
     	monthListFor:for (int i = 0; i < monthList.size(); i++) {
-    		int month = monthList.get(i);
+    		String month = monthList.get(i);
     		String monthStr = year + "-" + month;
     		result.add("0");
     		for (int j = 0; j < dataList.size(); j++) {
@@ -134,7 +134,7 @@ public class MainController extends BaseController{
     			}
 			}//for dataList
 		}//pubCodesFor
-        return null;
+        return result;
     }
     /**
      * 获取指标牌数据
