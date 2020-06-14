@@ -64,6 +64,7 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
     @GetMapping("/edit")
     @RequiresPermissions("maintenancerecord:view")
     public String editpage(Model model) {
+    	model.addAttribute("assetList", assetService.queryAll());
         return "system/maintenancerecordedit";
     }
     
