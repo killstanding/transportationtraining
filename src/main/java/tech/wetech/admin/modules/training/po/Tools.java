@@ -34,7 +34,7 @@ public class Tools extends BaseRowModel{
      * 资产分类编号
      */
     @ApiModelProperty(value = "资产分类编号", name = "assetClassificationCode", required = false, example = "1")
-    @NotNull(message = "资产分类编号不能为空",groups = ToolsCreateChecks.class)
+    //@NotNull(message = "资产分类编号不能为空",groups = ToolsCreateChecks.class)
     @Column(name = "asset_classification_code")
     private String assetClassificationCode;
 
@@ -43,7 +43,7 @@ public class Tools extends BaseRowModel{
      */
     @ApiModelProperty(value = "资产分类", name = "assetClassification", required = false, example = "教学用机电实验仪器")
     @ExcelProperty(value = {"资产分类","资产分类"},index = 1)
-    @NotNull(message = "资产分类名称不能为空",groups = ToolsCreateChecks.class)
+    // @NotNull(message = "资产分类名称不能为空",groups = ToolsCreateChecks.class)
     @Column(name = "asset_classification")
     private String assetClassification;
 
@@ -52,7 +52,7 @@ public class Tools extends BaseRowModel{
      */
     @ApiModelProperty(value = "资产名称", name = "assetName", required = false, example = "拆装工具")
     @ExcelProperty(value = {"资产名称","资产名称"},index = 2)
-    @NotNull(message = "资产名称不能为空",groups = ToolsCreateChecks.class)
+    // @NotNull(message = "资产名称不能为空",groups = ToolsCreateChecks.class)
     @Column(name = "asset_name")
     private String assetName;
 
@@ -61,7 +61,7 @@ public class Tools extends BaseRowModel{
      */
     @ApiModelProperty(value = "资产价值", name = "assetValue", required = false, example = "7,700.00")
     @ExcelProperty(value = {"资产价值","资产价值"},index = 3)
-    @NotNull(message = "资产价值不能为空",groups = ToolsCreateChecks.class)
+    //@NotNull(message = "资产价值不能为空",groups = ToolsCreateChecks.class)
     @Column(name = "asset_value")
     private Integer assetValue;
 
@@ -70,7 +70,7 @@ public class Tools extends BaseRowModel{
      */
     @ApiModelProperty(value = "记账日期", name = "bookkeepingDate", required = false, example = "2015-11-20")
     @ExcelProperty(value = {"记账日期","记账日期"},index = 4)
-    @NotNull(message = "记账日期不能为空",groups = ToolsCreateChecks.class)
+    //@NotNull(message = "记账日期不能为空",groups = ToolsCreateChecks.class)
     @Column(name = "bookkeeping_date")
     private String bookkeepingDate;
 
