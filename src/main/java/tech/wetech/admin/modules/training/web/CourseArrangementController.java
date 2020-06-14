@@ -145,7 +145,7 @@ public class CourseArrangementController extends BaseCrudController<CourseArrang
     @ResponseBody
 	@PostMapping("/exportexcel")
 	@ApiOperation(value = "导出")
-	@RequiresPermissions("asset:exportexcel")
+	@RequiresPermissions("coursearrangement:exportexcel")
 	public Result<String> exportExcel(CourseArrangement entity) {
 		String fileName="";
 		try {
