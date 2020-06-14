@@ -94,7 +94,7 @@ public class MainController extends BaseController{
     		for (int j = 0; j < dataList.size(); j++) {
     			SummaryStatisticsMonth record = dataList.get(j);
     			if(record.getStatisticsMonth().equals(monthStr)){
-    				result.add(i, record.getStatisticsValue());
+    				result.set(i, record.getStatisticsValue());
     				continue monthListFor;
     			}
     		}//monthListFor
