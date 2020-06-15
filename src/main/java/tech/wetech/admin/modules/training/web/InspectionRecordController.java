@@ -101,8 +101,9 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
 	@RequiresPermissions("inspectionrecord:view")
 	public Result<List<InspectionRecord>> queryListByPlanIdForEdit(InspectionRecord entity) {    	
 		List<InspectionRecord> list =  service.keyValueByExample(entity);
-		if(list==null){
-			int planId = entity.getPlanId();
+		if(list==null||list.size()==0){
+			int planId = 0;
+			if(entity.getPlanId()!=null)planId=entity.getPlanId();
 			if(planId!=0){
 				InspectionPlan plan = inspectionPlanService.queryById(planId);
 				list = new ArrayList<>();
