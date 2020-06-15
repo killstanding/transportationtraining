@@ -19,12 +19,12 @@
   </select>
   
   <select id="selectConsumablesCountNumGroupByCourseArrangementId" resultType="tech.wetech.admin.modules.training.po.StatisticsPo">
-    select t.course_arrangement_id as statistics_code,'' as statistics_name,  count(1) as statistics_total from  t_course_arrangement_re_consumables t
+    select t.course_arrangement_id as statistics_code,'' as statistics_name,  sum(t.number_of_applications) as statistics_total from  t_course_arrangement_re_consumables t
 	group by t.course_arrangement_id
   </select>
   
   <select id="selectToolCountNumGroupByCourseArrangementId" resultType="tech.wetech.admin.modules.training.po.StatisticsPo">
-    select t.course_arrangement_id as statistics_code,'' as statistics_name,  count(1) as statistics_total from  t_course_arrangement_re_tool t
+    select t.course_arrangement_id as statistics_code,'' as statistics_name,  sum(t.number_of_applications) as statistics_total from  t_course_arrangement_re_tool t
 	group by t.course_arrangement_id
   </select>
   
