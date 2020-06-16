@@ -97,9 +97,6 @@
 	                    	<select id="assetId" class="form-control select2" data-minimum-results-for-search="-1" name="assetId" onchange="addAssetChange()"
 	                            	data-placeholder="请从列表选择一项" required>
 	                            	<option></option>
-	                        	<option th:each="asset: ${assetList}" th:value="${asset.id}" th:text="${asset.assetName}">
-	                           设备不存在
-	                        	</option>
 	                    	</select>
 	                    	<div class="help-block with-errors"></div>
 	                    </div>
@@ -276,6 +273,24 @@
                     clickToSelect: false
                 }
             ]
+        });
+        $.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/coursearrangement/list?id=' + pkbh,
+            success:function(data){
+            	console.log(data.data);
+            	$.ajax({
+                    type:"GET",
+                    url: CONTEXT_PATH + '/asset/list?roomId=' + data.data[0].trainingRoomId,
+                    success:function(data){
+                    	console.log(data)
+                    	for(let i = 0; i < data.data.length; i++) {
+                    		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].assetName + '</option>';
+                        	$("#assetId").append(opt);
+                    	}
+                    }
+                });
+            }
         });
     });
 

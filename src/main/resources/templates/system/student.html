@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<section class="content-header">
+    <h1>
+        课程管理
+        <small>学生管理页面</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li><a href="#">课程管理</a></li>
+        <li><a href="#">课程实施</a></li>
+        <li class="active">学生管理</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="toolbar">
+                    <a href="" style="display: none" id="exceldownload" download="学生.xls"></a>
+                        <form class="form-inline" id="searchForm">
+                            <div class="form-group">
+                                <label for="searchName"> 学生姓名 </label>
+                                <input type="text" class="form-control input-sm" name="studentName" id="searchName" placeholder="请输入学生姓名">
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-default" onclick="javascript:$('table').bootstrapTable('refresh', {silent: true});">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                    查询
+                                </button>
+                                <button type="reset" class="btn btn-default">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    清空
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="exportexcel()">
+                                    <i class="glyphicon glyphicon-save"></i>
+                                    导出
+                                </button>
+                            </div>
+                        </form>
+                        <div class="btn-group btn-group-sm">
+                            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                            <button shiro:hasPermission="trainingroom:create" type="button" id="addBtn" class="btn btn-default"
+                                    data-toggle="modal"
+                                    data-target="#addModal" onclick="addLoad()"><i class="glyphicon glyphicon-plus"></i> 新增
+                            </button>
+                            <!-- Indicates caution should be taken with this action -->
+                            <button shiro:hasPermission="trainingroom:update" type="button" id="editBtn" class="btn btn-default"
+                                    data-toggle="modal"
+                                    data-target="#editModal"
+                                    data-action="{type:'editable',form:'#editForm',table:'#table',after:'editAfter'}"
+                                    disabled><i class="glyphicon glyphicon-edit"></i> 修改
+                            </button>
+                            <!-- Indicates a dangerous or potentially negative action -->
+                            <button shiro:hasPermission="trainingroom:delete" type="button" id="deleteBtn" class="btn btn-default"
+                            		data-toggle="modal"
+                                    data-target="#deleteModal"
+                                    data-action="{type:'delete',form:'#deleteForm',idField:'id',table:'#table'}"
+                                    disabled><i class="glyphicon glyphicon-remove"></i> 删除
+                            </button>
+                        </div>
+                    </div>
+                    <table id="table"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<!-- add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addModalLabel">添加学生</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addForm">
+                    <div class="form-group">
+                    	<div class="col-md-12">
+                    		<label class="control-label" for="studentName"><span class="asterisk">*</span>学生姓名:</label>
+	                        <input id="studentName" type="text" class="form-control" name="studentName" placeholder="输入学生姓名"
+	                               required>
+	                        <div class="help-block with-errors"></div>
+                    	</div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                        	<label class="control-label" for="studentSex"><span class="asterisk">*</span>性别:</label>
+	                        <select id="studentSex" class="form-control select2" data-minimum-results-for-search="-1" name="studentSex"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option value="1">男</option>
+	                            <option value="0">女</option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="studentAge"><span class="asterisk">*</span>年龄:</label>
+	                        <input id="studentAge" type="text" class="form-control" name="studentAge" placeholder="输入年龄"
+	                               required>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <div class="col-md-6">
+                        	<label class="control-label" for="addSysName"><span class="asterisk">*</span>所属系:</label>
+	                        <input id="addSysName" type="text" class="form-control" name="sysName" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="addClassName"><span class="asterisk">*</span>所属班级:</label>
+	                        <input id="addClassName" type="text" class="form-control" name="className" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                        	<label class="control-label" for="sysId"><span class="asterisk">*</span>所属系:</label>
+	                        <select id="sysId" class="form-control select2" name="sysId" onchange="addSysChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option></option>
+	                            <option th:each="sys: ${organizationList}" th:value="${sys.id}" th:text="${sys.name}">
+	                                所属系不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="classId1"><span class="asterisk">*</span>所属班级:</label>
+	                        <select id="classId1" class="form-control select2" name="classId" onchange="addClassChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    	<div class="col-md-12">
+                    		<label class="control-label" for="studentIdCard"><span class="asterisk">*</span>身份证号:</label>
+	                        <input id="studentIdCard" type="text" class="form-control" name="studentIdCard" placeholder="输入身份证号"
+	                               required>
+	                        <div class="help-block with-errors"></div>
+                    	</div>
+                    </div>
+                    <div class="form-group">
+                    	<div class="col-md-12">
+                    		<label class="control-label" for="studentPhone">电话:</label>
+	                        <input id="studentPhone" type="text" class="form-control" name="studentPhone" placeholder="输入电话">
+	                        <div class="help-block with-errors"></div>
+                    	</div>
+                    </div>
+                    <div class="form-group">
+                    	<div class="col-md-12">
+                    		<label class="control-label" for="studentEmail">邮箱:</label>
+	                        <input id="studentEmail" type="text" class="form-control" name="studentEmail" placeholder="输入邮箱">
+	                        <div class="help-block with-errors"></div>
+                    	</div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" form="addForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#addForm',url:'@{/student/create}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editModalLabel">修改学生</h4>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" name="id"/>
+                    <div class="form-group">
+                    	<div class="col-md-12">
+                    		<label class="control-label" for="studentName"><span class="asterisk">*</span>学生姓名:</label>
+	                        <input id="studentName" type="text" class="form-control" name="studentName" placeholder="输入学生姓名"
+	                               readonly required>
+	                        <div class="help-block with-errors"></div>
+                    	</div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                        	<label class="control-label" for="studentSex"><span class="asterisk">*</span>性别:</label>
+	                        <select id="studentSex" class="form-control select2" data-minimum-results-for-search="-1" name="studentSex"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option value="1">男</option>
+	                            <option value="0">女</option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="studentAge"><span class="asterisk">*</span>年龄:</label>
+	                        <input id="studentAge" type="text" class="form-control" name="studentAge" placeholder="输入年龄"
+	                               required>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <div class="col-md-6">
+                        	<label class="control-label" for="editSysName"><span class="asterisk">*</span>所属系:</label>
+	                        <input id="editSysName" type="text" class="form-control" name="sysName" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="editClassName"><span class="asterisk">*</span>所属班级:</label>
+	                        <input id="editClassName" type="text" class="form-control" name="className" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                        	<label class="control-label" for="sysId"><span class="asterisk">*</span>所属系:</label>
+	                        <select id="sysId" class="form-control select2" name="sysId" onchange="editSysChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                            <option></option>
+	                            <option th:each="sys: ${organizationList}" th:value="${sys.id}" th:text="${sys.name}">
+	                                所属系不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="classId2"><span class="asterisk">*</span>所属班级:</label>
+	                        <select id="classId2" class="form-control select2" name="classId" onchange="editClassChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    	<div class="col-md-12">
+                    		<label class="control-label" for="studentIdCard"><span class="asterisk">*</span>身份证号:</label>
+	                        <input id="studentIdCard" type="text" class="form-control" name="studentIdCard" placeholder="输入身份证号"
+	                               required>
+	                        <div class="help-block with-errors"></div>
+                    	</div>
+                    </div>
+                    <div class="form-group">
+                    	<div class="col-md-12">
+                    		<label class="control-label" for="studentPhone">电话:</label>
+	                        <input id="studentPhone" type="text" class="form-control" name="studentPhone" placeholder="输入电话">
+	                        <div class="help-block with-errors"></div>
+                    	</div>
+                    </div>
+                    <div class="form-group">
+                    	<div class="col-md-12">
+                    		<label class="control-label" for="studentEmail">邮箱:</label>
+	                        <input id="studentEmail" type="text" class="form-control" name="studentEmail" placeholder="输入邮箱">
+	                        <div class="help-block with-errors"></div>
+                    	</div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" form="editForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#editForm',url:'@{/student/update}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- delete modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteSmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="deleteSmallModalLabel">删除学生</h4>
+            </div>
+            <div class="modal-body">
+                <form id="deleteForm"></form>
+                确定要删除选中的 <span class="records"></span> 条记录?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" form="deleteForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#deleteForm',url:'@{/student/delete-batch}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="actionButtons" class="admin-hide">
+    <!-- <a class="like" href="javascript:void(0)" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a> -->
+    <a shiro:hasPermission="trainingroom:update" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="编辑"><i class="glyphicon glyphicon-edit"></i></a>　
+    <a shiro:hasPermission="trainingroom:delete" class="remove ml10" href="javascript:void(0)" data-toggle="tooltip" title="删除"><i class="glyphicon glyphicon-remove"></i></a>　
+</div>
+
+<script th:inline="javascript">
+    var $table = $('#table');
+
+    $(function () {
+        $table.bootstrapTable({
+            url: CONTEXT_PATH + '/student/list',
+            idField: 'id',
+            detailView: false,
+            columns: [
+                {field: 'state', checkbox: true},
+                {field: 'id', title: '序号', sortable: true, halign: 'left',
+                	formatter: function(value,row,index) {
+                		var pageSize = $table.bootstrapTable('getOptions').pageSize;
+                		var pageNumber = $table.bootstrapTable('getOptions').pageNumber;
+                		return pageSize * (pageNumber - 1) + index + 1;
+                	}
+                },
+                {field: 'studentName', title: '学生姓名', halign: 'center', align: 'center'},
+                {field: 'studentSex', title: '性别', halign: 'center', align: 'center', formatter: 'studentSexFormatter'},
+                {field: 'studentAge', title: '年龄', halign: 'center', align: 'center'},
+                {field: 'sysName', title: '所属系', halign: 'center', align: 'center'},
+                {field: 'className', title: '所属班级', halign: 'center', align: 'center'},
+                {field: 'studentPhone', title: '电话', halign: 'center', align: 'center'},
+                {field: 'studentEmail', title: '邮箱', halign: 'center', align: 'center'},
+                {field: 'studentIdCard', title: '身份证', halign: 'center', align: 'center'},
+                {
+                    field: 'action',
+                    title: '操作',
+                    halign: 'center',
+                    align: 'center',
+                    formatter: 'actionFormatter',
+                    events: 'actionEvents',
+                    clickToSelect: false
+                }
+            ]
+        });
+    });
+
+    function editAfter(obj, row) {
+    	$('#editForm').find('[name=sysId]').find('option[value=' + row.sysId + ']').prop('selected', true);
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/organization/list?parentId=' + row.sysId,
+            success:function(data){
+            	$("#classId2").empty();
+            	$("#classId2").append("<option></option>");
+            	for(let i = 0; i < data.data.length; i++) {
+            		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].name + '</option>';
+                	$("#classId2").append(opt);
+            	}
+            	$('#editForm').find('[name=classId]').find('option[value=' + row.classId + ']').prop('selected', true);
+            }
+        });
+    }
+
+    function studentSexFormatter(value, row, index) {
+    	if(value == 1) {
+    		return '男';
+    	}else {
+    		return '女';
+    	}
+    }
+    
+    function actionFormatter(value, row, index) {
+        return $('#actionButtons').html();
+    }
+
+    window.actionEvents = {
+        'click .edit': function (e, value, row, index) {
+            $('#editModal').modal('show')
+            $('#editForm').fillForm(row);
+            editAfter('', row);
+        },
+        'click .remove': function (e, value, row, index) {
+            $('#deleteModal').modal('show');
+            $('.records').html('1');
+            var html = '';
+            for (var key in row) {
+                html += '<input type="hidden" name="' + key + '" value="' + row[key] + '">';
+            }
+            $('#deleteForm').html(html);
+        }
+    };
+
+    function addSysChange() {
+    	var addSysText = $('#addForm').find('[name=sysId]').find('option:selected').text();
+    	$('#addSysName').val(addSysText);
+    	var addId = $('#addForm').find('[name=sysId]').find('option:selected').val();
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/organization/list?parentId=' + addId,
+            success:function(data){
+            	$("#classId1").empty();
+            	$("#classId1").append("<option></option>");
+            	for(let i = 0; i < data.data.length; i++) {
+            		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].name + '</option>';
+                	$("#classId1").append(opt);
+            	}
+            }
+        });
+    }
+    
+    function addClassChange() {
+    	var addClassText = $('#addForm').find('[name=classId]').find('option:selected').text();
+    	$('#addClassName').val(addClassText);
+    }
+
+    function editSysChange() {
+    	var editSysText = $('#editForm').find('[name=sysId]').find('option:selected').text();
+    	$('#editSysName').val(editSysText);
+    	var editId = $('#editForm').find('[name=sysId]').find('option:selected').val();
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/organization/list?parentId=' + editId,
+            success:function(data){
+            	$("#classId2").empty();
+            	$("#classId2").append("<option></option>");
+            	for(let i = 0; i < data.data.length; i++) {
+            		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].name + '</option>';
+                	$("#classId2").append(opt);
+            	}
+            }
+        });
+    }
+    
+    function editClassChange() {
+    	var editClassText = $('#editForm').find('[name=classId]').find('option:selected').text();
+    	$('#editClassName').val(editClassText);
+    }
+
+    function addLoad() {
+    	//addSysChange();
+    	//addPositionChange();
+    	//addAdminChange();
+    }
+    
+    function exportexcel() {
+    	var studentName = $('#searchName').val();
+    	$.ajax({
+            type:"POST",
+            data: {
+            	studentName: studentName
+            },
+            url: CONTEXT_PATH + '/student/exportexcel',
+            success:function(data){
+            	commondownload(data.data);
+            }
+        });
+    }
+</script>
+</html>
