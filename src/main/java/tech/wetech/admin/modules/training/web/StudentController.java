@@ -17,6 +17,7 @@ import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.system.po.Organization;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.training.po.Student;
 import tech.wetech.admin.modules.training.service.StudentService;
@@ -43,7 +44,9 @@ public class StudentController extends BaseCrudController<Student> {
     @GetMapping
     @RequiresPermissions("student:view")
     public String page(Model model) {
-    	model.addAttribute("organizationList", organizationService.queryAll());
+    	Organization org = new Organization();
+    	org.setLeaf(true);
+    	model.addAttribute("organizationList", organizationService.queryList(org));
         return "system/student";
     }
     
