@@ -1,136 +1,93 @@
 package tech.wetech.admin.modules.training.po;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
-import com.alibaba.excel.annotation.ExcelProperty;
-import com.alibaba.excel.metadata.BaseRowModel;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
-@ApiModel(description = "巡检计划")
 @Table(name = "t_inspection_plan")
-public class InspectionPlan  extends BaseRowModel{
+public class InspectionPlan {
     /**
      * 巡检计划编号
      */
     @Id
-    @NotNull(groups = InspectionPlanUpdateChecks.class)
-    @ApiModelProperty(value = "巡检计划编号(系统生成)", name = "id", required = false, example = "1")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
      * 实训室编号
      */
-    @ExcelProperty(value = {"实训室编号","实训室编号"},index = 0)
-    @ApiModelProperty(value = "实训室编号", name = "roomId", required = false, example = "1")
-    @NotNull(message = "实训室名称不能为空",groups = InspectionPlanCreateChecks .class)
     @Column(name = "room_id")
     private Integer roomId;
 
     /**
      * 实训室名称
      */
-    @ExcelProperty(value = {"实训室名称","实训室名称"},index = 1)
-    @ApiModelProperty(value = "实训室名称", name = "roomName", required = false, example = "丰田T-TEP整车实训区")
-    @NotNull(message = "实训室名称不能为空",groups = InspectionPlanCreateChecks .class)
     @Column(name = "room_name")
     private String roomName;
 
     /**
      * 巡检人
      */
-    @ExcelProperty(value = {"巡检人","巡检人"},index = 2)
-    @ApiModelProperty(value = "巡检人", name = "inspector", required = false, example = "admin")
-    @Column(name = "inspector")
     private String inspector;
 
     /**
      * 巡检人编号
      */
-    @ApiModelProperty(value = "巡检人编号", name = "inspector_id", required = false, example = "1")
     @Column(name = "inspector_id")
     private Integer inspectorId;
 
     /**
      * 本次巡检设备数
      */
-    @ExcelProperty(value = {"本次巡检设备数","本次巡检设备数"},index = 3)
-    @ApiModelProperty(value = "本次巡检设备数", name = "normalDevicesInInspection", required = false, example = "12")
     @Column(name = "normal_devices_in_inspection")
     private Integer normalDevicesInInspection;
 
     /**
      * 正常设备数量
      */
-    @ExcelProperty(value = {"正常设备数量","正常设备数量"},index = 4)
-    @ApiModelProperty(value = "正常设备数量", name = "numberNormalDevices", required = false, example = "10")
     @Column(name = "number_normal_devices")
     private Integer numberNormalDevices;
 
     /**
      * 异常设备数量
      */
-    @ExcelProperty(value = {"异常设备数量","异常设备数量"},index = 5)
-    @ApiModelProperty(value = "异常设备数量", name = "numberAbnormalDevices", required = false, example = "2")
     @Column(name = "number_abnormal_devices")
     private Integer numberAbnormalDevices;
 
     /**
      * 已报修设备数量
      */
-    @ExcelProperty(value = {"已报修设备数量","已报修设备数量"},index = 6)
-    @ApiModelProperty(value = "已报修设备数量", name = "numberReportedRepairEquipment", required = false, example = "2")
     @Column(name = "number_reported_repair_equipment")
     private Integer numberReportedRepairEquipment;
 
     /**
      * 巡检时间
      */
-    @ExcelProperty(value = {"巡检时间","巡检时间"},index = 7)
-    @ApiModelProperty(value = "巡检时间", name = "inspectionTime", required = false, example = "2020-04-24")
     @Column(name = "inspection_time")
     private String inspectionTime;
 
     /**
-     * 巡检状态 0 正常 1 异常
-     */
-    @ExcelProperty(value = {"巡检状态 0 正常 1 异常","巡检状态 0 正常 1 异常"},index = 8)
-    @ApiModelProperty(value = "巡检状态 0 正常 1 异常", name = "inspectionStatus", required = false, example = "0")
-    @Column(name = "inspection_status")
-    private String inspectionStatus;
-    
-    /**
-     * 年度巡检计划编号
-     */
-    @ApiModelProperty(value = "年度巡检计划编号", name = "planYearId", required = false, example = "2")
-    @Column(name = "plan_year_id")
-    private Integer planYearId;
-    
-    /**
      * 创建时间
      */
-    @ApiModelProperty(value = "创建时间", name = "createTime", required = false, example = "2020-04-24 18:00:00")
     @Column(name = "create_time")
     private String createTime;
 
     /**
      * 更新时间
      */
-    @ApiModelProperty(value = "更新时间", name = "updateTime", required = false, example = "2020-04-24 18:00:00")
-    @Column(name = "update_Time")
+    @Column(name = "update_time")
     private String updateTime;
 
-    
-    public interface InspectionPlanCreateChecks  {
+    /**
+     * 巡检状态 0 正常 1 异常
+     */
+    @Column(name = "inspection_status")
+    private String inspectionStatus;
 
-    }
+    /**
+     * 年度巡检计划编号
+     */
+    @Column(name = "plan_year_id")
+    private Integer planYearId;
 
-    public interface InspectionPlanUpdateChecks {
-
-    }
-    
     /**
      * 获取巡检计划编号
      *
@@ -204,18 +161,18 @@ public class InspectionPlan  extends BaseRowModel{
     }
 
     /**
-     * 获取巡检编号
+     * 获取巡检人编号
      *
-     * @return inspector_id - 巡检编号
+     * @return inspector_id - 巡检人编号
      */
     public Integer getInspectorId() {
         return inspectorId;
     }
 
     /**
-     * 设置巡检编号
+     * 设置巡检人编号
      *
-     * @param inspectorId 巡检编号
+     * @param inspectorId 巡检人编号
      */
     public void setInspectorId(Integer inspectorId) {
         this.inspectorId = inspectorId;
@@ -346,7 +303,7 @@ public class InspectionPlan  extends BaseRowModel{
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
-    
+
     /**
      * 获取巡检状态 0 正常 1 异常
      *
@@ -364,7 +321,7 @@ public class InspectionPlan  extends BaseRowModel{
     public void setInspectionStatus(String inspectionStatus) {
         this.inspectionStatus = inspectionStatus;
     }
-    
+
     /**
      * 获取年度巡检计划编号
      *
