@@ -45,7 +45,8 @@ public class StudentController extends BaseCrudController<Student> {
     @RequiresPermissions("student:view")
     public String page(Model model) {
     	Organization org = new Organization();
-    	org.setLeaf(true);
+		org.setParentId(1L);
+		org.setAvailable(true);
     	model.addAttribute("organizationList", organizationService.queryList(org));
         return "system/student";
     }
