@@ -34,6 +34,7 @@ public class ResourceController extends BaseCrudController<Resource> {
     public String resourcePage(Model model) {
         PageHelper.orderBy("priority");
         model.addAttribute("resourceList", resourceService.queryAll());
+        model.addAttribute("types",resourceTypes());
         return "system/resource";
     }
 

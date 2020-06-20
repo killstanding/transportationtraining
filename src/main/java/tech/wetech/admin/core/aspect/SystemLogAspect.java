@@ -124,7 +124,7 @@ public class SystemLogAspect {
         try {
             // 入库
             applicationEventPublisher.publishEvent(log);
-            service.create(log);
+            //service.create(log);
             
         } catch (Exception e) {
 
