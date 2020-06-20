@@ -122,7 +122,11 @@ var renos;
             	renos = $('.reno');
             	for(let i = 0; i < data.data.length;i++) {
             		statuss[i].value = data.data[i].assetStatusCode;
-            		discs[i].value = data.data[i].statusDescription;
+            		if(datas[i].statusDescription) {
+            			discs[i].value = datas[i].statusDescription;
+            		}else {
+            			discs[i].value = '';
+            		}
             		repairs[i].value = data.data[i].isRepair;
             	}
             }
@@ -137,8 +141,8 @@ var renos;
     	return '<select class="status" style="width: 80px;" onchange="listChange()"><option value="asset_status_normal">正常</option><option value="asset_status_abnormal">异常</option><option value="asset_status_repair">维修</option><option value="asset_status_scrapped">报废</option></select>'
     }
     
-    function statusDescriptionFormatter() {
-    	return '<input class="disc" typy="text" onchange="listChange()"/>';
+    function statusDescriptionFormatter(value, row, index) {
+    		return '<input class="disc" typy="text" onchange="listChange()"/>';
     }
     
     function repairFormatter(value, row, index) {
@@ -146,12 +150,13 @@ var renos;
     }
     
     function repairOrderNoFormatter(value, row, index) {
-    	return '<a href="#inspectionrecord/show" onclick="refresh2(\'' + value + '\')">' + value + '</a>';
+    	if(value) {
+    		return '<a href="#inspectionrecord/show" onclick="refresh2(\'' + value + '\')">' + value + '</a>';
+    	}return '';
     }
     var nonoid;
     function chooseNOFormatter(value, row, index) {
     	nonoid = index;
-    	console.log(1);
     	return '<span onclick="showNo(' + row.assetId + ')" style="cursor:pointer;"><i class="glyphicon glyphicon-plus"></i></span>';
     }
     
@@ -190,7 +195,11 @@ var renos;
     	renos = $('.reno');
     	for(let i = 0; i < datas.length;i++) {
     		statuss[i].value = datas[i].assetStatusCode;
-    		discs[i].value = datas[i].statusDescription;
+    		if(datas[i].statusDescription) {
+    			discs[i].value = datas[i].statusDescription;
+    		}else {
+    			discs[i].value = '';
+    		}
     		repairs[i].value = datas[i].isRepair;
     	}
     		noModel();

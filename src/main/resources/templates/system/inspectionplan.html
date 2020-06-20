@@ -25,7 +25,7 @@
                     <a href="" style="display: none" id="exceldownload" download="巡检记录.xls"></a>
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
-                            	<input type="hidden" class="form-control input-sm" name="roomId" id="searchId" readonly>
+                            	<input type="hidden" class="form-control input-sm" name="planYearId" id="searchId" readonly>
                                 <label for="searchName"> 巡检时间 </label>
                                 <div class='input-group date' id='searchName'>
 					                <input type='text' class="form-control" id="itimeitime" name="inspectionTime">
@@ -96,6 +96,7 @@
             </div>
             <div class="modal-body">
                 <form id="addForm">
+                	<input type="hidden" id="addId" name="planYearId"/>
                 	<input type="hidden" id="addRoomId" name="roomId"/>
                 	<input type="hidden" id="addRoomName" name="roomName"/>
                 	<div class="form-group">
@@ -238,9 +239,9 @@
             format: 'yyyy-mm-dd',
             autoclose: true
         });
-    	var trainingRoomId = localStorage.getItem("ItrainingRoomId");
+    	var trainingId = localStorage.getItem("ItrainingId");
     	var trainingRoom = localStorage.getItem("ItrainingRoom");
-    	$('#searchId').val(trainingRoomId);
+    	$('#searchId').val(trainingId);
     	if(trainingRoom != undefined) {
     		if(trainingRoom != '') {
     			document.querySelector('#nnaa').innerHTML = trainingRoom + '-';
@@ -350,6 +351,7 @@
     }
     
     function addLoad() {
+    	$('#addId').val(localStorage.getItem("ItrainingId"));
     	$('#addRoomId').val(localStorage.getItem("ItrainingRoomId"));
     	$('#addRoomName').val(localStorage.getItem("ItrainingRoom"));
     	//addInspectorChange();
@@ -357,8 +359,8 @@
     }
     function exportexcel() {
     	var inspectionTime = $('#itimeitime').val();
-    	var roomId = $('#searchId').val();
-    	var datas = {roomId: roomId};
+    	var planYearId = $('#searchId').val();
+    	var datas = {planYearId: planYearId};
     	if(inspectionTime != '') {
     		datas.inspectionTime = inspectionTime;
     	}

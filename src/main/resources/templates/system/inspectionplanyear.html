@@ -352,16 +352,17 @@
     }
 
     function roomNameFormatter(value, row, index) {
-    	return '<a href="#inspectionplan" onclick="refresh(\'' + row.id + '\',\'' + row.roomName + '\')">' + value +'</a>'
+    	return '<a href="#inspectionplan" onclick="refresh(\'' + row.id + '\',\'' + row.roomId + '\',\'' + row.roomName + '\')">' + value +'</a>'
     }
 
     function actionFormatter(value, row, index) {
         return $('#actionButtons').html();
     }
 
-    function refresh(id, name) {
-    	localStorage.setItem("ItrainingRoomId", id);
-    	localStorage.setItem("ItrainingRoom", name);
+    function refresh(id, roomid, roomname) {
+    	localStorage.setItem("ItrainingId", id);
+    	localStorage.setItem("ItrainingRoomId", roomid);
+    	localStorage.setItem("ItrainingRoom", roomname);
     	window.location.hash = '#inspectionplan';
     	location.reload();
     }
