@@ -246,9 +246,6 @@
 			<artifactId>com.springsource.org.objectweb.asm</artifactId>
 			<version>2.2.3</version>
 		</dependency>
-
-
-
 	</dependencies>
 
 	<build>
