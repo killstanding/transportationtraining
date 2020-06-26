@@ -81,8 +81,8 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
 		if(list!=null){
 			for (int i = 0; i < list.size(); i++) {
 				User user = list.get(i);
-				String roleIds = user.getRoleIds()+",";
-				if(roleIds.indexOf((roleId+","))!=-1){
+				String roleIds = ","+user.getRoleIds()+",";
+				if(roleIds.indexOf((","+roleId+","))!=-1){
 					result.add(user);
 				}
 			}
