@@ -141,7 +141,7 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
 	@PostMapping("/createbylist")
 	@RequiresPermissions("inspectionrecord:create")
 	@SystemLog("设备管理巡检记录创建")
-	public Result<String> createByList(ListVo<InspectionRecord> vo) {
+	public Result<String> createByList(@RequestBody ListVo<InspectionRecord> vo) {
 		Date cur = new Date();
 		String curTime  = DateUtil.dateToStr(cur, DateUtil.TIME_FORMATE);
 		List<InspectionRecord> list = vo.getObjList();
