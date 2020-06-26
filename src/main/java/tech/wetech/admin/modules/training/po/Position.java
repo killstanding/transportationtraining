@@ -3,12 +3,15 @@ package tech.wetech.admin.modules.training.po;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.metadata.BaseRowModel;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @Table(name = "t_position")
 @ApiModel(description = "位置信息")
-public class Position {
+public class Position extends BaseRowModel{
     /**
      * 位置编号
      */
@@ -16,6 +19,7 @@ public class Position {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(groups = PositionUpdateChecks.class)
     @ApiModelProperty(value = "位置编号(系统生成)", name = "id", required = false, example = "1")
+    @ExcelProperty(value = {"位置编号(系统生成)","位置编号(系统生成)"},index = 0)
     private Integer id;
 
     /**
@@ -24,6 +28,7 @@ public class Position {
     @ApiModelProperty(value = "位置编号(自编)", name = "positionCode", required = false, example = "P1001")
     @Column(name = "position_code")
     @NotNull(message = "位置编码不能为空",groups = PositionCreateChecks.class)
+    @ExcelProperty(value = {"位置编号(自编)","位置编号(自编)"},index = 1)
     private String positionCode;
 
     /**
@@ -32,6 +37,7 @@ public class Position {
     @ApiModelProperty(value = "位置名称", name = "positionName", required = false, example = "丰田T-TEP整车实训区")
     @NotNull(message = "位置名称不能为空",groups = PositionCreateChecks.class)
     @Column(name = "position_name")
+    @ExcelProperty(value = {"位置名称","位置名称"},index = 2)
     private String positionName;
 
     /**
