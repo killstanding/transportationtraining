@@ -4,6 +4,7 @@ package tech.wetech.admin.modules.training.web;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +41,13 @@ public class AssetClassificationController extends BaseCrudController<AssetClass
     private AssetClassificationService service;
     @Autowired
     private ConfigProperties configProperties;
+    
+    
+    @GetMapping
+    @RequiresPermissions("assetclassification:view")
+    public String page(Model model) {
+    	 return "system/assetclassification";
+    }
     
     @ResponseBody
     @GetMapping("/list")

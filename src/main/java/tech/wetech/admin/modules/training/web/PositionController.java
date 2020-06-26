@@ -3,6 +3,7 @@ package tech.wetech.admin.modules.training.web;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,10 @@ import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.training.po.Asset;
+import tech.wetech.admin.modules.training.po.AssetClassification;
 import tech.wetech.admin.modules.training.po.Position;
+import tech.wetech.admin.modules.training.po.PubCode;
+import tech.wetech.admin.modules.training.po.SpecificationType;
 import tech.wetech.admin.modules.training.service.PositionService;
 import tech.wetech.admin.modules.training.vo.FileVo;
 import tech.wetech.excel.ExcelReadUtil;
@@ -39,6 +43,12 @@ public class PositionController extends BaseCrudController<Position> {
     private PositionService service;
     @Autowired
     private ConfigProperties configProperties;
+    
+    @GetMapping
+    @RequiresPermissions("position:view")
+    public String page(Model model) {
+    	 return "system/position";
+    }
     
     @ResponseBody
     @GetMapping("/list")
