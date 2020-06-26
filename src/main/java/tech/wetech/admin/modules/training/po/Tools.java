@@ -59,7 +59,7 @@ public class Tools extends BaseRowModel{
     /**
      * 资产价值
      */
-    @ApiModelProperty(value = "资产价值", name = "assetValue", required = false, example = "7,700.00")
+    @ApiModelProperty(value = "资产价值", name = "assetValue", required = false, example = "7700")
     @ExcelProperty(value = {"资产价值","资产价值"},index = 3)
     //@NotNull(message = "资产价值不能为空",groups = ToolsCreateChecks.class)
     @Column(name = "asset_value")
