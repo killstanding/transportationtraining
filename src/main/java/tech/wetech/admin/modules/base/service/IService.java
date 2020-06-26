@@ -1,6 +1,7 @@
 package tech.wetech.admin.modules.base.service;
 
 import tech.wetech.admin.modules.base.query.PageQuery;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -37,5 +38,7 @@ public interface IService<T> {
     int count(T entity);
     
     public List<T> keyValueByExample(T entity);
+    
+    public List<T> queryByExample(Example example);
 
 }

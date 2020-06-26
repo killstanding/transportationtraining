@@ -29,6 +29,7 @@ import tech.wetech.admin.modules.training.service.InspectionRecordService;
 import tech.wetech.admin.modules.training.service.PubCodeService;
 import tech.wetech.admin.modules.training.vo.ListVo;
 import tech.wetech.excel.ExcelWriteUtil;
+import tk.mybatis.mapper.entity.Example;
 
 import org.springframework.ui.Model;
 
@@ -89,7 +90,7 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
 	}
 
 	@ResponseBody
-	@GetMapping("/listbyplanidforshow")
+	@PostMapping("/listbyplanidforshow")
 	@RequiresPermissions("inspectionrecord:view")
 	public Result<List<InspectionRecord>> queryListByPlanIdForShow(InspectionRecord entity) {    	
 		List<InspectionRecord>  list =  service.keyValueByExample(entity);
@@ -97,7 +98,7 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
 	}
 
 	@ResponseBody
-	@GetMapping("/listbyplanidforedit")
+	@PostMapping("/listbyplanidforedit")
 	@RequiresPermissions("inspectionrecord:view")
 	public Result<List<InspectionRecord>> queryListByPlanIdForEdit(InspectionRecord entity) {    	
 		List<InspectionRecord> list =  service.keyValueByExample(entity);
@@ -108,10 +109,12 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
 				InspectionPlan plan = inspectionPlanService.queryById(planId);
 				list = new ArrayList<>();
 				//获取实训室下面的设备
-				Asset assetPara = new Asset();
-				assetPara.setRoomId(plan.getRoomId());
 				//assetPara.setAssetStatusCode("asset_status_normal");
-				List<Asset> assets = assetService.queryList(assetPara);
+				Example example = new Example(Asset.class);
+				Example.Criteria criteria = example.createCriteria();
+		        criteria.andEqualTo("roomId", plan.getRoomId());
+		        criteria.andNotEqualTo("assetStatusCode", "asset_status_scrapped");//不等于待报废
+				List<Asset> assets = assetService.queryByExample(example);
 				if(assets!=null){
 					//设备的巡检记录基础信息
 					for (int i = 0; i < assets.size(); i++) {

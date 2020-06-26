@@ -102,6 +102,11 @@ public abstract class BaseService<T> implements IService<T> {
 	public int count(T entity) {
 		return mapper.selectCount(entity);
 	}
+	
+	@Override
+	public List<T> queryByExample(Example example){
+		return mapper.selectByExample(example);
+	}
 	/**
 	 * 通用指定字段模糊查询
 	 * 只支持本身类型属性模糊查询，字典label目前不支持
