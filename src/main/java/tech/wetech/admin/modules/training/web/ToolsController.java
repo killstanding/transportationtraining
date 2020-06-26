@@ -61,13 +61,13 @@ public class ToolsController extends BaseCrudController<Tools> {
     public String page(Model model) {
     	model.addAttribute("positionList", positionService.queryAll());
     	model.addAttribute("organizationList", organizationService.queryAll());
-    	model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.TOOL_ADMIN_ROLE_ID));//获取工具管理员用户
+    	//model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.TOOL_ADMIN_ROLE_ID));//获取工具管理员用户
     	AssetClassification assetClassification = new AssetClassification();
     	assetClassification.setAssetTypeCode("asset_type_tool");//工具
     	model.addAttribute("assetClassificationList", assetClassificationService.queryList(assetClassification));
-    	SpecificationType specificationType = new SpecificationType();
-    	specificationType.setAssetTypeCode("asset_type_tool");//工具
-    	model.addAttribute("assetTypeList", specificationTypeService.queryList(specificationType));//规格型号
+//    	SpecificationType specificationType = new SpecificationType();
+//    	specificationType.setAssetTypeCode("asset_type_tool");//工具
+//    	model.addAttribute("assetTypeList", specificationTypeService.queryList(specificationType));//规格型号
         return "system/tools";
     }
     

@@ -75,15 +75,15 @@ public class AssetController extends BaseCrudController<Asset> {
     	model.addAttribute("assetClassificationList", assetClassificationService.queryList(assetClassification));
     	SpecificationType specificationType = new SpecificationType();
     	specificationType.setAssetTypeCode("asset_type_device");//设备
-    	model.addAttribute("assetTypeList", specificationTypeService.queryList(specificationType));//规格型号
-    	model.addAttribute("positionList", positionService.queryAll());
-    	model.addAttribute("organizationList", organizationService.queryAll());
+    	//model.addAttribute("assetTypeList", specificationTypeService.queryList(specificationType));//规格型号
+    	//model.addAttribute("positionList", positionService.queryAll());
+    	//model.addAttribute("organizationList", organizationService.queryAll());
     	PubCode pubCode = new PubCode();
-    	pubCode.setPubType("inspection_cycle");
-    	model.addAttribute("inspectionCycleList", pubCodeService.queryList(pubCode));
+//    	pubCode.setPubType("inspection_cycle");
+//    	model.addAttribute("inspectionCycleList", pubCodeService.queryList(pubCode));
     	pubCode.setPubType("asset_status");
     	model.addAttribute("assetStatusList", pubCodeService.queryList(pubCode));
-    	model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.DEVICE_ADMIN_ROLE_ID));//获取设备管理员用户
+    	//model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.DEVICE_ADMIN_ROLE_ID));//获取设备管理员用户
     	model.addAttribute("trainingRoomList", trainingRoomService.queryAll());
         return "system/asset";
     }

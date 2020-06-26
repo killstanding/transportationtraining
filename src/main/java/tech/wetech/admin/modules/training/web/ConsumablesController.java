@@ -61,10 +61,10 @@ public class ConsumablesController extends BaseCrudController<Consumables> {
     	assetClassification.setAssetTypeCode("asset_type_consumables");//设备
     	model.addAttribute("assetClassificationList", assetClassificationService.queryList(assetClassification));
     	model.addAttribute("positionList", positionService.queryAll());
-    	model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.CONSUMABLES_ADMIN_ROLE_ID));//获取耗材管理员用户
-    	SpecificationType specificationType = new SpecificationType();
-    	specificationType.setAssetTypeCode("asset_type_consumables");//耗材
-    	model.addAttribute("assetTypeList", specificationTypeService.queryList(specificationType));//规格型号
+    	//model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.CONSUMABLES_ADMIN_ROLE_ID));//获取耗材管理员用户
+//    	SpecificationType specificationType = new SpecificationType();
+//    	specificationType.setAssetTypeCode("asset_type_consumables");//耗材
+    	//model.addAttribute("assetTypeList", specificationTypeService.queryList(specificationType));//规格型号
         return "system/consumables";
     }
     
