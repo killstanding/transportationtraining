@@ -26,8 +26,7 @@
         <javaClientGenerator targetPackage="tech.wetech.admin.modules.training.mapper" targetProject="src/main/resources"
                              type="XMLMAPPER"/>
                              
-       <!-- 设备维修申请单 -->
-        <table schema="wetech_admin" tableName="t_maintenance_record" domainObjectName="MaintenanceRecord">
+        <table schema="wetech_admin" tableName="t_courses_re_training_room" domainObjectName="CoursesReTrainingRoom">
             <!--mysql 配置-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <!--oracle 配置-->
