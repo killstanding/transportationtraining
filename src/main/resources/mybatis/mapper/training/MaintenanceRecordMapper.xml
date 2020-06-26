@@ -31,6 +31,8 @@
     <result column="create_year" property="createYear" jdbcType="VARCHAR" />
     <result column="pending_person" property="pendingPerson" jdbcType="VARCHAR" />
     <result column="pending_person_id" property="pendingPersonId" jdbcType="INTEGER" />
+    <result column="flow_type_name" property="flowTypeName" jdbcType="VARCHAR" />
+    <result column="flow_type_code" property="flowTypeCode" jdbcType="VARCHAR" />
   </resultMap>
   
   <select id="selectCountNumGourpByStatus" resultType="tech.wetech.admin.modules.training.po.StatusCountResult">
