@@ -210,6 +210,20 @@ public class MaintenanceRecord extends BaseRowModel{
     @Column(name = "pending_person_id")
     private Integer pendingPersonId;
     
+    /**
+     * 流程类型名称 设备维修 工具仪器维修
+     */
+    @ApiModelProperty(value = "流程类型名称  设备维修 工具仪器维修", name = "pendingPersonId", required = false, example = "设备维修")
+    @Column(name = "flow_type_name")
+    private String flowTypeName;
+
+    /**
+     * 流程类型编号 equipment_maintenance tools_maintenance 
+     */
+    @ApiModelProperty(value = "流程类型编号 equipment_maintenance tools_maintenance", name = "pendingPersonId", required = false, example = "equipment_maintenance")
+    @Column(name = "flow_type_code")
+    private String flowTypeCode;
+    
     
     
     public interface MaintenanceRecordCreateChecks {}
@@ -684,5 +698,41 @@ public class MaintenanceRecord extends BaseRowModel{
      */
     public void setPendingPersonId(Integer pendingPersonId) {
         this.pendingPersonId = pendingPersonId;
+    }
+    
+    /**
+     * 获取流程类型名称 设备维修 工具仪器维修
+     *
+     * @return flow_type_name - 流程类型名称 设备维修 工具仪器维修
+     */
+    public String getFlowTypeName() {
+        return flowTypeName;
+    }
+
+    /**
+     * 设置流程类型名称 设备维修 工具仪器维修
+     *
+     * @param flowTypeName 流程类型名称 设备维修 工具仪器维修
+     */
+    public void setFlowTypeName(String flowTypeName) {
+        this.flowTypeName = flowTypeName;
+    }
+
+    /**
+     * 获取流程类型编号 equipment_maintenance tools_maintenance 
+     *
+     * @return flow_type_code - 流程类型编号 equipment_maintenance tools_maintenance 
+     */
+    public String getFlowTypeCode() {
+        return flowTypeCode;
+    }
+
+    /**
+     * 设置流程类型编号 equipment_maintenance tools_maintenance 
+     *
+     * @param flowTypeCode 流程类型编号 equipment_maintenance tools_maintenance 
+     */
+    public void setFlowTypeCode(String flowTypeCode) {
+        this.flowTypeCode = flowTypeCode;
     }
 }
