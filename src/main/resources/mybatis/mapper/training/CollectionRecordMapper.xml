@@ -29,5 +29,7 @@
     <result column="pending_person_id" property="pendingPersonId" jdbcType="INTEGER" />
     <result column="record_id" property="recordId" jdbcType="VARCHAR" />
     <result column="record_name" property="recordName" jdbcType="VARCHAR" />
+    <result column="is_collected" property="isCollected" jdbcType="VARCHAR" />
+    <result column="is_returned" property="isReturned" jdbcType="VARCHAR" />
   </resultMap>
 </mapper>

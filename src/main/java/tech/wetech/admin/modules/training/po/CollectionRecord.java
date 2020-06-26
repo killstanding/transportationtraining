@@ -192,6 +192,19 @@ public class CollectionRecord extends BaseRowModel{
     @Column(name = "pending_person_id")
     private Integer pendingPersonId;
 
+    /**
+     * 是否领用 0 否 1是
+     */
+    @ApiModelProperty(value = "是否领用 0 否 1是", name = "isCollected", required = false, example = "1")
+    @Column(name = "is_collected")
+    private String isCollected;
+
+    /**
+     * 是否归还 0 否 1是
+     */
+    @ApiModelProperty(value = "是否归还 0 否 1是", name = "isReturned", required = false, example = "1")
+    @Column(name = "is_returned")
+    private String isReturned;
     
     public interface CollectionRecordCreateChecks {}
 
@@ -627,5 +640,41 @@ public class CollectionRecord extends BaseRowModel{
      */
     public void setRecordName(String recordName) {
         this.recordName = recordName;
+    }
+    
+    /**
+     * 获取是否领用 0 否 1是
+     *
+     * @return is_collected - 是否领用 0 否 1是
+     */
+    public String getIsCollected() {
+        return isCollected;
+    }
+
+    /**
+     * 设置是否领用 0 否 1是
+     *
+     * @param isCollected 是否领用 0 否 1是
+     */
+    public void setIsCollected(String isCollected) {
+        this.isCollected = isCollected;
+    }
+
+    /**
+     * 获取是否归还 0 否 1是
+     *
+     * @return is_returned - 是否归还 0 否 1是
+     */
+    public String getIsReturned() {
+        return isReturned;
+    }
+
+    /**
+     * 设置是否归还 0 否 1是
+     *
+     * @param isReturned 是否归还 0 否 1是
+     */
+    public void setIsReturned(String isReturned) {
+        this.isReturned = isReturned;
     }
 }
