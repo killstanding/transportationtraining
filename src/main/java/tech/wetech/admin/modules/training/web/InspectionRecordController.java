@@ -90,7 +90,7 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
 	}
 
 	@ResponseBody
-	@PostMapping("/listbyplanidforshow")
+	@GetMapping("/listbyplanidforshow")
 	@RequiresPermissions("inspectionrecord:view")
 	public Result<List<InspectionRecord>> queryListByPlanIdForShow(InspectionRecord entity) {    	
 		List<InspectionRecord>  list =  service.keyValueByExample(entity);
@@ -158,7 +158,7 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
 			for (int i = 0; i < list.size(); i++) {
 				InspectionRecord entity = list.get(i);
 				entity.setUpdateTime(curTime);
-				if(entity.getId()!=0){
+				if(entity.getId()!=null&&entity.getId()!=0){
 					service.updateAll(entity);
 				}else{
 					entity.setCreateTime(curTime);
