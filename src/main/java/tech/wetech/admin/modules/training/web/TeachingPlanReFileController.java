@@ -1,6 +1,5 @@
 package tech.wetech.admin.modules.training.web;
 
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,48 +13,48 @@ import tech.wetech.admin.core.utils.DateUtil;
 import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
-import tech.wetech.admin.modules.training.po.TeachingPlan;
-import tech.wetech.admin.modules.training.service.TeachingPlanService;
+import tech.wetech.admin.modules.training.po.TeachingPlanReFile;
+import tech.wetech.admin.modules.training.service.TeachingPlanReFileService;
 import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-@Api(value = "teachingplan", tags = {"teachingplan"}, description = "教案管理")
+@Api(value = "teachingplanrefile", tags = {"teachingplanrefile"}, description = "教案关联文件")
 @Controller
-@RequestMapping("/teachingplan")
-public class TeachingPlanController extends BaseCrudController<TeachingPlan> {
+@RequestMapping("/teachingplanrefile")
+public class TeachingPlanReFileController extends BaseCrudController<TeachingPlanReFile> {
 
 	@Autowired
-    private TeachingPlanService service;
+    private TeachingPlanReFileService service;
     
     @GetMapping
-    @RequiresPermissions("teachingplan:view")
+    @RequiresPermissions("teachingplanrefile:view")
     public String page(Model model) {
-        return "system/teachingplan";
+        return "system/teachingplanrefile";
     }
     
     @GetMapping("/editpage")
-    @RequiresPermissions("teachingplan:view")
+    @RequiresPermissions("teachingplanrefile:view")
     public String editpage(Model model) {
-        return "system/teachingplanedit";
+        return "system/teachingplanrefileedit";
     }
     
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("teachingplan:view")
+    @RequiresPermissions("teachingplanrefile:view")
     @Override
-    public Result<List<TeachingPlan>> queryList(TeachingPlan entity, PageQuery pageQuery) {
-        Page<TeachingPlan> page = (Page<TeachingPlan>) service.queryListByLike(entity, pageQuery);
+    public Result<List<TeachingPlanReFile>> queryList(TeachingPlanReFile entity, PageQuery pageQuery) {
+        Page<TeachingPlanReFile> page = (Page<TeachingPlanReFile>) service.queryListByLike(entity, pageQuery);
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
     
     @ResponseBody
     @PostMapping("/create")
-    //@RequiresPermissions("teachingplan:create")
-    @SystemLog("教案管理教案创建")
+    //@RequiresPermissions("teachingplanrefile:create")
+    @SystemLog("教案关联文件教案创建")
     @Override
-    public Result<String> create(@Validated(TeachingPlan.TeachingPlanCreateChecks.class) TeachingPlan entity) {
+    public Result<String> create(@Validated(TeachingPlanReFile.TeachingPlanReFileCreateChecks.class) TeachingPlanReFile entity) {
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
     	entity.setCreateTime(curTime);
     	entity.setUpdateTime(curTime);
@@ -65,10 +64,10 @@ public class TeachingPlanController extends BaseCrudController<TeachingPlan> {
   
     @ResponseBody
     @PostMapping("/update")
-    @RequiresPermissions("teachingplan:update")
-    @SystemLog("教案管理教案更新")
+    @RequiresPermissions("teachingplanrefile:update")
+    @SystemLog("教案关联文件教案更新")
     @Override
-    public Result<String> update(@Validated(TeachingPlan.TeachingPlanUpdateChecks.class) TeachingPlan entity) {
+    public Result<String> update(@Validated(TeachingPlanReFile.TeachingPlanReFileUpdateChecks.class) TeachingPlanReFile entity) {
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
     	entity.setUpdateTime(curTime);
     	service.updateNotNull(entity);
@@ -77,8 +76,8 @@ public class TeachingPlanController extends BaseCrudController<TeachingPlan> {
 
     @ResponseBody
     @PostMapping("/delete-batch")
-    @RequiresPermissions("teachingplan:delete")
-    @SystemLog("教案管理教案删除")
+    @RequiresPermissions("teachingplanrefile:delete")
+    @SystemLog("教案关联文件教案删除")
     @Override
     public Result<String> deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {
         super.deleteBatchByIds(ids);
