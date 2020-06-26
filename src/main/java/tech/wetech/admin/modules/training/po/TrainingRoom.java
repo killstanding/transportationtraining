@@ -32,7 +32,7 @@ public class TrainingRoom  extends BaseRowModel{
     /**
      * 实训室名称
      */
-    @NotNull(message = "实训室名称不能为空",groups = TrainingRoomCreateChecks.class)
+    //@NotNull(message = "实训室名称不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "room_name")
     @ApiModelProperty(value = "实训室名称", name = "roomName", required = false, example = "丰田T-TEP整车实训区")
     @ExcelProperty(value = {"实训室名称","实训室名称"},index = 1)
@@ -42,7 +42,7 @@ public class TrainingRoom  extends BaseRowModel{
      * 所属系
      */
     @ApiModelProperty(value = "所属系", name = "belongSys", required = false, example = "南校区汽车工程系")
-    @NotNull(message = "所属系不能为空",groups = TrainingRoomCreateChecks.class)
+    //@NotNull(message = "所属系不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "belong_sys")
     @ExcelProperty(value = {"所属系","所属系"},index = 2)
     private String belongSys;
@@ -51,7 +51,7 @@ public class TrainingRoom  extends BaseRowModel{
      * 位置
      */
     @ApiModelProperty(value = "位置名称", name = "roomPosition", required = false, example = "田T-TEP整车实训区")
-    @NotNull(message = "位置不能为空",groups = TrainingRoomCreateChecks.class)
+    //@NotNull(message = "位置不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "room_position")
     @ExcelProperty(value = {"位置","位置"},index = 3)
     private String roomPosition;
@@ -60,7 +60,7 @@ public class TrainingRoom  extends BaseRowModel{
      * 管理员
      */
     @ApiModelProperty(value = "管理员", name = "roomAdmin", required = false, example = "admin")
-    @NotNull(message = "管理员不能为空",groups = TrainingRoomCreateChecks.class)
+    //@NotNull(message = "管理员不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "room_admin")
     @ExcelProperty(value = {"管理员","管理员"},index = 4)
     private String roomAdmin;
@@ -115,7 +115,7 @@ public class TrainingRoom  extends BaseRowModel{
      * 位置信息编号
      */
     @ApiModelProperty(value = "位置编号", name = "postionCode", required = false, example = "1")
-    @NotNull(message = "位置信息编号不能为空",groups = TrainingRoomCreateChecks.class)
+    //@NotNull(message = "位置信息编号不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "room_position_code")
     private Integer roomPositionCode;
 
@@ -123,7 +123,7 @@ public class TrainingRoom  extends BaseRowModel{
      * 管理员编号
      */
     @ApiModelProperty(value = "管理员编号", name = "roomAdminId", required = false, example = "1")
-    @NotNull(message = "管理员编号不能为空",groups = TrainingRoomCreateChecks.class)
+    //@NotNull(message = "管理员编号不能为空",groups = TrainingRoomCreateChecks.class)
     @Column(name = "room_admin_id")
     private Integer roomAdminId;
     
