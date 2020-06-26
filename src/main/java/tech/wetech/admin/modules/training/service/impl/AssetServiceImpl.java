@@ -35,15 +35,15 @@ public class AssetServiceImpl extends BaseService<Asset> implements AssetService
 	public int create(Asset entity) {
 		// TODO Auto-generated method stub
 		int k = super.create(entity);
-		if(entity.getAssetCode()==null||entity.getAssetCode().equals("")){
-			//更新编号
-	    	Asset record = new Asset();
-	    	record.setId(entity.getId());
-	    	String dateStr = DateUtil.dateToStr(new Date(), DateUtil.DATE_FORMATE_SIMPLE);
-	    	String code = CommonVariable.getNumberPrefix(CommonVariable.NUMBER_PREFIX_DEVICE, dateStr, record.getId());
-	    	record.setAssetCode(code);
-	    	super.updateNotNull(record);
-		}
+//		if(entity.getAssetCode()==null||entity.getAssetCode().equals("")){
+//			//更新编号
+//	    	Asset record = new Asset();
+//	    	record.setId(entity.getId());
+//	    	String dateStr = DateUtil.dateToStr(new Date(), DateUtil.DATE_FORMATE_SIMPLE);
+//	    	String code = CommonVariable.getNumberPrefix(CommonVariable.NUMBER_PREFIX_DEVICE, dateStr, record.getId());
+//	    	record.setAssetCode(code);
+//	    	super.updateNotNull(record);
+//		}
 		return k;
 	}
 

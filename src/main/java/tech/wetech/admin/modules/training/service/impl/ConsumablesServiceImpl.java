@@ -27,15 +27,15 @@ public class ConsumablesServiceImpl extends BaseService<Consumables> implements 
 	public int create(Consumables entity) {
 		// TODO Auto-generated method stub
 		int k = super.create(entity);
-		if(entity.getConsumablesCode()==null||entity.getConsumablesCode().equals("")){
-			//更新编号
-			Consumables record = new Consumables();
-	    	record.setId(entity.getId());
-	    	String dateStr = DateUtil.dateToStr(new Date(), DateUtil.DATE_FORMATE_SIMPLE);
-	    	String code = CommonVariable.getNumberPrefix(CommonVariable.NUMBER_PREFIX_CONSUMABLES, dateStr, record.getId());
-	    	record.setConsumablesCode(code);
-	    	super.updateNotNull(record);
-		}
+//		if(entity.getConsumablesCode()==null||entity.getConsumablesCode().equals("")){
+//			//更新编号
+//			Consumables record = new Consumables();
+//	    	record.setId(entity.getId());
+//	    	String dateStr = DateUtil.dateToStr(new Date(), DateUtil.DATE_FORMATE_SIMPLE);
+//	    	String code = CommonVariable.getNumberPrefix(CommonVariable.NUMBER_PREFIX_CONSUMABLES, dateStr, record.getId());
+//	    	record.setConsumablesCode(code);
+//	    	super.updateNotNull(record);
+//		}
 		return k;
 	}
 }

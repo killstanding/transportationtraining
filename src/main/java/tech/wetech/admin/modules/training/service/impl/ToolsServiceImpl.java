@@ -28,15 +28,15 @@ public class ToolsServiceImpl extends BaseService<Tools> implements ToolsService
 	public int create(Tools entity) {
 		// TODO Auto-generated method stub
 		int k = super.create(entity);
-		if(entity.getAssetCode()==null||entity.getAssetCode().equals("")){
-			//更新编号
-			Tools record = new Tools();
-	    	record.setId(entity.getId());
-	    	String dateStr = DateUtil.dateToStr(new Date(), DateUtil.DATE_FORMATE_SIMPLE);
-	    	String code = CommonVariable.getNumberPrefix(CommonVariable.NUMBER_PREFIX_TOOLS, dateStr, record.getId());
-	    	record.setAssetCode(code);
-	    	super.updateNotNull(record);
-		}
+//		if(entity.getAssetCode()==null||entity.getAssetCode().equals("")){
+//			//更新编号
+//			Tools record = new Tools();
+//	    	record.setId(entity.getId());
+//	    	String dateStr = DateUtil.dateToStr(new Date(), DateUtil.DATE_FORMATE_SIMPLE);
+//	    	String code = CommonVariable.getNumberPrefix(CommonVariable.NUMBER_PREFIX_TOOLS, dateStr, record.getId());
+//	    	record.setAssetCode(code);
+//	    	super.updateNotNull(record);
+//		}
 		return k;
 	}
 }
