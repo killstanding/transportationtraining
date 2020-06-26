@@ -118,11 +118,20 @@ public class Consumables extends BaseRowModel{
     @Column(name = "cumulative_receipt_quantity")
     private String cumulativeReceiptQuantity;
 
+    
+    /**
+     * 已用数量
+     */
+    @ApiModelProperty(value = "已用数量", name = "usedQuantity", required = false, example = "50")
+    @ExcelProperty(value = {"已用数量","已用数量"},index = 10)
+    @Column(name = "used_quantity")
+    private String usedQuantity;
+    
     /**
      * 现存总数
      */
     @ApiModelProperty(value = "现存总数", name = "totalExisting", required = false, example = "50")
-    @ExcelProperty(value = {"现存总数","现存总数"},index = 10)
+    @ExcelProperty(value = {"现存总数","现存总数"},index = 11)
     @Column(name = "total_existing")
     private String totalExisting;
 
@@ -130,7 +139,7 @@ public class Consumables extends BaseRowModel{
      * 累计领用数量
      */
     @ApiModelProperty(value = "累计领用数量", name = "cumulativeCollectedQuantity", required = false, example = "40")
-    @ExcelProperty(value = {"累计领用数量","累计领用数量"},index = 11)
+    @ExcelProperty(value = {"累计领用数量","累计领用数量"},index = 12)
     @Column(name = "cumulative_collected_quantity")
     private String cumulativeCollectedQuantity;
 
@@ -138,7 +147,7 @@ public class Consumables extends BaseRowModel{
      * 剩余数量
      */
     @ApiModelProperty(value = "剩余数量", name = "remainingQuantity", required = false, example = "10")
-    @ExcelProperty(value = {"剩余数量","剩余数量"},index = 12)
+    @ExcelProperty(value = {"剩余数量","剩余数量"},index = 13)
     @Column(name = "remaining_quantity")
     private String remainingQuantity;
 
@@ -157,7 +166,6 @@ public class Consumables extends BaseRowModel{
     private String updateTime;
 
 
-    
     public interface ConsumablesCreateChecks {}
 
     public interface ConsumablesUpdateChecks {}
@@ -502,5 +510,23 @@ public class Consumables extends BaseRowModel{
      */
     public void setAssetClassification(String assetClassification) {
         this.assetClassification = assetClassification;
+    }
+    
+    /**
+     * 获取已用数量
+     *
+     * @return used_quantity - 已用数量
+     */
+    public String getUsedQuantity() {
+        return usedQuantity;
+    }
+
+    /**
+     * 设置已用数量
+     *
+     * @param usedQuantity 已用数量
+     */
+    public void setUsedQuantity(String usedQuantity) {
+        this.usedQuantity = usedQuantity;
     }
 }

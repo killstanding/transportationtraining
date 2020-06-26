@@ -24,6 +24,7 @@
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
     <result column="asset_classification_code" property="assetClassificationCode" jdbcType="VARCHAR" />
     <result column="asset_classification" property="assetClassification" jdbcType="VARCHAR" />
+    <result column="used_quantity" property="usedQuantity" jdbcType="VARCHAR" />
   </resultMap>
   <update id="updateCodeById" parameterType="tech.wetech.admin.modules.training.po.Consumables">
 		UPDATE t_consumables t 
