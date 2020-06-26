@@ -23,6 +23,7 @@ import tech.wetech.admin.modules.training.service.AssetService;
 import tech.wetech.admin.modules.training.service.FailureConfirmationService;
 import tech.wetech.admin.modules.training.service.MaintenanceRecordService;
 import tech.wetech.admin.modules.training.service.PositionService;
+import tech.wetech.admin.modules.training.service.ToolsService;
 
 import org.springframework.ui.Model;
 import java.util.Date;
@@ -48,6 +49,8 @@ public class FailureConfirmationController extends BaseCrudController<FailureCon
     private AssetService assetService;
 	@Autowired
 	private MaintenanceRecordService maintenanceRecordService;
+	@Autowired
+    private ToolsService toolService;
 	
     @GetMapping
     @RequiresPermissions("failureconfirmation:view")
@@ -55,13 +58,25 @@ public class FailureConfirmationController extends BaseCrudController<FailureCon
     	AssetClassification assetClassification = new AssetClassification();
     	assetClassification.setAssetTypeCode("asset_type_device");//设备
     	model.addAttribute("assetClassificationList", assetClassificationService.queryList(assetClassification));
-    	model.addAttribute("positionList", positionService.queryAll());
-    	model.addAttribute("organizationList", organizationService.queryAll());
-    	model.addAttribute("userList", userService.queryAll());
+    	//model.addAttribute("positionList", positionService.queryAll());
+    	//model.addAttribute("organizationList", organizationService.queryAll());
+    	//model.addAttribute("userList", userService.queryAll());
     	model.addAttribute("assetList", assetService.queryAll());
         return "system/failureconfirmation";
     }
     
+    @GetMapping
+    @RequiresPermissions("toolfailureconfirmation:view")
+    public String toolPage(Model model) {
+    	AssetClassification assetClassification = new AssetClassification();
+    	assetClassification.setAssetTypeCode("asset_type_device");//设备
+    	model.addAttribute("assetClassificationList", assetClassificationService.queryList(assetClassification));
+    	//model.addAttribute("positionList", positionService.queryAll());
+    	//model.addAttribute("organizationList", organizationService.queryAll());
+    	//model.addAttribute("userList", userService.queryAll());
+    	model.addAttribute("toolsList", toolService.queryAll());
+        return "system/toolfailureconfirmation";
+    }
     
     @ResponseBody
     @GetMapping("/list")

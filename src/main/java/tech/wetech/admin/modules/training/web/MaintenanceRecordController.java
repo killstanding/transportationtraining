@@ -25,6 +25,7 @@ import tech.wetech.admin.modules.training.service.AssetService;
 import tech.wetech.admin.modules.training.service.FlowDetailService;
 import tech.wetech.admin.modules.training.service.FlowNodeService;
 import tech.wetech.admin.modules.training.service.MaintenanceRecordService;
+import tech.wetech.admin.modules.training.service.ToolsService;
 import tech.wetech.excel.ExcelWriteUtil;
 import org.springframework.ui.Model;
 
@@ -50,6 +51,10 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
     private FlowDetailService flowDetailservice;
 	@Autowired
     private AssetService assetService;
+	@Autowired
+    private ToolsService toolService;
+	
+	
     @GetMapping
     @RequiresPermissions("maintenancerecord:view")
     public String page(Model model) {
@@ -61,11 +66,30 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
         return "system/maintenancerecord";
     }
     
+    @GetMapping("/toolmaintenancerecord")
+    @RequiresPermissions("maintenancerecord:view")
+    public String toolPage(Model model) {
+    	FlowNode flowNode = new FlowNode();
+    	flowNode.setFlowTypeCode("equipment_maintenance");
+    	List<FlowNode> flowNodeList = flowNodeService.queryList(flowNode);
+    	model.addAttribute("flowNodeList", flowNodeList);
+    	model.addAttribute("toolsList", toolService.queryAll());
+        return "system/toolmaintenancerecord";
+    }
+    
+    
     @GetMapping("/edit")
     @RequiresPermissions("maintenancerecord:view")
     public String editpage(Model model) {
     	model.addAttribute("assetList", assetService.queryAll());
         return "system/maintenancerecordedit";
+    }
+    
+    @GetMapping("/tooledit")
+    @RequiresPermissions("maintenancerecord:view")
+    public String toolEditpage(Model model) {
+    	model.addAttribute("assetList", assetService.queryAll());
+        return "system/toolmaintenancerecordedit";
     }
     
     @ResponseBody
