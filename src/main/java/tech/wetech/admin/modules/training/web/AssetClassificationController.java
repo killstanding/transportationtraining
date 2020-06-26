@@ -54,7 +54,7 @@ public class AssetClassificationController extends BaseCrudController<AssetClass
     @RequiresPermissions("assetclassification:view")
     @Override
     public Result<List<AssetClassification>> queryList(AssetClassification entity, PageQuery pageQuery) {
-        Page<AssetClassification> page = (Page<AssetClassification>) service.queryList(entity, pageQuery);
+        Page<AssetClassification> page = (Page<AssetClassification>) service.queryListByLike(entity, pageQuery);
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
     
