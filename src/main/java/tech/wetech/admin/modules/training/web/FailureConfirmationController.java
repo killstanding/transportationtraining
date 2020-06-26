@@ -65,7 +65,7 @@ public class FailureConfirmationController extends BaseCrudController<FailureCon
         return "system/failureconfirmation";
     }
     
-    @GetMapping
+    @GetMapping("/toolfailureconfirmation")
     @RequiresPermissions("toolfailureconfirmation:view")
     public String toolPage(Model model) {
     	AssetClassification assetClassification = new AssetClassification();
