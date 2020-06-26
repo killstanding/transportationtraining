@@ -2,10 +2,14 @@ package tech.wetech.admin.modules.training.po;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.metadata.BaseRowModel;
+
 import io.swagger.annotations.ApiModelProperty;
 
 @Table(name = "t_week_year")
-public class WeekYear {
+public class WeekYear extends BaseRowModel{
     /**
      * 周编号（系统自动生成）
      */
@@ -13,12 +17,14 @@ public class WeekYear {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(groups = WeekYearUpdateChecks.class)
     @ApiModelProperty(value = "周编号(系统生成)", name = "id", required = false, example = "1")
+    @ExcelProperty(value = {"周编号(系统生成)","周编号(系统生成)"},index = 0)
     private Integer id;
 
     /**
      * 周名称
      */
     @ApiModelProperty(value = "周名称", name = "weekName", required = false, example = "2020年 第19周 (5月4日-5月10日)")
+    @ExcelProperty(value = {"周名称","周名称"},index = 1)
     @Column(name = "week_name")
     private String weekName;
 
@@ -26,6 +32,7 @@ public class WeekYear {
      * 起始日期
      */
     @ApiModelProperty(value = "起始日期", name = "weekName", required = false, example = "05-04")
+    @ExcelProperty(value = {"起始日期","起始日期"},index = 2)
     @Column(name = "start_date")
     private String startDate;
 
@@ -33,6 +40,7 @@ public class WeekYear {
      * 结束日期
      */
     @ApiModelProperty(value = "结束日期", name = "endDate", required = false, example = "05-10")
+    @ExcelProperty(value = {"结束日期","结束日期"},index = 3)
     @Column(name = "end_date")
     private String endDate;
 
@@ -40,12 +48,14 @@ public class WeekYear {
      * 年份
      */
     @ApiModelProperty(value = "年份", name = "year", required = false, example = "2020")
+    @ExcelProperty(value = {"年份","年份"},index = 3)
     private String year;
 
     /**
      * 备注
      */
     @ApiModelProperty(value = "备注", name = "remark", required = false, example = "无")
+    @ExcelProperty(value = {"备注","备注"},index = 4)
     private String remark;
 
     /**
