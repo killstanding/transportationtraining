@@ -52,7 +52,7 @@ public class TeachingPlanReFileController extends BaseCrudController<TeachingPla
     @ResponseBody
     @PostMapping("/create")
     //@RequiresPermissions("teachingplanrefile:create")
-    @SystemLog("教案关联文件教案创建")
+    @SystemLog("教案关联文件创建")
     @Override
     public Result<String> create(@Validated(TeachingPlanReFile.TeachingPlanReFileCreateChecks.class) TeachingPlanReFile entity) {
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
@@ -65,7 +65,7 @@ public class TeachingPlanReFileController extends BaseCrudController<TeachingPla
     @ResponseBody
     @PostMapping("/update")
     @RequiresPermissions("teachingplanrefile:update")
-    @SystemLog("教案关联文件教案更新")
+    @SystemLog("教案关联文件更新")
     @Override
     public Result<String> update(@Validated(TeachingPlanReFile.TeachingPlanReFileUpdateChecks.class) TeachingPlanReFile entity) {
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
@@ -77,7 +77,7 @@ public class TeachingPlanReFileController extends BaseCrudController<TeachingPla
     @ResponseBody
     @PostMapping("/delete-batch")
     @RequiresPermissions("teachingplanrefile:delete")
-    @SystemLog("教案关联文件教案删除")
+    @SystemLog("教案关联文件删除")
     @Override
     public Result<String> deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {
         super.deleteBatchByIds(ids);
