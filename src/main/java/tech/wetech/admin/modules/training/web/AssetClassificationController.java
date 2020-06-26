@@ -10,13 +10,21 @@ import org.springframework.web.bind.annotation.*;
 import com.github.pagehelper.Page;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import tech.wetech.admin.core.annotation.SystemLog;
+import tech.wetech.admin.core.common.ConfigProperties;
 import tech.wetech.admin.core.utils.DateUtil;
+import tech.wetech.admin.core.utils.Logger;
 import tech.wetech.admin.core.utils.Result;
+import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.training.po.Asset;
 import tech.wetech.admin.modules.training.po.AssetClassification;
 import tech.wetech.admin.modules.training.service.AssetClassificationService;
+import tech.wetech.admin.modules.training.vo.FileVo;
+import tech.wetech.excel.ExcelReadUtil;
+import tech.wetech.excel.ExcelWriteUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -30,7 +38,8 @@ public class AssetClassificationController extends BaseCrudController<AssetClass
 
     @Autowired
     private AssetClassificationService service;
-
+    @Autowired
+    private ConfigProperties configProperties;
     
     @ResponseBody
     @GetMapping("/list")
@@ -76,4 +85,51 @@ public class AssetClassificationController extends BaseCrudController<AssetClass
         return Result.success();
     }
 
+    @ResponseBody
+   	@PostMapping("/exportexcel")
+   	@ApiOperation(value = "导出")
+   	@RequiresPermissions("assetclassification:exportexcel")
+   	public Result<String> exportExcel(AssetClassification entity) {
+   		String fileName="";
+   		try {
+   			List<AssetClassification> list = service.keyValueByExample(entity);
+   			fileName = ExcelWriteUtil.writeData(configProperties.getExcelPath(), list, Asset.class, "位置信息");
+   		} catch (Exception e) {
+   			e.printStackTrace();
+   			Logger.error(getClass(), e.getMessage());
+   			return Result.failure(ResultCodeEnum.NOT_IMPLEMENTED);
+   		}
+   		
+   		return Result.success(fileName);
+   	}
+   	
+       @ResponseBody
+   	@PostMapping("/importexcel/")
+   	@ApiOperation(value = "导入")
+   	@RequiresPermissions("assetclassification:importexcel")
+   	public Result<String> importExcel(FileVo file) {
+   		try {
+   			String syncTime = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
+   			List<Object> list = ExcelReadUtil.readExcelData(file.getPath(), Asset.class);
+   			if(list!=null){
+   				for (int i = 0; i < list.size(); i++) {
+   					AssetClassification record = (AssetClassification)list.get(i);
+   					record.setUpdateTime(syncTime);
+   					//制定唯一编号 j根据id进行唯一性识别
+   					AssetClassification mid = service.queryById(record);
+   					if(mid!=null){
+   						service.updateNotNull(record);
+   					}else{
+   						record.setCreateTime(syncTime);
+   						service.create(record);
+   					}//else
+   				}//for+
+   			}//if(list!=null)
+   		} catch (Exception e) {
+   			e.printStackTrace();
+   			Logger.error(getClass(), e.getMessage());
+   			return Result.failure(ResultCodeEnum.NOT_IMPLEMENTED);
+   		}
+   		return Result.success();
+   	}
 }
