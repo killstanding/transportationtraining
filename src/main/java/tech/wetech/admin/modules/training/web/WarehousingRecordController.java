@@ -15,6 +15,7 @@ import tech.wetech.admin.core.utils.DateUtil;
 import tech.wetech.admin.core.utils.Logger;
 import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.core.utils.ResultCodeEnum;
+import tech.wetech.admin.core.utils.StringUtil;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.UserService;
@@ -82,16 +83,22 @@ public class WarehousingRecordController extends BaseCrudController<WarehousingR
     	switch (assetTypeCode) {
 		case "asset_type_consumables":
 			Consumables consumables =  consumablesService.queryById(assetId);
-			consumables.setCumulativeReceiptQuantity(consumables.getCumulativeReceiptQuantity()+entity.getWarehousingQuantity());//累计入库数量
-			consumables.setTotalExisting(consumables.getTotalExisting()+entity.getWarehousingQuantity());//现存总数
-			consumables.setRemainingQuantity(consumables.getRemainingQuantity()+entity.getWarehousingQuantity());//剩余数量
+			int cumulativeReceiptQuantity  = StringUtil.strToInt(consumables.getCumulativeReceiptQuantity())+StringUtil.strToInt(entity.getWarehousingQuantity());
+			consumables.setCumulativeReceiptQuantity(cumulativeReceiptQuantity + "");//累计入库数量
+			int totalExisting  = StringUtil.strToInt(consumables.getTotalExisting())+StringUtil.strToInt(entity.getWarehousingQuantity());
+			consumables.setTotalExisting(totalExisting+"");//现存总数
+			int remainingQuantity  = StringUtil.strToInt(consumables.getRemainingQuantity())+StringUtil.strToInt(entity.getWarehousingQuantity());
+			consumables.setRemainingQuantity(remainingQuantity+"");//剩余数量
 			consumablesService.updateNotNull(consumables);
 			break;
 		case "asset_type_tool":
 			Tools tools =  toolsService.queryById(assetId);
-			tools.setCumulativeReceiptQuantity(tools.getCumulativeReceiptQuantity()+entity.getWarehousingQuantity());//累计入库数量
-			tools.setTotalExisting(tools.getTotalExisting()+entity.getWarehousingQuantity());//现存总数
-			tools.setRemainingQuantity(tools.getRemainingQuantity()+entity.getWarehousingQuantity());//剩余数量
+			int cumulativeReceiptQuantity1  = StringUtil.strToInt(tools.getCumulativeReceiptQuantity())+StringUtil.strToInt(entity.getWarehousingQuantity());
+			tools.setCumulativeReceiptQuantity(cumulativeReceiptQuantity1 + "");//累计入库数量
+			int totalExisting1  = StringUtil.strToInt(tools.getTotalExisting())+StringUtil.strToInt(entity.getWarehousingQuantity());
+			tools.setTotalExisting(totalExisting1+"");//现存总数
+			int remainingQuantity1  = StringUtil.strToInt(tools.getRemainingQuantity())+StringUtil.strToInt(entity.getWarehousingQuantity());
+			tools.setRemainingQuantity(remainingQuantity1+"");//剩余数量
 			toolsService.updateNotNull(tools);
 			break;
 		default:
