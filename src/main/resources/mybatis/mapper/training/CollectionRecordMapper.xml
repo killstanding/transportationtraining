@@ -31,5 +31,6 @@
     <result column="record_name" property="recordName" jdbcType="VARCHAR" />
     <result column="is_collected" property="isCollected" jdbcType="VARCHAR" />
     <result column="is_returned" property="isReturned" jdbcType="VARCHAR" />
+    <result column="re_id" property="reId" jdbcType="INTEGER" />
   </resultMap>
 </mapper>

@@ -206,6 +206,13 @@ public class CollectionRecord extends BaseRowModel{
     @Column(name = "is_returned")
     private String isReturned;
     
+    /**
+     * 排课关联资源表编号
+     */
+    @ApiModelProperty(value = "排课关联资源表编号", name = "reId", required = false, example = "1")
+    @Column(name = "re_id")
+    private Integer reId;
+    
     public interface CollectionRecordCreateChecks {}
 
     public interface CollectionRecordUpdateChecks {}
@@ -676,5 +683,23 @@ public class CollectionRecord extends BaseRowModel{
      */
     public void setIsReturned(String isReturned) {
         this.isReturned = isReturned;
+    }
+    
+    /**
+     * 获取排课关联资源表编号
+     *
+     * @return re_id - 排课关联资源表编号
+     */
+    public Integer getReId() {
+        return reId;
+    }
+
+    /**
+     * 设置排课关联资源表编号
+     *
+     * @param reId 排课关联资源表编号
+     */
+    public void setReId(Integer reId) {
+        this.reId = reId;
     }
 }

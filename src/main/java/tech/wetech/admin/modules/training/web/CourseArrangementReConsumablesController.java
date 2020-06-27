@@ -14,10 +14,17 @@ import tech.wetech.admin.core.utils.DateUtil;
 import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.system.po.Organization;
+import tech.wetech.admin.modules.system.service.OrganizationService;
+import tech.wetech.admin.modules.training.po.CollectionRecord;
+import tech.wetech.admin.modules.training.po.Consumables;
+import tech.wetech.admin.modules.training.po.CourseArrangement;
 import tech.wetech.admin.modules.training.po.CourseArrangementReConsumables;
 import tech.wetech.admin.modules.training.po.SpecificationType;
+import tech.wetech.admin.modules.training.service.CollectionRecordService;
 import tech.wetech.admin.modules.training.service.ConsumablesService;
 import tech.wetech.admin.modules.training.service.CourseArrangementReConsumablesService;
+import tech.wetech.admin.modules.training.service.CourseArrangementService;
 import tech.wetech.admin.modules.training.service.PositionService;
 import tech.wetech.admin.modules.training.service.SpecificationTypeService;
 
@@ -39,6 +46,12 @@ public class CourseArrangementReConsumablesController extends BaseCrudController
 	private SpecificationTypeService specificationTypeService;
 	@Autowired
     private ConsumablesService consumablesService;
+	@Autowired
+    private CollectionRecordService collectionRecordService;
+	@Autowired
+	private CourseArrangementService courseArrangementService;
+	@Autowired
+    private OrganizationService organizationService;
 	
     @GetMapping
     @RequiresPermissions("coursearrangementreconsumables:view")
@@ -70,6 +83,33 @@ public class CourseArrangementReConsumablesController extends BaseCrudController
     	entity.setCreateTime(curTime);
     	entity.setUpdateTime(curTime);
     	service.create(entity);
+    	
+    	CourseArrangement courseArrangement = courseArrangementService.queryById(entity.getCourseArrangementId());
+    	Consumables consumables =  consumablesService.queryById(entity.getConsumablesId());
+    	Organization org = organizationService.queryById(courseArrangement.getClassId());
+    	Organization sys = organizationService.queryById(org.getParentId());
+    	CollectionRecord record = new CollectionRecord();
+    	record.setRecordName(consumables.getConsumablesName()+"领用申请");
+    	record.setAssetId(consumables.getId());
+    	record.setAssetName(consumables.getConsumablesName());
+    	record.setAssetType("耗材");
+    	record.setAssetTypeCode("asset_type_consumables");
+    	record.setCollectionMajor(sys.getName());//领用的专业(系)
+    	record.setCollectionMajorId(sys.getId().intValue());//领用的专业(系)编号
+    	record.setCollectionCourse(courseArrangement.getCourseName());//领用的课程
+    	record.setCollectionCourseId(courseArrangement.getCourseId());//领用的课程编号
+    	record.setApplicant(courseArrangement.getLecturerlTeacher());//申请人
+    	record.setApplicantId(courseArrangement.getLecturerlTeacherId());//申请人编号
+    	record.setCollectedQuantity(entity.getNumberOfApplications()+"");//申请数量
+    	//record.setRemark();//备注
+    	record.setCreateYear(DateUtil.dateToStr(new Date(), DateUtil.YEAR_FORMATE));
+    	record.setPendingPerson(consumables.getManager());//待处理人
+    	record.setPendingPersonId(consumables.getManagerId());//待处理人编号
+    	record.setCreateTime(curTime);
+    	record.setUpdateTime(curTime);
+    	record.setReId(entity.getId());
+    	collectionRecordService.create(record);
+    	
         return Result.success();
     }
   
@@ -92,6 +132,13 @@ public class CourseArrangementReConsumablesController extends BaseCrudController
     @Override
     public Result<String> deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {
         super.deleteBatchByIds(ids);
+        for (int i = 0; i < ids.length; i++) {
+        	int reId = (int)ids[i];
+			CollectionRecord entity = new CollectionRecord();
+			entity.setAssetTypeCode("asset_type_consumables");
+			entity.setReId(reId);
+			collectionRecordService.delete(entity);
+		}
         return Result.success();
     }
 }
