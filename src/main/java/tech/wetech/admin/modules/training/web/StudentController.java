@@ -60,6 +60,12 @@ public class StudentController extends BaseCrudController<Student> {
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
     
+    @ResponseBody
+    @PostMapping("/count")
+    @RequiresPermissions("student:view")
+    public Result<Integer> queryCount(Student entity) {
+        return Result.success(service.count(entity));
+    }
     
     @ResponseBody
     @PostMapping("/create")
