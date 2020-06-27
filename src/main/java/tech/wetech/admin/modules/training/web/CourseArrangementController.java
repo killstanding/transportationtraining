@@ -19,6 +19,7 @@ import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.common.CommonVariable;
+import tech.wetech.admin.modules.system.po.Organization;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.CourseArrangement;
@@ -67,7 +68,9 @@ public class CourseArrangementController extends BaseCrudController<CourseArrang
 		model.addAttribute("weekYearServiceList", weekYearService.queryAll());
 		model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.TEACHER_ROLE_ID));//获取教师用户
 		model.addAttribute("coursesList", coursesService.queryAll());
-		model.addAttribute("organizationList", organizationService.queryAll());
+		Organization org  = new Organization();
+		org.setLeaf(true);
+		model.addAttribute("organizationList", organizationService.queryList(org));
 		TrainingRoom tr = new TrainingRoom();
 		tr.setIsEnabled(1);
 		model.addAttribute("trainingRoomList", trainingRoomService.queryList(tr));
