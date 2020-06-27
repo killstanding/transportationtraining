@@ -29,6 +29,7 @@
     <result column="number_of_consumables" property="numberOfConsumables" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
-     <result column="number_of_tools" property="numberOfTools" jdbcType="INTEGER" />
+    <result column="number_of_tools" property="numberOfTools" jdbcType="INTEGER" />
+    <result column="is_lock" property="isLock" jdbcType="VARCHAR" />
   </resultMap>
 </mapper>

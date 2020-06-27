@@ -203,6 +203,15 @@ public class CourseArrangement  extends BaseRowModel{
     @Column(name = "number_of_tools")
     private Integer numberOfTools;
     
+    /**
+     * 是否锁定 0 否 1 是
+     */
+    @ApiModelProperty(value = "是否锁定 0 否 1 是", name = "isLock", required = false, example = "0")
+    @Column(name = "is_lock")
+    private String isLock;
+    
+    
+    
     public interface CourseArrangementCreateChecks {}
 
     public interface CourseArrangementUpdateChecks {}
@@ -655,5 +664,23 @@ public class CourseArrangement  extends BaseRowModel{
      */
     public void setNumberOfTools(Integer numberOfTools) {
         this.numberOfTools = numberOfTools;
+    }
+    
+    /**
+     * 获取是否锁定 0 否 1 是
+     *
+     * @return is_lock - 是否锁定 0 否 1 是
+     */
+    public String getIsLock() {
+        return isLock;
+    }
+
+    /**
+     * 设置是否锁定 0 否 1 是
+     *
+     * @param isLock 是否锁定 0 否 1 是
+     */
+    public void setIsLock(String isLock) {
+        this.isLock = isLock;
     }
 }
