@@ -18,9 +18,13 @@ import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.UserService;
+import tech.wetech.admin.modules.training.po.Consumables;
+import tech.wetech.admin.modules.training.po.Tools;
 import tech.wetech.admin.modules.training.po.WarehousingRecord;
 import tech.wetech.admin.modules.training.service.WarehousingRecordService;
+import tech.wetech.admin.modules.training.service.ConsumablesService;
 import tech.wetech.admin.modules.training.service.PositionService;
+import tech.wetech.admin.modules.training.service.ToolsService;
 import tech.wetech.excel.ExcelWriteUtil;
 
 import java.util.Date;
@@ -41,6 +45,10 @@ public class WarehousingRecordController extends BaseCrudController<WarehousingR
     private ConfigProperties configProperties;
     @Autowired
     private UserService userService;
+	@Autowired
+    private ConsumablesService consumablesService;
+	@Autowired
+    private ToolsService toolsService;
     
     @GetMapping
     @RequiresPermissions("warehousingrecord:view")
@@ -61,7 +69,7 @@ public class WarehousingRecordController extends BaseCrudController<WarehousingR
     
     @ResponseBody
     @PostMapping("/create")
-    //@RequiresPermissions("warehousingrecord:create")
+    @RequiresPermissions("warehousingrecord:create")
     @SystemLog("入库记录创建")
     @Override
     public Result<String> create(@Validated(WarehousingRecord.WarehousingRecordCreateChecks.class) WarehousingRecord entity) {
@@ -69,6 +77,26 @@ public class WarehousingRecordController extends BaseCrudController<WarehousingR
     	entity.setCreateTime(curTime);
     	entity.setUpdateTime(curTime);
     	service.create(entity);
+    	String assetTypeCode = entity.getAssetTypeCode();
+    	int assetId =  entity.getAssetId();
+    	switch (assetTypeCode) {
+		case "asset_type_consumables":
+			Consumables consumables =  consumablesService.queryById(assetId);
+			consumables.setCumulativeReceiptQuantity(consumables.getCumulativeReceiptQuantity()+entity.getWarehousingQuantity());//累计入库数量
+			consumables.setTotalExisting(consumables.getTotalExisting()+entity.getWarehousingQuantity());//现存总数
+			consumables.setRemainingQuantity(consumables.getRemainingQuantity()+entity.getWarehousingQuantity());//剩余数量
+			consumablesService.updateNotNull(consumables);
+			break;
+		case "asset_type_tool":
+			Tools tools =  toolsService.queryById(assetId);
+			tools.setCumulativeReceiptQuantity(tools.getCumulativeReceiptQuantity()+entity.getWarehousingQuantity());//累计入库数量
+			tools.setTotalExisting(tools.getTotalExisting()+entity.getWarehousingQuantity());//现存总数
+			tools.setRemainingQuantity(tools.getRemainingQuantity()+entity.getWarehousingQuantity());//剩余数量
+			toolsService.updateNotNull(tools);
+			break;
+		default:
+			break;
+		}
         return Result.success();
     }
   
