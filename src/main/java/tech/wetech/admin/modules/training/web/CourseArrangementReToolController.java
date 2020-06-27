@@ -12,6 +12,8 @@ import io.swagger.annotations.Api;
 import tech.wetech.admin.core.annotation.SystemLog;
 import tech.wetech.admin.core.utils.DateUtil;
 import tech.wetech.admin.core.utils.Result;
+import tech.wetech.admin.core.utils.ResultCodeEnum;
+import tech.wetech.admin.core.utils.StringUtil;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.po.Organization;
@@ -20,6 +22,7 @@ import tech.wetech.admin.modules.training.po.AssetClassification;
 import tech.wetech.admin.modules.training.po.CollectionRecord;
 import tech.wetech.admin.modules.training.po.Consumables;
 import tech.wetech.admin.modules.training.po.CourseArrangement;
+import tech.wetech.admin.modules.training.po.CourseArrangementReConsumables;
 import tech.wetech.admin.modules.training.po.CourseArrangementReTool;
 import tech.wetech.admin.modules.training.po.PubCode;
 import tech.wetech.admin.modules.training.po.Tools;
@@ -84,10 +87,22 @@ public class CourseArrangementReToolController extends BaseCrudController<Course
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
     	entity.setCreateTime(curTime);
     	entity.setUpdateTime(curTime);
-    	service.create(entity);
+      	//计算数量
+    	Tools tools =  toolsService.queryById(entity.getAssetId());	
+		int cumulativeCollectedQuantity  = StringUtil.strToInt(tools.getCumulativeReceiptQuantity())+entity.getNumberOfApplications();
+		tools.setCumulativeReceiptQuantity(cumulativeCollectedQuantity + "");//累计领用数量
+			
+		int remainingQuantity  = StringUtil.strToInt(tools.getRemainingQuantity()) - entity.getNumberOfApplications();
+		tools.setRemainingQuantity(remainingQuantity+"");//剩余数量
+		
+		if(remainingQuantity<0){
+			return Result.failure(ResultCodeEnum.TOOLS_INSUFFICIENT);
+		}
+		toolsService.updateNotNull(tools);
     	
+    	//生成工具申请单
     	CourseArrangement courseArrangement = courseArrangementService.queryById(entity.getCourseArrangementId());
-    	Tools tools =  toolsService.queryById(entity.getAssetId());
+    	
     	Organization org = organizationService.queryById(courseArrangement.getClassId());
     	Organization sys = organizationService.queryById(org.getParentId());
     	CollectionRecord record = new CollectionRecord();
@@ -110,8 +125,12 @@ public class CourseArrangementReToolController extends BaseCrudController<Course
     	record.setCreateTime(curTime);
     	record.setUpdateTime(curTime);
     	record.setReId(entity.getId());
+    	record.setIsCollected("0");
+    	record.setIsReturned("0");
     	collectionRecordService.create(record);
     	
+    	//创建排课管理和工具关联
+    	service.create(entity);
         return Result.success();
     }
   
@@ -136,10 +155,20 @@ public class CourseArrangementReToolController extends BaseCrudController<Course
         super.deleteBatchByIds(ids);
         for (int i = 0; i < ids.length; i++) {
         	int reId = (int)ids[i];
-			CollectionRecord entity = new CollectionRecord();
-			entity.setAssetTypeCode("asset_type_tool");
-			entity.setReId(reId);
-			collectionRecordService.delete(entity);
+        	
+        	CourseArrangementReTool entity = service.queryById(reId);
+        	//计算数量
+        	Tools tools =  toolsService.queryById(entity.getAssetId());	
+    		int cumulativeCollectedQuantity  = StringUtil.strToInt(tools.getCumulativeReceiptQuantity()) - entity.getNumberOfApplications();
+    		tools.setCumulativeReceiptQuantity(cumulativeCollectedQuantity + "");//累计领用数量
+    		int remainingQuantity  = StringUtil.strToInt(tools.getRemainingQuantity()) + entity.getNumberOfApplications();
+    		tools.setRemainingQuantity(remainingQuantity+"");//剩余数量
+    		toolsService.updateNotNull(tools);
+        	
+			CollectionRecord record = new CollectionRecord();
+			record.setAssetTypeCode("asset_type_tool");
+			record.setReId(reId);
+			collectionRecordService.delete(record);
 		}
         return Result.success();
     }

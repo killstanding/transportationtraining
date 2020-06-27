@@ -12,6 +12,8 @@ import io.swagger.annotations.Api;
 import tech.wetech.admin.core.annotation.SystemLog;
 import tech.wetech.admin.core.utils.DateUtil;
 import tech.wetech.admin.core.utils.Result;
+import tech.wetech.admin.core.utils.ResultCodeEnum;
+import tech.wetech.admin.core.utils.StringUtil;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.po.Organization;
@@ -82,10 +84,26 @@ public class CourseArrangementReConsumablesController extends BaseCrudController
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
     	entity.setCreateTime(curTime);
     	entity.setUpdateTime(curTime);
-    	service.create(entity);
-    	
+    	//计算数量
+    	Consumables consumables =  consumablesService.queryById(entity.getConsumablesId());			
+		int cumulativeCollectedQuantity  = StringUtil.strToInt(consumables.getCumulativeReceiptQuantity())+entity.getNumberOfApplications();
+		consumables.setCumulativeReceiptQuantity(cumulativeCollectedQuantity + "");//累计领用数量
+	
+		int totalExisting  = StringUtil.strToInt(consumables.getTotalExisting()) - entity.getNumberOfApplications();
+		consumables.setTotalExisting(totalExisting+"");//现存总数
+		
+		int remainingQuantity  = StringUtil.strToInt(consumables.getRemainingQuantity()) - entity.getNumberOfApplications();
+		consumables.setRemainingQuantity(remainingQuantity+"");//剩余数量
+		
+		if(remainingQuantity<0){
+			return Result.failure(ResultCodeEnum.CONSUMABLES_INSUFFICIENT);
+		}
+		consumablesService.updateNotNull(consumables);
+		
+		
+    	//生成领用单
     	CourseArrangement courseArrangement = courseArrangementService.queryById(entity.getCourseArrangementId());
-    	Consumables consumables =  consumablesService.queryById(entity.getConsumablesId());
+    	
     	Organization org = organizationService.queryById(courseArrangement.getClassId());
     	Organization sys = organizationService.queryById(org.getParentId());
     	CollectionRecord record = new CollectionRecord();
@@ -108,8 +126,12 @@ public class CourseArrangementReConsumablesController extends BaseCrudController
     	record.setCreateTime(curTime);
     	record.setUpdateTime(curTime);
     	record.setReId(entity.getId());
+    	record.setIsCollected("0");
+    	record.setIsReturned("0");
     	collectionRecordService.create(record);
-    	
+    	  
+    	//创建排课管理和耗材关联
+    	service.create(entity);
         return Result.success();
     }
   
@@ -131,14 +153,30 @@ public class CourseArrangementReConsumablesController extends BaseCrudController
     @SystemLog("排课管理和耗材关联删除")
     @Override
     public Result<String> deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {
-        super.deleteBatchByIds(ids);
+    	
         for (int i = 0; i < ids.length; i++) {
         	int reId = (int)ids[i];
-			CollectionRecord entity = new CollectionRecord();
-			entity.setAssetTypeCode("asset_type_consumables");
-			entity.setReId(reId);
-			collectionRecordService.delete(entity);
+        	CourseArrangementReConsumables entity = service.queryById(reId);
+        	//计算数量
+        	Consumables consumables =  consumablesService.queryById(entity.getConsumablesId());			
+    		int cumulativeCollectedQuantity  = StringUtil.strToInt(consumables.getCumulativeReceiptQuantity())-entity.getNumberOfApplications();
+    		consumables.setCumulativeReceiptQuantity(cumulativeCollectedQuantity + "");//累计领用数量
+    	
+    		int totalExisting  = StringUtil.strToInt(consumables.getTotalExisting()) + entity.getNumberOfApplications();
+    		consumables.setTotalExisting(totalExisting+"");//现存总数
+    		
+    		int remainingQuantity  = StringUtil.strToInt(consumables.getRemainingQuantity()) + entity.getNumberOfApplications();
+    		consumables.setRemainingQuantity(remainingQuantity+"");//剩余数量
+    		
+    		consumablesService.updateNotNull(consumables);
+        	
+    		//删除领用单
+			CollectionRecord record = new CollectionRecord();
+			record.setAssetTypeCode("asset_type_consumables");
+			record.setReId(reId);
+			collectionRecordService.delete(record);
 		}
+        super.deleteBatchByIds(ids);
         return Result.success();
     }
 }
