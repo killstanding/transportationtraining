@@ -79,7 +79,7 @@ public class ConsumablesController extends BaseCrudController<Consumables> {
     
     @ResponseBody
     @PostMapping("/create")
-    //@RequiresPermissions("consumables:create")
+    @RequiresPermissions("consumables:create")
     @SystemLog("耗材管理耗材创建")
     @Override
     public Result<String> create(@Validated(Consumables.ConsumablesCreateChecks.class) Consumables entity) {

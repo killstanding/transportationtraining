@@ -82,7 +82,7 @@ public class ToolsController extends BaseCrudController<Tools> {
     
     @ResponseBody
     @PostMapping("/create")
-    //@RequiresPermissions("tools:create")
+    @RequiresPermissions("tools:create")
     @SystemLog("工具管理工具创建")
     @Override
     public Result<String> create(@Validated(Tools.ToolsCreateChecks.class) Tools entity) {
