@@ -39,4 +39,10 @@ public class MaintenanceRecordServiceImpl extends BaseService<MaintenanceRecord>
 		}
 		return k;
 	}
+
+	@Override
+	public List<MaintenanceRecord> selectAllDone(MaintenanceRecord entity) {
+		// TODO Auto-generated method stub
+		return mapper.selectAllDone(entity);
+	}
 }

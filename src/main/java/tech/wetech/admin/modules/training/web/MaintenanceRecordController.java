@@ -1,5 +1,6 @@
 package tech.wetech.admin.modules.training.web;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,9 @@ import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.common.CommonVariable;
+import tech.wetech.admin.modules.system.po.User;
+import tech.wetech.admin.modules.system.service.UserService;
+import tech.wetech.admin.modules.training.po.Asset;
 import tech.wetech.admin.modules.training.po.FlowDetail;
 import tech.wetech.admin.modules.training.po.FlowNode;
 import tech.wetech.admin.modules.training.po.MaintenanceRecord;
@@ -27,6 +31,8 @@ import tech.wetech.admin.modules.training.service.FlowNodeService;
 import tech.wetech.admin.modules.training.service.MaintenanceRecordService;
 import tech.wetech.admin.modules.training.service.ToolsService;
 import tech.wetech.excel.ExcelWriteUtil;
+import tk.mybatis.mapper.entity.Example;
+
 import org.springframework.ui.Model;
 
 import java.util.Date;
@@ -53,7 +59,8 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
     private AssetService assetService;
 	@Autowired
     private ToolsService toolService;
-	
+    @Autowired
+    private UserService userService;
 	
     @GetMapping
     @RequiresPermissions("maintenancerecord:view")
@@ -92,13 +99,66 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
         return "system/toolmaintenancerecordedit";
     }
     
+    @ApiOperation(value = "查询当前用户待办", notes = "查询当前用户待办")
     @ResponseBody
     @GetMapping("/list")
     @RequiresPermissions("maintenancerecord:view")
     @Override
     public Result<List<MaintenanceRecord>> queryList(MaintenanceRecord entity, PageQuery pageQuery) {
+        // 当前用户
+        String username = (String) SecurityUtils.getSubject().getPrincipal();
+        User user = userService.queryOne(new User().setUsername(username));
+        entity.setPendingPersonId(user.getId().intValue());
         Page<MaintenanceRecord> page = (Page<MaintenanceRecord>) service.queryList(entity, pageQuery);
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
+    }
+    
+    
+    @ApiOperation(value = "查询当前用户所有待办不分页(createMonth,flowTypeCode必填)", notes = "查询当前用户所有待办不分页 (createMonth,flowTypeCode必填)")
+    @ResponseBody
+    @GetMapping("/alltodolist")
+    @RequiresPermissions("maintenancerecord:view")
+    public Result<List<MaintenanceRecord>> queryAllToDoList(MaintenanceRecord entity) {
+    	String createMonth = entity.getCreateMonth();
+    	if(createMonth==null||createMonth.equals("")){
+    		return Result.failure(ResultCodeEnum.BAD_REQUEST);
+    	}
+    	String flowTypeCode = entity.getFlowTypeCode();
+    	if(flowTypeCode==null||flowTypeCode.equals("")){
+    		return Result.failure(ResultCodeEnum.BAD_REQUEST);
+    	}
+        // 当前用户
+        String username = (String) SecurityUtils.getSubject().getPrincipal();
+        User user = userService.queryOne(new User().setUsername(username));
+        Example example = new Example(MaintenanceRecord.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("pendingPersonId", user.getId());
+        criteria.andEqualTo("createMonth", createMonth);
+        criteria.andNotEqualTo("flowStatusCode", "em_end");//流程不能结束
+        criteria.andEqualTo("flowTypeCode", flowTypeCode);
+        List<MaintenanceRecord> list =  service.queryByExample(example);
+        return Result.success(list);
+    }
+    
+    @ApiOperation(value = "查询当前用户所有维修单不分页(createMonth,flowTypeCode必填)", notes = "查询当前用户所有维修单不分页 (createMonth,flowTypeCode必填)")
+    @ResponseBody
+    @GetMapping("/alldonelist")
+    @RequiresPermissions("maintenancerecord:view")
+    public Result<List<MaintenanceRecord>> queryAllDoneList(MaintenanceRecord entity) {
+    	String createMonth = entity.getCreateMonth();
+    	if(createMonth==null||createMonth.equals("")){
+    		return Result.failure(ResultCodeEnum.BAD_REQUEST);
+    	}
+    	String flowTypeCode = entity.getFlowTypeCode();
+    	if(flowTypeCode==null||flowTypeCode.equals("")){
+    		return Result.failure(ResultCodeEnum.BAD_REQUEST);
+    	}
+    	 // 当前用户
+        String username = (String) SecurityUtils.getSubject().getPrincipal();
+        User user = userService.queryOne(new User().setUsername(username));
+        entity.setPendingPersonId(user.getId().intValue());
+        List<MaintenanceRecord> list =  service.selectAllDone(entity);
+        return Result.success(list);
     }
     
     

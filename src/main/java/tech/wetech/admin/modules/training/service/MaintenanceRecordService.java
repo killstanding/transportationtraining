@@ -7,4 +7,6 @@ import tech.wetech.admin.modules.training.po.StatusCountResult;
 
 public interface MaintenanceRecordService extends IService<MaintenanceRecord> {
 	List<StatusCountResult> selectCountNumGourpByStatus();
+	
+	List<MaintenanceRecord> selectAllDone(MaintenanceRecord entity);
 }

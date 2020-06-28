@@ -227,7 +227,7 @@ public class MaintenanceRecord extends BaseRowModel{
     /**
      * 创建月份
      */
-    @ApiModelProperty(value = "创建月份", name = "flowTypeCode", required = false, example = "2020-06")
+    @ApiModelProperty(value = "创建月份", name = "createMonth", required = false, example = "2020-06")
     @Column(name = "create_month")
     private String createMonth;
     
@@ -758,4 +758,6 @@ public class MaintenanceRecord extends BaseRowModel{
     public void setCreateMonth(String createMonth) {
         this.createMonth = createMonth;
     }
+    
+    
 }
