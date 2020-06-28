@@ -224,7 +224,12 @@ public class MaintenanceRecord extends BaseRowModel{
     @Column(name = "flow_type_code")
     private String flowTypeCode;
     
-    
+    /**
+     * 创建月份
+     */
+    @ApiModelProperty(value = "创建月份", name = "flowTypeCode", required = false, example = "2020-06")
+    @Column(name = "create_month")
+    private String createMonth;
     
     public interface MaintenanceRecordCreateChecks {}
 
@@ -736,4 +741,21 @@ public class MaintenanceRecord extends BaseRowModel{
         this.flowTypeCode = flowTypeCode;
     }
     
+    /**
+     * 获取创建月份
+     *
+     * @return create_month - 创建月份
+     */
+    public String getCreateMonth() {
+        return createMonth;
+    }
+
+    /**
+     * 设置创建月份
+     *
+     * @param createMonth 创建月份
+     */
+    public void setCreateMonth(String createMonth) {
+        this.createMonth = createMonth;
+    }
 }
