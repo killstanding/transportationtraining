@@ -1,6 +1,7 @@
 package tech.wetech.admin.modules.training.web;
 
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.common.CommonVariable;
+import tech.wetech.admin.modules.system.po.User;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.Chapters;
 import tech.wetech.admin.modules.training.po.Courses;
@@ -56,6 +58,10 @@ public class CoursesController extends BaseCrudController<Courses> {
 	@RequiresPermissions("courses:view")
 	@Override
 	public Result<List<Courses>> queryList(Courses entity, PageQuery pageQuery) {
+        // 当前用户
+        String username = (String) SecurityUtils.getSubject().getPrincipal();
+        User user = userService.queryOne(new User().setUsername(username));
+        entity.setCourseDirectorId(user.getId().intValue());
 		Page<Courses> page = (Page<Courses>) service.queryListByLike(entity, pageQuery);
 		return Result.success(page.getResult()).addExtra("total", page.getTotal());
 	}
