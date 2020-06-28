@@ -1,5 +1,6 @@
 package tech.wetech.admin.modules.training.web;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.system.po.User;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.InspectionPlanYear;
 import tech.wetech.admin.modules.training.po.PubCode;
@@ -63,7 +65,9 @@ public class InspectionPlanYearController extends BaseCrudController<InspectionP
     @RequiresPermissions("inspectionplanyear:view")
     @Override
     public Result<List<InspectionPlanYear>> queryList(InspectionPlanYear entity, PageQuery pageQuery) {
-    	
+        String username = (String) SecurityUtils.getSubject().getPrincipal();
+        User user = userService.queryOne(new User().setUsername(username));
+        entity.setPersonInChargeId(user.getId().intValue());
         Page<InspectionPlanYear> page = (Page<InspectionPlanYear>) service.queryListByLike(entity, pageQuery);
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
