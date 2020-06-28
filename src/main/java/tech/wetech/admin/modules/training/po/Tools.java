@@ -103,7 +103,7 @@ public class Tools extends BaseRowModel{
     @ApiModelProperty(value = "资产使用人编号", name = "assetUserId", required = false, example = "1")
     @NotNull(message = "资产使用人编号不能为空",groups = ToolsCreateChecks.class)
     @Column(name = "asset_user_id")
-    private String assetUserId;
+    private Integer assetUserId;
 
     /**
      * 位置编号
@@ -371,7 +371,7 @@ public class Tools extends BaseRowModel{
      *
      * @return asset_user_id - 资产使用人编号
      */
-    public String getAssetUserId() {
+    public Integer getAssetUserId() {
         return assetUserId;
     }
 
@@ -380,7 +380,7 @@ public class Tools extends BaseRowModel{
      *
      * @param assetUserId 资产使用人编号
      */
-    public void setAssetUserId(String assetUserId) {
+    public void setAssetUserId(Integer assetUserId) {
         this.assetUserId = assetUserId;
     }
 
