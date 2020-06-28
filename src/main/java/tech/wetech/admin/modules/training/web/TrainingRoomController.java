@@ -1,5 +1,6 @@
 package tech.wetech.admin.modules.training.web;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.common.CommonVariable;
 import tech.wetech.admin.modules.system.po.Organization;
+import tech.wetech.admin.modules.system.po.User;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.system.vo.UserVO;
@@ -74,6 +76,10 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
 	@RequiresPermissions("trainingroom:view")
 	@Override
 	public Result<List<TrainingRoom>> queryList(TrainingRoom entity, PageQuery pageQuery) {
+        // 当前用户
+        String username = (String) SecurityUtils.getSubject().getPrincipal();
+        User user = userService.queryOne(new User().setUsername(username));
+        entity.setRoomAdminId(user.getId().intValue());
 		Page<TrainingRoom> page = (Page<TrainingRoom>) service.queryListByLike(entity, pageQuery);
 		List<StatisticsPo> stList = statisticsPoService.selectAssetCountNumGroupByRoomId();
 		page.forEach(u -> {
