@@ -1,6 +1,7 @@
 package tech.wetech.admin.modules.training.web;
 
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.common.CommonVariable;
 import tech.wetech.admin.modules.system.po.Organization;
+import tech.wetech.admin.modules.system.po.User;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.CourseArrangement;
@@ -83,6 +85,10 @@ public class CourseArrangementController extends BaseCrudController<CourseArrang
 	@RequiresPermissions("coursearrangement:view")
 	@Override
 	public Result<List<CourseArrangement>> queryList(CourseArrangement entity, PageQuery pageQuery) {
+        String username = (String) SecurityUtils.getSubject().getPrincipal();
+        User user = userService.queryOne(new User().setUsername(username));
+        entity.setLecturerlTeacherId(user.getId().intValue());
+		
 		Page<CourseArrangement> page = (Page<CourseArrangement>) service.queryListByLike(entity, pageQuery);
 		List<StatisticsPo> assetCountlist =  statisticsPoService.selectAssetCountNumGroupByCourseArrangementId();
 		List<StatisticsPo> consumablesCountlist =  statisticsPoService.selectConsumablesCountNumGroupByCourseArrangementId();
