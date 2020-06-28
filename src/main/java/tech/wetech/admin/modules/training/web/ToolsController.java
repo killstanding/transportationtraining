@@ -1,5 +1,6 @@
 package tech.wetech.admin.modules.training.web;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import tech.wetech.admin.core.utils.ResultCodeEnum;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.common.CommonVariable;
+import tech.wetech.admin.modules.system.po.User;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.AssetClassification;
@@ -76,6 +78,10 @@ public class ToolsController extends BaseCrudController<Tools> {
     @RequiresPermissions("tools:view")
     @Override
     public Result<List<Tools>> queryList(Tools entity, PageQuery pageQuery) {
+        // 当前用户
+        String username = (String) SecurityUtils.getSubject().getPrincipal();
+        User user = userService.queryOne(new User().setUsername(username));
+        entity.setAssetUserId(user.getId().intValue());
         Page<Tools> page = (Page<Tools>) service.queryListByLike(entity, pageQuery);
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
