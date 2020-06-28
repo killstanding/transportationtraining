@@ -121,7 +121,7 @@ public class CourseArrangementReToolController extends BaseCrudController<Course
     	//record.setRemark();//备注
     	record.setCreateYear(DateUtil.dateToStr(new Date(), DateUtil.YEAR_FORMATE));
     	record.setPendingPerson(tools.getAssetUser());//待处理人
-    	record.setPendingPersonId(Integer.parseInt(tools.getAssetUserId()));//待处理人编号
+    	record.setPendingPersonId(tools.getAssetUserId());//待处理人编号
     	record.setCreateTime(curTime);
     	record.setUpdateTime(curTime);
     	record.setReId(entity.getId());

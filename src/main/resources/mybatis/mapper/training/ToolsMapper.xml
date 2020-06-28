@@ -15,7 +15,7 @@
     <result column="specification_type" property="specificationType" jdbcType="VARCHAR" />
     <result column="specification_type_code" property="specificationTypeCode" jdbcType="VARCHAR" />
     <result column="asset_user" property="assetUser" jdbcType="VARCHAR" />
-    <result column="asset_user_id" property="assetUserId" jdbcType="VARCHAR" />
+    <result column="asset_user_id" property="assetUserId" jdbcType="INTEGER" />
     <result column="position_code" property="positionCode" jdbcType="VARCHAR" />
     <result column="position_name" property="positionName" jdbcType="VARCHAR" />
     <result column="use_department" property="useDepartment" jdbcType="VARCHAR" />
