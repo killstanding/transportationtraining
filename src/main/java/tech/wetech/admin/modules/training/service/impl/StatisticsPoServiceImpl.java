@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import tech.wetech.admin.modules.training.mapper.StatisticsPoMapper;
 import tech.wetech.admin.modules.training.po.InspectionPlan;
+import tech.wetech.admin.modules.training.po.MaintenanceRecord;
 import tech.wetech.admin.modules.training.po.StatisticsPo;
 import tech.wetech.admin.modules.training.service.StatisticsPoService;
 
@@ -44,6 +45,30 @@ public class StatisticsPoServiceImpl implements StatisticsPoService{
 	public List<StatisticsPo> selectIsRepairedNumInInspectionPlanGroupByPlanYearId(InspectionPlan entity) {
 		// TODO Auto-generated method stub
 		return mapper.selectIsRepairedNumInInspectionPlanGroupByPlanYearId(entity);
+	}
+
+	@Override
+	public List<StatisticsPo> selectIsRepairingNumInMaintenanceRecord(MaintenanceRecord entity) {
+		// TODO Auto-generated method stub
+		return mapper.selectIsRepairingNumInMaintenanceRecord(entity);
+	}
+
+	@Override
+	public List<StatisticsPo> selectAssetNumByClassification() {
+		// TODO Auto-generated method stub
+		return mapper.selectAssetNumByClassification();
+	}
+
+	@Override
+	public List<StatisticsPo> selectToolsNumByClassification() {
+		// TODO Auto-generated method stub
+		return mapper.selectToolsNumByClassification();
+	}
+
+	@Override
+	public List<StatisticsPo> selectConsumablesNumByClassification() {
+		// TODO Auto-generated method stub
+		return mapper.selectConsumablesNumByClassification();
 	}
 	
 }

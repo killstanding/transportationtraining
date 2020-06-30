@@ -40,6 +40,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setFilters(filters);
         //配置记住我或认证通过可以访问的地址
         filterChainDefinitionMap.put("/job/**","anon");
+        filterChainDefinitionMap.put("/inspectionplanyearcalcjob/**","anon");
         // 配置不会被拦截的链接 顺序判断
         filterChainDefinitionMap.put("/login","authc");
         //配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了

@@ -29,10 +29,33 @@
   </select>
   
   <select id="selectIsRepairedNumInInspectionPlanGroupByPlanYearId" resultType="tech.wetech.admin.modules.training.po.StatisticsPo" 
-  			parameterType="tech.wetech.admin.modules.training.po.InspectionPlan">>
-    select ip.plan_year_id, as statistics_code, '' as statistics_name,count(1) as statistics_total from t_inspection_record ir
+  			parameterType="tech.wetech.admin.modules.training.po.InspectionPlan">
+    select ip.plan_year_id as statistics_code, '' as statistics_name,count(1) as statistics_total from t_inspection_record ir
 		join t_maintenance_record_results mrr on (mrr.record_id = ir.repair_order_no and mrr.is_repaired = 1)
 		join t_inspection_plan ip on (ir.plan_id=ip.id and ip.plan_year_id = #{planYearId})
-	group by ip.plan_year_id,
+	group by ip.plan_year_id
   </select>
-</mapper>
+  <select id="selectIsRepairingNumInMaintenanceRecord" resultType="tech.wetech.admin.modules.training.po.StatisticsPo" 
+  			parameterType="tech.wetech.admin.modules.training.po.MaintenanceRecord">
+	SELECT '' as statistics_code,'' as statistics_name,count(distinct mr.asset_id) as statistics_total FROM  t_maintenance_record  mr 
+	where  mr.flow_status_code = 'em_to_be_repaired'  and trim(mr.flow_type_code)=#{flowTypeCode}
+  </select>
+  
+  <select id="selectAssetNumByClassification" resultType="tech.wetech.admin.modules.training.po.StatisticsPo">
+	select  t.asset_classification as statistics_name,t.asset_classification_code as statistics_code, count(1) as statistics_total 
+	from t_asset t where t.asset_status_code != 'asset_status_scrapped'  
+	group by t.asset_classification,t.asset_classification_code
+  </select>
+ 
+  <select id="selectToolsNumByClassification" resultType="tech.wetech.admin.modules.training.po.StatisticsPo">
+	select  t.asset_classification as statistics_name,t.asset_classification_code as statistics_code, count(1) as statistics_total 
+	from t_tools t 
+	group by t.asset_classification,t.asset_classification_code
+  </select>  
+  
+  <select id="selectConsumablesNumByClassification" resultType="tech.wetech.admin.modules.training.po.StatisticsPo">
+	select  t.asset_classification as statistics_name,t.asset_classification_code as statistics_code, count(1) as statistics_total 
+	from t_consumables t 
+	group by t.asset_classification,t.asset_classification_code
+  </select> 
+  </mapper>

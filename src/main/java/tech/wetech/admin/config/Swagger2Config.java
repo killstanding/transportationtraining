@@ -33,7 +33,9 @@ public class Swagger2Config {
                 //.apis(RequestHandlerSelectors.basePackage("tech.wetech.admin.modules.system.web"))
                 .apis(basePackage("tech.wetech.admin.modules.system.web"
                         + splitor
-                        + "tech.wetech.admin.modules.training.web"))
+                        + "tech.wetech.admin.modules.training.web"
+                        + splitor
+                        + "tech.wetech.admin.modules.job.web"))
                 .paths(PathSelectors.any())
                 .build();
     }
