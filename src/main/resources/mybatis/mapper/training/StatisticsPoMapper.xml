@@ -28,5 +28,11 @@
 	group by t.course_arrangement_id
   </select>
   
-  
+  <select id="selectIsRepairedNumInInspectionPlanGroupByPlanYearId" resultType="tech.wetech.admin.modules.training.po.StatisticsPo" 
+  			parameterType="tech.wetech.admin.modules.training.po.InspectionPlan">>
+    select ip.plan_year_id, as statistics_code, '' as statistics_name,count(1) as statistics_total from t_inspection_record ir
+		join t_maintenance_record_results mrr on (mrr.record_id = ir.repair_order_no and mrr.is_repaired = 1)
+		join t_inspection_plan ip on (ir.plan_id=ip.id and ip.plan_year_id = #{planYearId})
+	group by ip.plan_year_id,
+  </select>
 </mapper>

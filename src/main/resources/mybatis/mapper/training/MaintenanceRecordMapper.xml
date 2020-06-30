@@ -42,7 +42,8 @@
   </select>
   
   
-  <select id="selectAllDone" resultType="tech.wetech.admin.modules.training.po.MaintenanceRecord">
+  <select id="selectAllDone" resultType="tech.wetech.admin.modules.training.po.MaintenanceRecord" 
+  			parameterType="tech.wetech.admin.modules.training.po.MaintenanceRecord">
   		 select * from t_maintenance_record mr 
 			left join t_flow_node fn on  mr.flow_status_code = fn.flow_node_code
 			where mr.create_month = #{createMonth} and  trim(mr.flow_type_code)= #{flowTypeCode} 

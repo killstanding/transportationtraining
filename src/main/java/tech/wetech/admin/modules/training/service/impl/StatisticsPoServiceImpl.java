@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tech.wetech.admin.modules.training.mapper.StatisticsPoMapper;
+import tech.wetech.admin.modules.training.po.InspectionPlan;
 import tech.wetech.admin.modules.training.po.StatisticsPo;
 import tech.wetech.admin.modules.training.service.StatisticsPoService;
 
@@ -37,6 +38,12 @@ public class StatisticsPoServiceImpl implements StatisticsPoService{
 	public List<StatisticsPo> selectToolCountNumGroupByCourseArrangementId() {
 		// TODO Auto-generated method stub
 		return mapper.selectToolCountNumGroupByCourseArrangementId();
+	}
+
+	@Override
+	public List<StatisticsPo> selectIsRepairedNumInInspectionPlanGroupByPlanYearId(InspectionPlan entity) {
+		// TODO Auto-generated method stub
+		return mapper.selectIsRepairedNumInInspectionPlanGroupByPlanYearId(entity);
 	}
 	
 }
