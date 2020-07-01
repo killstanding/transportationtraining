@@ -31,5 +31,6 @@
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
     <result column="number_of_tools" property="numberOfTools" jdbcType="INTEGER" />
     <result column="is_lock" property="isLock" jdbcType="VARCHAR" />
+    <result column="course_date" property="courseDate" jdbcType="VARCHAR" />
   </resultMap>
 </mapper>

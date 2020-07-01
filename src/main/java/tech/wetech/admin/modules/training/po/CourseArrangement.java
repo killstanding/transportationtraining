@@ -210,7 +210,11 @@ public class CourseArrangement  extends BaseRowModel{
     @Column(name = "is_lock")
     private String isLock;
     
-    
+    /**
+     * 课程日期2020-06-28
+     */
+    @Column(name = "course_date")
+    private String courseDate;
     
     public interface CourseArrangementCreateChecks {}
 
@@ -682,5 +686,23 @@ public class CourseArrangement  extends BaseRowModel{
      */
     public void setIsLock(String isLock) {
         this.isLock = isLock;
+    }
+
+    /**
+     * 获取课程日期2020-06-28
+     *
+     * @return course_date - 课程日期2020-06-28
+     */
+    public String getCourseDate() {
+        return courseDate;
+    }
+
+    /**
+     * 设置课程日期2020-06-28
+     *
+     * @param courseDate 课程日期2020-06-28
+     */
+    public void setCourseDate(String courseDate) {
+        this.courseDate = courseDate;
     }
 }
