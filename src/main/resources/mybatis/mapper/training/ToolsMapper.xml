@@ -26,6 +26,8 @@
     <result column="total_existing" property="totalExisting" jdbcType="VARCHAR" />
     <result column="cumulative_collected_quantity" property="cumulativeCollectedQuantity" jdbcType="VARCHAR" />
     <result column="remaining_quantity" property="remainingQuantity" jdbcType="VARCHAR" />
+    <result column="asset_status" property="assetStatus" jdbcType="VARCHAR" />
+    <result column="asset_status_code" property="assetStatusCode" jdbcType="VARCHAR" />
   </resultMap>
   
   <update id="updateCodeById" parameterType="tech.wetech.admin.modules.training.po.Tools">

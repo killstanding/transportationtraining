@@ -19,10 +19,12 @@ import tech.wetech.admin.modules.training.po.FailureConfirmation;
 import tech.wetech.admin.modules.training.po.MaintenanceRecord;
 import tech.wetech.admin.modules.training.po.MaintenanceRecordResults;
 import tech.wetech.admin.modules.training.po.PubCode;
+import tech.wetech.admin.modules.training.po.Tools;
 import tech.wetech.admin.modules.training.service.AssetService;
 import tech.wetech.admin.modules.training.service.MaintenanceRecordResultsService;
 import tech.wetech.admin.modules.training.service.MaintenanceRecordService;
 import tech.wetech.admin.modules.training.service.PubCodeService;
+import tech.wetech.admin.modules.training.service.ToolsService;
 
 import org.springframework.ui.Model;
 
@@ -48,6 +50,8 @@ public class MaintenanceRecordResultsController extends BaseCrudController<Maint
 	private MaintenanceRecordService maintenanceRecordService;
 	@Autowired
     private AssetService assetService;
+	@Autowired
+	private ToolsService toolsService;
 	
     @GetMapping
     @RequiresPermissions("maintenancerecordresults:view")
@@ -108,20 +112,44 @@ public class MaintenanceRecordResultsController extends BaseCrudController<Maint
     	int isRepair = entity.getIsRepaired();//是否维修好 1 是 0 否
     	int recordId = entity.getRecordId();
 		MaintenanceRecord record = maintenanceRecordService.queryById(recordId);
-		int assetId = record.getAssetId();
-    	if(isRepair==1){
-    		Asset asset = new Asset();
-        	asset.setId(assetId);
-        	asset.setAssetStatus("正常");
-        	asset.setAssetStatusCode("asset_status_normal");
-        	assetService.updateNotNull(asset);
-     	}else{
-    		Asset asset = new Asset();
-        	asset.setId(assetId);
-        	asset.setAssetStatus(entity.getAssetStatus());
-        	asset.setAssetStatusCode(entity.getAssetStatusCode());
-        	assetService.updateNotNull(asset);
-     	}
+		if(record!=null){
+			int assetId = record.getAssetId();
+			String flowTypeCode = record.getFlowTypeCode();
+			switch (flowTypeCode) {
+			case "equipment_maintenance":
+				if(isRepair==1){
+		    		Asset asset = new Asset();
+		        	asset.setId(assetId);
+		        	asset.setAssetStatus("正常");
+		        	asset.setAssetStatusCode("asset_status_normal");
+		        	assetService.updateNotNull(asset);
+		     	}else{
+		    		Asset asset = new Asset();
+		        	asset.setId(assetId);
+		        	asset.setAssetStatus(entity.getAssetStatus());
+		        	asset.setAssetStatusCode(entity.getAssetStatusCode());
+		        	assetService.updateNotNull(asset);
+		     	}
+				break;
+			case "tools_maintenance":
+				if(isRepair==1){
+		    		Tools tools = new Tools();
+		    		tools.setId(assetId);
+		    		tools.setAssetStatus("正常");
+		    		tools.setAssetStatusCode("asset_status_normal");
+		        	toolsService.updateNotNull(tools);
+		     	}else{
+		     		Tools tools = new Tools();
+		    		tools.setId(assetId);
+		    		tools.setAssetStatus(entity.getAssetStatus());
+		    		tools.setAssetStatusCode(entity.getAssetStatusCode());
+		        	toolsService.updateNotNull(tools);
+		     	}
+				break;
+			default:
+				break;
+			}
+		}//if(record!=null)
     } 
     
     

@@ -135,6 +135,8 @@ public class Tools extends BaseRowModel{
     @Column(name = "use_department_id")
     private Integer useDepartmentId;
 
+    
+    
     /**
      * 累计入库数量
      */
@@ -167,6 +169,22 @@ public class Tools extends BaseRowModel{
     @Column(name = "remaining_quantity")
     private String remainingQuantity;
     
+    /**
+     * 资产状态
+     */
+    @ApiModelProperty(value = "资产状态", name = "assetStatus", required = false, example = "正常")
+    @ExcelProperty(value = {"资产状态","资产状态"},index = 13)
+    //@NotNull(message = " 资产状态不能为空",groups = AssetCreateChecks.class)
+    @Column(name = "asset_status")
+    private String assetStatus;
+
+    /**
+     * 资产状态编号
+     */
+    @ApiModelProperty(value = "资产状态编号", name = "assetStatusCode", required = false, example = "asset_status_normal")
+    //@NotNull(message = "资产状态编号不能为空",groups = AssetCreateChecks.class)
+    @Column(name = "asset_status_code")
+    private String assetStatusCode;
     
     /**
      * 创建时间
@@ -181,6 +199,8 @@ public class Tools extends BaseRowModel{
     @ApiModelProperty(value = "更新时间", name = "updateTime", required = false, example = "2020-04-24 18:00:00")
     @Column(name = "update_Time")
     private String updateTime;
+    
+
     
     public interface ToolsCreateChecks {}
 
@@ -562,5 +582,41 @@ public class Tools extends BaseRowModel{
      */
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+    
+    /**
+     * 获取资产状态
+     *
+     * @return asset_status - 资产状态
+     */
+    public String getAssetStatus() {
+        return assetStatus;
+    }
+
+    /**
+     * 设置资产状态
+     *
+     * @param assetStatus 资产状态
+     */
+    public void setAssetStatus(String assetStatus) {
+        this.assetStatus = assetStatus;
+    }
+
+    /**
+     * 获取资产状态编号
+     *
+     * @return asset_status_code - 资产状态编号
+     */
+    public String getAssetStatusCode() {
+        return assetStatusCode;
+    }
+
+    /**
+     * 设置资产状态编号
+     *
+     * @param assetStatusCode 资产状态编号
+     */
+    public void setAssetStatusCode(String assetStatusCode) {
+        this.assetStatusCode = assetStatusCode;
     }
 }
