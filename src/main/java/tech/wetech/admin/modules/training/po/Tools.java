@@ -170,21 +170,20 @@ public class Tools extends BaseRowModel{
     private String remainingQuantity;
     
     /**
-     * 资产状态
+     * 正在维修数量
      */
-    @ApiModelProperty(value = "资产状态", name = "assetStatus", required = false, example = "正常")
-    @ExcelProperty(value = {"资产状态","资产状态"},index = 13)
-    //@NotNull(message = " 资产状态不能为空",groups = AssetCreateChecks.class)
-    @Column(name = "asset_status")
-    private String assetStatus;
-
+    @ApiModelProperty(value = "正在维修数量", name = "repairingQuantity", required = false, example = "0")
+    @ExcelProperty(value = {"正在维修数量","正在维修数量"},index = 13)
+    @Column(name = "repairing_quantity")
+    private String repairingQuantity;
+    
     /**
-     * 资产状态编号
+     * 待报废数量
      */
-    @ApiModelProperty(value = "资产状态编号", name = "assetStatusCode", required = false, example = "asset_status_normal")
-    //@NotNull(message = "资产状态编号不能为空",groups = AssetCreateChecks.class)
-    @Column(name = "asset_status_code")
-    private String assetStatusCode;
+    @ApiModelProperty(value = "待报废数量", name = "repairingQuantity", required = false, example = "0")
+    @ExcelProperty(value = {"待报废数量","待报废数量"},index = 14)
+    @Column(name = "to_be_scrapped_quantity")
+    private String toBeScrappedQuantity;
     
     /**
      * 创建时间
@@ -585,38 +584,38 @@ public class Tools extends BaseRowModel{
     }
     
     /**
-     * 获取资产状态
+     * 获取正在维修数量
      *
-     * @return asset_status - 资产状态
+     * @return repairing_quantity - 正在维修数量
      */
-    public String getAssetStatus() {
-        return assetStatus;
+    public String getRepairingQuantity() {
+        return repairingQuantity;
     }
 
     /**
-     * 设置资产状态
+     * 设置正在维修数量
      *
-     * @param assetStatus 资产状态
+     * @param repairingQuantity 正在维修数量
      */
-    public void setAssetStatus(String assetStatus) {
-        this.assetStatus = assetStatus;
+    public void setRepairingQuantity(String repairingQuantity) {
+        this.repairingQuantity = repairingQuantity;
+    }
+    
+    /**
+     * 获取待报废数量
+     *
+     * @return to_be_scrapped_quantity - 待报废数量
+     */
+    public String getToBeScrappedQuantity() {
+        return toBeScrappedQuantity;
     }
 
     /**
-     * 获取资产状态编号
+     * 设置待报废数量
      *
-     * @return asset_status_code - 资产状态编号
+     * @param toBeScrappedQuantity 待报废数量
      */
-    public String getAssetStatusCode() {
-        return assetStatusCode;
-    }
-
-    /**
-     * 设置资产状态编号
-     *
-     * @param assetStatusCode 资产状态编号
-     */
-    public void setAssetStatusCode(String assetStatusCode) {
-        this.assetStatusCode = assetStatusCode;
+    public void setToBeScrappedQuantity(String toBeScrappedQuantity) {
+        this.toBeScrappedQuantity = toBeScrappedQuantity;
     }
 }
