@@ -48,8 +48,8 @@
 			t.room_id =(select tr.id from t_training_room tr where tr.room_name = t.room_name)
 		where t.id=#{id}
   </update>
-
-	<update id="updateRoomIsEnabledByRoomId" parameterType="tech.wetech.admin.modules.training.po.Asset">
+  
+  <update id="updateRoomIsEnabledByRoomId" parameterType="tech.wetech.admin.modules.training.po.Asset">
 		UPDATE t_asset t 
 		SET t.room_is_enabled = #{roomIsEnabled}
 		where t.room_id=#{roomId}

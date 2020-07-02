@@ -14,4 +14,10 @@
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
   </resultMap>
+  
+   <select id="selectByMondayAndYear" resultType="tech.wetech.admin.modules.training.po.WeekYear" parameterType="tech.wetech.admin.modules.training.po.WeekYear">
+  		<![CDATA[ 
+  			select  * from  t_week_year w where w.year=#{year} and  (w.start_date <=#{startDate})  and  (#{startDate} < w.end_date)
+  		 ]]>
+  </select>
 </mapper>

@@ -12,4 +12,10 @@ import tech.wetech.admin.modules.training.service.CourseArrangementService;
 public class CourseArrangementServiceImpl extends BaseService<CourseArrangement> implements CourseArrangementService {
     @Autowired
     private CourseArrangementMapper mapper;
+
+	@Override
+	public void updateIsLockedByWeekId(CourseArrangement entity) {
+		// TODO Auto-generated method stub
+		mapper.updateIsLockedByWeekId(entity);
+	}
 }
