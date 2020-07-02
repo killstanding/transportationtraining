@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import tech.wetech.admin.core.annotation.SystemLog;
 import tech.wetech.admin.core.utils.DateUtil;
 import tech.wetech.admin.core.utils.Result;
+import tech.wetech.admin.core.utils.StringUtil;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.OrganizationService;
@@ -132,19 +133,20 @@ public class MaintenanceRecordResultsController extends BaseCrudController<Maint
 		     	}
 				break;
 			case "tools_maintenance":
+				Tools tools = toolsService.queryById(assetId);
 				if(isRepair==1){
-		    		Tools tools = new Tools();
-		    		tools.setId(assetId);
-		    		tools.setAssetStatus("正常");
-		    		tools.setAssetStatusCode("asset_status_normal");
-		        	toolsService.updateNotNull(tools);
+		    		int repairingQuantity  = StringUtil.strToInt(tools.getRepairingQuantity()) - 1;
+		    		tools.setRepairingQuantity(repairingQuantity+"");//正在维修数量
+		    		int remainingQuantity  = StringUtil.strToInt(tools.getRemainingQuantity()) + 1;
+		    		tools.setRemainingQuantity(remainingQuantity+"");//剩余数量
+		        	
 		     	}else{
-		     		Tools tools = new Tools();
-		    		tools.setId(assetId);
-		    		tools.setAssetStatus(entity.getAssetStatus());
-		    		tools.setAssetStatusCode(entity.getAssetStatusCode());
-		        	toolsService.updateNotNull(tools);
+		     		int repairingQuantity  = StringUtil.strToInt(tools.getRepairingQuantity()) - 1;
+		    		tools.setRepairingQuantity(repairingQuantity+"");//正在维修数量
+		    		int toBeScrappedQuantity  = StringUtil.strToInt(tools.getToBeScrappedQuantity()) + 1;
+		    		tools.setToBeScrappedQuantity(toBeScrappedQuantity+"");//待报废数量
 		     	}
+				toolsService.updateNotNull(tools);
 				break;
 			default:
 				break;
