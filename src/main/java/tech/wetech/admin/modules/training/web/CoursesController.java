@@ -21,6 +21,7 @@ import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.Chapters;
 import tech.wetech.admin.modules.training.po.Courses;
 import tech.wetech.admin.modules.training.po.PubCode;
+import tech.wetech.admin.modules.training.po.TeachingPlan;
 import tech.wetech.admin.modules.training.service.ChaptersService;
 import tech.wetech.admin.modules.training.service.CoursesService;
 import tech.wetech.admin.modules.training.service.PubCodeService;
@@ -77,6 +78,14 @@ public class CoursesController extends BaseCrudController<Courses> {
 		return Result.success(page.getResult()).addExtra("total", page.getTotal());
 	}
 
+	@ResponseBody
+	@GetMapping("/teachingplanlist")
+	@RequiresPermissions("courses:view")
+	public Result<List<TeachingPlan>> queryTeachingPlanList(Courses entity) {
+        List<TeachingPlan>  list = service.selectTeachingPlanByCourseId(entity);
+		return Result.success(list);
+	}
+	
 	@ResponseBody
 	@PostMapping("/create")
 	//@RequiresPermissions("courses:create")
