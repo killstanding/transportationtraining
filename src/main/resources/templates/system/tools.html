@@ -113,20 +113,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div style="display: none;">
-                        	<label class="control-label" for="addSpecificationType"><span class="asterisk">*</span>规格型号:</label>
-                        	<input id="addSpecificationType" type="text" class="form-control" name="specificationType" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
                         <div class="col-md-12">
-                        	<label class="control-label" for="specificationTypeCode"><span class="asterisk">*</span>规格型号:</label>
-	                        <select id="specificationTypeCode" class="form-control select2" data-minimum-results-for-search="-1" name="specificationTypeCode" onchange="addSpecificationTypeChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                                <option></option>
-	                            <option th:each="assetType: ${assetTypeList}" th:value="${assetType.id}" th:text="${assetType.typeName}">
-	                            规格型号不存在
-	                            </option>
-	                        </select>
+                        	<label class="control-label" for="specificationType"><span class="asterisk">*</span>规格型号:</label>
+	                        <input id="specificationType" type="text" class="form-control" name="specificationType" placeholder="输入规格型号"
+                               required>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
@@ -165,22 +155,14 @@
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                    </div>
-                    <div class="form-group">
                         <div style="display: none;">
-                        	<label class="control-label" for="addAssetUser"><span class="asterisk">*</span>使用人:</label>
-                        	<input id="addAssetUser" type="text" class="form-control" name="assetUser" readonly>
+                        	<label class="control-label" for="assetUserId"><span class="asterisk">*</span>使用人:</label>
+                        	<input id="assetUserId" type="text" class="form-control" name="assetUserId" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-12">
-                        	<label class="control-label" for="assetUserId"><span class="asterisk">*</span>使用人:</label>
-	                        <select id="assetUserId" class="form-control select2" data-minimum-results-for-search="-1" name="assetUserId" onchange="addAssetUserChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                                <option></option>
-	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
-	                            使用人不存在
-	                            </option>
-	                        </select>
+                        <div style="display: none;">
+                        	<label class="control-label" for="assetUser"><span class="asterisk">*</span>使用人:</label>
+                        	<input id="assetUser" type="text" class="form-control" name="assetUser" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
@@ -262,19 +244,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div style="display: none;">
-                        	<label class="control-label" for="editSpecificationType"><span class="asterisk">*</span>规格型号:</label>
-                        	<input id="editSpecificationType" type="text" class="form-control" name="specificationType" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
                         <div class="col-md-12">
-                        	<label class="control-label" for="specificationTypeCode"><span class="asterisk">*</span>规格型号:</label>
-	                        <select id="specificationTypeCode" class="form-control select2" data-minimum-results-for-search="-1" name="specificationTypeCode" onchange="editSpecificationTypeChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="assetType: ${assetTypeList}" th:value="${assetType.id}" th:text="${assetType.typeName}">
-	                            规格型号不存在
-	                            </option>
-	                        </select>
+                        	<label class="control-label" for="specificationType"><span class="asterisk">*</span>规格型号:</label>
+	                        <input id="specificationType" type="text" class="form-control" name="specificationType" placeholder="输入规格型号"
+                               required>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
@@ -307,23 +280,6 @@
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="position: ${positionList}" th:value="${position.id}" th:text="${position.positionName}">
 	                            存放地点不存在
-	                            </option>
-	                        </select>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div style="display: none;">
-                        	<label class="control-label" for="editAssetUser"><span class="asterisk">*</span>使用人:</label>
-                        	<input id="editAssetUser" type="text" class="form-control" name="assetUser" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="col-md-12">
-                        	<label class="control-label" for="assetUserId"><span class="asterisk">*</span>使用人:</label>
-	                        <select id="assetUserId" class="form-control select2" data-minimum-results-for-search="-1" name="assetUserId" onchange="editAssetUserChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
-	                            使用人不存在
 	                            </option>
 	                        </select>
 	                        <div class="help-block with-errors"></div>
@@ -428,6 +384,15 @@
             format: 'yyyy-mm-dd',
             autoclose: true
         });
+    	var username = $('.dropdown-toggle .hidden-xs')[0].innerHTML;
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/user/list?username=' + username,
+            success:function(data){
+            	$('#assetUserId').val(data.data[0].id);
+            	$('#assetUser').val(data.data[0].username);
+            }
+        });
         $table.bootstrapTable({
             url: CONTEXT_PATH + '/tools/list',
             idField: 'id',
@@ -443,14 +408,12 @@
                 },
                 {field: 'assetCode', title: '工具编号', sortable: true, halign: 'left'},
                 {field: 'assetName', title: '工具名称', sortable: true, halign: 'left', formatter: 'assetNameFormatter'},
-                {field: 'assetClassification', title: '工具分类', halign: 'center', align: 'center'},
+                {field: 'assetClassification', title: '工具类型', halign: 'center', align: 'center'},
                 {field: 'specificationType', title: '规格型号', halign: 'center', align: 'center'},
                 {field: 'positionName', title: '存放地点', halign: 'center', align: 'center'},
                 {field: 'useDepartment', title: '所属系', halign: 'center', align: 'center'},
-                {field: 'assetUser', title: '使用人', halign: 'center', align: 'center'},
-                {field: 'cumulativeReceiptQuantity', title: '累计入库数量', halign: 'center', align: 'center'},
                 {field: 'totalExisting', title: '现存数量', halign: 'center', align: 'center'},
-                {field: 'cumulativeCollectedQuantity', title: '领用数量', halign: 'center', align: 'center'},
+                {field: 'cumulativeCollectedQuantity', title: '在用数量', halign: 'center', align: 'center'},
                 {field: 'remainingQuantity', title: '剩余数量', halign: 'center', align: 'center'},
                 {field: 'addNumber', title: '入库操作', halign: 'center', align: 'center', formatter: 'addNumberFormatter'},
                 {

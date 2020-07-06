@@ -100,7 +100,7 @@
                         	<input id="addAssetClassification" type="text" class="form-control" name="assetClassification" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                         	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>耗材分类:</label>
 	                        <select id="assetClassificationCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetClassificationCode" onchange="addAssetClassificationChange()"
 	                                data-placeholder="请从列表选择一项" required>
@@ -112,20 +112,11 @@
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div style="display: none;">
-                        	<label class="control-label" for="addSpecificationType"><span class="asterisk">*</span>规格型号:</label>
-                        	<input id="addSpecificationType" type="text" class="form-control" name="specificationType" readonly>
-	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
-	                        <label class="control-label" for="specificationTypeCode"><span class="asterisk">*</span>规格型号:</label>
-		                    <select id="specificationTypeCode" class="form-control select2" data-minimum-results-for-search="-1" name="specificationTypeCode" onchange="addSpecificationTypeChange()"
-		                            data-placeholder="请从列表选择一项" required>
-		                            <option></option>
-		                        <option th:each="assetType: ${assetTypeList}" th:value="${assetType.id}" th:text="${assetType.typeName}">
-		                            规格型号不存在
-		                        </option>
-		                    </select>
+                        <div class="form-group">
+                        <div class="col-md-12">
+	                        <label class="control-label" for="specificationType"><span class="asterisk">*</span>规格型号:</label>
+	                        <input id="specificationType" type="text" class="form-control" name="specificationType" required>
 		                    <div class="help-block with-errors"></div>
 	                    </div>
                     </div>
@@ -135,7 +126,7 @@
                         	<input id="addPositionName" type="text" class="form-control" name="positionName" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                         	<label class="control-label" for="positionCode"><span class="asterisk">*</span>存放地点:</label>
 	                        <select id="positionCode" class="form-control select2" name="positionCode" onchange="addPositionChange()"
 	                                data-placeholder="请从列表选择一项" required>
@@ -147,19 +138,13 @@
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div style="display: none;">
-                        	<label class="control-label" for="addManager"><span class="asterisk">*</span>管理人:</label>
-                        	<input id="addManager" type="text" class="form-control" name="manager" readonly>
+                        	<label class="control-label" for="managerId"><span class="asterisk">*</span>管理人:</label>
+                        	<input id="managerId" type="text" class="form-control" name="managerId" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
-                        	<label class="control-label" for="managerId"><span class="asterisk">*</span>管理人:</label>
-	                        <select id="managerId" class="form-control select2" data-minimum-results-for-search="-1" name="managerId" onchange="addManagerChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                                <option></option>
-	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
-	                            管理人不存在
-	                            </option>
-	                        </select>
+                        <div style="display: none;">
+                        	<label class="control-label" for="manager"><span class="asterisk">*</span>管理人:</label>
+                        	<input id="manager" type="text" class="form-control" name="manager" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
@@ -188,6 +173,11 @@
                     <div class="form-group" style="display: none">
                         <label class="control-label" for="cumulativeCollectedQuantity"><span class="asterisk">*</span>领用数量:</label>
 	                    <input id="cumulativeCollectedQuantity" type="text" class="form-control" name="cumulativeCollectedQuantity" placeholder="输入数量"
+                               value="0">
+                    </div>
+                    <div class="form-group" style="display: none">
+                        <label class="control-label" for="usedQuantity"><span class="asterisk">*</span>已用数量:</label>
+	                    <input id="usedQuantity" type="text" class="form-control" name="usedQuantity" placeholder="输入数量"
                                value="0">
                     </div>
                     <div class="form-group" style="display: none">
@@ -221,17 +211,9 @@
                     <input type="hidden" name="id"/>
                     <div class="form-group">
                     <div class="col-md-12">
-                        <label class="control-label" for="consumablesCode"><span class="asterisk">*</span>耗材编号:</label>
-                        <input id="consumablesCode" type="text" class="form-control" name="consumablesCode"
-                               readonly required>
-                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                    <div class="col-md-12">
                         <label class="control-label" for="consumablesName"><span class="asterisk">*</span>耗材名称:</label>
                         <input id="consumablesName" type="text" class="form-control" name="consumablesName" placeholder="输入耗材名称"
-                               required>
+                               required readonly>
                         <div class="help-block with-errors"></div>
                         </div>
                     </div>
@@ -241,7 +223,7 @@
                         	<input id="editAssetClassification" type="text" class="form-control" name="assetClassification" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                         	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>耗材分类:</label>
 	                        <select id="assetClassificationCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetClassificationCode" onchange="editAssetClassificationChange()"
 	                                data-placeholder="请从列表选择一项" required>
@@ -251,19 +233,11 @@
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div style="display: none;">
-                        	<label class="control-label" for="editSpecificationType"><span class="asterisk">*</span>规格型号:</label>
-                        	<input id="editSpecificationType" type="text" class="form-control" name="specificationType" readonly>
-	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
-	                        <label class="control-label" for="specificationTypeCode"><span class="asterisk">*</span>规格型号:</label>
-		                    <select id="specificationTypeCode" class="form-control select2" data-minimum-results-for-search="-1" name="specificationTypeCode" onchange="editSpecificationTypeChange()"
-		                            data-placeholder="请从列表选择一项" required>
-		                        <option th:each="assetType: ${assetTypeList}" th:value="${assetType.id}" th:text="${assetType.typeName}">
-		                            规格型号不存在
-		                        </option>
-		                    </select>
+                        <div class="form-group">
+                        <div class="col-md-12">
+	                        <label class="control-label" for="specificationType"><span class="asterisk">*</span>规格型号:</label>
+	                        <input id="specificationType" type="text" class="form-control" name="specificationType" required>
 		                    <div class="help-block with-errors"></div>
 	                    </div>
                     </div>
@@ -273,27 +247,12 @@
                         	<input id="editPositionName" type="text" class="form-control" name="positionName" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                         	<label class="control-label" for="positionCode"><span class="asterisk">*</span>存放地点:</label>
 	                        <select id="positionCode" class="form-control select2" name="positionCode" onchange="editPositionChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="position: ${positionList}" th:value="${position.id}" th:text="${position.positionName}">
 	                            存放地点不存在
-	                            </option>
-	                        </select>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div style="display: none;">
-                        	<label class="control-label" for="editManager"><span class="asterisk">*</span>管理人:</label>
-                        	<input id="editManager" type="text" class="form-control" name="manager" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="col-md-6">
-                        	<label class="control-label" for="managerId"><span class="asterisk">*</span>管理人:</label>
-	                        <select id="managerId" class="form-control select2" data-minimum-results-for-search="-1" name="managerId" onchange="editManagerChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
-	                            管理人不存在
 	                            </option>
 	                        </select>
 	                        <div class="help-block with-errors"></div>
@@ -310,26 +269,6 @@
 				            </div>
 				            <div class="help-block with-errors"></div>
                         </div>
-                    </div>
-                                        <div class="form-group" style="display: none">
-                        <label class="control-label" for="cumulativeReceiptQuantity"><span class="asterisk">*</span>累计入库数量:</label>
-	                    <input id="cumulativeReceiptQuantity" type="text" class="form-control" name="cumulativeReceiptQuantity" placeholder="输入数量"
-                               value="0">
-                    </div>
-                    <div class="form-group" style="display: none">
-                        <label class="control-label" for="totalExisting"><span class="asterisk">*</span>现存数量:</label>
-	                    <input id="totalExisting" type="text" class="form-control" name="totalExisting" placeholder="输入数量"
-                               value="0">
-                    </div>
-                    <div class="form-group" style="display: none">
-                        <label class="control-label" for="cumulativeCollectedQuantity"><span class="asterisk">*</span>领用数量:</label>
-	                    <input id="cumulativeCollectedQuantity" type="text" class="form-control" name="cumulativeCollectedQuantity" placeholder="输入数量"
-                               value="0">
-                    </div>
-                    <div class="form-group" style="display: none">
-                        <label class="control-label" for="remainingQuantity"><span class="asterisk">*</span>剩余数量:</label>
-	                    <input id="remainingQuantity" type="text" class="form-control" name="remainingQuantity" placeholder="输入数量"
-                               value="0">
                     </div>
                 </form>
             </div>
@@ -437,6 +376,15 @@
             format: 'yyyy-mm-dd',
             autoclose: true
         });
+    	var username = $('.dropdown-toggle .hidden-xs')[0].innerHTML;
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/user/list?username=' + username,
+            success:function(data){
+            	$('#managerId').val(data.data[0].id);
+            	$('#manager').val(data.data[0].username);
+            }
+        });
         $table.bootstrapTable({
             url: CONTEXT_PATH + '/consumables/list',
             idField: 'id',
@@ -450,15 +398,14 @@
                 		return pageSize * (pageNumber - 1) + index + 1;
                 	}
                 },
-                {field: 'consumablesCode', title: '耗材编号', sortable: true, halign: 'left'},
                 {field: 'consumablesName', title: '耗材名称', sortable: true, halign: 'left', formatter: 'consumablesNameFormatter'},
                 {field: 'assetClassification', title: '耗材类型', halign: 'center', align: 'center'},
                 {field: 'specificationType', title: '规格型号', halign: 'center', align: 'center'},
                 {field: 'positionName', title: '存放地点', halign: 'center', align: 'center'},
-                {field: 'manager', title: '管理人', halign: 'center', align: 'center'},
                 {field: 'cumulativeReceiptQuantity', title: '累计入库数量', halign: 'center', align: 'center'},
                 {field: 'totalExisting', title: '现存数量', halign: 'center', align: 'center'},
                 {field: 'cumulativeCollectedQuantity', title: '领用数量', halign: 'center', align: 'center'},
+                {field: 'usedQuantity', title: '已用数量', halign: 'center', align: 'center'},
                 {field: 'remainingQuantity', title: '剩余数量', halign: 'center', align: 'center'},
                 {field: 'addNumber', title: '入库操作', halign: 'center', align: 'center', formatter: 'addNumberFormatter'},
                 {
@@ -476,8 +423,6 @@
 
     function editAfter(obj, row) {
     	$('#editForm').find('[name=assetClassificationCode]').find('option[value=' + row.assetClassificationCode + ']').prop('selected', true);
-    	$('#editForm').find('[name=specificationTypeCode]').find('option[value=' + row.specificationTypeCode + ']').prop('selected', true);
-    	$('#editForm').find('[name=managerId]').find('option[value=' + row.managerId + ']').prop('selected', true);
     	$('#editForm').find('[name=postionCode]').find('option[value=' + row.postionCode + ']').prop('selected', true);
     }
 
@@ -488,7 +433,7 @@
     var addNumberDatas = {};
     function addNumberFormatter(value, row, index) {
     	addNumberDatas[index] = row;
-    	return '<a href="#warehousingrecord" onclick="addNumberModel(' + index + ')"><i class="glyphicon glyphicon-plus"></i></a>';
+    	return '<a href="#consumables" onclick="addNumberModel(' + index + ')"><i class="glyphicon glyphicon-plus"></i></a>';
     }
 
     function actionFormatter(value, row, index) {
@@ -563,16 +508,6 @@
         });
     }
     
-    function addSpecificationTypeChange() {
-    	var addSpecificationTypeText = $('#addForm').find('[name=specificationTypeCode]').find('option:selected').text();
-    	$('#addSpecificationType').val(addSpecificationTypeText);
-    }
-    
-    function addManagerChange() {
-    	var addManagerText = $('#addForm').find('[name=managerId]').find('option:selected').text();
-    	$('#addManager').val(addManagerText);
-    }
-    
     function addPositionChange() {
     	var addPositionText = $('#addForm').find('[name=positionCode]').find('option:selected').text();
     	$('#addPositionName').val(addPositionText);
@@ -581,16 +516,6 @@
     function addAssetClassificationChange() {
     	var addAssetClassificationText = $('#addForm').find('[name=assetClassificationCode]').find('option:selected').text();
     	$('#addAssetClassification').val(addAssetClassificationText);
-    }
-    
-    function editSpecificationTypeChange() {
-    	var editSpecificationTypeText = $('#editForm').find('[name=specificationTypeCode]').find('option:selected').text();
-    	$('#editSpecificationType').val(editSpecificationTypeText);
-    }
-    
-    function editManagerChange() {
-    	var editManagerText = $('#editForm').find('[name=managerId]').find('option:selected').text();
-    	$('#editManager').val(editManagerText);
     }
     
     function editPositionChange() {

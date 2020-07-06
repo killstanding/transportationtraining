@@ -266,7 +266,8 @@
                               {field: 'courseName', title: '课程名称', halign: 'center', align: 'center'},
                               {field: 'courseType', title: '课程类型', halign: 'center', align: 'center'},
                               {field: 'courseDirector', title: '课程负责人', halign: 'center', align: 'center'},
-                              {field: 'createTime', title: '创建时间', halign: 'center', align: 'center'}
+                              {field: 'createTime', title: '创建时间', halign: 'center', align: 'center'},
+                              {field: 'updateTime', title: '编辑实训室', halign: 'center', align: 'center', formatter: 'roomFormatter',clickToSelect: false}
                     ]
                 });
             }
@@ -376,7 +377,14 @@
             var id = $('#addForm [name="parentId"]').val();
         });
     });
-    
+    function roomFormatter(value, row, index) {
+		return '<a href="#courses/coursesretrainingroompage" onclick="toRoom()">编辑实训室</a>'
+	}
+	
+	function toRoom() {
+    	window.location.hash = '#courses/coursesretrainingroompage';
+    	location.reload();
+    }
     function returnBack() {
     	document.querySelector('a[href="#courses"]').click();
     }

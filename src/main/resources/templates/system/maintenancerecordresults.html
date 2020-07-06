@@ -512,7 +512,7 @@
                         	<select id="assetStatusCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetStatusCode" onchange="assetStatusChange()"
                                 data-placeholder="请从列表选择一项">
 	                            <option value="asset_status_abnormal" selected>异常</option>
-	                            <option value="asset_status_scrapped">报废</option>
+	                            <option value="asset_status_scrapped">待报废</option>
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
@@ -543,6 +543,7 @@
 <!-- /.content -->
 
 <script th:inline="javascript">
+	var weixiuliebiao = localStorage.getItem("weixiuliebiao");
     var $table = $('#table');
     var weixiuId;
     $(function () {
@@ -592,12 +593,18 @@
                     	if(datas[0].flowStatus == '待确认') {
                     		$.ajax({
                                 type:"GET",
-                                url: CONTEXT_PATH + '/user/list?roleIds=10',
+                                url: CONTEXT_PATH + '/flownode/list?flowNodeCode=em_pending_approval',
                                 success:function(data){
-                                	for(let i = 0; i < data.data.length; i++) {
-                                		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].username + '</option>';
-                                		$('#failureconfirmationForm').find('[name=pendingPersonId]').append(opt);
-                                	}
+                                	$.ajax({
+                                        type:"GET",
+                                        url: CONTEXT_PATH + '/user/listbyroleid?roleId=' + data.data[0].roleId,
+                                        success:function(data){
+                                        	for(let i = 0; i < data.data.length; i++) {
+                                        		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].username + '</option>';
+                                        		$('#failureconfirmationForm').find('[name=pendingPersonId]').append(opt);
+                                        	}
+                                        }
+                                    });
                                 }
                             });
                     		if(role.indexOf(1) != -1 || role.indexOf(6) != -1) {
@@ -626,12 +633,18 @@
                     	}else if(datas[0].flowStatus == '待审批') {
                     		$.ajax({
                                 type:"GET",
-                                url: CONTEXT_PATH + '/user/list?roleIds=8',
+                                url: CONTEXT_PATH + '/flownode/list?flowNodeCode=em_to_be_repaired',
                                 success:function(data){
-                                	for(let i = 0; i < data.data.length; i++) {
-                                		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].username + '</option>';
-                                		$('#directorapprovalForm').find('[name=pendingPersonId]').append(opt);
-                                	}
+                                	$.ajax({
+                                        type:"GET",
+                                        url: CONTEXT_PATH + '/user/listbyroleid?roleId=' + data.data[0].roleId,
+                                        success:function(data){
+                                        	for(let i = 0; i < data.data.length; i++) {
+                                        		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].username + '</option>';
+                                        		$('#directorapprovalForm').find('[name=pendingPersonId]').append(opt);
+                                        	}
+                                        }
+                                    });
                                 }
                             });
                     		if(role.indexOf(1) != -1 || role.indexOf(10) != -1) {
@@ -904,7 +917,11 @@
         	                    	flowStatusCode: 'em_write'
         	                    },
         	                    success:function(data){
-        	                    	document.querySelector('a[href="#maintenancerecord"]').click();
+        	                    	if(weixiuliebiao == 1) {
+        	                    		document.querySelector('a[href="#maintenancerecord"]').click();
+        	                    	}else {
+        	                    		document.querySelector('a[href="#maintenancerecord/toolmaintenancerecord"]').click();
+        	                    	}
         	                    }
         	                });
                         }
@@ -1126,7 +1143,11 @@
     }
 	
     function returnBack() {
-    	document.querySelector('a[href="#maintenancerecord"]').click();
+    	if(weixiuliebiao == 1) {
+    		document.querySelector('a[href="#maintenancerecord"]').click();
+    	}else {
+    		document.querySelector('a[href="#maintenancerecord/toolmaintenancerecord"]').click();
+    	}
     }
     
     function step2statuschange(){

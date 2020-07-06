@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<section class="content-header">
+    <h1>
+        课程管理
+        <small>课程实训室管理页面</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li><a href="#">课程管理</a></li>
+        <li><a href="#">课程管理</a></li>
+        <li class="active">课程实训室管理</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="toolbar">
+                        <form class="form-inline" id="searchForm">
+                            <div class="form-group">
+                            	<input type="hidden" class="form-control input-sm" name="courseId" id="searchId">
+                                <label for="searchName"> 实训室名称 </label>
+                                <input type="text" class="form-control input-sm" name="roomName" id="searchName" placeholder="请输入实训室名称">
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-default" onclick="javascript:$('table').bootstrapTable('refresh', {silent: true});">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                    查询
+                                </button>
+                                <button type="reset" class="btn btn-default">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    清空
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="returnBack()">
+                                    返回上一级
+                                </button>
+                            </div>
+                        </form>
+                        <div class="btn-group btn-group-sm">
+                            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                            <button shiro:hasPermission="coursesretrainingroom:create" type="button" id="addBtn" class="btn btn-default"
+                                    data-toggle="modal"
+                                    data-target="#addModal" onclick="addLoad()"><i class="glyphicon glyphicon-plus"></i> 新增
+                            </button>
+                            <!-- Indicates a dangerous or potentially negative action -->
+                            <button shiro:hasPermission="coursesretrainingroom:delete" type="button" id="deleteBtn" class="btn btn-default"
+                            		data-toggle="modal"
+                                    data-target="#deleteModal"
+                                    data-action="{type:'delete',form:'#deleteForm',idField:'id',table:'#table'}"
+                                    disabled><i class="glyphicon glyphicon-remove"></i> 删除
+                            </button>
+                        </div>
+                    </div>
+                    <table id="table"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<!-- add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addModalLabel">添加实训室</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addForm">
+                	<div class="form-group">
+                        <div style="display: none;">
+                        	<label class="control-label" for="addRoomName"><span class="asterisk">*</span>所属实训室:</label>
+                        	<input id="addRoomName" type="text" class="form-control" name="roomName" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-12">
+                        	<label class="control-label" for="roomId"><span class="asterisk">*</span>所属实训室:</label>
+	                        <select id="roomId" class="form-control select2" data-minimum-results-for-search="-1" name="roomId" onchange="addRoomChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                                <option></option>
+	                            <option th:each="trainingRoom: ${trainingRoomList}" th:value="${trainingRoom.id}" th:text="${trainingRoom.roomName}">
+	                            所属实训室不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input id="addCourseId" type="hidden" class="form-control" name="courseId" readonly>
+                    	<div style="display: none;">
+                        	<label class="control-label" for="roomPositionCode"><span class="asterisk">*</span>存放地点:</label>
+                        	<input id="roomPositionCode" type="text" class="form-control" name="roomPositionCode" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-12">
+                        	<label class="control-label" for="roomPosition"><span class="asterisk">*</span>存放地点:</label>
+                        	<input id="roomPosition" type="text" class="form-control" name="roomPosition" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    	<div style="display: none;">
+                        	<label class="control-label" for="belongSysId"><span class="asterisk">*</span>所属系:</label>
+                        	<input id="belongSysId" type="text" class="form-control" name="belongSysId" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-12">
+                        	<label class="control-label" for="belongSys"><span class="asterisk">*</span>所属系:</label>
+                        	<input id="belongSys" type="text" class="form-control" name="belongSys" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    	<div style="display: none;">
+                        	<label class="control-label" for="roomAdminId"><span class="asterisk">*</span>管理员:</label>
+                        	<input id="roomAdminId" type="text" class="form-control" name="roomAdminId" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-12">
+                        	<label class="control-label" for="roomAdmin"><span class="asterisk">*</span>管理员:</label>
+                        	<input id="roomAdmin" type="text" class="form-control" name="roomAdmin" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" form="addForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#addForm',url:'@{/coursesretrainingroom/create}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- delete modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteSmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="deleteSmallModalLabel">删除实训室</h4>
+            </div>
+            <div class="modal-body">
+                <form id="deleteForm"></form>
+                确定要删除选中的 <span class="records"></span> 条记录?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" form="deleteForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#deleteForm',url:'@{/coursesretrainingroom/delete-batch}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="actionButtons" class="admin-hide">
+    <a shiro:hasPermission="coursesretrainingroom:delete" class="remove ml10" href="javascript:void(0)" data-toggle="tooltip" title="删除"><i class="glyphicon glyphicon-remove"></i></a>　
+</div>
+
+<script th:inline="javascript">
+    var $table = $('#table');
+
+    $(function () {
+    	var courseId = localStorage.getItem("courseId");
+    	$('#searchId').val(courseId);
+    	$('#addCourseId').val(courseId);
+        $table.bootstrapTable({
+            url: CONTEXT_PATH + '/coursesretrainingroom/list',
+            idField: 'id',
+            detailView: false,
+            columns: [
+                {field: 'state', checkbox: true},
+                {field: 'id', title: '序号', sortable: true, halign: 'left',
+                	formatter: function(value,row,index) {
+                		var pageSize = $table.bootstrapTable('getOptions').pageSize;
+                		var pageNumber = $table.bootstrapTable('getOptions').pageNumber;
+                		return pageSize * (pageNumber - 1) + index + 1;
+                	}
+                },
+                {field: 'roomName', title: '实训室名称', sortable: true, halign: 'left'},
+                {field: 'belongSys', title: '所属系', halign: 'center', align: 'center'},
+                {field: 'roomPosition', title: '位置', halign: 'center', align: 'center'},
+                {field: 'roomAdmin', title: '实训室管理员', halign: 'center', align: 'center'},
+                {
+                    field: 'action',
+                    title: '操作',
+                    halign: 'center',
+                    align: 'center',
+                    formatter: 'actionFormatter',
+                    events: 'actionEvents',
+                    clickToSelect: false
+                }
+            ]
+        });
+    });
+
+    function actionFormatter(value, row, index) {
+        return $('#actionButtons').html();
+    }
+
+    window.actionEvents = {
+        'click .edit': function (e, value, row, index) {
+            $('#editModal').modal('show')
+            $('#editForm').fillForm(row);
+            editAfter('', row);
+        },
+        'click .remove': function (e, value, row, index) {
+            $('#deleteModal').modal('show');
+            $('.records').html('1');
+            var html = '';
+            for (var key in row) {
+                html += '<input type="hidden" name="' + key + '" value="' + row[key] + '">';
+            }
+            $('#deleteForm').html(html);
+        }
+    };
+    
+    function addRoomChange() {
+    	var addRoomText = $('#addForm').find('[name=roomId]').find('option:selected').text();
+    	$('#addRoomName').val(addRoomText);
+    	var addId = $('#addForm').find('[name=roomId]').find('option:selected').val();
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/trainingroom/list?id=' + addId,
+            success:function(data){
+            	$('#roomPositionCode').val(data.data[0].roomPositionCode);
+            	$('#roomPosition').val(data.data[0].roomPosition);
+            	$('#belongSysId').val(data.data[0].belongSysId);
+            	$('#belongSys').val(data.data[0].belongSys);
+            	$('#roomAdminId').val(data.data[0].roomAdminId);
+            	$('#roomAdmin').val(data.data[0].roomAdmin);
+            }
+        });
+    }
+    
+    function returnBack() {
+    	window.location.hash = '#chapters';
+    	location.reload();
+    }
+</script>
+</html>

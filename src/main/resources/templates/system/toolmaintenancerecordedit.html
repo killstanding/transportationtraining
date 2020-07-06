@@ -14,14 +14,14 @@
 </style>
 <section class="content-header">
     <h1>
-        设备维修
+       工具管理
         <small>维修修改页面</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
-        <li><a href="#">设备管理</a></li>
-        <li><a href="#">设备维修</a></li>
-        <li class="active">设备维修单修改</li>
+        <li><a href="#">耗材工具</a></li>
+        <li><a href="#">工具管理</a></li>
+        <li class="active">工具维修单修改</li>
     </ol>
 </section>
 
@@ -35,7 +35,7 @@
 		                   返回上一级
 		                </button>
                 <div style="border-left:1px solid #c1c1c1;border-right:1px solid #c1c1c1;padding:10px 30px;">
-                	<div class="ttt" style="margin-bottom: 30px">修改设备维修申请单</div>
+                	<div class="ttt" style="margin-bottom: 30px">修改工具维修申请单</div>
                 	<div class="wxd">
                 <form id="addForm">
                 	<input type="hidden" id="id" name="id"/>
@@ -51,17 +51,17 @@
                     </div>
                     <div class="form-group">
                         <div style="display: none;">
-                        	<label class="control-label" for="assetName"><span class="asterisk">*</span>设备名称:</label>
+                        	<label class="control-label" for="assetName"><span class="asterisk">*</span>工具名称:</label>
                         	<input id="assetName" type="text" class="form-control" name="assetName" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="assetId"><span class="asterisk">*</span>设备名称:</label>
-		                    <select id="assetId" class="form-control select2" data-minimum-results-for-search="-1" name="assetId" onchange="assetChange()"
+                        	<label class="control-label" for="assetId"><span class="asterisk">*</span>工具名称:</label>
+		                    <select id="assetId" class="form-control select2" data-minimum-results-for-search="-1" name="assetId" onchange="toolChange()"
 		                            data-placeholder="请从列表选择一项" required>
 		                            <option></option>
-		                        <option th:each="asset: ${assetList}" th:value="${asset.id}" th:text="${asset.assetName}">
-		                            设备不存在
+		                        <option th:each="tool: ${toolsList}" th:value="${tool.id}" th:text="${tool.assetName}">
+		                            工具不存在
 		                        </option>
 		                    </select>
 		                    <div class="help-block with-errors"></div>
@@ -232,13 +232,13 @@ var weixiuId;
         });
     });
     
-    function assetChange() {
+    function toolChange() {
     	var assetText = $('#addForm').find('[name=assetId]').find('option:selected').text();
     	$('#assetName').val(assetText);
     	var assetId = $('#addForm').find('[name=assetId]').find('option:selected').val();
     	$.ajax({
             type:"GET",
-            url: CONTEXT_PATH + '/asset/list?id=' + assetId,
+            url: CONTEXT_PATH + '/tools/list?id=' + assetId,
             success:function(data){
             	console.log(data.data)
             	$('#assetClassification').val(data.data[0].assetClassification);
@@ -291,7 +291,7 @@ var weixiuId;
     }
     
     function returnBack() {
-    	document.querySelector('a[href="#maintenancerecord"]').click();
+    	document.querySelector('a[href="#toolmaintenancerecord"]').click();
     }
 </script>
 </html>

@@ -15,13 +15,13 @@
 <section class="content-header">
     <h1>
         设备维修
-        <small>维修申请页面</small>
+        <small>设备维修申请页面</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
         <li><a href="#">设备管理</a></li>
         <li><a href="#">设备维修</a></li>
-        <li class="active">维修单申请</li>
+        <li class="active">设备维修单申请</li>
     </ol>
 </section>
 
@@ -37,6 +37,8 @@
                 <form id="addForm">
                 	<input type="hidden" id="flowStatusCode" name="flowStatusCode"/>
                 	<input type="hidden" id="flowStatus" name="flowStatus"/>
+                	<input type="hidden" id="flowTypeCode" name="flowTypeCode"/>
+                	<input type="hidden" id="flowTypeName" name="flowTypeName"/>
                 	<div class="form-group">
                 		<div class="col-md-12">
                 			<label class="control-label" for="recordName"><span class="asterisk">*</span>维修单名称:</label>
@@ -184,6 +186,8 @@
     	$('#datepicker').datepicker('setDate', new Date());
     	$('#flowStatusCode').val('em_confirmed');
     	$('#flowStatus').val('待确认');
+    	$('#flowTypeCode').val('equipment_maintenance');
+    	$('#flowTypeName').val('设备维修');
     	var username = $('.dropdown-toggle .hidden-xs')[0].innerHTML;
     	$.ajax({
             type:"GET",
@@ -197,12 +201,18 @@
         });
     	$.ajax({
             type:"GET",
-            url: CONTEXT_PATH + '/user/list?roleIds=6',
+            url: CONTEXT_PATH + '/flownode/list?flowNodeCode=em_confirmed',
             success:function(data){
-            	for(let i = 0; i < data.data.length; i++) {
-            		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].username + '</option>';
-                	$("#pendingPersonId").append(opt);
-            	}
+            	$.ajax({
+                    type:"GET",
+                    url: CONTEXT_PATH + '/user/listbyroleid?roleId=' + data.data[0].roleId,
+                    success:function(data){
+                    	for(let i = 0; i < data.data.length; i++) {
+                    		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].username + '</option>';
+                        	$("#pendingPersonId").append(opt);
+                    	}
+                    }
+                });
             }
         });
     	//assetChange();

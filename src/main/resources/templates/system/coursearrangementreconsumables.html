@@ -105,11 +105,6 @@
 	                    </div>
                     </div>
                     <div class="form-group">
-                        <div style="display: none;">
-                        	<label class="control-label" for="specificationTypeCode"><span class="asterisk">*</span>规格型号:</label>
-                        	<input id="specificationTypeCode" type="text" class="form-control" name="specificationTypeCode" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
                         <div class="col-md-12">
 	                        <label class="control-label" for="specificationType"><span class="asterisk">*</span>规格型号:</label>
 	                        <input id="specificationType" type="text" class="form-control" name="specificationType" readonly>
@@ -130,7 +125,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                        	<label class="control-label" for="numberOfApplications"><span class="asterisk">*</span>申请数量:</label>
+                        	<label class="control-label" for="numberOfApplications"><span class="asterisk">*</span>申请数量:<span id="sysys" style="display:none;"><span>(剩余:</span><span id="synumber"></span><span>个)</span></span></label>
 	                    	<input id="numberOfApplications" type="text" class="form-control" name="numberOfApplications" placeholder="输入数量"
                                required>
 	                    	<div class="help-block with-errors"></div>
@@ -263,7 +258,6 @@
     });
 
     function editAfter(obj, row) {
-    	$('#editForm').find('[name=specificationTypeCode]').find('option[value=' + row.specificationTypeCode + ']').prop('selected', true);
     	$('#editForm').find('[name=postionCode]').find('option[value=' + row.postionCode + ']').prop('selected', true);
     }
 
@@ -300,32 +294,18 @@
             type:"GET",
             url: CONTEXT_PATH + '/consumables/list?id=' + addId,
             success:function(data){
+            	$('#sysys').css('display', 'block');
+            	$('#synumber')[0].textContent = data.data[0].remainingQuantity;
             	$('#positionCode').val(data.data[0].positionCode);
             	$('#positionName').val(data.data[0].positionName);
-            	$('#specificationTypeCode').val(data.data[0].specificationTypeCode);
             	$('#specificationType').val(data.data[0].specificationType);
             }
         });
     }
     
-    function addSpecificationTypeChange() {
-    	var addSpecificationTypeText = $('#addForm').find('[name=specificationTypeCode]').find('option:selected').text();
-    	$('#addSpecificationType').val(addSpecificationTypeText);
-    }
-    
     function addPositionChange() {
     	var addPositionText = $('#addForm').find('[name=positionCode]').find('option:selected').text();
     	$('#addPositionName').val(addPositionText);
-    }
-    
-    function editSpecificationTypeChange() {
-    	var editSpecificationTypeText = $('#editForm').find('[name=specificationTypeCode]').find('option:selected').text();
-    	$('#editSpecificationType').val(editSpecificationTypeText);
-    }
-    
-    function editPositionChange() {
-    	var editPositionText = $('#editForm').find('[name=positionCode]').find('option:selected').text();
-    	$('#editPositionName').val(editPositionText);
     }
     
     function addLoad() {

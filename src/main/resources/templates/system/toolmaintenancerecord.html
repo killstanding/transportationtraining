@@ -8,14 +8,14 @@
       </style>
 <section class="content-header">
     <h1>
-        设备维修
-        <small>设备维修记录页面</small>
+        工具维修
+        <small>工具维修记录页面</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
-        <li><a href="#">设备管理</a></li>
-        <li><a href="#">设备维修</a></li>
-        <li class="active">设备维修记录</li>
+        <li><a href="#">耗材工具</a></li>
+        <li><a href="#">工具管理</a></li>
+        <li class="active">工具维修记录</li>
     </ol>
 </section>
 
@@ -26,10 +26,10 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div id="toolbar">
-                    <a href="" style="display: none" id="exceldownload" download="设备维修记录.xls"></a>
+                    <a href="" style="display: none" id="exceldownload" download="工具维修记录.xls"></a>
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
-                            	<input type='hidden' class="form-control" name="flowTypeCode" value="equipment_maintenance"/>
+                            	<input type='hidden' class="form-control" name="flowTypeCode" value="tools_maintenance"/>
                             	<label for="searchName"> 创建年份 </label>
                                 <div class='input-group date' id='searchName' style="width:35%;">
 					                <input type='text' class="form-control" id="cyearcyear" name="createYear">
@@ -99,7 +99,7 @@
                 },
                 {field: 'recordId', title: '维修记录编号', sortable: true, halign: 'left', formatter: 'recordIdFormatter'},
                 {field: 'recordName', title: '维修记录名称', halign: 'center', align: 'center'},
-                {field: 'assetName', title: '维修设备名称', halign: 'center', align: 'center', formatter: 'assetNameFormatter'},
+                {field: 'assetName', title: '维修设备名称', halign: 'center', align: 'center'},
                 {field: 'assetClassification', title: '维修设备类型', halign: 'center', align: 'center'},
                 {field: 'flowStatus', title: '流程状态', halign: 'center', align: 'center'},
                 {field: 'maintenanceCosts', title: '维修费用（元）', sortable: true, halign: 'left'},
@@ -112,35 +112,24 @@
     	return '<a style="cursor: pointer" onclick="toFlow(\'' + row.recordId +'\',\'' + row.id + '\',\'' + row.flowStatusCode + '\')">' + value + '</a>'
     }
     
-    function assetNameFormatter(value, row, index) {
-    	return '<a style="cursor: pointer" onclick="toAsset(' + row.assetId + ')">' + value + '</a>'
-    }
-    
     function toFlow(code,id,status) {
     	if(status != 'em_write') {
-    		localStorage.setItem("weixiuliebiao", 1);
+    		localStorage.setItem("weixiuliebiao", 0);
     		localStorage.setItem("weixiuCode", code);
         	window.location.hash = '#maintenancerecordresults';
         	location.reload();
     	}else {
     		localStorage.setItem("weixiuId", id);
-        	window.location.hash = '#maintenancerecord/edit';
+        	window.location.hash = '#maintenancerecord/tooledit';
         	location.reload();
     	}
-    }
-    
-    function toAsset(id) {
-    	localStorage.setItem("assetDetailId", id);
-    	localStorage.setItem("assetDetailUrl", '#maintenancerecord');
-    	window.location.hash = '#asset/detail';
-    	location.reload();
     }
     
     function exportexcel() {
     	var createYear = $('#cyearcyear').val();
     	var flowStatusCode = $('#searchId').val();
     	var datas = {
-    			flowTypeCode: 'equipment_maintenance'
+    			flowTypeCode: 'tools_maintenance'
     	};
     	if(createYear != '') {
     		datas.createYear= createYear;

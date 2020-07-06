@@ -14,14 +14,14 @@
 </style>
 <section class="content-header">
     <h1>
-        设备维修
-        <small>维修修改页面</small>
+        工具维修
+        <small>工具维修申请页面</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
-        <li><a href="#">设备管理</a></li>
-        <li><a href="#">设备维修</a></li>
-        <li class="active">设备维修单修改</li>
+        <li><a href="#">耗材工具</a></li>
+        <li><a href="#">工具管理</a></li>
+        <li class="active">工具维修单申请</li>
     </ol>
 </section>
 
@@ -30,17 +30,15 @@
         <div class="col-xs-12">
             <div class="box">
                 <!-- /.box-header -->
-                <div class="box-body" style="padding: 0 20%;position :relative">
-                <button type="button" class="btn btn-default" style="position:absolute;top: 20px;right: 23%" onclick="returnBack()">
-		                   返回上一级
-		                </button>
+                <div class="box-body" style="padding: 0 20%;">
                 <div style="border-left:1px solid #c1c1c1;border-right:1px solid #c1c1c1;padding:10px 30px;">
-                	<div class="ttt" style="margin-bottom: 30px">修改设备维修申请单</div>
+                	<div class="ttt" style="margin-bottom: 30px">新增工具维修申请单</div>
                 	<div class="wxd">
                 <form id="addForm">
-                	<input type="hidden" id="id" name="id"/>
                 	<input type="hidden" id="flowStatusCode" name="flowStatusCode"/>
                 	<input type="hidden" id="flowStatus" name="flowStatus"/>
+                	<input type="hidden" id="flowTypeCode" name="flowTypeCode"/>
+                	<input type="hidden" id="flowTypeName" name="flowTypeName"/>
                 	<div class="form-group">
                 		<div class="col-md-12">
                 			<label class="control-label" for="recordName"><span class="asterisk">*</span>维修单名称:</label>
@@ -51,28 +49,28 @@
                     </div>
                     <div class="form-group">
                         <div style="display: none;">
-                        	<label class="control-label" for="assetName"><span class="asterisk">*</span>设备名称:</label>
+                        	<label class="control-label" for="assetName"><span class="asterisk">*</span>工具名称:</label>
                         	<input id="assetName" type="text" class="form-control" name="assetName" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="assetId"><span class="asterisk">*</span>设备名称:</label>
-		                    <select id="assetId" class="form-control select2" data-minimum-results-for-search="-1" name="assetId" onchange="assetChange()"
+                        	<label class="control-label" for="assetId"><span class="asterisk">*</span>工具名称:</label>
+		                    <select id="assetId" class="form-control select2" data-minimum-results-for-search="-1" name="assetId" onchange="toolChange()"
 		                            data-placeholder="请从列表选择一项" required>
 		                            <option></option>
-		                        <option th:each="asset: ${assetList}" th:value="${asset.id}" th:text="${asset.assetName}">
-		                            设备不存在
+		                        <option th:each="tool: ${toolsList}" th:value="${tool.id}" th:text="${tool.assetName}">
+		                            工具不存在
 		                        </option>
 		                    </select>
 		                    <div class="help-block with-errors"></div>
                         </div>
                         <div style="display: none;">
-                        	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>设备分类:</label>
+                        	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>工具分类:</label>
                         	<input id="assetClassificationCode" type="text" class="form-control" name="assetClassificationCode" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="assetClassification"><span class="asterisk">*</span>设备分类:</label>
+                        	<label class="control-label" for="assetClassification"><span class="asterisk">*</span>工具分类:</label>
                         	<input id="assetClassification" type="text" class="form-control" name="assetClassification" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
@@ -155,7 +153,7 @@
                 </form>
              	<form id="upload_form" enctype="multipart/form-data" style="clear:both">
              		<div class="col-md-12">
-             			<label class="control-label" for="documentPath" style="float:left" id="succup">新的附件（无需修改则不需要重新上传）:</label>
+             			<label class="control-label" for="documentPath" style="float:left" id="succup">上传附件:</label>
             			<input id="file" type="file" name="file" style="clear:both;display:inline-block;float:left;width:40%;"/>
             			<button type="button" class="btn btn-default" onclick="uploadF()" style="margin-top:18px">上传</button>
              		</div>
@@ -163,8 +161,8 @@
                 	</div>
                 	<div class="fff" style="text-align:center">
                 		<button style="margin:20px auto 30px auto" type="submit" form="addForm" class="btn btn-primary"
-		                        data-action="{type:'submit',form:'#addForm',url:'@{/maintenancerecord/update}',after:'returnBack'}">
-		                    重新申请
+		                        data-action="{type:'submit',form:'#addForm',url:'@{/maintenancerecord/create}'}">
+		                    申请维修
 		                </button>
                 	</div>
                 	</div>
@@ -180,17 +178,16 @@
 <!-- /.content -->
 
 <script th:inline="javascript">
-var weixiuId;
-
     $(function () {
-    	weixiuId = localStorage.getItem("weixiuId");
     	$('#datepicker').datepicker({
             format: 'yyyy-mm-dd',
             autoclose: true
         });
-    	$('#id').val(weixiuId);
+    	$('#datepicker').datepicker('setDate', new Date());
     	$('#flowStatusCode').val('em_confirmed');
     	$('#flowStatus').val('待确认');
+    	$('#flowTypeCode').val('tools_maintenance');
+    	$('#flowTypeName').val('工具仪器维修');
     	var username = $('.dropdown-toggle .hidden-xs')[0].innerHTML;
     	$.ajax({
             type:"GET",
@@ -214,31 +211,24 @@ var weixiuId;
                     		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].username + '</option>';
                         	$("#pendingPersonId").append(opt);
                     	}
-                    	$.ajax({
-                            type:"GET",
-                            url: CONTEXT_PATH + '/maintenancerecord/list?id=' + weixiuId,
-                            success:function(data){
-                            	$('#recordName').val(data.data[0].recordName);
-                            	$('#datepicker').datepicker('setDate', new Date(data.data[0].failureTime));
-                            	$('#addForm').find('[name=assetId]').val(data.data[0].assetId).trigger("change");
-                            	$('#faultDescription').val(data.data[0].faultDescription);
-                            	$('#attachmentName').val(data.data[0].attachmentName);
-                            	$('#attachmentPath').val(data.data[0].attachmentPath);
-                            }
-                        });
                     }
                 });
             }
         });
+    	//assetChange();
+    	//assetClassificationChange();
+    	//applicantDepartmentChange();
+    	//applicantChange();
+    	//positionChange();
     });
     
-    function assetChange() {
+    function toolChange() {
     	var assetText = $('#addForm').find('[name=assetId]').find('option:selected').text();
     	$('#assetName').val(assetText);
     	var assetId = $('#addForm').find('[name=assetId]').find('option:selected').val();
     	$.ajax({
             type:"GET",
-            url: CONTEXT_PATH + '/asset/list?id=' + assetId,
+            url: CONTEXT_PATH + '/tools/list?id=' + assetId,
             success:function(data){
             	console.log(data.data)
             	$('#assetClassification').val(data.data[0].assetClassification);
@@ -288,10 +278,6 @@ var weixiuId;
             	$('#succup').append('<span class="upsucc">（上传成功）</span>');
             }
         });
-    }
-    
-    function returnBack() {
-    	document.querySelector('a[href="#maintenancerecord"]').click();
     }
 </script>
 </html>

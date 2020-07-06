@@ -79,7 +79,7 @@ var discs;
 var repairs;
 var renos;
     $(function () {
-    	var planId = localStorage.getItem("planId");
+    	var planId = localStorage.getItem("editPlanId");
     	var trainingRoom = localStorage.getItem("ItrainingRoom");
     	$('#searchId').val(planId);
     	if(trainingRoom != undefined) {
@@ -91,8 +91,11 @@ var renos;
     	}
     	console.log(1)
     	$.ajax({
-            type:"GET",
-            url: CONTEXT_PATH + '/inspectionrecord/listbyplanidforedit?planId=' + planId,
+            type:"POST",
+            url: CONTEXT_PATH + '/inspectionrecord/listbyplanidforedit',
+            data : {
+            	planId: planId
+            },
             success:function(data){
             	datas = data.data;
             	$table.bootstrapTable({
@@ -113,7 +116,8 @@ var renos;
                         {field: 'statusDescription', title: '状态描述', halign: 'center', align: 'center', formatter: 'statusDescriptionFormatter'},
                         {field: 'isRepair', title: '是否维修', halign: 'center', align: 'center', formatter: 'repairFormatter'},
                         {field: 'repairOrderNo', title: '维修单号', halign: 'center', align: 'center', formatter: 'repairOrderNoFormatter'},
-                        {field: 'chooseNO', title: '选择单号', halign: 'center', align: 'center', formatter: 'chooseNOFormatter'}
+                        {field: 'chooseNO', title: '选择单号', halign: 'center', align: 'center', formatter: 'chooseNOFormatter'},
+                        {field: 'assetName', title: '发起维修单', halign: 'center', align: 'center', formatter: 'assetNameFormatter'}
                     ]
                 });
             	statuss = $('.status');
@@ -138,7 +142,7 @@ var renos;
     }
 
     function enabledFormatter(value, row, index) {
-    	return '<select class="status" style="width: 80px;" onchange="listChange()"><option value="asset_status_normal">正常</option><option value="asset_status_abnormal">异常</option><option value="asset_status_repair">维修</option><option value="asset_status_scrapped">报废</option></select>'
+    	return '<select class="status" style="width: 80px;" onchange="listChange()"><option value="asset_status_normal">正常</option><option value="asset_status_abnormal">异常</option><option value="asset_status_repair">维修</option><option value="asset_status_scrapped">待报废</option></select>'
     }
     
     function statusDescriptionFormatter(value, row, index) {
@@ -158,6 +162,10 @@ var renos;
     function chooseNOFormatter(value, row, index) {
     	nonoid = index;
     	return '<span onclick="showNo(' + row.assetId + ')" style="cursor:pointer;"><i class="glyphicon glyphicon-plus"></i></span>';
+    }
+    
+    function assetNameFormatter(value, row, index) {
+    	return '<a href="#failureconfirmation" onclick="refresh3()">发起维修单</a>';
     }
     
     function showNo(id) {
@@ -236,6 +244,11 @@ var renos;
     	location.reload();
     }
     
+    function refresh3(code) {
+    	window.location.hash = '#failureconfirmation';
+    	location.reload();
+    }
+    
     function returnBack() {
     	window.location.hash = '#inspectionplan';
     	location.reload();
@@ -244,8 +257,9 @@ var renos;
     function saveList() {
     	$.ajax({
             type:"POST",
+            contentType: 'application/json',
             url: CONTEXT_PATH + '/inspectionrecord/createbylist',
-            data: {objList:datas},
+            data: JSON.stringify({objList:datas}),
             success:function(data){
             }
         });

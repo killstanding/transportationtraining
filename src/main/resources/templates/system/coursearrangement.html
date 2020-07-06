@@ -18,14 +18,12 @@
     line-height: 2;
     padding: 0 25px 10px 25px;
       	}
-      	#modell4 {
+      	.model {
       		    text-indent: 25px;
     line-height: 3;
       	}
-      	#modell5 {
-      		text-indent: 25px;
-    line-height: 3;
-    margin-bottom: 30px;
+      	.model:last-child {
+      		    margin-bottom: 30px;
       	}
        </style>
 <section class="content-header">
@@ -120,15 +118,26 @@
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
-                        	<label class="control-label" for="sectionName"><span class="asterisk">*</span>节次:</label>
-	                        <select id="sectionName" class="form-control select2" data-minimum-results-for-search="-1" name="sectionName"
+                        <div class="col-md-3">
+                        	<label class="control-label" for="sectionNameS"><span class="asterisk">*</span>开始节次:</label>
+	                        <select id="sectionNameS" class="form-control select2" data-minimum-results-for-search="-1" name="sectionNameS" onchange="addSectionNameSChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                                <option></option>
-	                                <option value="1-2">1-2</option>
-	                                <option value="3-4">3-4</option>
-	                                <option value="5-6">5-6</option>
-	                                <option value="7-8">7-8</option>
+	                                <option value="1">1</option>
+	                                <option value="2">2</option>
+	                                <option value="3">3</option>
+	                                <option value="4">4</option>
+	                                <option value="5">5</option>
+	                                <option value="6">6</option>
+	                                <option value="7">7</option>
+	                                <option value="8">8</option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-3">
+                        	<label class="control-label" for="sectionName"><span class="asterisk">*</span>结束节次:</label>
+	                        <select id="sectionName" class="form-control select2" data-minimum-results-for-search="-1" name="sectionName"
+	                                data-placeholder="请从列表选择一项" required>
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
@@ -156,32 +165,22 @@
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="teachingPlanId">关联教案:</label>
-	                        <select id="teachingPlanId" class="form-control select2" name="teachingPlanId" onchange="addTeachingPlanChange()"
+                        	<label class="control-label" for="addTeachingPlanId">关联教案:</label>
+	                        <select id="addTeachingPlanId" class="form-control select2" name="teachingPlanId" onchange="addTeachingPlanChange()"
 	                                data-placeholder="请从列表选择一项">
-	                                <option></option>
-	                            <option th:each="teachingPlan: ${teachingPlanList}" th:value="${teachingPlan.id}" th:text="${teachingPlan.teachingPlanName}">
-	                           关联教案不存在
-	                            </option>
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
                     <div class="form-group">
                     	<div style="display: none;">
-                        	<label class="control-label" for="addLecturerlTeacher"><span class="asterisk">*</span>主讲教师:</label>
-                        	<input id="addLecturerlTeacher" type="text" class="form-control" name="lecturerlTeacher" readonly>
+                        	<label class="control-label" for="addLecturerlTeacherId"><span class="asterisk">*</span>主讲教师:</label>
+                        	<input id="addLecturerlTeacherId" type="text" class="form-control" name="lecturerlTeacherId" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="lecturerlTeacherId"><span class="asterisk">*</span>主讲教师:</label>
-	                        <select id="lecturerlTeacherId" class="form-control select2" data-minimum-results-for-search="-1" name="lecturerlTeacherId" onchange="addLecturerlTeacherChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                                <option></option>
-	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
-	                            主讲教师不存在
-	                            </option>
-	                        </select>
+                        	<label class="control-label" for="addLecturerlTeacher"><span class="asterisk">*</span>主讲教师:</label>
+                        	<input id="addLecturerlTeacher" type="text" class="form-control" name="lecturerlTeacher" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     	<div style="display: none;">
@@ -241,18 +240,14 @@
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div style="display: none;">
-                        	<label class="control-label" for="addTrainingRoomName"><span class="asterisk">*</span>实训地点:</label>
+                        	<label class="control-label" for="addTrainingRoomName">实训地点:</label>
                         	<input id="addTrainingRoomName" type="text" class="form-control" name="trainingRoomName" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-12">
-                        	<label class="control-label" for="trainingRoomId"><span class="asterisk">*</span>实训地点:</label>
-	                        <select id="trainingRoomId" class="form-control select2" name="trainingRoomId" onchange="addTrainingRoomChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                                <option></option>
-	                            <option th:each="trainingRoom: ${trainingRoomList}" th:value="${trainingRoom.id}" th:text="${trainingRoom.roomName}">
-	                            实训地点不存在
-	                            </option>
+                        	<label class="control-label" for="addTrainingRoomId">实训地点:</label>
+	                        <select id="addTrainingRoomId" class="form-control select2" name="trainingRoomId" onchange="addTrainingRoomChange()"
+	                                data-placeholder="请从列表选择一项">
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
@@ -313,6 +308,11 @@
                 <form id="editForm">
                     <input type="hidden" name="id"/>
                     <div class="form-group">
+                    	<div style="display: none;">
+                        	<label class="control-label" for="courseId">课程编号:</label>
+                        	<input id="courseId" type="text" class="form-control" name="courseId" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
                         <div class="col-md-6">
                         	<label class="control-label" for="courseName"><span class="asterisk">*</span>课程名称:</label>
                         	<input id="courseName" type="text" class="form-control" name="courseName" readonly>
@@ -324,30 +324,22 @@
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="teachingPlanId">关联教案:</label>
-	                        <select id="teachingPlanId" class="form-control select2" name="teachingPlanId" onchange="editTeachingPlanChange()"
+                        	<label class="control-label" for="editTeachingPlanId">关联教案:</label>
+	                        <select id="editTeachingPlanId" class="form-control select2" name="teachingPlanId" onchange="editTeachingPlanChange()"
 	                                data-placeholder="请从列表选择一项">
-	                            <option th:each="teachingPlan: ${teachingPlanList}" th:value="${teachingPlan.id}" th:text="${teachingPlan.teachingPlanName}">
-	                           关联教案不存在
-	                            </option>
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
                     <div class="form-group">
                     	<div style="display: none;">
-                        	<label class="control-label" for="editLecturerlTeacher"><span class="asterisk">*</span>主讲教师:</label>
-                        	<input id="editLecturerlTeacher" type="text" class="form-control" name="lecturerlTeacher" readonly>
+                        	<label class="control-label" for="editLecturerlTeacherId"><span class="asterisk">*</span>主讲教师:</label>
+                        	<input id="editLecturerlTeacherId" type="text" class="form-control" name="lecturerlTeacherId" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="lecturerlTeacherId"><span class="asterisk">*</span>主讲教师:</label>
-	                        <select id="lecturerlTeacherId" class="form-control select2" data-minimum-results-for-search="-1" name="lecturerlTeacherId" onchange="editLecturerlTeacherChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
-	                            主讲教师不存在
-	                            </option>
-	                        </select>
+                        	<label class="control-label" for="editLecturerlTeacher"><span class="asterisk">*</span>主讲教师:</label>
+                        	<input id="editLecturerlTeacher" type="text" class="form-control" name="lecturerlTeacher" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     	<div style="display: none;">
@@ -399,17 +391,14 @@
                     </div>
                     <div class="form-group">
                         <div style="display: none;">
-                        	<label class="control-label" for="editTrainingRoomName"><span class="asterisk">*</span>实训地点:</label>
+                        	<label class="control-label" for="editTrainingRoomName">实训地点:</label>
                         	<input id="editTrainingRoomName" type="text" class="form-control" name="trainingRoomName" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div class="col-md-12">
-                        	<label class="control-label" for="trainingRoomId"><span class="asterisk">*</span>实训地点:</label>
-	                        <select id="trainingRoomId" class="form-control select2" name="trainingRoomId" onchange="editTrainingRoomChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="trainingRoom: ${trainingRoomList}" th:value="${trainingRoom.id}" th:text="${trainingRoom.roomName}">
-	                            实训地点不存在
-	                            </option>
+                        	<label class="control-label" for="editTrainingRoomId">实训地点:</label>
+	                        <select id="editTrainingRoomId" class="form-control select2" name="trainingRoomId" onchange="editTrainingRoomChange()"
+	                                data-placeholder="请从列表选择一项">
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
@@ -472,14 +461,19 @@
             	<div id="modell1" class="title"></div>
             	<div id="modell2" class="time"></div>
             	<div id="modell3" class="dics"></div>
-            	<div id="modell4" class="document"></div>
-            	<div id="modell5" class="video"></div>
+            	<div id="models"></div>
             </div>
 		</div> 
 	</div>
 </div>
 
-<div id="actionButtons" class="admin-hide">
+<div id="actionButtons1" class="admin-hide">
+    <!-- <a class="like" href="javascript:void(0)" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a> -->
+    <!-- <a shiro:hasPermission="coursearrangement:update" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="编辑"><i class="glyphicon glyphicon-edit"></i></a> -->　
+    <a shiro:hasPermission="coursearrangement:delete" class="remove ml10" href="javascript:void(0)" data-toggle="tooltip" title="删除"><i class="glyphicon glyphicon-remove"></i></a>　
+</div>
+
+<div id="actionButtons2" class="admin-hide">
     <!-- <a class="like" href="javascript:void(0)" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a> -->
     <a shiro:hasPermission="coursearrangement:update" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="编辑"><i class="glyphicon glyphicon-edit"></i></a>　
     <a shiro:hasPermission="coursearrangement:delete" class="remove ml10" href="javascript:void(0)" data-toggle="tooltip" title="删除"><i class="glyphicon glyphicon-remove"></i></a>　
@@ -489,6 +483,17 @@
     var $table = $('#table');
 
     $(function () {
+    	var username = $('.dropdown-toggle .hidden-xs')[0].innerHTML;
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/user/list?username=' + username,
+            success:function(data){
+            	$('#addLecturerlTeacherId').val(data.data[0].id);
+            	$('#addLecturerlTeacher').val(data.data[0].username);
+            	$('#editLecturerlTeacherId').val(data.data[0].id);
+            	$('#editLecturerlTeacher').val(data.data[0].username);
+            }
+        });
         $table.bootstrapTable({
             url: CONTEXT_PATH + '/coursearrangement/list',
             detailView: false,
@@ -521,12 +526,39 @@
     });
 
     function editAfter(obj, row) {
-    	$('#editForm').find('[name=lecturerlTeacherId]').find('option[value=' + row.lecturerlTeacherId + ']').prop('selected', true);
     	$('#editForm').find('[name=regionalTeacherId]').find('option[value=' + row.regionalTeacherId + ']').prop('selected', true);
     	$('#editForm').find('[name=assistantTeacherId]').find('option[value=' + row.assistantTeacherId + ']').prop('selected', true);
     	$('#editForm').find('[name=classId]').find('option[value=' + row.classId + ']').prop('selected', true);
-    	$('#editForm').find('[name=trainingRoomId]').find('option[value=' + row.trainingRoomId + ']').prop('selected', true);
-    	$('#editForm').find('[name=teachingPlanId]').find('option[value=' + row.teachingPlanId + ']').prop('selected', true);
+    	var courseId = $('#editForm').find('[name=courseId]').val();
+    	$.ajax({
+            type:"POST",
+            url: CONTEXT_PATH + '/courses/teachingplanlist',
+            data: {
+            	id:courseId
+            },
+            success:function(data){
+            	$("#editTeachingPlanId").empty();
+            	$("#editTeachingPlanId").append("<option></option>");
+            	for(let i = 0; i < data.data.length; i++) {
+            		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].teachingPlanName + '</option>';
+                	$("#editTeachingPlanId").append(opt);
+            	}
+            	$('#editForm').find('[name=teachingPlanId]').find('option[value=' + row.teachingPlanId + ']').prop('selected', true);
+            }
+        });
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/coursesretrainingroom/list?courseId=' + courseId,
+            success:function(data){
+            	$("#editTrainingRoomId").empty();
+            	$("#editTrainingRoomId").append("<option></option>");
+            	for(let i = 0; i < data.data.length; i++) {
+            		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].roomName + '</option>';
+                	$("#editTrainingRoomId").append(opt);
+            	}
+            	$('#editForm').find('[name=trainingRoomId]').find('option[value=' + row.trainingRoomId + ']').prop('selected', true);
+            }
+        });
     }
     
     function trainingContentFormatter(value, row, index) {
@@ -558,17 +590,25 @@
             type:"GET",
             url: CONTEXT_PATH + '/teachingplan/'+ id,
             success:function(data){
+            	console.log(data);
             	$('#modell1').empty();
             	$('#modell2').empty();
             	$('#modell3').empty();
-            	$('#modell4').empty();
-            	$('#modell5').empty();
+            	$('#models').empty();
             	
             	$('#modell1').append(data.data.teachingPlanName);
             	$('#modell2').append('预计时长：' + data.data.estimatedTimeDuration + '分钟');
             	$('#modell3').append(data.data.teachingPlanDescription);
-            	$('#modell4').append('文档讲义：<a href="' + data.data.documentPath + '" download="' + data.data.documentName + '">' + data.data.documentName + '</a>');
-            	$('#modell5').append('视频讲义：<a href="' + data.data.videoPath + '" download="' + data.data.videoName + '">' + data.data.videoName + '</a>');
+            	$.ajax({
+                    type:"GET",
+                    async: false,
+                    url: CONTEXT_PATH + '/teachingplanrefile/list?techingPlanId=' + data.data.id,
+                    success:function(data){
+                    	for(let i = 0; i < data.data.length; i++) {
+                    		$('#models').append('<div class="model">文档讲义：<a href="' + data.data[i].filePath + '" download="' + data.data[i].fileName + '">' + data.data[i].fileName + '</a></div>');
+                    	}
+                    }
+                });
             }
         });
     	$('#jaModal').css('display', 'block');
@@ -602,7 +642,11 @@
     }
     
     function actionFormatter(value, row, index) {
-        return $('#actionButtons').html();
+    	if(row.isLock == 1) {
+    		return $('#actionButtons1').html();
+    	}else {
+    		return $('#actionButtons2').html();
+    	}
     }
 
     window.actionEvents = {
@@ -630,11 +674,34 @@
     function addCourseChange() {
     	var addCourseText = $('#addForm').find('[name=courseId]').find('option:selected').text();
     	$('#addCourseName').val(addCourseText);
-    }
-    
-    function addLecturerlTeacherChange() {
-    	var addLecturerlTeacherText = $('#addForm').find('[name=lecturerlTeacherId]').find('option:selected').text();
-    	$('#addLecturerlTeacher').val(addLecturerlTeacherText);
+    	var courseId = $('#addForm').find('[name=courseId]').find('option:selected').val();
+    	$.ajax({
+            type:"POST",
+            url: CONTEXT_PATH + '/courses/teachingplanlist',
+            data: {
+            	id:courseId
+            },
+            success:function(data){
+            	$("#addTeachingPlanId").empty();
+            	$("#addTeachingPlanId").append("<option></option>");
+            	for(let i = 0; i < data.data.length; i++) {
+            		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].teachingPlanName + '</option>';
+                	$("#addTeachingPlanId").append(opt);
+            	}
+            }
+        });
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/coursesretrainingroom/list?courseId=' + courseId,
+            success:function(data){
+            	$("#addTrainingRoomId").empty();
+            	$("#addTrainingRoomId").append("<option></option>");
+            	for(let i = 0; i < data.data.length; i++) {
+            		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].roomName + '</option>';
+                	$("#addTrainingRoomId").append(opt);
+            	}
+            }
+        });
     }
     
     function addRegionalTeacherChange() {
@@ -650,6 +717,17 @@
     function addClassChange() {
     	var addClassText = $('#addForm').find('[name=classId]').find('option:selected').text();
     	$('#addClassName').val(addClassText);
+    	var classId = $('#addForm').find('[name=classId]').find('option:selected').val();
+    	$.ajax({
+            type:"POST",
+            url: CONTEXT_PATH + '/student/count',
+            data: {
+            	classId: classId
+            },
+            success:function(data){
+            	$('#addForm').find('[name=numberOfPeople]').val(data.data);
+            }
+        });
     }
     
     function addTrainingRoomChange() {
@@ -662,9 +740,14 @@
     	$('#addTeachingPlanName').val(addTeachingPlanText);
     }
     
-    function editLecturerlTeacherChange() {
-    	var editLecturerlTeacherText = $('#editForm').find('[name=lecturerlTeacherId]').find('option:selected').text();
-    	$('#editLecturerlTeacher').val(editLecturerlTeacherText);
+    function addSectionNameSChange() {
+    	var addSectionNameSValue = $('#addForm').find('[name=sectionNameS]').find('option:selected').val();
+    	$("#sectionName").empty();
+    	$("#sectionName").append("<option></option>");
+    	for(let i = addSectionNameSValue; i <= 8; i++) {
+    		var opt = '<option value="' + addSectionNameSValue + '-' + i + '">' + i + '</option>';
+        	$("#sectionName").append(opt);
+    	}
     }
     
     function editRegionalTeacherChange() {
@@ -680,6 +763,17 @@
     function editClassChange() {
     	var editClassText = $('#editForm').find('[name=classId]').find('option:selected').text();
     	$('#editClassName').val(editClassText);
+    	var classId = $('#editForm').find('[name=classId]').find('option:selected').val();
+    	$.ajax({
+            type:"POST",
+            url: CONTEXT_PATH + '/student/count',
+            data: {
+            	classId: classId
+            },
+            success:function(data){
+            	$('#editForm').find('[name=numberOfPeople]').val(data.data);
+            }
+        });
     }
     
     function editTrainingRoomChange() {

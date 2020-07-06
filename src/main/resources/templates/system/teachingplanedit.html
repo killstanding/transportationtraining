@@ -2,6 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <style type="text/css">
+	.right-icon {
+		float: right;
+		line-height: 40px;
+	}
 	.jblock {
 		display: flex;
     border: 1px solid #c1c1c1;
@@ -223,13 +227,10 @@
                         <textarea id="teachingPlanDescription" rows="6" type="text" class="form-control" name="teachingPlanDescription"></textarea>
                         <div class="help-block with-errors"></div>
                     </div>
-                    <div class="form-group" style="display:none">
+                    <!-- <div class="form-group" style="display:none">
                         <label class="control-label" for="documentName">文档名称:</label>
                         <input id="documentPath" type="text" class="form-control" name="documentPath">
                         <input id="documentName" type="text" class="form-control" name="documentName">
-                        <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
                         <div class="help-block with-errors"></div>
                     </div>
                     <div class="form-group" style="display:none">
@@ -237,11 +238,11 @@
                         <input id="videoPath" type="text" class="form-control" name="videoPath">
                         <input id="videoName" type="text" class="form-control" name="videoName">
                         <div class="help-block with-errors"></div>
-                    </div>
+                    </div> -->
                 </form>
             </div>
             <div class="modal-footer">
-            	<label class="control-label" for="documentPath" style="float:left">文档附件:</label>
+            	<!-- <label class="control-label" for="documentPath" style="float:left">文档附件:</label>
              	<form id="upload_form1" enctype="multipart/form-data" style="clear:both">
             			<input id="file1" type="file" name="file" style="display:inline-block;float:left;width:80%;"/>
             			<button type="button" class="btn btn-default" onclick="uploadF1()">上传</button>
@@ -250,11 +251,39 @@
         		<form id="upload_form2" enctype="multipart/form-data" style="clear:both">
             			<input id="file2" type="file" name="file" style="display:inline-block;float:left;width:80%;"/>
             			<button type="button" class="btn btn-default" onclick="uploadF2()">上传</button>
-        		</form>
+        		</form> -->
                 <button type="button" class="btn btn-default" style="margin-top: 30px;" onclick="noAddModel()">关闭</button>
                 <button type="button" class="btn btn-primary" style="margin-top: 30px;" onclick="addJ()">
                     确定
                 </button>
+            </div>
+		</div> 
+	</div>
+</div>
+
+<div class="modal fade" id="addFileModal" tabindex="-1" role="dialog" aria-labelledby="addFileModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="noAddFileModel()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addModalLabel">增加教案文档</h4>
+            </div>
+            <div class="modal-body">
+            	<form id="addFileForm">
+            		<input type="hidden" name="teachingPlanId"/>
+                    <div class="form-group" style="display:none">
+                        <label class="control-label" for="fileName">文档名称:</label>
+                        <input id="filePath" type="text" class="form-control" name="filePath">
+                        <input id="fileName" type="text" class="form-control" name="fileName">
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            	<label class="control-label" for="filePath" style="float:left">文档附件:</label>
+             	<form id="upload_form1" enctype="multipart/form-data" style="clear:both">
+            			<input id="file1" type="file" name="file" style="display:inline-block;float:left;width:80%;" onchange="uploadF1()"/>
+        		</form>
             </div>
 		</div> 
 	</div>
@@ -288,7 +317,7 @@
                                required></textarea>
                         <div class="help-block with-errors"></div>
                     </div>
-                    <div class="form-group" style="display:none">
+                    <!-- <div class="form-group" style="display:none">
                         <label class="control-label" for="documentName">文档名称:</label>
                         <input id="documentPath" type="text" class="form-control" name="documentPath">
                         <input id="documentName" type="text" class="form-control" name="documentName">
@@ -299,11 +328,11 @@
                         <input id="videoPath" type="text" class="form-control" name="videoPath">
                         <input id="videoName" type="text" class="form-control" name="videoName">
                         <div class="help-block with-errors"></div>
-                    </div>
+                    </div> -->
                 </form>
             </div>
             <div class="modal-footer">
-                        	<label class="control-label" for="documentPath" style="float:left">文档附件:</label>
+                <!-- <label class="control-label" for="documentPath" style="float:left">文档附件:</label>
              	<form id="upload_form3" enctype="multipart/form-data" style="clear:both">
             			<input id="file3" type="file" name="file" style="display:inline-block;float:left;width:80%;"/>
             			<button type="button" class="btn btn-default" onclick="uploadF3()">上传</button>
@@ -312,7 +341,7 @@
         		<form id="upload_form4" enctype="multipart/form-data" style="clear:both">
             			<input id="file4" type="file" name="file" style="display:inline-block;float:left;width:80%;"/>
             			<button type="button" class="btn btn-default" onclick="uploadF4()">上传</button>
-        		</form>
+        		</form> -->
                 <button type="button" class="btn btn-default" style="margin-top: 30px;" onclick="noResetModel()">关闭</button>
                 <button type="button" class="btn btn-primary" style="margin-top: 30px;" onclick="resetJ()">
                     确定
@@ -327,7 +356,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="noDeleteModel()"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="editModalLabel">删除教案</h4>
+                <h4 class="modal-title" id="deleteModalLabel">删除教案</h4>
             </div>
             <div class="modal-body">
             确定要删除当前教案？
@@ -335,6 +364,26 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" onclick="noDeleteModel()">取消</button>
                 <button type="button" class="btn btn-primary" onclick="deleteC()">
+                    确定
+                </button>
+            </div>
+		</div> 
+	</div>
+</div>
+
+<div class="modal fade" id="deleteFileModal" tabindex="-1" role="dialog" aria-labelledby="deleteFileModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="noDeleteFileModel()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="deleteFileModalLabel">删除文档</h4>
+            </div>
+            <div class="modal-body">
+            确定要删除当前文档？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="noDeleteFileModel()">取消</button>
+                <button type="button" class="btn btn-primary" onclick="deleteFileC()">
                     确定
                 </button>
             </div>
@@ -417,13 +466,13 @@
     	}else {
     		$('#addModal').css('display', 'block');
         	$('#addModal').addClass('in');
-        	$('#addForm').find('[name=teachingPlanName]').val(''),
-        	$('#addForm').find('[name=teachingPlanDescription]').val(''),
-        	$('#addForm').find('[name=estimatedTimeDuration]').val(''),
-        	$('#addForm').find('[name=documentName]').val(''),
-        	$('#addForm').find('[name=documentPath]').val(''),
-        	$('#addForm').find('[name=videoName]').val(''),
-        	$('#addForm').find('[name=videoPath]').val('')
+        	$('#addForm').find('[name=teachingPlanName]').val('');
+        	$('#addForm').find('[name=teachingPlanDescription]').val('');
+        	$('#addForm').find('[name=estimatedTimeDuration]').val('');
+        	$('#addForm').find('[name=documentName]').val('');
+        	$('#addForm').find('[name=documentPath]').val('');
+        	//$('#addForm').find('[name=videoName]').val(''),
+        	//$('#addForm').find('[name=videoPath]').val('')
     	}
     }
     
@@ -443,8 +492,8 @@
             	estimatedTimeDuration: $('#addForm').find('[name=estimatedTimeDuration]').val(),
             	documentName: $('#addForm').find('[name=documentName]').val(),
             	documentPath: $('#addForm').find('[name=documentPath]').val(),
-            	videoName: $('#addForm').find('[name=videoName]').val(),
-            	videoPath: $('#addForm').find('[name=videoPath]').val()
+            	//videoName: $('#addForm').find('[name=videoName]').val(),
+            	//videoPath: $('#addForm').find('[name=videoPath]').val()
             },
             success:function(data){
             	noAddModel();
@@ -466,8 +515,8 @@
             	$('#editForm').find('[name=teachingPlanDescription]').val(data.data[0].teachingPlanDescription);
             	$('#editForm').find('[name=documentName]').val(data.data[0].documentName);
             	$('#editForm').find('[name=documentPath]').val(data.data[0].documentPath);
-            	$('#editForm').find('[name=videoName]').val(data.data[0].videoName);
-            	$('#editForm').find('[name=videoPath]').val(data.data[0].videoPath);
+            	//$('#editForm').find('[name=videoName]').val(data.data[0].videoName);
+            	//$('#editForm').find('[name=videoPath]').val(data.data[0].videoPath);
             }
         });
     }
@@ -479,41 +528,43 @@
     
     function resetJ() {
     	var newData;
-    	if($('#editForm').find('[name=documentPath]').val() == '' && $('#editForm').find('[name=videoPath]').val() == '') {
+    	if($('#editForm').find('[name=documentPath]').val() == '') {
     		newData = {
             	id: $('#editForm').find('[name=id]').val(),
             	teachingPlanDescription: $('#editForm').find('[name=teachingPlanDescription]').val(),
             	estimatedTimeDuration: $('#editForm').find('[name=estimatedTimeDuration]').val(),
-            	documentName: $('#editForm').find('[name=documentName]').val(),
-            	videoName: $('#editForm').find('[name=videoName]').val()
+            	//documentName: $('#editForm').find('[name=documentName]').val()
+            	//videoName: $('#editForm').find('[name=videoName]').val()
             };
-    	}else if($('#editForm').find('[name=documentPath]').val() != '' && $('#editForm').find('[name=videoPath]').val() != '') {
+    	}
+    	/*else if($('#editForm').find('[name=documentPath]').val() != '' && $('#editForm').find('[name=videoPath]').val() != '') {
     		newData = {
                 	id: $('#editForm').find('[name=id]').val(),
                 	teachingPlanDescription: $('#editForm').find('[name=teachingPlanDescription]').val(),
                 	estimatedTimeDuration: $('#editForm').find('[name=estimatedTimeDuration]').val(),
                 	documentName: $('#editForm').find('[name=documentName]').val(),
-                	documentPath: $('#editForm').find('[name=documentPath]').val(),
-                	videoName: $('#editForm').find('[name=videoName]').val(),
-                	videoPath: $('#editForm').find('[name=videoPath]').val()
+                	documentPath: $('#editForm').find('[name=documentPath]').val()
+                	//videoName: $('#editForm').find('[name=videoName]').val(),
+                	//videoPath: $('#editForm').find('[name=videoPath]').val()
                 };
     	}else if($('#editForm').find('[name=documentPath]').val() == '') {
     		newData = {
                 	id: $('#editForm').find('[name=id]').val(),
                 	teachingPlanDescription: $('#editForm').find('[name=teachingPlanDescription]').val(),
                 	estimatedTimeDuration: $('#editForm').find('[name=estimatedTimeDuration]').val(),
-                	documentName: $('#editForm').find('[name=documentName]').val(),
-                	videoName: $('#editForm').find('[name=videoName]').val(),
-                	videoPath: $('#editForm').find('[name=videoPath]').val()
+                	documentName: $('#editForm').find('[name=documentName]').val()
+                	//videoName: $('#editForm').find('[name=videoName]').val(),
+                	//videoPath: $('#editForm').find('[name=videoPath]').val()
                 };
-    	}else {
+    	}*/
+    	else {
     		newData = {
                 	id: $('#editForm').find('[name=id]').val(),
                 	teachingPlanDescription: $('#editForm').find('[name=teachingPlanDescription]').val(),
                 	estimatedTimeDuration: $('#editForm').find('[name=estimatedTimeDuration]').val(),
                 	documentName: $('#editForm').find('[name=documentName]').val(),
-                	documentPath: $('#editForm').find('[name=documentPath]').val(),
-                	videoName: $('#editForm').find('[name=videoName]').val()
+                	documentPath: $('#editForm').find('[name=documentPath]').val()
+                	//videoName: $('#editForm').find('[name=videoName]').val()
                 };
     	}
     	$.ajax({
@@ -552,6 +603,33 @@
         });
     }
     
+    var dddfileid;
+    function deleteFile(id) {
+    	console.log(1);
+    	$('#deleteFileModal').css('display', 'block');
+    	$('#deleteFileModal').addClass('in');
+    	dddfileid = id;
+    }
+    
+    function noDeleteFileModel() {
+    	$('#deleteFileModal').css('display', 'none');
+    	$('#deleteFileModal').removeClass("in");
+    }
+    
+    function deleteFileC() {
+    	$.ajax({
+            type:"POST",
+            url: CONTEXT_PATH + '/teachingplanrefile/delete',
+            data: {
+            	id: dddfileid
+            },
+            success:function(data){
+            	noDeleteFileModel()
+            	getPlan();
+            }
+        });
+    }
+    
     var datas;
     var idid;
     function getPlan() {
@@ -560,12 +638,32 @@
             url: CONTEXT_PATH + '/teachingplan/list?chapterId=' + idid,
             success:function(data){
             	datas = data.data;
+            	console.log(datas)
+            	for(let j = 0; j < datas.length; j++) {
+            		$.ajax({
+                        type:"GET",
+                        async: false,
+                        url: CONTEXT_PATH + '/teachingplanrefile/list?techingPlanId=' + datas[j].id,
+                        success:function(data){
+                        	datas[j].files = data.data;
+                        }
+                    });
+            	}
+            	console.log(datas);
             	$('#jiaoanField').empty();
-            	for(var i = 0; i < datas.length; i++) {
-            		$("#jiaoanField").append('<div class="jblock"><div class="jid">' + (i+1) + '</div><div class="jbody"><div class="jtitle"><div class="jname">教案名称：' + datas[i].teachingPlanName + '</div><div class="jtime">预计时长：' + datas[i].estimatedTimeDuration + '分钟</div><div class="jopt"><i class="glyphicon glyphicon-edit" style="cursor:pointer;" onclick="showResetModel(' + datas[i].id + ')"></i> <i class="glyphicon glyphicon-remove" style="cursor:pointer;" onclick="deleteJ(' + datas[i].id + ')"></i></div></div><div class="jcontent">' + datas[i].teachingPlanDescription + '</div><div class="jppt">文档链接：<a href="' + datas[i].documentPath + '" download="' + datas[i].documentName + '">' + datas[i].documentName + '</a></div><div class="jvideo">视频链接：<a href="' + datas[i].videoPath + '" download="' + datas[i].videoName + '">' + datas[i].videoName + '</a></div></div></div>')
+            	for(let i = 0; i < datas.length; i++) {
+            		$("#jiaoanField").append('<div class="jblock"><div class="jid">' + (i+1) + '</div><div class="jbody"><div class="jtitle"><div class="jname">教案名称：' + datas[i].teachingPlanName + '</div><div class="jtime">预计时长：' + datas[i].estimatedTimeDuration + '分钟</div><div class="jopt"><i class="glyphicon glyphicon-plus" style="cursor:pointer;" onclick="showAddFileModel(' + datas[i].id + ')"></i> <i class="glyphicon glyphicon-edit" style="cursor:pointer;" onclick="showResetModel(' + datas[i].id + ')"></i> <i class="glyphicon glyphicon-remove" style="cursor:pointer;" onclick="deleteJ(' + datas[i].id + ')"></i></div></div><div class="jcontent">' + datas[i].teachingPlanDescription + '</div></div></div></div>');
+            		for(let k = 0; k < datas[i].files.length; k++) {
+            			$(".jblock:last>.jbody").append('<div class="jppt">文档链接：<a href="' + datas[i].files[k].filePath + '" download="' + datas[i].files[k].fileName + '">' + datas[i].files[k].fileName + '</a><i class="glyphicon glyphicon-remove right-icon" style="cursor:pointer;z-index:99999;" onclick="deleteFile(' + datas[i].files[k].id + ')"></i></div>');
+            		}
             	}
             }
         });
+    }
+    
+    function showAddFileModel(id) {
+    	$('#addFileForm').find('[name=teachingPlanId]').val(id);
+    	$('#file1').click();
     }
     function uploadF1() {
     	var formData = new FormData($('#upload_form1', window.parent.document)[0]);
@@ -581,8 +679,21 @@
             	a = a[a.length - 2];
             	a = a.split('\\');
             	a = a[a.length-1];
-            	$('#addForm').find('[name=documentName]').val(a);
-            	$('#addForm').find('[name=documentPath]').val(data.data);
+            	$('#addFileForm').find('[name=fileName]').val(a);
+            	$('#addFileForm').find('[name=filePath]').val(data.data);
+            	let teachingPlanId = $('#addFileForm').find('[name=teachingPlanId]').val();
+            	$.ajax({
+                    type:"POST",
+                    url: CONTEXT_PATH + '/teachingplanrefile/create',
+                    data: {
+                    	techingPlanId: teachingPlanId,
+                    	fileName: a,
+                    	filePath: data.data
+                    },
+                    success:function(data){
+                    	getPlan();
+                    }
+                });
             }
         });
     }

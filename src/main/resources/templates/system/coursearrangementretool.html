@@ -116,6 +116,13 @@
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                        	<label class="control-label" for="assetUser"><span class="asterisk">*</span>管理人:</label>
+                        	<input id="assetUser" type="text" class="form-control" name="assetUser" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
                     <!-- <div class="form-group">
                         <div style="display: none;">
                         	<label class="control-label" for="assetStatusCode"><span class="asterisk">*</span>工具状态:</label>
@@ -130,7 +137,7 @@
                     </div> -->
                     <div class="form-group">
                         <div class="col-md-12">
-                        	<label class="control-label" for="numberOfApplications"><span class="asterisk">*</span>申请数量:</label>
+                        	<label class="control-label" for="numberOfApplications"><span class="asterisk">*</span>申请数量:<span id="sysys" style="display:none;"><span>(剩余:</span><span id="synumber"></span><span>个)</span></span></label>
 	                    	<input id="numberOfApplications" type="text" class="form-control" name="numberOfApplications" placeholder="输入数量"
                                required>
 	                    	<div class="help-block with-errors"></div>
@@ -162,12 +169,12 @@
                     <input type="hidden" name="id"/>
                 	<div class="form-group">
                 		<div class="col-md-12">
-                        	<label class="control-label" for="editAssetName"><span class="asterisk">*</span>设备名称:</label>
+                        	<label class="control-label" for="editAssetName"><span class="asterisk">*</span>工具名称:</label>
                         	<input id="editAssetName" type="text" class="form-control" name="assetName" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
                 	</div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <div style="display: none;">
                         	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>工具分类:</label>
                         	<input id="assetClassificationCode" type="text" class="form-control" name="assetClassificationCode" readonly>
@@ -179,7 +186,7 @@
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
-                    <!-- <div class="form-group">
+                    <div class="form-group">
                         <div style="display: none;">
                         	<label class="control-label" for="assetStatusCode"><span class="asterisk">*</span>工具状态:</label>
                         	<input id="assetStatusCode" type="text" class="form-control" name="assetStatusCode" readonly>
@@ -298,8 +305,8 @@
     		return '<span class="weixiu">异常</span>';
     	}else if(value == '维修') {
     		return '<span class="weixiu">维修</span>';
-    	}else if(value == '报废') {
-    		return '<span class="baofei">报废</span>';
+    	}else if(value == '待报废') {
+    		return '<span class="baofei">待报废</span>';
     	}
     }
 
@@ -336,6 +343,10 @@
             type:"GET",
             url: CONTEXT_PATH + '/tools/list?id=' + addId,
             success:function(data){
+            	$('#sysys').css('display', 'block');
+            	console.log(111)
+            	$('#synumber')[0].textContent = data.data[0].remainingQuantity;
+            	$('#assetUser').val(data.data[0].assetUser);
             	$('#assetClassificationCode').val(data.data[0].assetClassificationCode);
             	$('#assetClassification').val(data.data[0].assetClassification);
             }
@@ -345,21 +356,6 @@
     function addAssetClassificationChange() {
     	var addAssetClassificationText = $('#addForm').find('[name=assetClassificationCode]').find('option:selected').text();
     	$('#addAssetClassification').val(addAssetClassificationText);
-    }
-    
-    function addAssetStatusChange() {
-    	var addAssetStatusText = $('#addForm').find('[name=assetStatusCode]').find('option:selected').text();
-    	$('#addAssetStatus').val(addAssetStatusText);
-    }
-    
-    function editAssetClassificationChange() {
-    	var editAssetClassificationText = $('#editForm').find('[name=assetClassificationCode]').find('option:selected').text();
-    	$('#editAssetClassification').val(editAssetClassificationText);
-    }
-    
-    function editAssetStatusChange() {
-    	var editAssetStatusText = $('#editForm').find('[name=assetStatusCode]').find('option:selected').text();
-    	$('#editAssetStatus').val(editAssetStatusText);
     }
     
     function addLoad() {

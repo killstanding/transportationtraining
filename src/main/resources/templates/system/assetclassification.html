@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<section class="content-header">
+    <h1>
+        系统管理
+        <small>分类管理页面</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li><a href="#">系统管理</a></li>
+        <li class="active">分类管理</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="toolbar">
+                    <a href="" style="display: none" id="exceldownload" download="分类.xls"></a>
+                        <form class="form-inline" id="searchForm">
+                            <div class="form-group">
+                                <label for="searchName"> 分类名称 </label>
+                                <input type="text" class="form-control input-sm" name="classificationName" id="searchName" placeholder="请输入分类名称">
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-default" onclick="javascript:$('table').bootstrapTable('refresh', {silent: true});">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                    查询
+                                </button>
+                                <button type="reset" class="btn btn-default">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    清空
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="exportexcel()">
+                                    <i class="glyphicon glyphicon-save"></i>
+                                    导出
+                                </button>
+                            </div>
+                        </form>
+                        <div class="btn-group btn-group-sm">
+                            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                            <button shiro:hasPermission="assetclassification:create" type="button" id="addBtn" class="btn btn-default"
+                                    data-toggle="modal"
+                                    data-target="#addModal" onclick="addLoad()"><i class="glyphicon glyphicon-plus"></i> 新增
+                            </button>
+                            <!-- Indicates caution should be taken with this action -->
+                            <button shiro:hasPermission="assetclassification:update" type="button" id="editBtn" class="btn btn-default"
+                                    data-toggle="modal"
+                                    data-target="#editModal"
+                                    data-action="{type:'editable',form:'#editForm',table:'#table',after:'editAfter'}"
+                                    disabled><i class="glyphicon glyphicon-edit"></i> 修改
+                            </button>
+                            <!-- Indicates a dangerous or potentially negative action -->
+                            <button shiro:hasPermission="assetclassification:delete" type="button" id="deleteBtn" class="btn btn-default"
+                            		data-toggle="modal"
+                                    data-target="#deleteModal"
+                                    data-action="{type:'delete',form:'#deleteForm',idField:'id',table:'#table'}"
+                                    disabled><i class="glyphicon glyphicon-remove"></i> 删除
+                            </button>
+                        </div>
+                    </div>
+                    <table id="table"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<!-- add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addModalLabel">添加类型</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addForm">
+                    <div class="form-group">
+                        <label class="control-label" for="classificationCode"><span class="asterisk">*</span>类型编号:</label>
+                        <input id="classificationCode" type="text" class="form-control" name="classificationCode" placeholder="输入类型编号"
+                               required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="classificationName"><span class="asterisk">*</span>类型名称:</label>
+                        <input id="classificationName" type="text" class="form-control" name="classificationName" placeholder="输入类型名称"
+                               required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                    	<div style="display: none;">
+                        	<label class="control-label" for="addAssetType"><span class="asterisk">*</span>类型分类:</label>
+                        	<input id="addAssetType" type="text" class="form-control" name="assetType" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        	<label class="control-label" for="assetTypeCode"><span class="asterisk">*</span>类型分类:</label>
+	                        <select id="assetTypeCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetTypeCode" onchange="addTypeChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                                <option value="asset_type_device">设备</option>
+	                                <option value="asset_type_consumables">耗材</option>
+	                                <option value="asset_type_tool">工具</option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" form="addForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#addForm',url:'@{/assetclassification/create}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editModalLabel">修改类型</h4>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" name="id"/>
+                    <div class="form-group">
+                        <label class="control-label" for="classificationCode"><span class="asterisk">*</span>类型编号:</label>
+                        <input id="classificationCode" type="text" class="form-control" name="classificationCode"
+                               readonly required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="classificationName"><span class="asterisk">*</span>类型名称:</label>
+                        <input id="classificationName" type="text" class="form-control" name="classificationName" placeholder="输入类型名称"
+                               required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                    	<div style="display: none;">
+                        	<label class="control-label" for="editAssetType"><span class="asterisk">*</span>类型分类:</label>
+                        	<input id="editAssetType" type="text" class="form-control" name="assetType" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        	<label class="control-label" for="assetTypeCode"><span class="asterisk">*</span>类型分类:</label>
+	                        <select id="assetTypeCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetTypeCode" onchange="editTypeChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                                <option value="asset_type_device">设备</option>
+	                                <option value="asset_type_consumables">耗材</option>
+	                                <option value="asset_type_tool">工具</option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" form="editForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#editForm',url:'@{/assetclassification/update}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- delete modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteSmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="deleteSmallModalLabel">删除类型</h4>
+            </div>
+            <div class="modal-body">
+                <form id="deleteForm"></form>
+                确定要删除选中的 <span class="records"></span> 条记录?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" form="deleteForm" class="btn btn-primary"
+                        data-action="{type:'submit',form:'#deleteForm',url:'@{/assetclassification/delete-batch}',after:'$.myAction.refreshTable'}">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="actionButtons" class="admin-hide">
+    <!-- <a class="like" href="javascript:void(0)" data-toggle="tooltip" title="Like"><i class="glyphicon glyphicon-heart"></i></a> -->
+    <a shiro:hasPermission="assetclassification:update" class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="编辑"><i class="glyphicon glyphicon-edit"></i></a>　
+    <a shiro:hasPermission="assetclassification:delete" class="remove ml10" href="javascript:void(0)" data-toggle="tooltip" title="删除"><i class="glyphicon glyphicon-remove"></i></a>　
+</div>
+
+<script th:inline="javascript">
+    var $table = $('#table');
+
+    $(function () {
+        $table.bootstrapTable({
+            url: CONTEXT_PATH + '/assetclassification/list',
+            idField: 'id',
+            detailView: false,
+            columns: [
+                {field: 'state', checkbox: true},
+                {field: 'id', title: '序号', sortable: true, halign: 'left',
+                	formatter: function(value,row,index) {
+                		var pageSize = $table.bootstrapTable('getOptions').pageSize;
+                		var pageNumber = $table.bootstrapTable('getOptions').pageNumber;
+                		return pageSize * (pageNumber - 1) + index + 1;
+                	}
+                },
+                {field: 'classificationCode', title: '类型编号', halign: 'center', align: 'center'},
+                {field: 'classificationName', title: '类型名称', halign: 'center', align: 'center'},
+                {field: 'assetType', title: '类型分类', halign: 'center', align: 'center'},
+                {
+                    field: 'action',
+                    title: '操作',
+                    halign: 'center',
+                    align: 'center',
+                    formatter: 'actionFormatter',
+                    events: 'actionEvents',
+                    clickToSelect: false
+                }
+            ]
+        });
+    });
+
+    function editAfter(obj, row) {
+    }
+
+    function actionFormatter(value, row, index) {
+        return $('#actionButtons').html();
+    }
+
+    window.actionEvents = {
+        'click .edit': function (e, value, row, index) {
+            $('#editModal').modal('show')
+            $('#editForm').fillForm(row);
+            editAfter('', row);
+        },
+        'click .remove': function (e, value, row, index) {
+            $('#deleteModal').modal('show');
+            $('.records').html('1');
+            var html = '';
+            for (var key in row) {
+                html += '<input type="hidden" name="' + key + '" value="' + row[key] + '">';
+            }
+            $('#deleteForm').html(html);
+        }
+    };
+    
+    function addTypeChange() {
+    	var addTypeText = $('#addForm').find('[name=assetTypeCode]').find('option:selected').text();
+    	$('#addAssetType').val(addTypeText);
+    }
+    
+    function editTypeChange() {
+    	var editTypeText = $('#editForm').find('[name=assetTypeCode]').find('option:selected').text();
+    	$('#editAssetType').val(editTypeText);
+    }
+
+    function addLoad() {
+    	//addSysChange();
+    	//addPositionChange();
+    	//addAdminChange();
+    }
+    
+    function exportexcel() {
+    	var classificationName = $('#searchName').val();
+    	$.ajax({
+            type:"POST",
+            data: {
+            	classificationName: classificationName
+            },
+            url: CONTEXT_PATH + '/assetclassification/exportexcel',
+            success:function(data){
+            	commondownload(data.data);
+            }
+        });
+    }
+</script>
+</html>

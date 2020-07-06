@@ -87,6 +87,14 @@
             </div>
             <div class="modal-body">
                 <form id="addForm">
+                	<div class="form-group">
+                    <div class="col-md-12">
+                        <label class="control-label" for="assetCode"><span class="asterisk">*</span>设备编号:</label>
+                        <input id="assetCode" type="text" class="form-control" name="assetCode" placeholder="输入设备编号"
+                               required>
+                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
                     <div class="form-group">
                     <div class="col-md-12">
                         <label class="control-label" for="assetName"><span class="asterisk">*</span>设备名称:</label>
@@ -112,20 +120,10 @@
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div style="display: none;">
-                        	<label class="control-label" for="addAssetType"><span class="asterisk">*</span>规格型号:</label>
-                        	<input id="addAssetType" type="text" class="form-control" name="assetType" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="assetTypeCode"><span class="asterisk">*</span>规格型号:</label>
-	                        <select id="assetTypeCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetTypeCode" onchange="addAssetTypeChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                                <option></option>
-	                            <option th:each="assetType: ${assetTypeList}" th:value="${assetType.id}" th:text="${assetType.typeName}">
-	                            规格型号不存在
-	                            </option>
-	                        </select>
+                        	<label class="control-label" for="assetType"><span class="asterisk">*</span>规格型号:</label>
+	                       	<input id="assetType" type="text" class="form-control" name="assetType" placeholder="输入规格型号"
+                               required>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
@@ -174,23 +172,15 @@
 	                        <div class="help-block with-errors"></div>
                         </div>
                         <div style="display: none;">
-                        	<label class="control-label" for="addAssetUser"><span class="asterisk">*</span>设备管理员:</label>
-                        	<input id="addAssetUser" type="text" class="form-control" name="assetUser" readonly>
+                        	<label class="control-label" for="assetUserId"><span class="asterisk">*</span>使用人:</label>
+                        	<input id="assetUserId" type="text" class="form-control" name="assetUserId" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
-                        	<label class="control-label" for="assetUserId"><span class="asterisk">*</span>设备管理员:</label>
-	                        <select id="assetUserId" class="form-control select2" data-minimum-results-for-search="-1" name="assetUserId" onchange="addAssetUserChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                                <option></option>
-	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
-	                            设备管理员不存在
-	                            </option>
-	                        </select>
+                        <div style="display: none;">
+                        	<label class="control-label" for="assetUser"><span class="asterisk">*</span>使用人:</label>
+                        	<input id="assetUser" type="text" class="form-control" name="assetUser" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                    </div>
-                    <div class="form-group">
                         <div class="col-md-6">
                         	<label class="control-label" for="addDatepicker"><span class="asterisk">*</span>记账日期:</label>
                         	<div class='input-group date' id='addDatepicker'>
@@ -200,20 +190,6 @@
 				                </span>
 				            </div>
 				            <div class="help-block with-errors"></div>
-                        </div>
-                        <div style="display: none;">
-                        	<label class="control-label" for="addInspectionCycle"><span class="asterisk">*</span>巡检周期:</label>
-                        	<input id="addInspectionCycle" type="text" class="form-control" name="inspectionCycle" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="col-md-6">
-                        	<label class="control-label" for="inspectionCycleCode"><span class="asterisk">*</span>巡检周期:</label>
-	                        <select id="inspectionCycleCode" class="form-control select2" data-minimum-results-for-search="-1" name="inspectionCycleCode" onchange="addInspectionCycleChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="inspectionCycle: ${inspectionCycleList}" th:value="${inspectionCycle.pubCode}" th:text="${inspectionCycle.pubName}">
-	                            巡检周期不存在
-	                            </option>
-	                        </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -297,19 +273,10 @@
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div style="display: none;">
-                        	<label class="control-label" for="editAssetType"><span class="asterisk">*</span>规格型号:</label>
-                        	<input id="editAssetType" type="text" class="form-control" name="assetType" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
                         <div class="col-md-6">
-                        	<label class="control-label" for="assetTypeCode"><span class="asterisk">*</span>规格型号:</label>
-	                        <select id="assetTypeCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetTypeCode" onchange="editAssetTypeChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="assetType: ${assetTypeList}" th:value="${assetType.id}" th:text="${assetType.typeName}">
-	                            规格型号不存在
-	                            </option>
-	                        </select>
+                        	<label class="control-label" for="assetType"><span class="asterisk">*</span>规格型号:</label>
+	                        <input id="assetType" type="text" class="form-control" name="assetType" placeholder="输入规格型号"
+                               required>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
@@ -356,23 +323,6 @@
 	                        <input id="editUseDepartment" type="text" class="form-control" name="useDepartment" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div style="display: none;">
-                        	<label class="control-label" for="editAssetUser"><span class="asterisk">*</span>设备管理员:</label>
-                        	<input id="editAssetUser" type="text" class="form-control" name="assetUser" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="col-md-6">
-                        	<label class="control-label" for="assetUserId"><span class="asterisk">*</span>设备管理员:</label>
-	                        <select id="assetUserId" class="form-control select2" data-minimum-results-for-search="-1" name="assetUserId" onchange="editAssetUserChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
-	                            设备管理员不存在
-	                            </option>
-	                        </select>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <div class="col-md-6">
                         	<label class="control-label" for="editDatepicker"><span class="asterisk">*</span>记账日期:</label>
                         	<div class='input-group date' id='editDatepicker'>
@@ -382,21 +332,6 @@
 				                </span>
 				            </div>
 				            <div class="help-block with-errors"></div>
-                        </div>
-                        <div style="display: none;">
-                        	<label class="control-label" for="editInspectionCycle"><span class="asterisk">*</span>巡检周期:</label>
-                        	<input id="editInspectionCycle" type="text" class="form-control" name="inspectionCycle" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="col-md-6">
-                        	<label class="control-label" for="inspectionCycleCode"><span class="asterisk">*</span>巡检周期:</label>
-	                        <select id="inspectionCycleCode" class="form-control select2" data-minimum-results-for-search="-1" name="inspectionCycleCode" onchange="editInspectionCycleChange()"
-	                                data-placeholder="请从列表选择一项" required>
-	                            <option th:each="inspectionCycle: ${inspectionCycleList}" th:value="${inspectionCycle.pubCode}" th:text="${inspectionCycle.pubName}">
-	                            巡检周期不存在
-	                            </option>
-	                        </select>
-	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -489,6 +424,15 @@
     			document.querySelector('#nnaa').innerHTML = '';
     		}
     	}
+    	var username = $('.dropdown-toggle .hidden-xs')[0].innerHTML;
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/user/list?username=' + username,
+            success:function(data){
+            	$('#assetUserId').val(data.data[0].id);
+            	$('#assetUser').val(data.data[0].username);
+            }
+        });
         $table.bootstrapTable({
             url: CONTEXT_PATH + '/asset/list',
             idField: 'id',
@@ -511,8 +455,6 @@
                 {field: 'roomName', title: '所属实训室', halign: 'center', align: 'center'},
                 {field: 'positionName', title: '存放地点', halign: 'center', align: 'center'},
                 {field: 'useDepartment', title: '所属系', halign: 'center', align: 'center'},
-                {field: 'assetUser', title: '设备管理员', halign: 'center', align: 'center'},
-                {field: 'inspectionCycle', title: '巡检周期', halign: 'center', align: 'center'},
                 {field: 'assetStatus', title: '设备状态', halign: 'center', align: 'center', formatter: 'enabledFormatter'},
                 {
                     field: 'action',
@@ -531,10 +473,7 @@
 
     function editAfter(obj, row) {
     	$('#editForm').find('[name=assetClassificationCode]').find('option[value=' + row.assetClassificationCode + ']').prop('selected', true);
-    	$('#editForm').find('[name=assetTypeCode]').find('option[value=' + row.assetTypeCode + ']').prop('selected', true);
-    	$('#editForm').find('[name=assetUserId]').find('option[value=' + row.assetUserId + ']').prop('selected', true);
     	$('#editForm').find('[name=roomId]').find('option[value=' + row.roomId + ']').prop('selected', true);
-    	$('#editForm').find('[name=inspectionCycleCode]').find('option[value=' + row.inspectionCycleCode + ']').prop('selected', true);
     	$('#editForm').find('[name=assetStatusCode]').find('option[value=' + row.assetStatusCode + ']').prop('selected', true);
     }
 
@@ -551,8 +490,8 @@
     		return '<span class="weixiu">异常</span>';
     	}else if(value == '维修') {
     		return '<span class="weixiu">维修</span>';
-    	}else if(value == '报废') {
-    		return '<span class="baofei">报废</span>';
+    	}else if(value == '待报废') {
+    		return '<span class="baofei">待报废</span>';
     	}
     }
 
@@ -589,20 +528,6 @@
     	$('#addAssetClassification').val(addAssetClassificationText);
     }
     
-    function addAssetTypeChange() {
-    	var addAssetTypeText = $('#addForm').find('[name=assetTypeCode]').find('option:selected').text();
-    	$('#addAssetType').val(addAssetTypeText);
-    }
-    
-    function addUseDepartmentChange() {
-    	var addUseDepartmentText = $('#addForm').find('[name=useDepartmentId]').find('option:selected').text();
-    	$('#addUseDepartment').val(addUseDepartmentText);
-    }
-    
-    function addAssetUserChange() {
-    	var addAssetUserText = $('#addForm').find('[name=assetUserId]').find('option:selected').text();
-    	$('#addAssetUser').val(addAssetUserText);
-    }
     var addRoomStatus;
     function addRoomChange() {
     	var addRoomText = $('#addForm').find('[name=roomId]').find('option:selected').text();
@@ -621,16 +546,6 @@
         });
     }
     
-    function addPositionChange() {
-    	var addPositionText = $('#addForm').find('[name=positionCode]').find('option:selected').text();
-    	$('#addPositionName').val(addPositionText);
-    }
-    
-    function addInspectionCycleChange() {
-    	var addInspectionCycleText = $('#addForm').find('[name=inspectionCycleCode]').find('option:selected').text();
-    	$('#addInspectionCycle').val(addInspectionCycleText);
-    }
-    
     function addAssetStatusChange() {
     	var addAssetStatusText = $('#addForm').find('[name=assetStatusCode]').find('option:selected').text();
     	$('#addAssetStatus').val(addAssetStatusText);
@@ -641,20 +556,6 @@
     	$('#editAssetClassification').val(editAssetClassificationText);
     }
     
-    function editAssetTypeChange() {
-    	var editAssetTypeText = $('#editForm').find('[name=assetTypeCode]').find('option:selected').text();
-    	$('#editAssetType').val(editAssetTypeText);
-    }
-    
-    function editUseDepartmentChange() {
-    	var editUseDepartmentText = $('#editForm').find('[name=useDepartmentId]').find('option:selected').text();
-    	$('#editUseDepartment').val(editUseDepartmentText);
-    }
-    
-    function editAssetUserChange() {
-    	var editAssetUserText = $('#editForm').find('[name=assetUserId]').find('option:selected').text();
-    	$('#editAssetUser').val(editAssetUserText);
-    }
     var editRoomStatus;
     function editRoomChange() {
     	var editRoomText = $('#editForm').find('[name=roomId]').find('option:selected').text();
@@ -674,16 +575,6 @@
         });
     }
     
-    function editPositionChange() {
-    	var editPositionText = $('#editForm').find('[name=positionCode]').find('option:selected').text();
-    	$('#editPositionName').val(editPositionText);
-    }
-    
-    function editInspectionCycleChange() {
-    	var editInspectionCycleText = $('#editForm').find('[name=inspectionCycleCode]').find('option:selected').text();
-    	$('#editInspectionCycle').val(editInspectionCycleText);
-    }
-    
     function editAssetStatusChange() {
     	var editAssetStatusText = $('#editForm').find('[name=assetStatusCode]').find('option:selected').text();
     	$('#editAssetStatus').val(editAssetStatusText);
@@ -697,7 +588,6 @@
     	//addPositionChange();
     	//addUseDepartmentChange();
     	//addAssetUserChange();
-    	addInspectionCycleChange();
     	addAssetStatusChange();
     	$('#addDatepicker').datepicker('setDate', new Date());
     }
