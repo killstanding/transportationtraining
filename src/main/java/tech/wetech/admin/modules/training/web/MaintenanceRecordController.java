@@ -95,7 +95,7 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
     @GetMapping("/tooledit")
     @RequiresPermissions("maintenancerecord:view")
     public String toolEditpage(Model model) {
-    	model.addAttribute("assetList", assetService.queryAll());
+    	model.addAttribute("toolsList", toolService.queryAll());
         return "system/toolmaintenancerecordedit";
     }
     
