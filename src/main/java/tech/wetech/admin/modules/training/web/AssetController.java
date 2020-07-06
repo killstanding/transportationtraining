@@ -28,6 +28,7 @@ import tech.wetech.admin.modules.training.po.AssetClassification;
 import tech.wetech.admin.modules.training.po.PubCode;
 import tech.wetech.admin.modules.training.po.SpecificationType;
 import tech.wetech.admin.modules.training.po.StatusCountResult;
+import tech.wetech.admin.modules.training.po.TrainingRoom;
 import tech.wetech.admin.modules.training.service.AssetClassificationService;
 import tech.wetech.admin.modules.training.service.AssetService;
 import tech.wetech.admin.modules.training.service.SpecificationTypeService;
@@ -86,7 +87,12 @@ public class AssetController extends BaseCrudController<Asset> {
     	pubCode.setPubType("asset_status");
     	model.addAttribute("assetStatusList", pubCodeService.queryList(pubCode));
     	//model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.DEVICE_ADMIN_ROLE_ID));//获取设备管理员用户
-    	model.addAttribute("trainingRoomList", trainingRoomService.queryAll());
+    	  // 当前用户
+        String username = (String) SecurityUtils.getSubject().getPrincipal();
+        User user = userService.queryOne(new User().setUsername(username));
+        TrainingRoom trainingRoom = new TrainingRoom();
+        trainingRoom.setRoomAdminId(user.getId().intValue());
+    	model.addAttribute("trainingRoomList", trainingRoomService.queryList(trainingRoom));
         return "system/asset";
     }
     
