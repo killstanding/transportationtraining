@@ -21,6 +21,9 @@
                 <div class="box-body">
                     <div id="toolbar">
                     <a href="" style="display: none" id="exceldownload" download="位置.xls"></a>
+                    <form id="importexcel" enctype="multipart/form-data">
+            						<input id="file" type="file" name="file" onchange="importexcel()" style="display:none;"/>
+        						</form>
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
                                 <label for="searchName"> 位置名称 </label>
@@ -35,13 +38,10 @@
                                     <i class="glyphicon glyphicon-trash"></i>
                                     清空
                                 </button>
-                                <!-- <form id="importexcel" enctype="multipart/form-data">
                                 <button type="button" class="btn btn-default" onclick="handleImportClick()">
                                     <i class="glyphicon glyphicon-open"></i>
                                     导入
                                 </button>
-            						<input id="file" type="file" name="file" onchange="importexcel()" style="display:none;"/>
-        						</form> -->
                                 <button type="button" class="btn btn-default" onclick="exportexcel()">
                                     <i class="glyphicon glyphicon-save"></i>
                                     导出
@@ -248,14 +248,23 @@
     }
     
     function importexcel() {
-    	console.log(1)
     	var formData = new FormData($('#importexcel', window.parent.document)[0]);
     	$.ajax({
             type:"POST",
+            url: CONTEXT_PATH + '/file/upload/',
             data: formData,
-            url: CONTEXT_PATH + '/position/importexcel',
+            cache: false,
+            processData: false,
+            contentType: false,
             success:function(data){
-            	console.log(data);
+            	$.ajax({
+                    type:"POST",
+                    url: CONTEXT_PATH + '/position/importexcel/',
+                    data: {path: data.data},
+                    success:function(data){
+                    	location.reload();
+                    }
+                });
             }
         });
     }
