@@ -22,6 +22,6 @@
    parameterType="tech.wetech.admin.modules.training.po.Courses">
 	select tp.* from t_teaching_plan  tp
  		join t_chapters c  on tp.chapter_id= c.id
- 		join t_courses co on  (c.course_id= co.id and  co.id = #{id}); 
+ 		join t_courses co on  (c.course_id= co.id and  co.id = #{id})
   </select> 
 </mapper>

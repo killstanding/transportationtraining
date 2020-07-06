@@ -182,6 +182,7 @@
             <div class="modal-body">
                 <form id="addForm" onsubmit="return false;">
                     <input type="hidden" name="parentId" required/>
+                    <input id="addCourseId" type="hidden" name="courseId" required/>
                     <div class="form-group">
                         <label class="control-label" for="parentName">上级节点:</label>
                         <input type="text" class="form-control" id="parentName" name="parentName" placeholder="上级节点不存在" readonly required/>
@@ -252,6 +253,7 @@
     $(function () {
     	var datas = [];
     	var courseId = localStorage.getItem("courseId");
+    	$('#addCourseId').val(courseId);
     	$.ajax({
             type:"GET",
             url: CONTEXT_PATH + '/courses/' + courseId,
