@@ -24,6 +24,7 @@ import tech.wetech.admin.modules.training.po.PubCode;
 import tech.wetech.admin.modules.training.service.ChaptersService;
 import tech.wetech.admin.modules.training.service.CoursesService;
 import tech.wetech.admin.modules.training.service.PubCodeService;
+import tech.wetech.admin.modules.training.service.TrainingRoomService;
 
 import java.util.Date;
 import java.util.List;
@@ -43,6 +44,9 @@ public class CoursesController extends BaseCrudController<Courses> {
     private PubCodeService pubCodeService;
 	@Autowired
     private ChaptersService chaptersService;
+    @Autowired
+    private TrainingRoomService trainingRoomService;
+    
 	@GetMapping
 	@RequiresPermissions("courses:view")
 	public String page(Model model) {
@@ -52,7 +56,14 @@ public class CoursesController extends BaseCrudController<Courses> {
     	model.addAttribute("userList", userService.queryListByRoleId(CommonVariable.COURSES_ADMIN_ROLE_ID));//获取课程管理员用户
 		return "system/courses";
 	}
-
+	
+	@GetMapping("/coursesretrainingroompage")
+	@RequiresPermissions("courses:view")
+	public String coursesReTrainingRoomPage(Model model) {
+		model.addAttribute("trainingRoomList", trainingRoomService.queryAll());
+		return "system/coursesretrainingroompage";
+	}
+	
 	@ResponseBody
 	@GetMapping("/list")
 	@RequiresPermissions("courses:view")
