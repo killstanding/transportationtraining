@@ -217,6 +217,7 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
     	entity.setCreateTime(curTime);
     	entity.setUpdateTime(curTime);
     	entity.setCreateYear(DateUtil.dateToStr(d, DateUtil.YEAR_FORMATE));
+    	entity.setCreateMonth(DateUtil.dateToStr(d, DateUtil.MONTH_FORMATE));
     	service.create(entity);
     	
     	//添加流程记录信息
