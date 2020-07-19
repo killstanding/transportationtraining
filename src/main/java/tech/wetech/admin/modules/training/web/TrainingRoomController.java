@@ -82,14 +82,17 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
         entity.setRoomAdminId(user.getId().intValue());
 		Page<TrainingRoom> page = (Page<TrainingRoom>) service.queryListByLike(entity, pageQuery);
 		List<StatisticsPo> stList = statisticsPoService.selectAssetCountNumGroupByRoomId();
-		page.forEach(u -> {
-			stList.forEach(st ->{
-				u.setEquipNum(0);
-				if(st.getStatisticsCode().equals(u.getId()+"")){
-					u.setEquipNum(st.getStatisticsTotal());
-				}
-			});
-		});
+		List<TrainingRoom> list = page.getResult();
+		listFor:for (int i = 0; i < list.size(); i++) {
+			TrainingRoom tr = list.get(i);
+			for (int j = 0; j < stList.size(); j++) {
+				StatisticsPo st = stList.get(j);
+				if(st.getStatisticsCode().equals(tr.getId()+"")){
+					tr.setEquipNum(st.getStatisticsTotal());
+					continue listFor;
+				}	
+			}
+		}
 		return Result.success(page.getResult()).addExtra("total", page.getTotal());
 	}
 
