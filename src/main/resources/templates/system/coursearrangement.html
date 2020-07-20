@@ -109,7 +109,7 @@
                         </div>
                         <div class="col-md-6">
                         	<label class="control-label" for="weekId"><span class="asterisk">*</span>排课周:</label>
-	                        <select id="weekId" class="form-control select2" data-minimum-results-for-search="-1" name="weekId" onchange="addWeekYearServiceChange()"
+	                        <select id="weekId" class="form-control select2" name="weekId" onchange="addWeekYearServiceChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                                <option></option>
 	                            <option th:each="weekYearService: ${weekYearServiceList}" th:value="${weekYearService.id}" th:text="${weekYearService.weekName}">
