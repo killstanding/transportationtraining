@@ -79,7 +79,7 @@ public class CoursesController extends BaseCrudController<Courses> {
 	}
 
 	@ResponseBody
-	@GetMapping("/teachingplanlist")
+	@PostMapping("/teachingplanlist")
 	@RequiresPermissions("courses:view")
 	public Result<List<TeachingPlan>> queryTeachingPlanList(Courses entity) {
         List<TeachingPlan>  list = service.selectTeachingPlanByCourseId(entity);
