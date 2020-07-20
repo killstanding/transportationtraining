@@ -215,7 +215,7 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
     @RequiresPermissions("maintenancerecord:create")
     @SystemLog("设备维修设备维修记录创建")
     @Override
-    public Result create(@Validated(MaintenanceRecord.MaintenanceRecordCreateChecks.class) MaintenanceRecord entity) {
+    public Result<MaintenanceRecord> create(@Validated(MaintenanceRecord.MaintenanceRecordCreateChecks.class) MaintenanceRecord entity) {
     	Date d = new Date();
     	String curTime  = DateUtil.dateToStr(d, DateUtil.TIME_FORMATE);
     	entity.setCreateTime(curTime);
@@ -238,7 +238,7 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
     	fd.setFlowTypeCode("equipment_maintenance");
     	fd.setFlowId(entity.getId());
     	flowDetailservice.create(fd);
-        return Result.success();
+        return Result.success(entity);
     }
   
     @ResponseBody
