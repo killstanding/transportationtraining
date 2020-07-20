@@ -89,8 +89,8 @@ public class CourseArrangementReToolController extends BaseCrudController<Course
     	entity.setUpdateTime(curTime);
       	//计算数量
     	Tools tools =  toolsService.queryById(entity.getAssetId());	
-		int cumulativeCollectedQuantity  = StringUtil.strToInt(tools.getCumulativeReceiptQuantity())+entity.getNumberOfApplications();
-		tools.setCumulativeReceiptQuantity(cumulativeCollectedQuantity + "");//累计领用数量
+		int cumulativeCollectedQuantity  = StringUtil.strToInt(tools.getCumulativeCollectedQuantity())+entity.getNumberOfApplications();
+		tools.setCumulativeCollectedQuantity(cumulativeCollectedQuantity + "");//累计领用数量
 			
 		int remainingQuantity  = StringUtil.strToInt(tools.getRemainingQuantity()) - entity.getNumberOfApplications();
 		tools.setRemainingQuantity(remainingQuantity+"");//剩余数量
@@ -100,6 +100,10 @@ public class CourseArrangementReToolController extends BaseCrudController<Course
 		}
 		toolsService.updateNotNull(tools);
     	
+
+    	//创建排课管理和工具关联
+    	service.create(entity);
+		
     	//生成工具申请单
     	CourseArrangement courseArrangement = courseArrangementService.queryById(entity.getCourseArrangementId());
     	
@@ -129,8 +133,6 @@ public class CourseArrangementReToolController extends BaseCrudController<Course
     	record.setIsReturned("0");
     	collectionRecordService.create(record);
     	
-    	//创建排课管理和工具关联
-    	service.create(entity);
         return Result.success();
     }
   
@@ -152,15 +154,13 @@ public class CourseArrangementReToolController extends BaseCrudController<Course
     @SystemLog("排课管理和工具关联删除")
     @Override
     public Result<String> deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {
-        super.deleteBatchByIds(ids);
         for (int i = 0; i < ids.length; i++) {
-        	int reId = (int)ids[i];
-        	
+        	int reId = StringUtil.strToInt(ids[i]+"");
         	CourseArrangementReTool entity = service.queryById(reId);
         	//计算数量
         	Tools tools =  toolsService.queryById(entity.getAssetId());	
-    		int cumulativeCollectedQuantity  = StringUtil.strToInt(tools.getCumulativeReceiptQuantity()) - entity.getNumberOfApplications();
-    		tools.setCumulativeReceiptQuantity(cumulativeCollectedQuantity + "");//累计领用数量
+    		int cumulativeCollectedQuantity  = StringUtil.strToInt(tools.getCumulativeCollectedQuantity()) - entity.getNumberOfApplications();
+    		tools.setCumulativeCollectedQuantity(cumulativeCollectedQuantity + "");//累计领用数量
     		int remainingQuantity  = StringUtil.strToInt(tools.getRemainingQuantity()) + entity.getNumberOfApplications();
     		tools.setRemainingQuantity(remainingQuantity+"");//剩余数量
     		toolsService.updateNotNull(tools);
@@ -170,6 +170,7 @@ public class CourseArrangementReToolController extends BaseCrudController<Course
 			record.setReId(reId);
 			collectionRecordService.delete(record);
 		}
+        super.deleteBatchByIds(ids);
         return Result.success();
     }
 }

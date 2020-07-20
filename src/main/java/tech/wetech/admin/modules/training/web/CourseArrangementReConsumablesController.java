@@ -86,8 +86,8 @@ public class CourseArrangementReConsumablesController extends BaseCrudController
     	entity.setUpdateTime(curTime);
     	//计算数量
     	Consumables consumables =  consumablesService.queryById(entity.getConsumablesId());			
-		int cumulativeCollectedQuantity  = StringUtil.strToInt(consumables.getCumulativeReceiptQuantity())+entity.getNumberOfApplications();
-		consumables.setCumulativeReceiptQuantity(cumulativeCollectedQuantity + "");//累计领用数量
+		int cumulativeCollectedQuantity  = StringUtil.strToInt(consumables.getCumulativeCollectedQuantity())+entity.getNumberOfApplications();
+		consumables.setCumulativeCollectedQuantity(cumulativeCollectedQuantity + "");//累计领用数量
 	
 		int totalExisting  = StringUtil.strToInt(consumables.getTotalExisting()) - entity.getNumberOfApplications();
 		consumables.setTotalExisting(totalExisting+"");//现存总数
@@ -99,6 +99,10 @@ public class CourseArrangementReConsumablesController extends BaseCrudController
 			return Result.failure(ResultCodeEnum.CONSUMABLES_INSUFFICIENT);
 		}
 		consumablesService.updateNotNull(consumables);
+		
+		  
+    	//创建排课管理和耗材关联
+    	service.create(entity);
 		
 		
     	//生成领用单
@@ -129,9 +133,7 @@ public class CourseArrangementReConsumablesController extends BaseCrudController
     	record.setIsCollected("0");
     	record.setIsReturned("0");
     	collectionRecordService.create(record);
-    	  
-    	//创建排课管理和耗材关联
-    	service.create(entity);
+    	
         return Result.success();
     }
   
@@ -155,12 +157,12 @@ public class CourseArrangementReConsumablesController extends BaseCrudController
     public Result<String> deleteBatchByIds(@NotNull @RequestParam("id") Object[] ids) {
     	
         for (int i = 0; i < ids.length; i++) {
-        	int reId = (int)ids[i];
+        	int reId = StringUtil.strToInt(ids[i]+"");
         	CourseArrangementReConsumables entity = service.queryById(reId);
         	//计算数量
         	Consumables consumables =  consumablesService.queryById(entity.getConsumablesId());			
-    		int cumulativeCollectedQuantity  = StringUtil.strToInt(consumables.getCumulativeReceiptQuantity())-entity.getNumberOfApplications();
-    		consumables.setCumulativeReceiptQuantity(cumulativeCollectedQuantity + "");//累计领用数量
+    		int cumulativeCollectedQuantity  = StringUtil.strToInt(consumables.getCumulativeCollectedQuantity())-entity.getNumberOfApplications();
+    		consumables.setCumulativeCollectedQuantity(cumulativeCollectedQuantity + "");//累计领用数量
     	
     		int totalExisting  = StringUtil.strToInt(consumables.getTotalExisting()) + entity.getNumberOfApplications();
     		consumables.setTotalExisting(totalExisting+"");//现存总数
