@@ -556,7 +556,7 @@
             	$("#editTrainingRoomId").empty();
             	$("#editTrainingRoomId").append("<option></option>");
             	for(let i = 0; i < data.data.length; i++) {
-            		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].roomName + '</option>';
+            		var opt = '<option value="' + data.data[i].roomId + '">' + data.data[i].roomName + '</option>';
                 	$("#editTrainingRoomId").append(opt);
             	}
             	$('#editForm').find('[name=trainingRoomId]').find('option[value=' + row.trainingRoomId + ']').prop('selected', true);

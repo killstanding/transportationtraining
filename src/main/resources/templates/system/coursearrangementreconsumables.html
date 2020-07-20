@@ -94,7 +94,7 @@
                         </div>
                         <div class="col-md-12">
 	                        <label class="control-label" for="consumablesId"><span class="asterisk">*</span>耗材名称:</label>
-		                    <select id="consumablesId" class="form-control select2" data-minimum-results-for-search="-1" name="consumablesId" onchange="addConsumablesChange()"
+		                    <select id="consumablesId" class="form-control select2" name="consumablesId" onchange="addConsumablesChange()"
 		                            data-placeholder="请从列表选择一项" required>
 		                            <option></option>
 		                        <option th:each="consumables: ${consumablesList}" th:value="${consumables.id}" th:text="${consumables.consumablesName}">
