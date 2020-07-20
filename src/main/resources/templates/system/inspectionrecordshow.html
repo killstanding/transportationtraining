@@ -138,7 +138,7 @@ var renos;
     });
 
     function assetCodeFormatter(value, row, index) {
-    	return '<a href="#inspectionrecord/show" onclick="refresh1(' + row.assetId + ')">' + value +'</a>'
+    	return '<a href="#asset/detail" onclick="refresh1(' + row.assetId + ')">' + value +'</a>'
     }
 
     function enabledFormatter(value, row, index) {
@@ -155,7 +155,7 @@ var renos;
     
     function repairOrderNoFormatter(value, row, index) {
     	if(value) {
-    		return '<a href="#inspectionrecord/show" onclick="refresh2(\'' + value + '\')">' + value + '</a>';
+    		return '<a href="#maintenancerecordresults" onclick="refresh2(\'' + value + '\')">' + value + '</a>';
     	}return '';
     }
     var nonoid;
@@ -165,8 +165,7 @@ var renos;
     }
     
     function assetNameFormatter(value, row, index) {
-    	console.log(000)
-    	return '<a href="#failureconfirmation" onclick="refresh3()">发起维修单</a>';
+    	return '<a href="#failureconfirmation" onclick="refresh3(' + row.id + ',' + row.assetId + ')">发起维修单</a>';
     }
     
     function showNo(id) {
@@ -245,7 +244,10 @@ var renos;
     	location.reload();
     }
     
-    function refresh3(code) {
+    function refresh3(id1, id2) {
+    	saveList();
+    	localStorage.setItem("xjfqwxdid", id1);
+    	localStorage.setItem("xjfqwxd", id2);
     	window.location.hash = '#failureconfirmation';
     	location.reload();
     }

@@ -3,7 +3,7 @@
       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
       <style>
       	.select2.select2-container  {
-      		width: 32% !important;
+      		width: 100px !important;
       	}
       </style>
 <section class="content-header">
@@ -37,6 +37,22 @@
 					                    <span class="glyphicon glyphicon-calendar"></span>
 					                </span>
 					            </div>
+					            <label for="searchMonth"> 创建月份 </label>
+					            <select id="searchMonth" class="form-control select2" data-minimum-results-for-search="-1" name="createMonth" style="width: 30px"
+                                	data-placeholder="请从列表选择一项" required>
+	                            	<option value="01">01</option>
+	                            	<option value="02">02</option>
+	                            	<option value="03">03</option>
+	                            	<option value="04">04</option>
+	                            	<option value="05">05</option>
+	                            	<option value="06">06</option>
+	                            	<option value="07">07</option>
+	                            	<option value="08">08</option>
+	                            	<option value="09">09</option>
+	                            	<option value="10">10</option>
+	                            	<option value="11">11</option>
+	                            	<option value="12">12</option>
+	                        	</select>
                                 <label for="searchId"> 流程状态 </label>
                                 <select id="searchId" class="form-control select2" data-minimum-results-for-search="-1" name="flowStatusCode"
 	                                data-placeholder="请从列表选择一项" required>
@@ -85,9 +101,11 @@
             maxViewMode: 2,
             autoclose: true
         });
+    	var mm = getMonth();
+    	$('#searchMonth').select2().val(mm).trigger("change");
     	$('#searchName').datepicker('setDate', new Date());
         $table.bootstrapTable({
-            url: CONTEXT_PATH + '/maintenancerecord/list',
+            url: CONTEXT_PATH + '/maintenancerecord/alldonelist',
             idField: 'id',
             detailView: false,
             pagination : false,
@@ -136,6 +154,13 @@
     	localStorage.setItem("assetDetailUrl", '#maintenancerecord');
     	window.location.hash = '#asset/detail';
     	location.reload();
+    }
+    
+    function getMonth() {
+    	var day = new Date();
+    	var m = day.getMonth() + 1;
+    	mm = m < 10 ? '0' + m : '' + m;
+    	return mm;
     }
     
     function exportexcel() {

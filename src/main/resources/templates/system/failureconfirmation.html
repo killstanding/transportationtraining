@@ -160,8 +160,8 @@
         		</form>
                 	</div>
                 	<div class="fff" style="text-align:center">
-                		<button style="margin:20px auto 30px auto" type="submit" form="addForm" class="btn btn-primary"
-		                        data-action="{type:'submit',form:'#addForm',url:'@{/maintenancerecord/create}'}">
+                		<button style="margin:20px auto 30px auto" class="btn btn-primary"
+		                        onclick="createMaintenancerecord()">
 		                    申请维修
 		                </button>
                 	</div>
@@ -178,11 +178,20 @@
 <!-- /.content -->
 
 <script th:inline="javascript">
+	var inspectionrecordId = '';
     $(function () {
     	$('#datepicker').datepicker({
             format: 'yyyy-mm-dd',
             autoclose: true
         });
+    	console.log(111);
+    	inspectionrecordId = localStorage.getItem("xjfqwxdid");
+    	localStorage.setItem("xjfqwxdid", '');
+    	var xjfqwxd = localStorage.getItem("xjfqwxd");
+    	if(xjfqwxd && xjfqwxd != '') {
+    		$('#addForm').find('[name=assetId]').select2().val(xjfqwxd).trigger("change");
+    		localStorage.setItem("xjfqwxd", '');
+    	}
     	$('#datepicker').datepicker('setDate', new Date());
     	$('#flowStatusCode').val('em_confirmed');
     	$('#flowStatus').val('待确认');
@@ -230,7 +239,6 @@
             type:"GET",
             url: CONTEXT_PATH + '/asset/list?id=' + assetId,
             success:function(data){
-            	console.log(data.data)
             	$('#assetClassification').val(data.data[0].assetClassification);
             	$('#assetClassificationCode').val(data.data[0].assetClassificationCode);
             	$('#positionCode').val(data.data[0].positionCode);
@@ -278,6 +286,60 @@
             	$('#succup').append('<span class="upsucc">（上传成功）</span>');
             }
         });
+    }
+    
+    function createMaintenancerecord() {
+    	if($('#recordName').val() == '' || $('#assetId').val() == '' || $('#pendingPersonId').val() == '') {
+    		alert('请填写必选项目！');
+    		return;
+    	}
+    	$.ajax({
+            type:"POST",
+            url: CONTEXT_PATH + '/maintenancerecord/create',
+            data: {
+            	recordName: $('#recordName').val(),
+            	assetName: $('#assetName').val(),
+            	assetId: $('#assetId').val(),
+            	assetClassificationCode: $('#assetClassificationCode').val(),
+            	assetClassification: $('#assetClassification').val(),
+            	failureTime: $('#datepicker').find("input").val(),
+            	recordName: $('#recordName').val(),
+            	applicantId: $('#applicantId').val(),
+    			applicant: $('#applicant').val(),
+    			applicantDepartmentId: $('#applicantDepartmentId').val(),
+    			applicantDepartment: $('#applicantDepartment').val(),
+    			positionCode: $('#positionCode').val(),
+    			positionName: $('#positionName').val(),
+    			pendingPerson: $('#pendingPerson').val(),
+    			pendingPersonId: $('#pendingPersonId').val(),
+    			faultDescription: $('#faultDescription').val(),
+    			attachmentName: $('#attachmentName').val(),
+    			attachmentPath: $('#attachmentPath').val(),
+    			flowStatusCode: 'em_confirmed',
+        		flowStatus: '待确认',
+        		flowTypeCode: 'equipment_maintenance',
+        		flowTypeName: '设备维修',
+            },
+            success:function(data){
+            	updateXj(data);
+            }
+        });
+    }
+    
+    function updateXj(data) {
+    	console.log(data);
+    	if(inspectionrecordId && inspectionrecordId != '') {
+    		$.ajax({
+                type:"POST",
+                url: CONTEXT_PATH + '/inspectionrecord/update',
+                data: {
+                	id: inspectionrecordId,
+                	repairOrderNo: data.data.recordId
+                },
+                success:function(){
+                }
+            });
+    	}
     }
 </script>
 </html>
