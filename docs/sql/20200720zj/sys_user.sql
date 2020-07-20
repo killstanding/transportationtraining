@@ -1,0 +1,1 @@
+INSERT INTO `sys_user`(`id`, `organization_id`, `username`, `password`, `salt`, `role_ids`, `group_ids`, `locked`) VALUES (1, 1, 'admin', 'd3c59d25033dbf980d29554025c23a75', '8d78869f470951332959580424d4bf4f', '1,7,8,9,10,11,12,13', '1', 0);
