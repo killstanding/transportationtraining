@@ -37,3 +37,6 @@ git pull 重新拉取
 swagger-ui地址
 
 http://127.0.0.1:8889/tt/swagger-ui.html
+
+打包命令
+mvn package -DskipTests
