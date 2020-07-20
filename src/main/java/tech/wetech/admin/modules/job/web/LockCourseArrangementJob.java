@@ -34,7 +34,7 @@ public class LockCourseArrangementJob {
 	private WeekYearService weekYearService;
 	
 	
-	@ApiOperation(value = "首页统计指标计算", notes = "首页统计指标计算")
+	@ApiOperation(value = "上周六锁定下周排课任务", notes = "上周六锁定下周排课任务")
 	@GetMapping("/lockcoursearrangement")
 	public Result<String> lockCoursearrangement(){
 		//判定今天是否为周六
