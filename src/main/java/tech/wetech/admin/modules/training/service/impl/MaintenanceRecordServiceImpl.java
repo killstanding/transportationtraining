@@ -36,6 +36,7 @@ public class MaintenanceRecordServiceImpl extends BaseService<MaintenanceRecord>
 	    	String code = CommonVariable.getNumberPrefix(CommonVariable.NUMBER_PREFIX_MAINTENANCE_RECORD, dateStr, record.getId());
 	    	record.setRecordId(code);
 	    	super.updateNotNull(record);
+	    	entity.setRecordId(code);
 		}
 		return k;
 	}
