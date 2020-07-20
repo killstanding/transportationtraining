@@ -86,7 +86,7 @@
                         </div>
                         <div class="col-md-12">
                         	<label class="control-label" for="roomId"><span class="asterisk">*</span>所属实训室:</label>
-	                        <select id="roomId" class="form-control select2" data-minimum-results-for-search="-1" name="roomId" onchange="addRoomChange()"
+	                        <select id="roomId" class="form-control select2" name="roomId" onchange="addRoomChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                                <option></option>
 	                            <option th:each="trainingRoom: ${trainingRoomList}" th:value="${trainingRoom.id}" th:text="${trainingRoom.roomName}">
