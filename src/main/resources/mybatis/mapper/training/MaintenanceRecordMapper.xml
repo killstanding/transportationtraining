@@ -46,7 +46,7 @@
   			parameterType="tech.wetech.admin.modules.training.po.MaintenanceRecord">
   		 select * from t_maintenance_record mr 
 			left join t_flow_node fn on  mr.flow_status_code = fn.flow_node_code
-			where mr.create_month = #{createMonth} and  trim(mr.flow_type_code)= #{flowTypeCode} 
+			where mr.create_year = #{createYear} and mr.create_month = #{createMonth} and  trim(mr.flow_type_code)= #{flowTypeCode} 
 			      and mr.id in (select distinct flow_id from t_flow_detail fd where fd.person_id = #{pendingPersonId})
 		order by fn.flow_node_order
   </select>

@@ -299,6 +299,7 @@ public class DateUtil {
 
 
 	public static final String MONTH_FORMATE = "yyyy-MM";
+	public static final String MONTH_FORMATE_WITHOUT_YEAR = "MM";
 	public static final String MONTH_FORMATE_SIMPLE = "yyyyMM";
 	public static final String DATE_FORMATE = "yyyy-MM-dd";
 	public static final String DATE_FORMATE_WITHOUT_YEAR = "MM-dd";

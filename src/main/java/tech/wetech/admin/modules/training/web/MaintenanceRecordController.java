@@ -120,7 +120,11 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
     @RequiresPermissions("maintenancerecord:view")
     public Result<List<MaintenanceRecord>> queryAllToDoList(MaintenanceRecord entity) {
     	String createMonth = entity.getCreateMonth();
+    	String createYear = entity.getCreateYear();
     	if(createMonth==null||createMonth.equals("")){
+    		return Result.failure(ResultCodeEnum.BAD_REQUEST);
+    	}
+    	if(createYear==null||createYear.equals("")){
     		return Result.failure(ResultCodeEnum.BAD_REQUEST);
     	}
     	String flowTypeCode = entity.getFlowTypeCode();
@@ -217,7 +221,7 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
     	entity.setCreateTime(curTime);
     	entity.setUpdateTime(curTime);
     	entity.setCreateYear(DateUtil.dateToStr(d, DateUtil.YEAR_FORMATE));
-    	entity.setCreateMonth(DateUtil.dateToStr(d, DateUtil.MONTH_FORMATE));
+    	entity.setCreateMonth(DateUtil.dateToStr(d, DateUtil.MONTH_FORMATE_WITHOUT_YEAR));
     	service.create(entity);
     	
     	//添加流程记录信息
