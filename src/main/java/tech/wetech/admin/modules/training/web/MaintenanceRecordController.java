@@ -106,9 +106,9 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
     @Override
     public Result<List<MaintenanceRecord>> queryList(MaintenanceRecord entity, PageQuery pageQuery) {
         // 当前用户
-        String username = (String) SecurityUtils.getSubject().getPrincipal();
-        User user = userService.queryOne(new User().setUsername(username));
-        entity.setPendingPersonId(user.getId().intValue());
+//        String username = (String) SecurityUtils.getSubject().getPrincipal();
+//        User user = userService.queryOne(new User().setUsername(username));
+//        entity.setPendingPersonId(user.getId().intValue());
         Page<MaintenanceRecord> page = (Page<MaintenanceRecord>) service.queryList(entity, pageQuery);
         return Result.success(page.getResult()).addExtra("total", page.getTotal());
     }
