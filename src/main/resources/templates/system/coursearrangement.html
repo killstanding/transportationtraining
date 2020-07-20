@@ -217,12 +217,29 @@
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
+                        <div style="display: none;">
+                        	<label class="control-label" for="addTrainingRoomName">实训地点:</label>
+                        	<input id="addTrainingRoomName" type="text" class="form-control" name="trainingRoomName" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="addTrainingRoomId">实训地点:</label>
+	                        <select id="addTrainingRoomId" class="form-control select2" name="trainingRoomId" onchange="addTrainingRoomChange()"
+	                                data-placeholder="请从列表选择一项">
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    	
+                    </div>
+                    <div class="form-group">
                     	<div style="display: none;">
                         	<label class="control-label" for="addClassName"><span class="asterisk">*</span>班级:</label>
                         	<input id="addClassName" type="text" class="form-control" name="className" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
+                    	<div class="col-md-6">
                         	<label class="control-label" for="classId"><span class="asterisk">*</span>班级:</label>
 	                        <select id="classId" class="form-control select2" name="classId" onchange="addClassChange()"
 	                                data-placeholder="请从列表选择一项" required>
@@ -232,23 +249,9 @@
 	                            </option>
 	                        </select>
                         </div>
-                    </div>
-                    <div class="form-group">
-                    	<div style="display: none;">
+                        <div class="col-md-6">
                         	<label class="control-label" for="numberOfPeople">人数:</label>
 	                        <input id="numberOfPeople" type="text" class="form-control" name="numberOfPeople" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div style="display: none;">
-                        	<label class="control-label" for="addTrainingRoomName">实训地点:</label>
-                        	<input id="addTrainingRoomName" type="text" class="form-control" name="trainingRoomName" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="col-md-12">
-                        	<label class="control-label" for="addTrainingRoomId">实训地点:</label>
-	                        <select id="addTrainingRoomId" class="form-control select2" name="trainingRoomId" onchange="addTrainingRoomChange()"
-	                                data-placeholder="请从列表选择一项">
-	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
                     </div>
@@ -374,6 +377,20 @@
 	                        </select>
 	                        <div class="help-block with-errors"></div>
                         </div>
+                        <div style="display: none;">
+                        	<label class="control-label" for="editTrainingRoomName">实训地点:</label>
+                        	<input id="editTrainingRoomName" type="text" class="form-control" name="trainingRoomName" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="editTrainingRoomId">实训地点:</label>
+	                        <select id="editTrainingRoomId" class="form-control select2" name="trainingRoomId" onchange="editTrainingRoomChange()"
+	                                data-placeholder="请从列表选择一项">
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
                     	<div style="display: none;">
                         	<label class="control-label" for="editClassName"><span class="asterisk">*</span>班级:</label>
                         	<input id="editClassName" type="text" class="form-control" name="className" readonly>
@@ -388,21 +405,7 @@
 	                            </option>
 	                        </select>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div style="display: none;">
-                        	<label class="control-label" for="editTrainingRoomName">实训地点:</label>
-                        	<input id="editTrainingRoomName" type="text" class="form-control" name="trainingRoomName" readonly>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="col-md-12">
-                        	<label class="control-label" for="editTrainingRoomId">实训地点:</label>
-	                        <select id="editTrainingRoomId" class="form-control select2" name="trainingRoomId" onchange="editTrainingRoomChange()"
-	                                data-placeholder="请从列表选择一项">
-	                        </select>
-	                        <div class="help-block with-errors"></div>
-                        </div>
-                        <div style="display:none;">
+                        <div class="col-md-6">
                         	<label class="control-label" for="numberOfPeople"><span class="asterisk">*</span>人数:</label>
 	                        <input id="numberOfPeople" type="text" class="form-control" name="numberOfPeople" readonly>
 	                        <div class="help-block with-errors"></div>
@@ -675,6 +678,7 @@
     	var addCourseText = $('#addForm').find('[name=courseId]').find('option:selected').text();
     	$('#addCourseName').val(addCourseText);
     	var courseId = $('#addForm').find('[name=courseId]').find('option:selected').val();
+    	console.log(1231231);
     	$.ajax({
             type:"POST",
             url: CONTEXT_PATH + '/courses/teachingplanlist',

@@ -118,7 +118,7 @@
                         </div>
                         <div class="col-md-6">
                         	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>设备分类:</label>
-	                        <select id="assetClassificationCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetClassificationCode" onchange="addAssetClassificationChange()"
+	                        <select id="assetClassificationCode" class="form-control select2" name="assetClassificationCode" onchange="addAssetClassificationChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                                <option></option>
 	                            <option th:each="assetClassification: ${assetClassificationList}" th:value="${assetClassification.id}" th:text="${assetClassification.classificationName}">
@@ -142,7 +142,7 @@
                         </div>
                         <div class="col-md-6">
                         	<label class="control-label" for="roomId"><span class="asterisk">*</span>所属实训室:</label>
-	                        <select id="roomId" class="form-control select2" data-minimum-results-for-search="-1" name="roomId" onchange="addRoomChange()"
+	                        <select id="roomId" class="form-control select2" name="roomId" onchange="addRoomChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                                <option></option>
 	                            <option th:each="trainingRoom: ${trainingRoomList}" th:value="${trainingRoom.id}" th:text="${trainingRoom.roomName}">
@@ -272,7 +272,7 @@
                         </div>
                         <div class="col-md-6">
                         	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>设备分类:</label>
-	                        <select id="assetClassificationCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetClassificationCode" onchange="editAssetClassificationChange()"
+	                        <select id="assetClassificationCode" class="form-control select2" name="assetClassificationCode" onchange="editAssetClassificationChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="assetClassification: ${assetClassificationList}" th:value="${assetClassification.id}" th:text="${assetClassification.classificationName}">
 	                            设备分类不存在
@@ -295,7 +295,7 @@
                         </div>
                         <div class="col-md-6">
                         	<label class="control-label" for="roomId"><span class="asterisk">*</span>所属实训室:</label>
-	                        <select id="roomId" class="form-control select2" data-minimum-results-for-search="-1" name="roomId" onchange="editRoomChange()"
+	                        <select id="roomId" class="form-control select2" name="roomId" onchange="editRoomChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="trainingRoom: ${trainingRoomList}" th:value="${trainingRoom.id}" th:text="${trainingRoom.roomName}">
 	                            所属实训室不存在

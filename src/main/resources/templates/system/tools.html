@@ -88,6 +88,14 @@
                 <form id="addForm">
                     <div class="form-group">
                     <div class="col-md-12">
+                        <label class="control-label" for="assetName"><span class="asterisk">*</span>工具编号:</label>
+                        <input id="assetCode" type="text" class="form-control" name="assetCode" placeholder="输入工具编号"
+                               required>
+                        <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    <div class="col-md-12">
                         <label class="control-label" for="assetName"><span class="asterisk">*</span>工具名称:</label>
                         <input id="assetName" type="text" class="form-control" name="assetName" placeholder="输入工具名称"
                                required>
@@ -102,7 +110,7 @@
                         </div>
                         <div class="col-md-12">
                         	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>工具分类:</label>
-	                        <select id="assetClassificationCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetClassificationCode" onchange="addAssetClassificationChange()"
+	                        <select id="assetClassificationCode" class="form-control select2" name="assetClassificationCode" onchange="addAssetClassificationChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                                <option></option>
 	                            <option th:each="assetClassification: ${assetClassificationList}" th:value="${assetClassification.id}" th:text="${assetClassification.classificationName}">
@@ -186,6 +194,16 @@
 	                    <input id="remainingQuantity" type="text" class="form-control" name="remainingQuantity" placeholder="输入数量"
                                value="0">
                     </div>
+                    <div class="form-group" style="display: none">
+                        <label class="control-label" for="repairingQuantity"><span class="asterisk">*</span>在维修数量:</label>
+	                    <input id="repairingQuantity" type="text" class="form-control" name="repairingQuantity" placeholder="输入数量"
+                               value="0">
+                    </div>
+                    <div class="form-group" style="display: none">
+                        <label class="control-label" for="toBeScrappedQuantity"><span class="asterisk">*</span>待报废数量:</label>
+	                    <input id="toBeScrappedQuantity" type="text" class="form-control" name="toBeScrappedQuantity" placeholder="输入数量"
+                               value="0">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -234,7 +252,7 @@
                         </div>
                         <div class="col-md-12">
                         	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>工具分类:</label>
-	                        <select id="assetClassificationCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetClassificationCode" onchange="editAssetClassificationChange()"
+	                        <select id="assetClassificationCode" class="form-control select2" name="assetClassificationCode" onchange="editAssetClassificationChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="assetClassification: ${assetClassificationList}" th:value="${assetClassification.id}" th:text="${assetClassification.classificationName}">
 	                            工具分类不存在
@@ -415,6 +433,8 @@
                 {field: 'totalExisting', title: '现存数量', halign: 'center', align: 'center'},
                 {field: 'cumulativeCollectedQuantity', title: '在用数量', halign: 'center', align: 'center'},
                 {field: 'remainingQuantity', title: '剩余数量', halign: 'center', align: 'center'},
+                {field: 'repairingQuantity', title: '在维修数量', halign: 'center', align: 'center'},
+                {field: 'toBeScrappedQuantity', title: '待报废数量', halign: 'center', align: 'center'},
                 {field: 'addNumber', title: '入库操作', halign: 'center', align: 'center', formatter: 'addNumberFormatter'},
                 {
                     field: 'action',
@@ -514,7 +534,8 @@
             url: CONTEXT_PATH + '/warehousingrecord/create',
             data: data,
             success:function(data){
-            	noAddNumberModel()
+            	noAddNumberModel();
+            	location.reload();
             }
         });
     }

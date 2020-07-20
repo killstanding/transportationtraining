@@ -79,6 +79,7 @@
 
     $(function () {
     	$('#searchName').datepicker({
+    		language: "zh-CN",
             format: 'yyyy',
             minViewMode: 2,
             maxViewMode: 2,
@@ -89,6 +90,7 @@
             url: CONTEXT_PATH + '/maintenancerecord/list',
             idField: 'id',
             detailView: false,
+            pagination : false,
             columns: [
                 {field: 'id', title: '序号', sortable: true, halign: 'left',
                 	formatter: function(value,row,index) {

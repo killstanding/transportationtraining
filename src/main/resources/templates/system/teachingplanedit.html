@@ -184,7 +184,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                             	<span>教案</span>
-                            	<i class="glyphicon glyphicon-plus" style="float:right;cursor:pointer" onclick="showAddModel()"></i>
+                            	<i class="glyphicon glyphicon-plus" title="添加教案" style="float:right;cursor:pointer" onclick="showAddModel()"></i>
                             </div>
                             <div class="panel-body" id="jiaoanField">
                             </div>
@@ -652,9 +652,9 @@
             	console.log(datas);
             	$('#jiaoanField').empty();
             	for(let i = 0; i < datas.length; i++) {
-            		$("#jiaoanField").append('<div class="jblock"><div class="jid">' + (i+1) + '</div><div class="jbody"><div class="jtitle"><div class="jname">教案名称：' + datas[i].teachingPlanName + '</div><div class="jtime">预计时长：' + datas[i].estimatedTimeDuration + '分钟</div><div class="jopt"><i class="glyphicon glyphicon-plus" style="cursor:pointer;" onclick="showAddFileModel(' + datas[i].id + ')"></i> <i class="glyphicon glyphicon-edit" style="cursor:pointer;" onclick="showResetModel(' + datas[i].id + ')"></i> <i class="glyphicon glyphicon-remove" style="cursor:pointer;" onclick="deleteJ(' + datas[i].id + ')"></i></div></div><div class="jcontent">' + datas[i].teachingPlanDescription + '</div></div></div></div>');
+            		$("#jiaoanField").append('<div class="jblock"><div class="jid">' + (i+1) + '</div><div class="jbody"><div class="jtitle"><div class="jname">教案名称：' + datas[i].teachingPlanName + '</div><div class="jtime">预计时长：' + datas[i].estimatedTimeDuration + '分钟</div><div class="jopt"><i class="glyphicon glyphicon-file" title="添加附件" style="cursor:pointer;" onclick="showAddFileModel(' + datas[i].id + ')"></i> <i class="glyphicon glyphicon-edit" title="修改教案" style="cursor:pointer;" onclick="showResetModel(' + datas[i].id + ')"></i> <i class="glyphicon glyphicon-remove" title="删除教案" style="cursor:pointer;" onclick="deleteJ(' + datas[i].id + ')"></i></div></div><div class="jcontent">' + datas[i].teachingPlanDescription + '</div></div></div></div>');
             		for(let k = 0; k < datas[i].files.length; k++) {
-            			$(".jblock:last>.jbody").append('<div class="jppt">文档链接：<a href="' + datas[i].files[k].filePath + '" download="' + datas[i].files[k].fileName + '">' + datas[i].files[k].fileName + '</a><i class="glyphicon glyphicon-remove right-icon" style="cursor:pointer;z-index:99999;" onclick="deleteFile(' + datas[i].files[k].id + ')"></i></div>');
+            			$(".jblock:last>.jbody").append('<div class="jppt">文档链接：<a href="' + datas[i].files[k].filePath + '" download="' + datas[i].files[k].fileName + '">' + datas[i].files[k].fileName + '</a><i class="glyphicon glyphicon-remove right-icon" title="删除附件" style="cursor:pointer;z-index:99999;" onclick="deleteFile(' + datas[i].files[k].id + ')"></i></div>');
             		}
             	}
             }

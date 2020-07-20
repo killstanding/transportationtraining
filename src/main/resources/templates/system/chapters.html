@@ -78,6 +78,7 @@
                 <div class="box-body">
                 	<div id="toolbar">
                         <form class="form-inline" id="searchForm">
+                        <input type="hidden" class="form-control input-sm" name="courseId" id="searchId">
                             <div class="btn-group btn-group-sm">
                             	<button type="button" class="btn btn-default" onclick="returnBack()">
                                     返回上一级
@@ -87,6 +88,7 @@
                     </div>
                     <div style="font-size: 18px;font-weight:700;margin:5px 0 0 10px">课程信息</div>
                     <table id="tb"></table>
+                    <table id="tb-room"></table>
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -250,6 +252,8 @@
     </ul>
 </div>
 <script type="text/javascript">
+var $table = $('#tb-room');
+
     $(function () {
     	var datas = [];
     	var courseId = localStorage.getItem("courseId");
@@ -273,6 +277,27 @@
                     ]
                 });
             }
+        });
+    	
+    	var courseId = localStorage.getItem("courseId");
+    	$('#searchId').val(courseId);
+    	$table.bootstrapTable({
+            url: CONTEXT_PATH + '/coursesretrainingroom/list',
+            idField: 'id',
+            detailView: false,
+            columns: [
+                {field: 'id', title: '序号', sortable: true, halign: 'left',
+                	formatter: function(value,row,index) {
+                		var pageSize = $table.bootstrapTable('getOptions').pageSize;
+                		var pageNumber = $table.bootstrapTable('getOptions').pageNumber;
+                		return pageSize * (pageNumber - 1) + index + 1;
+                	}
+                },
+                {field: 'roomName', title: '实训室名称', sortable: true, halign: 'left'},
+                {field: 'belongSys', title: '所属系', halign: 'center', align: 'center'},
+                {field: 'roomPosition', title: '位置', halign: 'center', align: 'center'},
+                {field: 'roomAdmin', title: '实训室管理员', halign: 'center', align: 'center'}
+            ]
         });
     	
         var rMenu = $('#rMenu'),

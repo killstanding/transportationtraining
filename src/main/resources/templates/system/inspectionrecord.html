@@ -115,7 +115,6 @@
     }
     
     function repairFormatter(value, row, index) {
-    	if(row.assetStatus == '维修') {
     		if(value == 1) {
         		return '<span>已维修</span>';
         	}else if(value == 0) {
@@ -123,12 +122,11 @@
         	}else {
         		return '-';
         	}
-    	}
-    	return '-';
     }
     
     function repairOrderNoFormatter(value, row, index) {
-    	if(row.assetStatus == '维修') {
+    	console.log(000)
+    	if(value) {
         	return '<span>' + value + '</span>';
     	}
     	return '-';

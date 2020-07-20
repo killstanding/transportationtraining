@@ -102,7 +102,7 @@
                         </div>
                         <div class="col-md-12">
                         	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>耗材分类:</label>
-	                        <select id="assetClassificationCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetClassificationCode" onchange="addAssetClassificationChange()"
+	                        <select id="assetClassificationCode" class="form-control select2" name="assetClassificationCode" onchange="addAssetClassificationChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                                <option></option>
 	                                <option></option>
@@ -225,7 +225,7 @@
                         </div>
                         <div class="col-md-12">
                         	<label class="control-label" for="assetClassificationCode"><span class="asterisk">*</span>耗材分类:</label>
-	                        <select id="assetClassificationCode" class="form-control select2" data-minimum-results-for-search="-1" name="assetClassificationCode" onchange="editAssetClassificationChange()"
+	                        <select id="assetClassificationCode" class="form-control select2" name="assetClassificationCode" onchange="editAssetClassificationChange()"
 	                                data-placeholder="请从列表选择一项" required>
 	                            <option th:each="assetType: ${assetClassificationList}" th:value="${assetType.id}" th:text="${assetType.classificationName}">
 	                            耗材分类不存在
@@ -503,7 +503,8 @@
             url: CONTEXT_PATH + '/warehousingrecord/create',
             data: data,
             success:function(data){
-            	noAddNumberModel()
+            	noAddNumberModel();
+            	location.reload();
             }
         });
     }

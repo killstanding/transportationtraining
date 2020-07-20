@@ -55,7 +55,7 @@
                         </div>
                         <div class="col-md-6">
                         	<label class="control-label" for="assetId"><span class="asterisk">*</span>设备名称:</label>
-		                    <select id="assetId" class="form-control select2" data-minimum-results-for-search="-1" name="assetId" onchange="assetChange()"
+		                    <select id="assetId" class="form-control select2" name="assetId" onchange="assetChange()"
 		                            data-placeholder="请从列表选择一项" required>
 		                            <option></option>
 		                        <option th:each="asset: ${assetList}" th:value="${asset.id}" th:text="${asset.assetName}">
