@@ -40,3 +40,5 @@ http://127.0.0.1:8889/tt/swagger-ui.html
 
 打包命令
 mvn package -DskipTests
+导入所有依赖jar
+mvn dependency:copy-dependencies -DoutputDirectory=lib
