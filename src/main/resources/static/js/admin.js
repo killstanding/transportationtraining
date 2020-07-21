@@ -498,6 +498,6 @@
     $.myAdmin.loadContent();
 })(jQuery);
 function commondownload(data) {
-	$("#exceldownload")[0].href = window.location.origin + window.location.pathname + 'static/excel/' + data;
+	$("#exceldownload")[0].href = window.location.origin + window.location.pathname + 'download/download?filename=' + data;
     $("#exceldownload")[0].click();
 }
