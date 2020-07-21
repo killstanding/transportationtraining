@@ -577,15 +577,27 @@
     }
 
     function numberOfDevicesFormatter(value, row, index) {
-    	return '<a href="#coursearrangementreasset" onclick="toSb(\'' + row.id + '\',\'' + row.courseName + '\')">' + value +'</a>'
+    	if(row.isLock == 1) {
+    		return '<span>' + value +'</span>';
+    	}else {
+    		return '<a href="#coursearrangementreasset" onclick="toSb(\'' + row.id + '\',\'' + row.courseName + '\')">' + value +'</a>';
+    	}
     }
     
     function numberOfConsumablesFormatter(value, row, index) {
-    	return '<a href="#coursearrangementreconsumables" onclick="toHc(\'' + row.id  + '\',\'' + row.courseName + '\')">' + value +'</a>'
+    	if(row.isLock == 1) {
+    		return '<span>' + value +'</span>';
+    	}else {
+    		return '<a href="#coursearrangementreconsumables" onclick="toHc(\'' + row.id  + '\',\'' + row.courseName + '\')">' + value +'</a>';
+    	}
     }
     
     function numberOfToolsFormatter(value, row, index) {
-    	return '<a href="#coursearrangementretool" onclick="toGj(\'' + row.id  + '\',\'' + row.courseName + '\')">' + value +'</a>'
+    	if(row.isLock == 1) {
+    		return '<span>' + value +'</span>';
+    	}else {
+    		return '<a href="#coursearrangementretool" onclick="toGj(\'' + row.id  + '\',\'' + row.courseName + '\')">' + value +'</a>';
+    	}
     }
     
     function toShowJa(id) {
