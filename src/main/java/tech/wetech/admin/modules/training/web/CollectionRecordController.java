@@ -60,7 +60,7 @@ public class CollectionRecordController extends BaseCrudController<CollectionRec
         return "system/collectionrecord";
     }
     
-    @GetMapping
+    @GetMapping("/showedit")
     @RequiresPermissions("collectionrecord:update")
     public String editpage(Model model) {
         return "system/collectionrecordedit";
