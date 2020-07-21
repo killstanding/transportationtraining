@@ -19,8 +19,8 @@
 	</parent>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<pom.build.sourceEncoding>UTF-8</pom.build.sourceEncoding>
+		<pom.reporting.outputEncoding>UTF-8</pom.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<shiro.version>1.2.2</shiro.version>
 	</properties>
@@ -210,21 +210,21 @@
 			<artifactId>org.apache.poi</artifactId>
 			<version>3.17</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/poi-3.17.jar</systemPath>
+			<systemPath>${pom.basedir}/lib/poi-3.17.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.apache</groupId>
 			<artifactId>org.apache.poi.ooxml.schemas</artifactId>
 			<version>3.17</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/poi-ooxml-schemas-3.17.jar</systemPath>
+			<systemPath>${pom.basedir}/lib/poi-ooxml-schemas-3.17.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.apache</groupId>
 			<artifactId>org.apache.poi.ooxml</artifactId>
 			<version>3.17</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/poi-ooxml-3.17.jar</systemPath>
+			<systemPath>${pom.basedir}/lib/poi-ooxml-3.17.jar</systemPath>
 		</dependency>
 
 		<dependency>
@@ -232,21 +232,21 @@
 			<artifactId>net.sf.cglib</artifactId>
 			<version>3.1</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/com.springsource.net.sf.cglib-2.2.0.jar</systemPath>
+			<systemPath>${pom.basedir}/lib/com.springsource.net.sf.cglib-2.2.0.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>net.sf</groupId>
 			<artifactId>net.sf.cglib.nodep</artifactId>
 			<version>2.1_3</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/cglib-nodep-2.1_3.jar</systemPath>
+			<systemPath>${pom.basedir}/lib/cglib-nodep-2.1_3.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.apache</groupId>
 			<artifactId>org.apache.xmlbeans</artifactId>
 			<version>2.6.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/xmlbeans-2.6.0.jar</systemPath>
+			<systemPath>${pom.basedir}/lib/xmlbeans-2.6.0.jar</systemPath>
 		</dependency>
 
 		<!-- lombok -->
@@ -275,6 +275,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<includeSystemScope>true</includeSystemScope>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.mybatis.generator</groupId>
