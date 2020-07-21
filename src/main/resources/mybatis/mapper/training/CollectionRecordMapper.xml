@@ -10,7 +10,7 @@
     <result column="asset_name" property="assetName" jdbcType="VARCHAR" />
     <result column="asset_type" property="assetType" jdbcType="VARCHAR" />
     <result column="asset_type_code" property="assetTypeCode" jdbcType="VARCHAR" />
-    <result column="collection time" property="collectionTime" jdbcType="VARCHAR" />
+    <result column="collection_time" property="collectionTime" jdbcType="VARCHAR" />
     <result column="collection_major" property="collectionMajor" jdbcType="VARCHAR" />
     <result column="collection_major_id" property="collectionMajorId" jdbcType="INTEGER" />
     <result column="collection_course" property="collectionCourse" jdbcType="VARCHAR" />

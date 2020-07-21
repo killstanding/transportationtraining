@@ -70,7 +70,7 @@ public class CollectionRecord extends BaseRowModel{
      */
     @ExcelProperty(value = {"领用时间","领用时间"},index = 3)
     @ApiModelProperty(value = "领用时间", name = "collectionTime", required = false, example = "2020-03-23 00:00:00")
-    @Column(name = "`collection time`")
+    @Column(name = "`collection_time`")
     private String collectionTime;
 
     /**
