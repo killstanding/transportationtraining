@@ -658,7 +658,7 @@
     
     function actionFormatter(value, row, index) {
     	if(row.isLock == 1) {
-    		return $('#actionButtons1').html();
+    		return '<span>已锁定</span>';
     	}else {
     		return $('#actionButtons2').html();
     	}
