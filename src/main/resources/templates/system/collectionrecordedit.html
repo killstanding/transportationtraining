@@ -87,19 +87,20 @@
     });
     
     function actionFormatter(value, row, index) {
+    	console.log(row);
     	if (row.isReturned == 1) {
     		return '<span>已归还</span>';
     	} else if (row.isCollected == 1) {
     		if (row.assetTypeCode == 'asset_type_consumables') {
     			return '<span>已领用</span>';
     		} else {
-    			return '<a href="#position" onclick="confirmReturn(\'' + row.id + '\')">确认归还</a>';
+    			return '<a href="#collectionrecord/showedit" onclick="confirmReturn(\'' + row.id + '\')">确认归还</a>';
     		}
     	} else {
     		if (row.assetTypeCode == 'asset_type_consumables') {
-    			return '<a href="#position" onclick="confirmCollect1(\'' + row.id + '\')">确认归还</a>';
+    			return '<a href="#collectionrecord/showedit" onclick="confirmCollect1(\'' + row.id + '\')">确认领用</a>';
     		} else {
-    			return '<a href="#position" onclick="confirmCollect2(\'' + row.id + '\')">确认归还</a>';
+    			return '<a href="#collectionrecord/showedit" onclick="confirmCollect2(\'' + row.id + '\')">确认领用</a>';
     		}
     	}
     }
