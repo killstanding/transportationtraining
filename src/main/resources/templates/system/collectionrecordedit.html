@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<section class="content-header">
+    <h1>
+        系统管理
+        <small>领用及归还页面</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li><a href="#">系统管理</a></li>
+        <li class="active">领用及归还</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="toolbar">
+                        <form class="form-inline" id="searchForm">
+                            <div class="form-group">
+                                <label for="searchName"> 领用物品名称 </label>
+                                <input type="text" class="form-control input-sm" name="assetName" id="searchName" placeholder="请输入领用物品名称">
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-default" onclick="javascript:$('table').bootstrapTable('refresh', {silent: true});">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                    查询
+                                </button>
+                                <button type="reset" class="btn btn-default">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    清空
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <table id="table"></table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<script th:inline="javascript">
+    var $table = $('#table');
+
+    $(function () {
+        $table.bootstrapTable({
+            url: CONTEXT_PATH + '/collectionrecord/list',
+            idField: 'id',
+            detailView: false,
+            columns: [
+                {field: 'id', title: '序号', sortable: true, halign: 'left',
+                	formatter: function(value,row,index) {
+                		var pageSize = $table.bootstrapTable('getOptions').pageSize;
+                		var pageNumber = $table.bootstrapTable('getOptions').pageNumber;
+                		return pageSize * (pageNumber - 1) + index + 1;
+                	}
+                },
+                {field: 'assetName', title: '资产名称', halign: 'center', align: 'center'},
+                {field: 'assetType', title: '资产类型', halign: 'center', align: 'center'},
+                {field: 'collectionMajor', title: '领用系', halign: 'center', align: 'center'},
+                {field: 'collectionCourse', title: '领用课程', halign: 'center', align: 'center'},
+                {field: 'applicant', title: '领用人', halign: 'center', align: 'center'},
+                {field: 'collectionTime', title: '领用时间', halign: 'center', align: 'center'},
+                {field: 'returnTime', title: '归还时间', halign: 'center', align: 'center'},
+                {field: 'collectedQuantity', title: '领用数量', halign: 'center', align: 'center'},
+                {field: 'remark', title: '备注', halign: 'center', align: 'center'},
+                {
+                    field: 'action',
+                    title: '操作',
+                    halign: 'center',
+                    align: 'center',
+                    formatter: 'actionFormatter',
+                    clickToSelect: false
+                }
+            ]
+        });
+    });
+    
+    function actionFormatter(value, row, index) {
+    	if (row.isReturned == 1) {
+    		return '<span>已归还</span>';
+    	} else if (row.isCollected == 1) {
+    		if (row.assetTypeCode == 'asset_type_consumables') {
+    			return '<span>已领用</span>';
+    		} else {
+    			return '<a href="#position" onclick="confirmReturn(\'' + row.id + '\')">确认归还</a>';
+    		}
+    	} else {
+    		if (row.assetTypeCode == 'asset_type_consumables') {
+    			return '<a href="#position" onclick="confirmCollect1(\'' + row.id + '\')">确认归还</a>';
+    		} else {
+    			return '<a href="#position" onclick="confirmCollect2(\'' + row.id + '\')">确认归还</a>';
+    		}
+    	}
+    }
+    
+    function confirmReturn(id) {
+    	$.ajax({
+            type:"POST",
+            url: CONTEXT_PATH + '/collectionrecord/returntool',
+            data: {
+            	id: id,
+            	assetTypeCode: 'asset_type_tool'
+            },
+            success:function(data){
+            	location.reload();
+            }
+        });
+    }
+    
+    function confirmCollect1(id) {
+    	$.ajax({
+            type:"POST",
+            url: CONTEXT_PATH + '/collectionrecord/collect',
+            data: {
+            	id: id,
+            	assetTypeCode: 'asset_type_consumables'
+            },
+            success:function(data){
+            	location.reload();
+            }
+        });
+    }
+    
+    function confirmCollect2(id) {
+    	$.ajax({
+            type:"POST",
+            url: CONTEXT_PATH + '/collectionrecord/collect',
+            data: {
+            	id: id,
+            	assetTypeCode: 'asset_type_tool'
+            },
+            success:function(data){
+            	location.reload();
+            }
+        });
+    }
+    
+    function getToday() {
+    	var date = new Date();
+    	var yyyy = date.getFullYear();
+    	var m = date.getMonth() + 1;
+    	var mm = m < 10 ? '0' + m : '' + m;
+    	var dd = date.getDate();
+    	return yyyy + '-' + mm + '-' + dd;
+    }
+</script>
+</html>
