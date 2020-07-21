@@ -99,6 +99,7 @@ public class CollectionRecordController extends BaseCrudController<CollectionRec
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
     	entity.setUpdateTime(curTime);
     	entity.setIsCollected("1");
+    	entity.setCollectionTime(curTime);
     	service.updateNotNull(entity);
         return Result.success();
     }
@@ -110,22 +111,23 @@ public class CollectionRecordController extends BaseCrudController<CollectionRec
     public Result<String> returnTool(CollectionRecord entity) {
     	CollectionRecord record = service.queryById(entity.getId());
     	int assetId =  record.getAssetId();
-    	String assetTypeCode = entity.getAssetTypeCode();
+    	String assetTypeCode = record.getAssetTypeCode();
     	switch (assetTypeCode) {
 		case "asset_type_consumables":
 		case "asset_type_tool":
-			Tools tools =  toolsService.queryById(entity.getAssetId());	
-    		int cumulativeCollectedQuantity  = StringUtil.strToInt(tools.getCumulativeReceiptQuantity()) - StringUtil.strToInt(entity.getCollectedQuantity());
-    		tools.setCumulativeReceiptQuantity(cumulativeCollectedQuantity + "");//累计领用数量
-    		int remainingQuantity  = StringUtil.strToInt(tools.getRemainingQuantity()) + StringUtil.strToInt(entity.getCollectedQuantity());
+			Tools tools =  toolsService.queryById(assetId);	
+    		int cumulativeCollectedQuantity  = StringUtil.strToInt(tools.getCumulativeCollectedQuantity()) - StringUtil.strToInt(record.getCollectedQuantity());
+    		tools.setCumulativeCollectedQuantity(cumulativeCollectedQuantity + "");//累计领用数量
+    		int remainingQuantity  = StringUtil.strToInt(tools.getRemainingQuantity()) + StringUtil.strToInt(record.getCollectedQuantity());
     		tools.setRemainingQuantity(remainingQuantity+"");//剩余数量
     		toolsService.updateNotNull(tools);
 		default:
 			break;
 		}
     	String curTime  = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
+    	entity.setReturnTime(curTime);
     	entity.setUpdateTime(curTime);
-    	entity.setIsCollected("1");
+    	entity.setIsReturned("1");
     	service.updateNotNull(entity);
         return Result.success();
     }
