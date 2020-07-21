@@ -22,9 +22,15 @@ import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.CollectionRecord;
 import tech.wetech.admin.modules.training.po.Consumables;
+import tech.wetech.admin.modules.training.po.CourseArrangement;
+import tech.wetech.admin.modules.training.po.CourseArrangementReConsumables;
+import tech.wetech.admin.modules.training.po.CourseArrangementReTool;
 import tech.wetech.admin.modules.training.po.Tools;
 import tech.wetech.admin.modules.training.service.CollectionRecordService;
 import tech.wetech.admin.modules.training.service.ConsumablesService;
+import tech.wetech.admin.modules.training.service.CourseArrangementReConsumablesService;
+import tech.wetech.admin.modules.training.service.CourseArrangementReToolService;
+import tech.wetech.admin.modules.training.service.CourseArrangementService;
 import tech.wetech.admin.modules.training.service.PositionService;
 import tech.wetech.admin.modules.training.service.ToolsService;
 import tech.wetech.excel.ExcelWriteUtil;
@@ -51,6 +57,12 @@ public class CollectionRecordController extends BaseCrudController<CollectionRec
     private ConsumablesService consumablesService;
 	@Autowired
     private ToolsService toolsService;
+	@Autowired
+	private CourseArrangementService courseArrangementService;
+	@Autowired
+    private CourseArrangementReConsumablesService courseArrangementReConsumablesService;
+	@Autowired
+    private CourseArrangementReToolService courseArrangementReToolService;
 	
     @GetMapping
     @RequiresPermissions("collectionrecord:view")
@@ -85,14 +97,26 @@ public class CollectionRecordController extends BaseCrudController<CollectionRec
     	CollectionRecord record = service.queryById(entity.getId());
     	int assetId =  record.getAssetId();
     	String assetTypeCode = entity.getAssetTypeCode();
+    	int reId = record.getReId();
+    	CourseArrangement courseArrangement = new CourseArrangement();
     	switch (assetTypeCode) {
 		case "asset_type_consumables":
 			Consumables consumables =  consumablesService.queryById(assetId);			
 			int usedQuantity  = StringUtil.strToInt(consumables.getUsedQuantity())+StringUtil.strToInt(record.getCollectedQuantity());
 			consumables.setUsedQuantity(usedQuantity+"");//已用数量
 			consumablesService.updateNotNull(consumables);
+			//锁定课程
+			CourseArrangementReConsumables courseArrangementReConsumables =  courseArrangementReConsumablesService.queryById(reId);
+			courseArrangement.setId(courseArrangementReConsumables.getCourseArrangementId());
+			courseArrangement.setIsLock("1");
+			courseArrangementService.updateNotNull(courseArrangement);
 			break;
 		case "asset_type_tool":
+			//锁定课程
+			CourseArrangementReTool courseArrangementReTool =  courseArrangementReToolService.queryById(reId);
+			courseArrangement.setId(courseArrangementReTool.getCourseArrangementId());
+			courseArrangement.setIsLock("1");
+			courseArrangementService.updateNotNull(courseArrangement);
 		default:
 			break;
 		}
