@@ -1,4 +1,6 @@
-package tech.wetech.admin.modules.training.service;
+package tech.wetech.admin.modules.training.service.impl;
+
+
 
 
 import java.util.List;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import tech.wetech.admin.modules.system.po.User;
 import tech.wetech.admin.modules.training.mapper.MainMapper;
+import tech.wetech.admin.modules.training.service.MainService;
 import tech.wetech.admin.modules.training.vo.ToDoVo;
 
 @Service
