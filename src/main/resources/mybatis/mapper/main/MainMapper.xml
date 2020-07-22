@@ -14,17 +14,20 @@
     <result column="submit_time" property="submitTime" jdbcType="VARCHAR" />
   </resultMap>
   
-   <select id="selectToDoData" resultMap="BaseResultMap" parameterType="tech.wetech.admin.modules.system.po.User">
+   <select id="selectToDoData" resultMap="BaseResultMap" parameterType="tech.wetech.admin.modules.system.po.User"> 
 select mr.id as matter_id,mr.record_id as matter_code, '设备维修' as matter_type, 'devices_maintenance' as matter_type_code, mr.record_name as matter_name,mr.pending_person as submitter, mr.create_time as submit_time  from  t_maintenance_record mr 
-where mr.pending_person_id  = #{id} and mr.flow_status_code !=  'em_end'
+where mr.pending_person_id  = #{id} and mr.flow_status_code !=  'em_end' and mr.flow_type_code='equipment_maintenance'
+UNION
+select mr.id as matter_id,mr.record_id as matter_code, '工具仪器维修' as matter_type, 'devices_maintenance' as matter_type_code, mr.record_name as matter_name,mr.pending_person as submitter, mr.create_time as submit_time  from  t_maintenance_record mr 
+where mr.pending_person_id  = #{id} and mr.flow_status_code !=  'em_end' and mr.flow_type_code='tools_maintenance'
 UNION
 select cr.id as matter_id, cr.record_id as matter_code,'耗材申请' as matter_type, 'consumables_collect' as matter_type_code, cr.record_name as matter_name,cr.applicant as submitter, cr.create_time as submit_time  from  t_collection_record cr 
-where cr.pending_person_id  = #{id} and cr.asset_type_code='asset_type_consumables' and  cr.flow_status_code!='ccr_end'
+where cr.pending_person_id  = #{id} and cr.asset_type_code='asset_type_consumables' and cr.is_collected=0 
 UNION
-select cr.id as matter_id, cr.record_id as matter_code,'工具申请' as matter_type, 'tools_collect' as matter_type_code, cr.record_name as matter_name,cr.applicant as submitter, cr.create_time as submit_time  from  t_collection_record cr 
-where cr.pending_person_id  = #{id} and cr.asset_type_code='asset_type_tool' and  cr.flow_status_code!='tcr_end'
+select cr.id as matter_id, cr.record_id as matter_code,'工具仪器申请' as matter_type, 'tools_collect' as matter_type_code, cr.record_name as matter_name,cr.applicant as submitter, cr.create_time as submit_time  from  t_collection_record cr 
+where cr.pending_person_id  = #{id} and cr.asset_type_code='asset_type_tool' and (cr.is_collected=0 or cr.is_returned=0)
 UNION
 select ip.id as matter_id,CONCAT(REPLACE (ip.inspection_time,'-',''),ip.id) as matter_code, '设备巡检' as matter_type, 'devices_inspection' as matter_type_code, CONCAT(ip.room_name,'巡检') as matter_name,ip.inspector as submitter, ip.inspection_time as submit_time  from  t_inspection_plan ip 
-where ip.inspector_id  = #{id} and  0 =(select count(1) from t_inspection_record ir where ir.plan_id = ip.id)   
+where ip.inspector_id  = #{id} and  0 =(select count(1) from t_inspection_record ir where ir.plan_id = ip.id)
   </select>
 </mapper>
