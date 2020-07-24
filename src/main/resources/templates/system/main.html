@@ -231,6 +231,8 @@ $(function () {
     	url: CONTEXT_PATH + '/main/todolist',
         idField: 'id',
         detailView: false,
+        pagination : false,
+        height: '400',
         columns: [
             {field: 'matterId', title: '序号', halign: 'center', align: 'center',
             	formatter: function(value,row,index) {
@@ -240,7 +242,7 @@ $(function () {
             	}
             },
             {field: 'matterType', title: '待办事项', halign: 'center', align: 'center'},
-            {field: 'matterName', title: '待办标题', halign: 'center', align: 'center'},
+            {field: 'matterName', title: '待办标题', halign: 'center', align: 'center', formatter: 'matterNameFormatter'},
             {field: 'submitter', title: '提交人', halign: 'center', align: 'center'},
             {field: 'submitTime', title: '提交时间', halign: 'center', align: 'center'}
         ]
@@ -274,6 +276,37 @@ $(function () {
         }
     });
 });
+
+function matterNameFormatter(value, row, index) {
+	if (row.matterTypeCode == 'consumables_collect' || row.matterTypeCode == 'tools_collect') {
+		return '<a href="#collectionrecord/showedit" onclick="refresh1()">' + value +'</a>';
+	} else if (row.matterTypeCode == 'devices_maintenance') {
+		return '<a href="#maintenancerecordresults" onclick="refresh2(1, \'' + row.matterCode + '\')">' + value +'</a>';
+	} else if (row.matterTypeCode == 'tools_maintenance') {
+		return '<a href="#maintenancerecordresults" onclick="refresh2(2, \'' + row.matterCode + '\')">' + value +'</a>';
+	} else if (row.matterTypeCode == 'devices_inspection') {
+		return '<a href="#inspectionplan" onclick="refresh3(\'' + row.parentId + '\')">' + value +'</a>';
+	}
+	return value;
+}
+
+function refresh1() {
+	document.querySelector('a[href="#collectionrecord/showedit"]').click();
+}
+
+function refresh2(type, code) {
+	localStorage.setItem("weixiuliebiao", type);
+	localStorage.setItem("weixiuCode", code);
+	window.location.hash = '#maintenancerecordresults';
+	location.reload();
+}
+
+function refresh3(id) {
+	localStorage.setItem("ItrainingId", id);
+	localStorage.setItem("ItrainingRoom", '首页待办');
+	window.location.hash = '#inspectionplan';
+	location.reload();
+}
 
 function drawPie1(echartData) {
 	var option = {
