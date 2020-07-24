@@ -21,4 +21,6 @@ public class ToDoVo {
 	private String submitter;
     @ApiModelProperty(value = "提交时间", name = "submitTime", required = false, example = "2020-05-31 16:32:07")
 	private String submitTime;
+    @ApiModelProperty(value = "父节点", name = "submitTime", required = false, example = "")
+	private String parentId;
 }
