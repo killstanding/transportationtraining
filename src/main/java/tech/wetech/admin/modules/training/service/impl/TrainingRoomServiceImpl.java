@@ -12,4 +12,11 @@ public class TrainingRoomServiceImpl extends BaseService<TrainingRoom> implement
 
     @Autowired
     private TrainingRoomMapper mapper;
+
+	@Override
+	public void updateCodeById(TrainingRoom record) {
+		// TODO Auto-generated method stub
+		mapper.updateCodeById(record);
+	}
+    
 }

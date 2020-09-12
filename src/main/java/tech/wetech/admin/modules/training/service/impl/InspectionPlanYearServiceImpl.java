@@ -11,4 +11,10 @@ import tech.wetech.admin.modules.training.service.InspectionPlanYearService;
 public class InspectionPlanYearServiceImpl  extends BaseService<InspectionPlanYear> implements InspectionPlanYearService {
 	@Autowired
 	private InspectionPlanYearMapper mapper;
+	
+	@Override
+	public void updateCodeById(InspectionPlanYear record) {
+		// TODO Auto-generated method stub
+		mapper.updateCodeById(record);
+	}
 }

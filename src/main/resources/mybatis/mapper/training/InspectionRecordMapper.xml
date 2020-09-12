@@ -20,4 +20,17 @@
     <result column="repair_order_no" property="repairOrderNo" jdbcType="VARCHAR" />
     <result column="asset_name" property="assetName" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <update id="updateCodeById" parameterType="tech.wetech.admin.modules.training.po.InspectionRecord">
+		UPDATE t_inspection_record t 
+		SET t.asset_status_code = ( SELECT p.pub_code from t_pub_code p WHERE p.pub_name = t.asset_status ),
+			t.asset_classification_code = ( SELECT c.classification_code FROM t_asset_classification c WHERE c.classification_name = t.asset_classification )
+		where t.id=#{id}
+  </update>  
+  
+  <select id="selectByMajordata" resultType="tech.wetech.admin.modules.training.po.InspectionRecord" 
+  			parameterType="tech.wetech.admin.modules.training.po.InspectionRecord">
+  		select * from t_inspection_record ir 
+		where  ir.plan_id = #{planId}  and ir.asset_name = #{assetName}
+  </select>
 </mapper>

@@ -18,8 +18,11 @@ import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.InspectionPlan;
+import tech.wetech.admin.modules.training.po.Tools;
 import tech.wetech.admin.modules.training.service.InspectionPlanService;
 import tech.wetech.admin.modules.training.service.TrainingRoomService;
+import tech.wetech.admin.modules.training.vo.FileVo;
+import tech.wetech.excel.ExcelReadUtil;
 import tech.wetech.excel.ExcelWriteUtil;
 
 import org.springframework.ui.Model;
@@ -112,7 +115,41 @@ public class InspectionPlanController extends BaseCrudController<InspectionPlan>
 			Logger.error(getClass(), e.getMessage());
 			return Result.failure(ResultCodeEnum.NOT_IMPLEMENTED);
 		}
-		
 		return Result.success(fileName);
+	}
+    
+	@ResponseBody
+	@PostMapping("/importexcel/")
+	@ApiOperation(value = "导入")
+	@RequiresPermissions("inspectionplan:importexcel")
+	public Result<String> importExcel(FileVo file) {
+		try {
+			String syncTime = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
+			List<Object> list = ExcelReadUtil.readExcelData(file.getPath(), Tools.class);
+			if(list!=null){
+				for (int i = 0; i < list.size(); i++) {
+					InspectionPlan record = (InspectionPlan)list.get(i);
+					record.setUpdateTime(syncTime);
+					//制定唯一编号 j根据id进行唯一性识别
+					InspectionPlan mid = null;
+					List<InspectionPlan> midList = 	service.selectByMajordata(record);
+					if(midList!=null&&midList.size()>0) mid = midList.get(0);
+					if(mid!=null){
+						service.updateNotNull(record);
+					}else{
+						record.setCreateTime(syncTime);
+						service.create(record);
+					}//else
+					//更新编号
+					service.updateCodeById(record);
+
+				}//for+
+			}//if(list!=null)
+		} catch (Exception e) {
+			e.printStackTrace();
+			Logger.error(getClass(), e.getMessage());
+			return Result.failure(ResultCodeEnum.NOT_IMPLEMENTED);
+		}
+		return Result.success();
 	}
 }

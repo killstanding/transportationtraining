@@ -9,4 +9,7 @@ import lombok.Data;
 public class FileVo {
 	 @ApiModelProperty(value = "文件路径", name = "path", required = true, example = "D:/result_dir/1579086286595.xls")
 	 private String path;
+	 
+	 @ApiModelProperty(value = "父编号", name = "parentId", required = false, example = "")
+	 private Integer parentId;
 }

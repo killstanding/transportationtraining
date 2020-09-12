@@ -21,4 +21,12 @@
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
   </resultMap>
   
+  
+    <update id="updateCodeById" parameterType="tech.wetech.admin.modules.training.po.TrainingRoom">
+		UPDATE t_training_room t 
+		SET t.belong_sys_id = ( SELECT o.id FROM sys_organization o WHERE o.NAME = t.belong_sys ),
+			t.room_position_code = ( SELECT p.position_name FROM t_position p WHERE p.id = t.room_position ),
+			t.room_admin_id = ( SELECT u.id FROM sys_user u WHERE u.username = t.room_admin )
+		where t.id=#{id}
+  </update>
 </mapper>

@@ -22,12 +22,15 @@ import tech.wetech.admin.modules.training.po.AssetClassification;
 import tech.wetech.admin.modules.training.po.InspectionPlan;
 import tech.wetech.admin.modules.training.po.InspectionRecord;
 import tech.wetech.admin.modules.training.po.PubCode;
+import tech.wetech.admin.modules.training.po.Tools;
 import tech.wetech.admin.modules.training.service.AssetClassificationService;
 import tech.wetech.admin.modules.training.service.AssetService;
 import tech.wetech.admin.modules.training.service.InspectionPlanService;
 import tech.wetech.admin.modules.training.service.InspectionRecordService;
 import tech.wetech.admin.modules.training.service.PubCodeService;
+import tech.wetech.admin.modules.training.vo.FileVo;
 import tech.wetech.admin.modules.training.vo.ListVo;
+import tech.wetech.excel.ExcelReadUtil;
 import tech.wetech.excel.ExcelWriteUtil;
 import tk.mybatis.mapper.entity.Example;
 
@@ -253,5 +256,42 @@ public class InspectionRecordController extends BaseCrudController<InspectionRec
 		}
 
 		return Result.success(fileName);
+	}
+	
+	
+	@ResponseBody
+	@PostMapping("/importexcel/")
+	@ApiOperation(value = "导入")
+	@RequiresPermissions("inspectionrecord:importexcel")
+	public Result<String> importExcel(FileVo file) {
+		try {
+			String syncTime = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
+			List<Object> list = ExcelReadUtil.readExcelData(file.getPath(), Tools.class);
+			if(list!=null){
+				for (int i = 0; i < list.size(); i++) {
+					InspectionRecord record = (InspectionRecord)list.get(i);
+					record.setUpdateTime(syncTime);
+					record.setPlanId(file.getParentId());
+					//制定唯一编号 j根据id进行唯一性识别
+					InspectionRecord mid = null;
+					List<InspectionRecord> midList = 	service.selectByMajordata(record);
+					if(midList!=null&&midList.size()>0) mid = midList.get(0);
+					if(mid!=null){
+						service.updateNotNull(record);
+					}else{
+						record.setCreateTime(syncTime);
+						service.create(record);
+					}//else
+					//更新编号
+					service.updateCodeById(record);
+
+				}//for+
+			}//if(list!=null)
+		} catch (Exception e) {
+			e.printStackTrace();
+			Logger.error(getClass(), e.getMessage());
+			return Result.failure(ResultCodeEnum.NOT_IMPLEMENTED);
+		}
+		return Result.success();
 	}
 }

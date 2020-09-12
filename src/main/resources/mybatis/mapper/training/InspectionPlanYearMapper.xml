@@ -21,5 +21,11 @@
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
     <result column="create_year" property="createYear" jdbcType="VARCHAR" />
   </resultMap>
-  
+  <update id="updateCodeById" parameterType="tech.wetech.admin.modules.training.po.InspectionPlanYear">
+		UPDATE t_inspection_plan_year t 
+		SET t.room_id = ( SELECT r.id FROM t_training_room r WHERE r.room_name = t.room_name ),
+			t.person_in_charge_id = ( SELECT u.id FROM sys_user u WHERE u.username = t.person_in_charge ),
+			t.inspection_cycle_code = ( SELECT p.pub_code from t_pub_code p WHERE p.pub_name = t.inspection_cycle  )
+		where t.id=#{id}
+  </update>  
 </mapper>

@@ -20,4 +20,17 @@
     <result column="inspection_status" property="inspectionStatus" jdbcType="VARCHAR" />
     <result column="plan_year_id" property="planYearId" jdbcType="INTEGER" />
   </resultMap>
+  
+  <update id="updateCodeById" parameterType="tech.wetech.admin.modules.training.po.InspectionPlan">
+		UPDATE t_inspection_plan t 
+		SET t.room_id = ( SELECT o.id FROM sys_organization o WHERE o.NAME = t.room_name ),
+			t.inspector_id = ( SELECT u.id FROM sys_user u WHERE u.username = t.asset_user )
+		where t.id=#{id}
+  </update>
+  
+  <select id="selectByMajordata" resultType="tech.wetech.admin.modules.training.po.InspectionPlan" 
+  			parameterType="tech.wetech.admin.modules.training.po.InspectionPlan">
+  		select * from t_inspection_plan ip 
+		where  ip.plan_year_id = #{planYearId}  and ip.room_name = #{roomName}
+  </select>
 </mapper>

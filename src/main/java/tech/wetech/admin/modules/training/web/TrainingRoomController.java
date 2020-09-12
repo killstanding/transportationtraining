@@ -22,14 +22,16 @@ import tech.wetech.admin.modules.system.po.Organization;
 import tech.wetech.admin.modules.system.po.User;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
-import tech.wetech.admin.modules.system.vo.UserVO;
 import tech.wetech.admin.modules.training.po.Asset;
 import tech.wetech.admin.modules.training.po.StatisticsPo;
+import tech.wetech.admin.modules.training.po.Tools;
 import tech.wetech.admin.modules.training.po.TrainingRoom;
 import tech.wetech.admin.modules.training.service.AssetService;
 import tech.wetech.admin.modules.training.service.PositionService;
 import tech.wetech.admin.modules.training.service.StatisticsPoService;
 import tech.wetech.admin.modules.training.service.TrainingRoomService;
+import tech.wetech.admin.modules.training.vo.FileVo;
+import tech.wetech.excel.ExcelReadUtil;
 import tech.wetech.excel.ExcelWriteUtil;
 
 import org.springframework.ui.Model;
@@ -76,10 +78,10 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
 	@RequiresPermissions("trainingroom:view")
 	@Override
 	public Result<List<TrainingRoom>> queryList(TrainingRoom entity, PageQuery pageQuery) {
-        // 当前用户
-        String username = (String) SecurityUtils.getSubject().getPrincipal();
-        User user = userService.queryOne(new User().setUsername(username));
-        entity.setRoomAdminId(user.getId().intValue());
+		// 当前用户
+		String username = (String) SecurityUtils.getSubject().getPrincipal();
+		User user = userService.queryOne(new User().setUsername(username));
+		entity.setRoomAdminId(user.getId().intValue());
 		Page<TrainingRoom> page = (Page<TrainingRoom>) service.queryListByLike(entity, pageQuery);
 		List<StatisticsPo> stList = statisticsPoService.selectAssetCountNumGroupByRoomId();
 		List<TrainingRoom> list = page.getResult();
@@ -162,5 +164,38 @@ public class TrainingRoomController extends BaseCrudController<TrainingRoom> {
 		}
 
 		return Result.success(fileName);
+	}
+
+	@ResponseBody
+	@PostMapping("/importexcel/")
+	@ApiOperation(value = "导入")
+	@RequiresPermissions("trainingroom:importexcel")
+	public Result<String> importExcel(FileVo file) {
+		try {
+			String syncTime = DateUtil.dateToStr(new Date(), DateUtil.TIME_FORMATE);
+			List<Object> list = ExcelReadUtil.readExcelData(file.getPath(), Tools.class);
+			if(list!=null){
+				for (int i = 0; i < list.size(); i++) {
+					TrainingRoom record = (TrainingRoom)list.get(i);
+					record.setUpdateTime(syncTime);
+					//制定唯一编号 j根据id进行唯一性识别
+					TrainingRoom mid = service.queryById(record);
+					if(mid!=null){
+						service.updateNotNull(record);
+					}else{
+						record.setCreateTime(syncTime);
+						service.create(record);
+					}//else
+					//更新编号
+					service.updateCodeById(record);
+
+				}//for+
+			}//if(list!=null)
+		} catch (Exception e) {
+			e.printStackTrace();
+			Logger.error(getClass(), e.getMessage());
+			return Result.failure(ResultCodeEnum.NOT_IMPLEMENTED);
+		}
+		return Result.success();
 	}
 }
