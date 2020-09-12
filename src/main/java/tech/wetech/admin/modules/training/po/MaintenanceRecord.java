@@ -199,7 +199,7 @@ public class MaintenanceRecord extends BaseRowModel{
      * 待处理人
      */
     @ApiModelProperty(value = "待处理人", name = "pendingPerson", required = false, example = "admin")
-    @ExcelProperty(value = {"待处理人","待处理人"},index = 9)
+    @ExcelProperty(value = {"待处理人","待处理人"},index = 14)
     @Column(name = "pending_person")
     private String pendingPerson;
 
@@ -230,6 +230,21 @@ public class MaintenanceRecord extends BaseRowModel{
     @ApiModelProperty(value = "创建月份", name = "createMonth", required = false, example = "2020-06")
     @Column(name = "create_month")
     private String createMonth;
+    
+    /**
+     * 实训室编号
+     */
+    @ApiModelProperty(value = "实训室编号", name = "roomId", required = false, example = "1")
+    @Column(name = "room_id")
+    private Integer roomId;
+
+    /**
+     * 实训室名称
+     */
+    @ApiModelProperty(value = "实训室名称", name = "roomName", required = false, example = "丰田T-TEP整车实训区")
+    @Column(name = "room_name")
+    @ExcelProperty(value = {"实训室名称","实训室名称"},index = 15)
+    private String roomName;
     
     public interface MaintenanceRecordCreateChecks {}
 
@@ -759,5 +774,39 @@ public class MaintenanceRecord extends BaseRowModel{
         this.createMonth = createMonth;
     }
     
-    
+    /**
+     * 获取实训室编号
+     *
+     * @return room_id - 实训室编号
+     */
+    public Integer getRoomId() {
+        return roomId;
+    }
+
+    /**
+     * 设置实训室编号
+     *
+     * @param roomId 实训室编号
+     */
+    public void setRoomId(Integer roomId) {
+        this.roomId = roomId;
+    }
+
+    /**
+     * 获取实训室名称
+     *
+     * @return room_name - 实训室名称
+     */
+    public String getRoomName() {
+        return roomName;
+    }
+
+    /**
+     * 设置实训室名称
+     *
+     * @param roomName 实训室名称
+     */
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
 }

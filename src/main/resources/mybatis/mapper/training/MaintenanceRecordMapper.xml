@@ -34,6 +34,8 @@
     <result column="flow_type_name" property="flowTypeName" jdbcType="VARCHAR" />
     <result column="flow_type_code" property="flowTypeCode" jdbcType="VARCHAR" />
     <result column="create_month" property="createMonth" jdbcType="VARCHAR" />
+    <result column="room_id" property="roomId" jdbcType="INTEGER" />
+    <result column="room_name" property="roomName" jdbcType="VARCHAR" />
   </resultMap>
   
   <select id="selectCountNumGourpByStatus" resultType="tech.wetech.admin.modules.training.po.StatusCountResult">
