@@ -284,11 +284,15 @@
     	//addAdminChange();
     }
     
+    function handleImportClick() {
+    	$('#file').click();
+    }
+    
     function importexcel() {
     	var formData = new FormData($('#importexcel', window.parent.document)[0]);
     	$.ajax({
             type:"POST",
-            url: CONTEXT_PATH + '/assetclassification/upload/',
+            url: CONTEXT_PATH + '/file/upload/',
             data: formData,
             cache: false,
             processData: false,
@@ -296,7 +300,7 @@
             success:function(data){
             	$.ajax({
                     type:"POST",
-                    url: CONTEXT_PATH + '/position/importexcel/',
+                    url: CONTEXT_PATH + '/assetclassification/importexcel/',
                     data: {path: data.data},
                     success:function(data){
                     	location.reload();

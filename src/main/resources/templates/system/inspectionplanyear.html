@@ -22,6 +22,9 @@
                 <div class="box-body">
                     <div id="toolbar">
                     <a href="" style="display: none" id="exceldownload" download="年度巡检计划.xls"></a>
+                                                            	<form id="importexcel" enctype="multipart/form-data">
+            						<input id="file" type="file" name="file" onchange="importexcel()" style="display:none;"/>
+        						</form>
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
                                 <label for="searchName"> 创建年份 </label>
@@ -40,6 +43,10 @@
                                 <button type="reset" class="btn btn-default">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     清空
+                                </button>
+                                                                <button type="button" class="btn btn-default" onclick="handleImportClick()">
+                                    <i class="glyphicon glyphicon-open"></i>
+                                    导入
                                 </button>
                                 <button type="button" class="btn btn-default" onclick="exportexcel()">
                                     <i class="glyphicon glyphicon-save"></i>
@@ -414,6 +421,32 @@
     	//addRoomChange();
     	//addPersonInChargeChange();
     	addInspectionCycleChange();
+    }
+    
+    function handleImportClick() {
+    	$('#file').click();
+    }
+    
+    function importexcel() {
+    	var formData = new FormData($('#importexcel', window.parent.document)[0]);
+    	$.ajax({
+            type:"POST",
+            url: CONTEXT_PATH + '/file/upload/',
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success:function(data){
+            	$.ajax({
+                    type:"POST",
+                    url: CONTEXT_PATH + '/inspectionplanyear/importexcel/',
+                    data: {path: data.data},
+                    success:function(data){
+                    	location.reload();
+                    }
+                });
+            }
+        });
     }
     
     function exportexcel() {

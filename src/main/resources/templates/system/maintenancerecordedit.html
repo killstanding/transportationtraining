@@ -51,6 +51,22 @@
                     </div>
                     <div class="form-group">
                         <div style="display: none;">
+                        	<label class="control-label" for="roomName"><span class="asterisk">*</span>所属实训室:</label>
+                        	<input id="roomName" type="text" class="form-control" name="roomName" readonly>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="col-md-6">
+                        	<label class="control-label" for="roomId"><span class="asterisk">*</span>所属实训室:</label>
+	                        <select id="roomId" class="form-control select2" name="roomId" onchange="roomChange()"
+	                                data-placeholder="请从列表选择一项" required>
+	                                <option></option>
+	                            <option th:each="trainingRoom: ${trainingRoomList}" th:value="${trainingRoom.id}" th:text="${trainingRoom.roomName}">
+	                            所属实训室不存在
+	                            </option>
+	                        </select>
+	                        <div class="help-block with-errors"></div>
+                        </div>
+                        <div style="display: none;">
                         	<label class="control-label" for="assetName"><span class="asterisk">*</span>设备名称:</label>
                         	<input id="assetName" type="text" class="form-control" name="assetName" readonly>
 	                        <div class="help-block with-errors"></div>
@@ -59,10 +75,6 @@
                         	<label class="control-label" for="assetId"><span class="asterisk">*</span>设备名称:</label>
 		                    <select id="assetId" class="form-control select2" data-minimum-results-for-search="-1" name="assetId" onchange="assetChange()"
 		                            data-placeholder="请从列表选择一项" required>
-		                            <option></option>
-		                        <option th:each="asset: ${assetList}" th:value="${asset.id}" th:text="${asset.assetName}">
-		                            设备不存在
-		                        </option>
 		                    </select>
 		                    <div class="help-block with-errors"></div>
                         </div>
@@ -71,7 +83,7 @@
                         	<input id="assetClassificationCode" type="text" class="form-control" name="assetClassificationCode" readonly>
 	                        <div class="help-block with-errors"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div style="display: none;">
                         	<label class="control-label" for="assetClassification"><span class="asterisk">*</span>设备分类:</label>
                         	<input id="assetClassification" type="text" class="form-control" name="assetClassification" readonly>
 	                        <div class="help-block with-errors"></div>
@@ -181,6 +193,7 @@
 
 <script th:inline="javascript">
 var weixiuId;
+var waitAssetId;
 
     $(function () {
     	weixiuId = localStorage.getItem("weixiuId");
@@ -220,10 +233,11 @@ var weixiuId;
                             success:function(data){
                             	$('#recordName').val(data.data[0].recordName);
                             	$('#datepicker').datepicker('setDate', new Date(data.data[0].failureTime));
-                            	$('#addForm').find('[name=assetId]').val(data.data[0].assetId).trigger("change");
+                            	$('#addForm').find('[name=roomId]').val(data.data[0].roomId).trigger("change");
                             	$('#faultDescription').val(data.data[0].faultDescription);
                             	$('#attachmentName').val(data.data[0].attachmentName);
                             	$('#attachmentPath').val(data.data[0].attachmentPath);
+                            	waitAssetId = data.data[0].assetId;
                             }
                         });
                     }
@@ -231,6 +245,25 @@ var weixiuId;
             }
         });
     });
+    
+    function roomChange() {
+    	var roomText = $('#addForm').find('[name=roomId]').find('option:selected').text();
+    	$('#roomName').val(roomText);
+    	var roomId = $('#addForm').find('[name=roomId]').find('option:selected').val();
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/asset/list?roomId=' + roomId,
+            success:function(data){
+            	$("#assetId").empty();
+            	$("#assetId").append("<option></option>");
+            	for(let i = 0; i < data.data.length; i++) {
+            		var opt = '<option value="' + data.data[i].id + '">' + data.data[i].assetName + '</option>';
+                	$("#assetId").append(opt);
+            	}
+            	$('#addForm').find('[name=assetId]').val(waitAssetId).trigger("change");
+            }
+        });
+    }
     
     function assetChange() {
     	var assetText = $('#addForm').find('[name=assetId]').find('option:selected').text();

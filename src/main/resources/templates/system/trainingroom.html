@@ -4,13 +4,13 @@
 <section class="content-header">
     <h1>
         设备管理
-        <small>实训室管理页面</small>
+        <small>实训室明细页面</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
         <li><a href="#">设备管理</a></li>
-        <li><a href="#">设备管理</a></li>
-        <li class="active">实训室管理</li>
+        <li><a href="#">台账管理</a></li>
+        <li class="active">实训室明细</li>
     </ol>
 </section>
 
@@ -22,6 +22,9 @@
                 <div class="box-body">
                     <div id="toolbar">
                     <a href="" style="display: none" id="exceldownload" download="实训室.xls"></a>
+                                        	<form id="importexcel" enctype="multipart/form-data">
+            						<input id="file" type="file" name="file" onchange="importexcel()" style="display:none;"/>
+        						</form>
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
                                 <label for="searchName"> 实训室名称 </label>
@@ -35,6 +38,10 @@
                                 <button type="reset" class="btn btn-default">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     清空
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="handleImportClick()">
+                                    <i class="glyphicon glyphicon-open"></i>
+                                    导入
                                 </button>
                                 <button type="button" class="btn btn-default" onclick="exportexcel()">
                                     <i class="glyphicon glyphicon-save"></i>
@@ -129,15 +136,16 @@
                         <input id="addRoomAdmin" type="text" class="form-control" name="roomAdmin" readonly>
                         <div class="help-block with-errors"></div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label" for="roomAdminId"><span class="asterisk">*</span>实训室管理员:</label>
-                        <select id="roomAdminId" class="form-control select2" data-minimum-results-for-search="-1" name="roomAdminId" onchange="addAdminChange()"
+                    <div class="form-group" style="display: none;">
+                        <label class="control-label" for="addRoomAdminId"><span class="asterisk">*</span>实训室管理员:</label>
+                        <!--<select id="addRoomAdminId" class="form-control select2" data-minimum-results-for-search="-1" name="roomAdminId" onchange="addAdminChange()"
                                 data-placeholder="请从列表选择一项" required>
                                 <option></option>
                             <option th:each="user: ${userList}" th:value="${user.id}" th:text="${user.username}">
                                 管理员不存在
                             </option>
-                        </select>
+                        </select>-->
+                        <input id="addRoomAdminId" type="text" class="form-control" name="roomAdminId" readonly>
                         <div class="help-block with-errors"></div>
                     </div>
                     <div class="form-group">
@@ -209,7 +217,7 @@
                         </select>
                         <div class="help-block with-errors"></div>
                     </div>
-                    <div class="form-group" style="display: none;">
+                    <!--<div class="form-group" style="display: none;">
                         <label class="control-label" for="editRoomAdmin"><span class="asterisk">*</span>实训室管理员:</label>
                         <input id="editRoomAdmin" type="text" class="form-control" name="roomAdmin" readonly>
                         <div class="help-block with-errors"></div>
@@ -223,7 +231,7 @@
                             </option>
                         </select>
                         <div class="help-block with-errors"></div>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <label class="control-label" for="isEnabled"><span class="asterisk">*</span>状态:</label>
                         <select id="isEnabled" class="form-control select2" data-minimum-results-for-search="-1" name="isEnabled"
@@ -278,6 +286,15 @@
     var $table = $('#table');
 
     $(function () {
+    	var username = $('.dropdown-toggle .hidden-xs')[0].innerHTML;
+    	$.ajax({
+            type:"GET",
+            url: CONTEXT_PATH + '/user/list?username=' + username,
+            success:function(data){
+            	$('#addRoomAdminId').val(data.data[0].id);
+            	$('#addRoomAdmin').val(data.data[0].username);
+            }
+        });
         $table.bootstrapTable({
             url: CONTEXT_PATH + '/trainingroom/list',
             idField: 'id',
@@ -314,7 +331,7 @@
     function editAfter(obj, row) {
     	$('#editForm').find('[name=belongSysId]').find('option[value=' + row.belongSysId + ']').prop('selected', true);
     	$('#editForm').find('[name=roomPositionCode]').find('option[value=' + row.roomPositionCode + ']').prop('selected', true);
-    	$('#editForm').find('[name=roomAdminId]').find('option[value=' + row.roomAdminId + ']').prop('selected', true);
+    	// $('#editForm').find('[name=roomAdminId]').find('option[value=' + row.roomAdminId + ']').prop('selected', true);
     	$('#editForm').find('[name=isEnabled]').find('option[value=' + row.isEnabled + ']').prop('selected', true);
     }
 
@@ -389,7 +406,33 @@
     function addLoad() {
     	addSysChange();
     	addPositionChange();
-    	addAdminChange();
+    	// addAdminChange();
+    }
+    
+    function handleImportClick() {
+    	$('#file').click();
+    }
+    
+    function importexcel() {
+    	var formData = new FormData($('#importexcel', window.parent.document)[0]);
+    	$.ajax({
+            type:"POST",
+            url: CONTEXT_PATH + '/file/upload/',
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success:function(data){
+            	$.ajax({
+                    type:"POST",
+                    url: CONTEXT_PATH + '/trainingroom/importexcel/',
+                    data: {path: data.data},
+                    success:function(data){
+                    	location.reload();
+                    }
+                });
+            }
+        });
     }
     
     function exportexcel() {

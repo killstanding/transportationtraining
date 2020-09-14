@@ -4,13 +4,13 @@
 <section class="content-header">
     <h1>
         设备管理
-        <small>设备管理页面</small>
+        <small>设备台账页面</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
         <li><a href="#">设备管理</a></li>
-        <li><a href="#">设备管理</a></li>
-        <li class="active"><span id="nnaa"></span>设备管理</li>
+        <li><a href="#">台账管理</a></li>
+        <li class="active"><span id="nnaa"></span>设备台账</li>
     </ol>
 </section>
 
@@ -597,6 +597,10 @@
     	//addAssetUserChange();
     	addAssetStatusChange();
     	$('#addDatepicker').datepicker('setDate', new Date());
+    }
+    
+    function handleImportClick() {
+    	$('#file').click();
     }
     
     function importexcel() {

@@ -3,13 +3,13 @@
       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <section class="content-header">
     <h1>
-        工具管理
+        仪器工具管理
         <small>工具管理页面</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
-        <li><a href="#">耗材工具</a></li>
-        <li><a href="#">工具管理</a></li>
+        <li><a href="#">仪器耗材</a></li>
+        <li><a href="#">仪器工具管理</a></li>
         <li class="active">工具管理</li>
     </ol>
 </section>
@@ -22,6 +22,9 @@
                 <div class="box-body">
                     <div id="toolbar">
                     <a href="" style="display: none" id="exceldownload" download="工具.xls"></a>
+                                                            	<form id="importexcel" enctype="multipart/form-data">
+            						<input id="file" type="file" name="file" onchange="importexcel()" style="display:none;"/>
+        						</form>
                         <form class="form-inline" id="searchForm">
                             <div class="form-group">
                                 <label for="searchName"> 工具名称 </label>
@@ -35,6 +38,10 @@
                                 <button type="reset" class="btn btn-default">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     清空
+                                </button>
+                                                                <button type="button" class="btn btn-default" onclick="handleImportClick()">
+                                    <i class="glyphicon glyphicon-open"></i>
+                                    导入
                                 </button>
                                 <button type="button" class="btn btn-default" onclick="exportexcel()">
                                     <i class="glyphicon glyphicon-save"></i>
@@ -596,6 +603,32 @@
     	//addPositionChange();
     	//addUseDepartmentChange();
     	//addAssetUserChange();
+    }
+    
+    function handleImportClick() {
+    	$('#file').click();
+    }
+    
+    function importexcel() {
+    	var formData = new FormData($('#importexcel', window.parent.document)[0]);
+    	$.ajax({
+            type:"POST",
+            url: CONTEXT_PATH + '/file/upload/',
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success:function(data){
+            	$.ajax({
+                    type:"POST",
+                    url: CONTEXT_PATH + '/tools/importexcel/',
+                    data: {path: data.data},
+                    success:function(data){
+                    	location.reload();
+                    }
+                });
+            }
+        });
     }
     
     function exportexcel() {
