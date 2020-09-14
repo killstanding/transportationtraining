@@ -73,9 +73,9 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
 		List<FlowNode> flowNodeList = flowNodeService.queryList(flowNode);
 		model.addAttribute("flowNodeList", flowNodeList);
 		model.addAttribute("assetList", assetService.queryAll());
-  	  	// 当前用户
-        String username = (String) SecurityUtils.getSubject().getPrincipal();
-        User user = userService.queryOne(new User().setUsername(username));
+		// 当前用户
+		String username = (String) SecurityUtils.getSubject().getPrincipal();
+		User user = userService.queryOne(new User().setUsername(username));
 		TrainingRoom trainingRoom = new TrainingRoom();
 		trainingRoom.setRoomAdminId(user.getId().intValue());
 		model.addAttribute("trainingRoomList", trainingRoomService.queryList(trainingRoom));
@@ -90,12 +90,6 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
 		List<FlowNode> flowNodeList = flowNodeService.queryList(flowNode);
 		model.addAttribute("flowNodeList", flowNodeList);
 		model.addAttribute("toolsList", toolService.queryAll());
-		// 当前用户
-		String username = (String) SecurityUtils.getSubject().getPrincipal();
-        User user = userService.queryOne(new User().setUsername(username));
-		TrainingRoom trainingRoom = new TrainingRoom();
-		trainingRoom.setRoomAdminId(user.getId().intValue());
-		model.addAttribute("trainingRoomList", trainingRoomService.queryList(trainingRoom));
 		return "system/toolmaintenancerecord";
 	}
 
@@ -103,6 +97,12 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
 	@GetMapping("/edit")
 	@RequiresPermissions("maintenancerecord:view")
 	public String editpage(Model model) {
+		// 当前用户
+		String username = (String) SecurityUtils.getSubject().getPrincipal();
+		User user = userService.queryOne(new User().setUsername(username));
+		TrainingRoom trainingRoom = new TrainingRoom();
+		trainingRoom.setRoomAdminId(user.getId().intValue());
+		model.addAttribute("trainingRoomList", trainingRoomService.queryList(trainingRoom));		
 		model.addAttribute("assetList", assetService.queryAll());
 		return "system/maintenancerecordedit";
 	}
@@ -110,7 +110,9 @@ public class MaintenanceRecordController extends BaseCrudController<MaintenanceR
 	@GetMapping("/tooledit")
 	@RequiresPermissions("maintenancerecord:view")
 	public String toolEditpage(Model model) {
-		model.addAttribute("toolsList", toolService.queryAll());
+		// 当前用户
+		String username = (String) SecurityUtils.getSubject().getPrincipal();
+		User user = userService.queryOne(new User().setUsername(username));
 		return "system/toolmaintenancerecordedit";
 	}
 

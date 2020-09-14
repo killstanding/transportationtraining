@@ -1,5 +1,6 @@
 package tech.wetech.admin.modules.training.web;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import tech.wetech.admin.core.utils.Result;
 import tech.wetech.admin.core.utils.StringUtil;
 import tech.wetech.admin.modules.base.query.PageQuery;
 import tech.wetech.admin.modules.base.web.BaseCrudController;
+import tech.wetech.admin.modules.system.po.User;
 import tech.wetech.admin.modules.system.service.OrganizationService;
 import tech.wetech.admin.modules.system.service.UserService;
 import tech.wetech.admin.modules.training.po.Asset;
@@ -20,12 +22,14 @@ import tech.wetech.admin.modules.training.po.AssetClassification;
 import tech.wetech.admin.modules.training.po.FailureConfirmation;
 import tech.wetech.admin.modules.training.po.MaintenanceRecord;
 import tech.wetech.admin.modules.training.po.Tools;
+import tech.wetech.admin.modules.training.po.TrainingRoom;
 import tech.wetech.admin.modules.training.service.AssetClassificationService;
 import tech.wetech.admin.modules.training.service.AssetService;
 import tech.wetech.admin.modules.training.service.FailureConfirmationService;
 import tech.wetech.admin.modules.training.service.MaintenanceRecordService;
 import tech.wetech.admin.modules.training.service.PositionService;
 import tech.wetech.admin.modules.training.service.ToolsService;
+import tech.wetech.admin.modules.training.service.TrainingRoomService;
 
 import org.springframework.ui.Model;
 import java.util.Date;
@@ -55,7 +59,9 @@ public class FailureConfirmationController extends BaseCrudController<FailureCon
 	private ToolsService toolService;
 	@Autowired
 	private ToolsService toolsService;
-
+	@Autowired
+	private TrainingRoomService trainingRoomService;
+	
 	@GetMapping
 	@RequiresPermissions("failureconfirmation:view")
 	public String page(Model model) {
@@ -65,6 +71,12 @@ public class FailureConfirmationController extends BaseCrudController<FailureCon
 		//model.addAttribute("positionList", positionService.queryAll());
 		//model.addAttribute("organizationList", organizationService.queryAll());
 		//model.addAttribute("userList", userService.queryAll());
+		// 当前用户
+		String username = (String) SecurityUtils.getSubject().getPrincipal();
+		User user = userService.queryOne(new User().setUsername(username));
+		TrainingRoom trainingRoom = new TrainingRoom();
+		trainingRoom.setRoomAdminId(user.getId().intValue());
+		model.addAttribute("trainingRoomList", trainingRoomService.queryList(trainingRoom));
 		model.addAttribute("assetList", assetService.queryAll());
 		return "system/failureconfirmation";
 	}
