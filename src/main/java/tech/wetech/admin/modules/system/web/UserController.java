@@ -149,7 +149,7 @@ public class UserController extends BaseCrudController<User> {
 
     @ResponseBody
     @PostMapping("/create")
-    @RequiresPermissions("user:create")
+    //@RequiresPermissions("user:create")
     @SystemLog("用户管理创建用户")
     @Override
     public Result create(@Validated(User.UserCreateChecks.class) User user) {
