@@ -414,12 +414,23 @@ public class DateUtil {
 		date.set(Calendar.MILLISECOND, 0);
 		return date.getTime();
 	}
-
+	/** 
+	 * 取得当月dao天du数 
+	 * */
+	public static int getCurrentMonthLastDay(){
+		Calendar a = Calendar.getInstance();
+		a.set(Calendar.DATE, 1);//把日zhi期设置为dao当月第一天
+		a.roll(Calendar.DATE, -1);//日期回滚一内天，也就是最后容一天 
+		int maxDate = a.get(Calendar.DATE);
+		return maxDate;
+	}
+	
 	public static void main(String[] args) {
 		String lastyear = DateUtil.dateToStr(getLastYear(new Date()), DateUtil.TIME_FORMATE);
 		System.out.println("lastyear =" + lastyear);
 		System.out.println(DateUtil.MONTH_LIST);
 		System.out.println(dateToStr(getDayOfWeek(Calendar.MONDAY, +1),TIME_FORMATE));
 		System.out.println(dateToStr(getDayOfWeek(Calendar.SUNDAY, +1),TIME_FORMATE));
+		System.out.println(DateUtil.getCurrentMonthLastDay());
 	}
 }
