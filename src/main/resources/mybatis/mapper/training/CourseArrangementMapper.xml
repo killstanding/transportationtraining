@@ -32,9 +32,11 @@
     <result column="number_of_tools" property="numberOfTools" jdbcType="INTEGER" />
     <result column="is_lock" property="isLock" jdbcType="VARCHAR" />
     <result column="course_date" property="courseDate" jdbcType="VARCHAR" />
+    <result column="class_hour" property="classHour" jdbcType="VARCHAR" />
+    <result column="week_num" property="weekNum" jdbcType="VARCHAR" />
   </resultMap>
   
-    <update id="updateIsLockedByWeekId" parameterType="tech.wetech.admin.modules.training.po.CourseArrangement">
+  <update id="updateIsLockedByWeekId" parameterType="tech.wetech.admin.modules.training.po.CourseArrangement">
 		UPDATE t_course_arrangement t 
 		SET t.is_lock=#{isLock}
 		where t.week_id=#{weekId}

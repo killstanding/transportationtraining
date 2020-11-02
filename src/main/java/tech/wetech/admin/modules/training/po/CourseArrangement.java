@@ -37,9 +37,17 @@ public class CourseArrangement  extends BaseRowModel{
     private String weekName;
 
     /**
+     * 星期几
+     */
+    @ApiModelProperty(value = "星期", name = "weekNum", required = false, example = "1")
+    @ExcelProperty(value = {"星期","星期"},index = 1)
+    @Column(name = "week_num")
+    private String weekNum;
+    
+    /**
      * 节次名称
      */
-    @ExcelProperty(value = {"节次","节次"},index = 1)
+    @ExcelProperty(value = {"节次","节次"},index = 2)
     @ApiModelProperty(value = "节次名称", name = "sectionName", required = false, example = "1-2")
     @Column(name = "section_name")
     private String sectionName;
@@ -47,7 +55,7 @@ public class CourseArrangement  extends BaseRowModel{
     /**
      * 课程名称
      */
-    @ExcelProperty(value = {"课程","课程"},index = 2)
+    @ExcelProperty(value = {"课程","课程"},index = 3)
     @ApiModelProperty(value = "课程名称", name = "courseName", required = false, example = "车身电气系统")
     @Column(name = "course_name")
     private String courseName;
@@ -62,7 +70,7 @@ public class CourseArrangement  extends BaseRowModel{
     /**
      * 班级
      */
-    @ExcelProperty(value = {"班级","班级"},index = 3)
+    @ExcelProperty(value = {"班级","班级"},index = 4)
     @ApiModelProperty(value = "班级", name = "className", required = false, example = "17汽运1501")
     @Column(name = "class_name")
     private String className;
@@ -77,7 +85,7 @@ public class CourseArrangement  extends BaseRowModel{
     /**
      * 人数
      */
-    @ExcelProperty(value = {"人数","人数"},index = 4)
+    @ExcelProperty(value = {"人数","人数"},index = 5)
     @ApiModelProperty(value = "人数", name = "numberOfPeople", required = false, example = "28")
     @Column(name = "number_of_people")
     private Integer numberOfPeople;
@@ -85,7 +93,7 @@ public class CourseArrangement  extends BaseRowModel{
     /**
      * 主讲教师
      */
-    @ExcelProperty(value = {"主讲教师","主讲教师"},index = 5)
+    @ExcelProperty(value = {"主讲教师","主讲教师"},index = 6)
     @ApiModelProperty(value = "主讲教师", name = "lecturerlTeacher", required = false, example = "张新敏")
     @Column(name = "lecturerl_teacher")
     private String lecturerlTeacher;
@@ -100,7 +108,7 @@ public class CourseArrangement  extends BaseRowModel{
     /**
      * 区域教师
      */
-    @ExcelProperty(value = {"区域教师","区域教师"},index = 6)
+    @ExcelProperty(value = {"区域教师","区域教师"},index = 7)
     @ApiModelProperty(value = "区域教师", name = "regionalTeacher", required = false, example = "李旭")
     @Column(name = "regional_teacher")
     private String regionalTeacher;
@@ -115,7 +123,7 @@ public class CourseArrangement  extends BaseRowModel{
     /**
      * 辅助教师
      */
-    @ExcelProperty(value = {"辅助教师","辅助教师"},index = 7)
+    @ExcelProperty(value = {"辅助教师","辅助教师"},index = 8)
     @ApiModelProperty(value = "辅助教师", name = "assistantTeacher", required = false, example = "陈俊杰")
     @Column(name = "assistant_teacher")
     private String assistantTeacher;
@@ -130,7 +138,7 @@ public class CourseArrangement  extends BaseRowModel{
     /**
      * 实训室名称
      */
-    @ExcelProperty(value = {"实训室","实训室"},index = 8)
+    @ExcelProperty(value = {"实训室","实训室"},index = 9)
     @ApiModelProperty(value = "实训室名称", name = "trainingRoomName", required = false, example = "大众整车实训室")
     @Column(name = "training_room_name")
     private String trainingRoomName;
@@ -145,7 +153,7 @@ public class CourseArrangement  extends BaseRowModel{
     /**
      * 教案名称
      */
-    @ExcelProperty(value = {"教案","教案"},index = 9)
+    @ExcelProperty(value = {"教案","教案"},index = 10)
     @ApiModelProperty(value = "教案名称", name = "teachingPlanName", required = false, example = "构件静力分析讲义-1")
     @Column(name = "teaching_plan_name")
     private String teachingPlanName;
@@ -160,7 +168,7 @@ public class CourseArrangement  extends BaseRowModel{
     /**
      * 实训内容
      */
-    @ExcelProperty(value = {"实训内容","实训内容"},index = 10)
+    @ExcelProperty(value = {"实训内容","实训内容"},index = 11)
     @ApiModelProperty(value = "实训内容", name = "trainingContent", required = false, example = "实操考核")
     @Column(name = "training_content")
     private String trainingContent;
@@ -168,7 +176,7 @@ public class CourseArrangement  extends BaseRowModel{
     /**
      * 设备数量
      */
-    @ExcelProperty(value = {"设备数量","设备数量"},index = 11)
+    @ExcelProperty(value = {"设备数量","设备数量"},index = 12)
     @ApiModelProperty(value = "设备数量", name = "numberOfDevices", required = false, example = "3")
     @Column(name = "number_of_devices")
     private Integer numberOfDevices;
@@ -176,7 +184,7 @@ public class CourseArrangement  extends BaseRowModel{
     /**
      * 耗材数量
      */
-    @ExcelProperty(value = {"耗材数量","耗材数量"},index = 12)
+    @ExcelProperty(value = {"耗材数量","耗材数量"},index = 13)
     @ApiModelProperty(value = "耗材数量", name = "numberOfConsumables", required = false, example = "15")
     @Column(name = "number_of_consumables")
     private Integer numberOfConsumables;
@@ -198,7 +206,7 @@ public class CourseArrangement  extends BaseRowModel{
     /**
      * 工具数量
      */
-    @ExcelProperty(value = {"工具数量","工具数量"},index = 13)
+    @ExcelProperty(value = {"工具数量","工具数量"},index = 14)
     @ApiModelProperty(value = "工具数量", name = "numberOfTools", required = false, example = "15")
     @Column(name = "number_of_tools")
     private Integer numberOfTools;
@@ -209,6 +217,14 @@ public class CourseArrangement  extends BaseRowModel{
     @ApiModelProperty(value = "是否锁定 0 否 1 是", name = "isLock", required = false, example = "0")
     @Column(name = "is_lock")
     private String isLock;
+    
+    /**
+     * 课时
+     */
+    @ApiModelProperty(value = "课时", name = "classHour", required = false, example = "0")
+    @Column(name = "class_hour")
+    private String classHour;
+    
     
     /**
      * 课程日期2020-06-28
@@ -704,5 +720,41 @@ public class CourseArrangement  extends BaseRowModel{
      */
     public void setCourseDate(String courseDate) {
         this.courseDate = courseDate;
+    }
+    
+    /**
+     * 获取课时
+     *
+     * @return class_hour - 课时
+     */
+    public String getClassHour() {
+        return classHour;
+    }
+
+    /**
+     * 设置课时
+     *
+     * @param classHour 课时
+     */
+    public void setClassHour(String classHour) {
+        this.classHour = classHour;
+    }
+    
+    /**
+     * 获取星期几
+     *
+     * @return week_num - 星期几
+     */
+    public String getWeekNum() {
+        return weekNum;
+    }
+
+    /**
+     * 设置星期几
+     *
+     * @param weekNum 星期几
+     */
+    public void setWeekNum(String weekNum) {
+        this.weekNum = weekNum;
     }
 }

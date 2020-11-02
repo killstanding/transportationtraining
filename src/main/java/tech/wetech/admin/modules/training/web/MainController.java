@@ -1,8 +1,11 @@
 package tech.wetech.admin.modules.training.web;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -21,14 +24,17 @@ import tech.wetech.admin.modules.training.po.AssetClassification;
 import tech.wetech.admin.modules.training.po.PubCode;
 import tech.wetech.admin.modules.training.po.SummaryStatisticsDate;
 import tech.wetech.admin.modules.training.po.SummaryStatisticsMonth;
+import tech.wetech.admin.modules.training.po.TrainingRoom;
 import tech.wetech.admin.modules.training.service.AssetClassificationService;
 import tech.wetech.admin.modules.training.service.MainService;
 import tech.wetech.admin.modules.training.service.PubCodeService;
 import tech.wetech.admin.modules.training.service.SummaryStatisticsDateService;
 import tech.wetech.admin.modules.training.service.SummaryStatisticsMonthService;
+import tech.wetech.admin.modules.training.service.TrainingRoomService;
 import tech.wetech.admin.modules.training.vo.HistogramVo;
 import tech.wetech.admin.modules.training.vo.PieVo;
 import tech.wetech.admin.modules.training.vo.ToDoVo;
+import tech.wetech.admin.modules.training.vo.TrainingRoomVo;
 
 @Api(value = "main", tags = {"main"}, description = "主页")
 @Controller
@@ -47,6 +53,8 @@ public class MainController extends BaseController{
     private MainService mainService;
 	@Autowired
     private UserService userService;
+	@Autowired
+	private TrainingRoomService trainingRoomService;
 	
     @GetMapping
     @RequiresPermissions("main:view")
@@ -252,4 +260,59 @@ public class MainController extends BaseController{
     	List<ToDoVo> toDoVos = mainService.selectToDoData(user);
     	return  Result.success(toDoVos);
     }
+    
+    /**
+     * 获取实训室本月课时总数和使用率
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/trainingroomclasshours")
+    @ApiOperation(value = "获取实训室本月课时总数和使用率不分页")
+    @RequiresPermissions("main:view")
+    public Result<List<TrainingRoomVo>> getTrainingRoomClassHours(){
+//    	String username = (String) SecurityUtils.getSubject().getPrincipal();
+//    	User entity = new User();
+//    	entity.setUsername(username);
+    	String monthStr = DateUtil.dateToStr(new Date(), DateUtil.MONTH_FORMATE);
+    	//计算本月有多少天
+    	int datNum = DateUtil.getCurrentMonthLastDay();
+    	//总课时
+    	int totalClassHours = datNum*8;
+    	DecimalFormat df=new DecimalFormat("0.00");
+    	List<Map> classhoursList = mainService.selectTrainingRoomClasshoursData(monthStr);
+    	List<TrainingRoom> trainingRooms = trainingRoomService.queryAll();
+    	List<TrainingRoomVo>  trainingRoomVos = new ArrayList<>();
+    	List<TrainingRoomVo>  midList = new ArrayList<>();
+    	trainingRoomsFor:for (int i = 0; i < trainingRooms.size(); i++) {
+    		TrainingRoom tr = trainingRooms.get(i);
+    		int flag = 0;
+    		classhoursListFor:for (int j = 0; j < classhoursList.size(); j++) {
+				Map m = classhoursList.get(j);
+				String training_room_id  = m.get("training_room_id") + "";
+				String class_hours = m.get("class_hours") + "";
+				int  room_id  = Integer.parseInt(training_room_id);
+				Float classhours = Float.parseFloat(class_hours);
+				if(tr.getId()== room_id){
+					flag = 1;
+					TrainingRoomVo vo = TrainingRoomVo.packageTrainingRoomVo(tr);
+					vo.setClassHours(classhours.intValue()+"");
+					vo.setUsage(df.format((float)classhours/classhours)+"%");
+					trainingRoomVos.add(vo);
+					break classhoursListFor;
+				}
+			}
+    		if(flag == 0){
+    			TrainingRoomVo vo = TrainingRoomVo.packageTrainingRoomVo(tr);
+				vo.setClassHours(0+"");
+				vo.setUsage(0+"");
+				midList.add(vo);
+    		}
+		}
+    	
+    	for (int i = 0; i < midList.size(); i++) {
+    		trainingRoomVos.add(midList.get(i));
+		}
+    	return  Result.success(trainingRoomVos);
+    }
+    
 }
